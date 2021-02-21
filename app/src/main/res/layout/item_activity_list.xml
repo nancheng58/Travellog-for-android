@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_activity_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_10"
+        android:layout_marginTop="@dimen/space_10"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_activity_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_activity_pic"
+        android:layout_marginBottom="@dimen/space_7"
+        android:layout_marginLeft="@dimen/space_13"
+        android:layout_marginRight="@dimen/space_13"
+        android:layout_marginTop="@dimen/space_4"
+        android:text="美院帮,帮上美院"
+        android:textColor="#333333"
+        android:textSize="@dimen/text_size_14" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_10"
+        android:layout_below="@+id/tv_activity_title"
+        android:background="#E8E8E8" />
+</RelativeLayout>

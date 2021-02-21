@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 字体大小 -->
+    <dimen name="text_size_9">9sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_15">15sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <!-- 分隔线 -->
+    <dimen name="line_hight">1px</dimen>
+    <dimen name="line_hight3">10dp</dimen>
+    <!-- 边距 -->
+    <dimen name="list_margin_size">15dp</dimen>
+
+    <dimen name="concise_three_layout_margin">12dp</dimen>
+    <dimen name="concise_three_img_margin">8dp</dimen>
+    <dimen name="concise_img_margin_top">16dp</dimen>
+    <dimen name="concise_img_margin_bottom">8dp</dimen>
+
+    <!--通用-->
+    <dimen name="space_13">13.0dip</dimen>
+    <dimen name="space_12">12.0dip</dimen>
+    <dimen name="space_10">10.0dip</dimen>
+    <dimen name="space_7">7.0dip</dimen>
+    <dimen name="space_4">4.0dip</dimen>
+
+    <dimen name="header_size_list_card">40dp</dimen>
+</resources>
