@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.code.mvvm.widget.CustomHeightRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.code.travellog.widget.CustomHeightRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:descendantFocusability="blocksDescendants">
 
-    <com.code.mvvm.widget.CustomHeightImageView
+    <com.code.travellog.widget.CustomHeightImageView
         android:id="@+id/iv_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,4 +23,4 @@
         android:paddingLeft="5dp"
         android:textColor="@color/color_333333"
         android:textSize="14sp" />
-</com.code.mvvm.widget.CustomHeightRelativeLayout>
+</com.code.travellog.widget.CustomHeightRelativeLayout>

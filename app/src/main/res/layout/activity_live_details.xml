@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.code.mvvm.widget.LiveVideoPlayer
+    <com.code.travellog.widget.LiveVideoPlayer
         android:id="@+id/video_player"
         android:layout_width="match_parent"
         android:layout_height="200dp" />

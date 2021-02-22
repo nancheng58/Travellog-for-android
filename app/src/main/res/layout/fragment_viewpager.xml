@@ -46,7 +46,7 @@
             android:layout_height="@dimen/line_hight"
             android:background="@color/line_color" />
 
-        <com.code.mvvm.widget.NestedViewPager
+        <com.code.travellog.widget.NestedViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

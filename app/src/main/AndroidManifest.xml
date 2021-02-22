@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.code.mvvm">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.code.travellog">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
-        android:name=".App"
+        android:name="com.code.travellog.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,27 +18,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.code.travellog.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".core.view.common.CommonActivity" />
-        <activity android:name=".core.view.correct.WorkDetailsActivity" />
+        <activity android:name="com.code.travellog.core.view.common.CommonActivity" />
+        <activity android:name="com.code.travellog.core.view.correct.WorkDetailsActivity" />
 
         <activity
-            android:name=".core.view.course.VideoDetailsActivity"
+            android:name="com.code.travellog.core.view.course.VideoDetailsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".core.view.live.LiveDetailsActivity"
+            android:name="com.code.travellog.core.view.live.LiveDetailsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <meta-data
-            android:name="com.code.mvvm.glide.GlideConfig"
+            android:name="com.code.travellog.glide.GlideConfig"
             android:value="GlideModule" />
     </application>
 

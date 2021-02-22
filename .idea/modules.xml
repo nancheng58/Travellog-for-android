@@ -4,11 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/T-MVVM-master.iml" filepath="$PROJECT_DIR$/.idea/modules/T-MVVM-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/T-MVVM-master.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/T-MVVM-master.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/basiccomponent/T-MVVM-master.basiccomponent.iml" filepath="$PROJECT_DIR$/.idea/modules/basiccomponent/T-MVVM-master.basiccomponent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/basiccomponent/bottomnavigationbar/T-MVVM-master.basiccomponent.bottomnavigationbar.iml" filepath="$PROJECT_DIR$/.idea/modules/basiccomponent/bottomnavigationbar/T-MVVM-master.basiccomponent.bottomnavigationbar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/basiccomponent/library/T-MVVM-master.basiccomponent.library.iml" filepath="$PROJECT_DIR$/.idea/modules/basiccomponent/library/T-MVVM-master.basiccomponent.library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/basiccomponent/tablayout/T-MVVM-master.basiccomponent.tablayout.iml" filepath="$PROJECT_DIR$/.idea/modules/basiccomponent/tablayout/T-MVVM-master.basiccomponent.tablayout.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mvvm/T-MVVM-master.mvvm.iml" filepath="$PROJECT_DIR$/.idea/modules/mvvm/T-MVVM-master.mvvm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mvvm base/T-MVVM-master.mvvm_base.iml" filepath="$PROJECT_DIR$/.idea/modules/mvvm base/T-MVVM-master.mvvm_base.iml" />
     </modules>
   </component>
 </project>

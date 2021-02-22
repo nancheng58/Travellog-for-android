@@ -153,7 +153,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <com.code.mvvm.widget.CustomHeightImageView
+        <com.code.travellog.widget.CustomHeightImageView
             android:id="@+id/iv_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

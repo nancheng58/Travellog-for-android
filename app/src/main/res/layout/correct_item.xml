@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.code.mvvm.widget.CustomHeightRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.code.travellog.widget.CustomHeightRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/custom_root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,7 +10,7 @@
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
-    <com.code.mvvm.widget.CustomHeightImageView
+    <com.code.travellog.widget.CustomHeightImageView
         android:id="@+id/iv_custom_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,5 +89,5 @@
 
     </LinearLayout>
 
-</com.code.mvvm.widget.CustomHeightRelativeLayout>
+</com.code.travellog.widget.CustomHeightRelativeLayout>
 
