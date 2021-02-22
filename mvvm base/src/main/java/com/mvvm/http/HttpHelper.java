@@ -4,11 +4,6 @@ package com.mvvm.http;
 
 import android.content.Context;
 
-import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +14,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import static com.mvvm.util.TUtil.checkNotNull;
 
 /**
@@ -36,8 +34,6 @@ public class HttpHelper {
     private static OkHttpClient.Builder mBuilder;
 
     private static String BASE_URL;
-    private static ClearableCookieJar cookieJar =
-            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(App));
     private HttpHelper() {
     }
 
@@ -52,12 +48,12 @@ public class HttpHelper {
         return mHttpHelper;
     }
 
-    public static void init(Context context,String baseUrl) {
-        new HttpHelper.Builder(context)
-                .initOkHttp()
-                .createRetrofit(baseUrl)
-                .build();
-    }
+//    public static void init(Context context,String baseUrl) {
+//        new HttpHelper.Builder(context)
+//                .initOkHttp()
+//                .createRetrofit(baseUrl)
+//                .build();
+//    }
 
 
     public static class Builder {
@@ -84,13 +80,15 @@ public class HttpHelper {
                 synchronized (HttpHelper.class) {
                     if (mBuilder == null) {
                         Cache cache = new Cache(new File(mContext.getCacheDir(), "HttpCache"), 1024 * 1024 * 10);
+                        ClearableCookieJar cookieJar =
+                                new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor (mContext));
                         mBuilder = new OkHttpClient.Builder()
                                 .cache(cache)
                                 .addInterceptor(interceptor)
                                 .connectTimeout(30, TimeUnit.SECONDS)
                                 .writeTimeout(30, TimeUnit.SECONDS)
                                 .readTimeout(30, TimeUnit.SECONDS)
-                                .cookieJar(cookieJar);
+                                .cookieJar(cookieJar)
                         ;
                     }
                 }

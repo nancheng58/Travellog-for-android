@@ -40,7 +40,7 @@ public class WorkRepository extends BaseRepository {
         if (EVENT_KEY_WORK_LIST==null) {
             EVENT_KEY_WORK_LIST = StringUtil.getEventKey();
         }
-        if (EVENT_KEY_WORK_MORE==null) {
+        if (EVENT_KEY_WORK_LIST==null) {
             EVENT_KEY_WORK_MORE = StringUtil.getEventKey();
         }
     }

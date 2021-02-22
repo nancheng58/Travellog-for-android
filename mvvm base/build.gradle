@@ -55,7 +55,7 @@ dependencies {
     //OkHttp
     api 'com.squareup.okhttp:okhttp:2.7.5'
     api 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-    api 'com.github.franmontiel:PersistentCookieJar:v1.0.1' // cookie 持久化
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1' // cookie 持久化
 
     //Retrofit 2.0
     api 'com.squareup.retrofit2:retrofit:2.4.0'
@@ -67,5 +67,6 @@ dependencies {
     //TabLayout
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    api 'com.leon:lsettingviewlibrary:1.7.0' // setting layout
 
 }

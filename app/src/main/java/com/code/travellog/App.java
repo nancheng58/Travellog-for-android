@@ -26,8 +26,7 @@ import com.tqzhang.stateview.core.LoadState;
  */
 public class App extends Application implements ComponentCallbacks2 {
     public static App mInstance;
-    private static Context mContext;
-
+    public static Context mContext;
 
     static {
         //设置全局的Header构建器
@@ -64,9 +63,8 @@ public class App extends Application implements ComponentCallbacks2 {
         super.onCreate();
         mInstance = this;
         mContext = getApplicationContext();
-
         new HttpHelper.Builder(this)
-                .initOkHttp(getContext())
+                .initOkHttp(mContext)
                 .createRetrofit(URL.BASE_URL)
                 .build();
         new LoadState.Builder()
@@ -76,13 +74,6 @@ public class App extends Application implements ComponentCallbacks2 {
                 .build();
     }
 
-    /**
-     * 得到Application环境变量
-     * @return
-     */
-    public static Context getContext() {
-        return mContext;
-    }
 
     @Override
     public void onTrimMemory(int level) {
