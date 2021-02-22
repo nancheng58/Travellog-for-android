@@ -4,6 +4,11 @@ package com.mvvm.http;
 
 import android.content.Context;
 
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +36,8 @@ public class HttpHelper {
     private static OkHttpClient.Builder mBuilder;
 
     private static String BASE_URL;
-
+    private static ClearableCookieJar cookieJar =
+            new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(App));
     private HttpHelper() {
     }
 
@@ -71,7 +77,7 @@ public class HttpHelper {
          *
          * @return Builder
          */
-        public Builder initOkHttp() {
+        public Builder initOkHttp(Context mContext) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLogger());
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             if (mBuilder == null) {
@@ -84,6 +90,7 @@ public class HttpHelper {
                                 .connectTimeout(30, TimeUnit.SECONDS)
                                 .writeTimeout(30, TimeUnit.SECONDS)
                                 .readTimeout(30, TimeUnit.SECONDS)
+                                .cookieJar(cookieJar);
                         ;
                     }
                 }
