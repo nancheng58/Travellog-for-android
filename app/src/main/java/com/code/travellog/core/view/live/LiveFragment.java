@@ -2,7 +2,7 @@ package com.code.travellog.core.view.live;
 
 import android.os.Bundle;
 
-import com.code.travellog.base.BaseViewPagerFragment;
+import com.code.travellog.ui.base.BaseViewPagerFragment;
 import com.code.travellog.core.data.pojo.live.LiveTypeVo;
 import com.code.travellog.core.data.source.LiveRepository;
 import com.code.travellog.core.vm.LiveViewModel;

@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.adapter.adapter.DelegateAdapter;
-import com.code.travellog.base.BaseListFragment;
+import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.core.data.pojo.material.MaterialRecommendVo;
 import com.code.travellog.core.data.source.MaterialRepository;
 import com.code.travellog.core.vm.MaterialViewModel;

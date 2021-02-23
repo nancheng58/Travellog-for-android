@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapter.adapter.DelegateAdapter;
-import com.code.travellog.base.BaseListFragment;
+import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.core.data.pojo.qa.QaListVo;
 import com.code.travellog.core.data.source.QaRepository;
 import com.code.travellog.core.vm.QaViewModel;

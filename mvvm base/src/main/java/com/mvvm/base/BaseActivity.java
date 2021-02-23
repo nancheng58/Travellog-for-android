@@ -8,7 +8,8 @@ import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
 /**
- * @author：tqzhang on 18/3/12 19:22
+ * @description Activity 基类
+ * @time 2021/2/23 15:31
  */
 
 public abstract class BaseActivity extends AppCompatActivity {

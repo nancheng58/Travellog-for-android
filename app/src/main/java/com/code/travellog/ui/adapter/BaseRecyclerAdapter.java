@@ -1,4 +1,4 @@
-package com.code.travellog.adapter;
+package com.code.travellog.ui.adapter;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.code.travellog.base.BaseViewHolder;
+import com.code.travellog.ui.base.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

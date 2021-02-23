@@ -1,4 +1,4 @@
-package com.code.travellog.base;
+package com.code.travellog.ui.base;
 
 import androidx.annotation.IdRes;
 import androidx.recyclerview.widget.RecyclerView;

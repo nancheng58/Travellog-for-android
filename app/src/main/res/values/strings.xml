@@ -21,5 +21,6 @@
     <string name="recommend_live_type">直播推荐</string>
     <string name="recommend_video_type">视频课程</string>
     <string name="recommend_book_type">图书推荐</string>
+    <string name="user">user</string>
 
 </resources>

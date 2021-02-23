@@ -1,4 +1,4 @@
-package com.code.travellog.base;
+package com.code.travellog.ui.base;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,7 +6,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.code.travellog.R;
-import com.code.travellog.adapter.ViewPagerAdapter;
+import com.code.travellog.ui.adapter.ViewPagerAdapter;
 import com.code.travellog.widget.NestedViewPager;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.mvvm.base.AbsLifecycleFragment;

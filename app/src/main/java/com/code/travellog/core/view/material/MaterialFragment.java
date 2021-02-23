@@ -3,7 +3,7 @@ package com.code.travellog.core.view.material;
 import android.os.Bundle;
 
 import com.code.travellog.R;
-import com.code.travellog.base.BaseViewPagerFragment;
+import com.code.travellog.ui.base.BaseViewPagerFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.material.MaterialTypeVo;
 import com.code.travellog.core.data.source.MaterialRepository;

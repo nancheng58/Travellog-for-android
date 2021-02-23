@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.adapter.adapter.DelegateAdapter;
-import com.code.travellog.base.BaseListFragment;
+import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.core.data.pojo.followdraw.FollowDrawRecommendVo;
 import com.code.travellog.core.data.source.FollowDrawRepository;
 import com.code.travellog.core.vm.FollowDrawViewModel;

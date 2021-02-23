@@ -1,4 +1,4 @@
-package com.code.travellog;
+package com.code.travellog.ui;
 
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -6,10 +6,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.view.correct.WorkFragment;
 import com.code.travellog.core.view.course.VideoFragment;
 import com.code.travellog.core.view.home.HomeFragment;
+import com.code.travellog.core.view.mine.MineFragment;
 import com.mvvm.base.BaseActivity;
 
 

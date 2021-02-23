@@ -17,8 +17,8 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Design.NoActionBar">
-        <activity android:name="com.code.travellog.MainActivity">
+        android:theme="@style/MyCheckBox">
+        <activity android:name="com.code.travellog.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,6 +27,9 @@
         </activity>
         <activity android:name="com.code.travellog.core.view.common.CommonActivity" />
         <activity android:name="com.code.travellog.core.view.correct.WorkDetailsActivity" />
+        <activity android:name="com.code.travellog.ui.AboutActivity"
+            android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
+        <activity android:name="com.code.travellog.ui.UserInfoActivity" />
 
         <activity
             android:name="com.code.travellog.core.view.course.VideoDetailsActivity"

@@ -1,4 +1,4 @@
-package com.code.travellog.adapter;
+package com.code.travellog.ui.adapter;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
-import com.code.travellog.base.BaseViewHolder;
+import com.code.travellog.ui.base.BaseViewHolder;
 import com.code.travellog.core.data.pojo.home.CatagoryInfoVo;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.code.travellog.adapter;
+package com.code.travellog.ui.adapter;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;

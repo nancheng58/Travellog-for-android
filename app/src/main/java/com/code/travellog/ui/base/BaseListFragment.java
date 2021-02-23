@@ -1,4 +1,4 @@
-package com.code.travellog.base;
+package com.code.travellog.ui.base;
 
 import android.os.Bundle;
 import androidx.recyclerview.widget.RecyclerView;

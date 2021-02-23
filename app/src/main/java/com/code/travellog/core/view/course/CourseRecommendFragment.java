@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.adapter.adapter.DelegateAdapter;
 import com.adapter.listener.OnItemClickListener;
-import com.code.travellog.base.BaseListFragment;
+import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 import com.code.travellog.core.data.pojo.common.TypeVo;

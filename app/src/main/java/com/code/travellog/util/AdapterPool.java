@@ -143,7 +143,7 @@ public class AdapterPool {
         return new DelegateAdapter.Builder<>()
                 .bind(LiveRecommendVo.class, new LiveItemHolder(context));
     }
-
+    // Home 布局适配器
     public DelegateAdapter.Builder getHomeAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
                 .bind(BannerListVo.class, new BannerItemView(context))
