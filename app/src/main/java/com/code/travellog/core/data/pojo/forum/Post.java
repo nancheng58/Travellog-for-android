@@ -18,4 +18,36 @@ public class Post implements Serializable { //文章类
 
     public Integer comment_num;
     public List<Comment> comments; //评论列表
+
+    /*
+
+    return_data = {
+        'post_id': post_obj.post_id,
+        'uid' : post_obj.uid.uid,
+        'uname' : post_obj.uid.uname,
+        'gender' : post_obj.uid.gender,
+        'avatar' : '/media/'+post_obj.uid.avatar.name,
+        'title' : post_obj.title,
+        'text' : post_obj.text,
+        'type' : post_obj.type,
+        'time' : post_obj.time.strftime("%Y-%m-%d %H:%I:%S"),
+        'like_num' : post_obj.like_num,
+        'comment_num' : comments.count(),
+        'comments' : []
+    }
+
+
+    for i in comments:
+        return_data['comments'].append({
+            'comment_id': i.comment_id,
+            'uid' : i.uid.uid,
+            'uname' : i.uid.uname,
+            'gender' : post_obj.uid.gender,
+            'avatar' : '/media/'+i.uid.avatar.name,
+            'text' : i.text,
+            'time' : i.time.strftime("%Y-%m-%d %H:%I:%S"),
+            'like_num' : i.like_num,
+        })
+
+     */
 }

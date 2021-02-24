@@ -8,6 +8,17 @@ public class User implements Serializable {
     public String phone;
     public String email;
     public Integer gender;
-    public String avatar;
     public String intro;
+    public String avatar;
+    /*
+    return_data = {
+        'uid' : user_obj.uid,
+        'uname' : user_obj.uname,
+        'phone' : user_obj.phone,
+        'email' : user_obj.email,
+        'gender' : user_obj.gender,
+        'intro' : user_obj.intro,
+        'avatar' : 'media/'+user_obj.avatar.name
+    }
+     */
 }
