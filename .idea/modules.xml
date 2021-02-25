@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/T-MVVM-master.iml" filepath="$PROJECT_DIR$/.idea/modules/T-MVVM-master.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/T-MVVM-master.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/T-MVVM-master.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mvvm base/T-MVVM-master.mvvm_base.iml" filepath="$PROJECT_DIR$/.idea/modules/mvvm base/T-MVVM-master.mvvm_base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Travellog_for_android.iml" filepath="$PROJECT_DIR$/.idea/modules/Travellog_for_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Travellog_for_android.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Travellog_for_android.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mvvm base/Travellog_for_android.mvvm_base.iml" filepath="$PROJECT_DIR$/.idea/modules/mvvm base/Travellog_for_android.mvvm_base.iml" />
     </modules>
   </component>
 </project>
