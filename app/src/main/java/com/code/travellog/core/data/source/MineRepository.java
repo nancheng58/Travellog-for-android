@@ -18,4 +18,12 @@ public class MineRepository extends BaseRepository {
     public void loadUserInfo(){
 
     }
+    public void UserLoginCheck()
+    {
+
+    }
+//    public void loadCapture()
+//    {
+//        addDisposable(apiService);
+//    }
 }

@@ -35,6 +35,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     api project(':mvvm base')
+    api 'com.jakewharton:butterknife:10.2.1'
+    apply plugin: 'com.jakewharton.butterknife'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
 
 }

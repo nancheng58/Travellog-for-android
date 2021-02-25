@@ -4,6 +4,7 @@ package com.code.travellog.config;
  * @author：tqzhang on 18/7/27 16:19
  */
 public class Constants {
+    public static final String SPName = "parms";
     public static final String HOME_TAG = "home";
     public static final String WORK_TAG = "work";
     public static final String VIDEO_TAG = "video";

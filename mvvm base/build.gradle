@@ -72,6 +72,7 @@ dependencies {
     api "com.mikepenz:iconics-core:2.9.5@aar"
     api 'com.mikepenz:community-material-typeface:2.0.46.1@aar'
     api 'net.yslibrary.licenseadapter:licenseadapter:3.0.0'
+    api 'com.mobsandgeeks:android-saripaar:2.0.3'
 //    api 'com.mikepenz:aboutlibraries:6.2.3'
 
 }

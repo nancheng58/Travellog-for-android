@@ -28,7 +28,7 @@ public class ToastUtils {
         }
         if (toast == null) {
             toast = Toast.makeText(App.instance(), s, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
+//            toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
             oneTime = System.currentTimeMillis();
         } else {
@@ -40,7 +40,7 @@ public class ToastUtils {
             } else {
                 oldMsg = s;
                 toast.setText(s);
-                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
         }
@@ -53,7 +53,7 @@ public class ToastUtils {
         }
         if (toast == null) {
             toast = Toast.makeText(context, s, duration);
-            toast.setGravity(Gravity.CENTER, 0, 0);
+//            toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
             oneTime = System.currentTimeMillis();
         } else {
@@ -66,7 +66,7 @@ public class ToastUtils {
             } else {
                 oldMsg = s;
                 toast.setText(s);
-                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
         }

@@ -1,6 +1,7 @@
 package com.code.travellog.network;
 
 import com.code.travellog.config.URL;
+import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.activity.ActivityListVo;
 import com.code.travellog.core.data.pojo.article.ArticleTypeVo;
 import com.code.travellog.core.data.pojo.article.ArticleVo;
@@ -25,10 +26,17 @@ import com.code.travellog.core.data.pojo.live.LiveTypeVo;
 import com.code.travellog.core.data.pojo.material.MaterialRecommendVo;
 import com.code.travellog.core.data.pojo.material.MaterialTypeVo;
 import com.code.travellog.core.data.pojo.material.MaterialVo;
+import com.code.travellog.core.data.pojo.picture.ImageVo;
 import com.code.travellog.core.data.pojo.qa.QaListVo;
+import com.code.travellog.core.data.pojo.user.User;
+
+import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -38,6 +46,17 @@ import retrofit2.http.POST;
  */
 public interface ApiService {
 
+    // login
+    @FormUrlEncoded
+    @POST(URL.BASE_URL2+"user/login")
+    Flowable<User> LoginApi(@FieldMap Map<String,String> params);
+    //register
+    @FormUrlEncoded
+    @POST(URL.BASE_URL2+"user/register")
+    Flowable<BasePojo> RegisterApi(@FieldMap Map<String,String> params);
+    // get captcha
+    @GET(URL.BASE_URL2+"user/captcha")
+    Flowable<ImageVo> getCaptchaAvater();
     @POST(URL.HOME_LIST)
     @FormUrlEncoded
     Flowable<HomeListVo> getHomeData(@Field("professionid") String professionId);

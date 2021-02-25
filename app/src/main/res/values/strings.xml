@@ -22,5 +22,7 @@
     <string name="recommend_video_type">视频课程</string>
     <string name="recommend_book_type">图书推荐</string>
     <string name="user">user</string>
+    <string name="register">register</string>
+    <string name="Username">Username</string>
 
 </resources>
