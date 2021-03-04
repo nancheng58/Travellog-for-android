@@ -35,11 +35,15 @@ import java.util.Map;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 /**
  * @author tqzhang
@@ -57,6 +61,11 @@ public interface ApiService {
     // get captcha
     @GET(URL.BASE_URL2+"user/captcha")
     Flowable<ImageVo> getCaptchaAvater();
+
+    @POST(URL.BASE_URL2+"user/avatar")
+    Flowable<BasePojo> postCaptchaAvater(@Body MultipartBody multipartBody);
+
+
     @POST(URL.HOME_LIST)
     @FormUrlEncoded
     Flowable<HomeListVo> getHomeData(@Field("professionid") String professionId);

@@ -2,6 +2,7 @@ package com.code.travellog.ui;
 
 import com.code.travellog.R;
 import com.mvvm.base.BaseActivity;
+import com.tencent.mmkv.MMKV;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,11 +26,13 @@ public class LaunchActivity extends BaseActivity {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                SharedPreferences sp = getPreferences(MODE_PRIVATE);
-                boolean isLogin = sp.getBoolean("isLogin", false);
+                MMKV kv = MMKV.defaultMMKV();
+
+//                kv.removeValueForKey("isLogin");
+                boolean isLogin = kv.decodeBool("isLogin");
                 Intent intent = new Intent();
                 if (! isLogin ) {
-                    sp.edit().putBoolean("isLogin", false).commit();
+//                    sp.edit().putBoolean("isLogin", false).commit();
                     //如果用户是第一次安装应用并进入
                     intent.setClass(LaunchActivity.this, LoginActivity.class);
                 } else {

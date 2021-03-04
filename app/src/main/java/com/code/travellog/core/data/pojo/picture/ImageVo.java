@@ -14,7 +14,6 @@ public class ImageVo extends BasePojo {
     public static class DataBean{
         public int index;
         public String img;
-        public int code ;
     }
 
 }

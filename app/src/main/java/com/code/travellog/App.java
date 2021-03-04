@@ -1,8 +1,11 @@
 package com.code.travellog;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.Context;
+import android.util.Log;
+
 import androidx.multidex.MultiDex;
 
 import com.bumptech.glide.Glide;
@@ -18,7 +21,12 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.tencent.mmkv.MMKV;
 import com.tqzhang.stateview.core.LoadState;
+import com.zxy.tiny.Tiny;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -27,7 +35,7 @@ import com.tqzhang.stateview.core.LoadState;
 public class App extends Application implements ComponentCallbacks2 {
     public static App mInstance;
     public static Context mContext;
-
+    private Set<Activity> mActivities;
     static {
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
@@ -72,6 +80,9 @@ public class App extends Application implements ComponentCallbacks2 {
                 .register(new LoadingState())
                 .setDefaultCallback(LoadingState.class)
                 .build();
+        String mmkv_root_dir = MMKV.initialize(this);
+        Log.w("mmkv root dir :",mmkv_root_dir);
+        Tiny.getInstance().init(this);
     }
 
 
@@ -88,5 +99,39 @@ public class App extends Application implements ComponentCallbacks2 {
     public void onLowMemory() {
         super.onLowMemory();
         Glide.get(this).clearMemory();
+    }
+    public void addActivity(Activity activity) {
+        if (mActivities == null) {
+            mActivities = new HashSet<>();
+        }
+        mActivities.add(activity);
+    }
+
+    public void removeActivity(Activity activity) {
+        if (mActivities != null) {
+            mActivities.remove(activity);
+        }
+    }
+    public void removeAllActivity() {
+        if (mActivities != null) {
+            synchronized (mActivities) {
+                for (Activity activity :
+                        mActivities) {
+                    activity.finish();
+                }
+            }
+        }
+    }
+    public void exitApp() {
+        if (mActivities != null) {
+            synchronized (mActivities) {
+                for (Activity activity :
+                        mActivities) {
+                    activity.finish();
+                }
+            }
+        }
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(0);
     }
 }

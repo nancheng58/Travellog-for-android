@@ -1,7 +1,29 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 30
+    signingConfigs {
+        release {
+            keyAlias 'key0'
+            keyPassword '19991231'
+            storeFile file('../travelLog.jks')
+            storePassword '19991231'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        profile {
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
     defaultConfig {
         applicationId "com.code.mvvm"
         minSdkVersion 23
@@ -37,7 +59,8 @@ dependencies {
     api project(':mvvm base')
     api 'com.jakewharton:butterknife:10.2.1'
     apply plugin: 'com.jakewharton.butterknife'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
-
+    kapt  'com.jakewharton:butterknife-compiler:10.2.1'
+    api 'com.github.lygttpod:SuperTextView:2.4.5'
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
 
 }

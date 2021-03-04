@@ -15,7 +15,7 @@ import com.tqzhang.stateview.stateview.BaseStateControl;
  * @author：tqzhang on 18/3/12 19:25
  */
 public abstract class BaseFragment extends Fragment {
-    private View rootView;
+    protected View rootView;
 
     protected FragmentActivity activity;
 

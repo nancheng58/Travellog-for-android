@@ -1,5 +1,6 @@
 package com.code.travellog.ui;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,9 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.R2;
 import com.code.travellog.config.Constants;
+import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.live.LiveDetailsVo;
 import com.code.travellog.core.data.pojo.picture.ImageVo;
 import com.code.travellog.core.data.pojo.user.User;
@@ -39,6 +42,7 @@ import com.mobsandgeeks.saripaar.annotation.Pattern;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.http.HttpHelper;
 import com.mvvm.http.rx.RxSchedulers;
+import com.tencent.mmkv.MMKV;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -96,6 +100,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @Override
     public void initViews(Bundle savedInstanceState) {
+        App.instance().addActivity(this);
         loadManager.showSuccess();
         ButterKnife.bind(this);
         validator = new Validator(this);
@@ -138,6 +143,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         startActivity(intent,options.toBundle());
     }
 
+    @SuppressLint("CheckResult")
     @OnClick(R.id.et_captcha_avater)
     public void GetCaptchaAvater()
     {
@@ -161,6 +167,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
                 });
     }
+    @SuppressLint("CheckResult")
     @OnClick(R.id.btn_login)
     public void Login() {
         String username = userName.getText().toString();
@@ -181,11 +188,15 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                             return;
                         }
                         ToastUtils.showToast("登陆成功，欢迎进入！");
-                        SharedPreferences sp = LoginActivity.this.getPreferences(MODE_PRIVATE);
-                        SharedPreferences.Editor edit =sp.edit();
-                        edit.putString("userName",user.data.uname);
-                        edit.putString("isLogin",true);
-
+                        MMKV kv = MMKV.defaultMMKV();
+                        kv.encode("uid",user.data.uid);
+                        kv.encode("userName",user.data.uname);
+                        kv.encode("phone",user.data.phone);
+                        kv.encode("email",user.data.email);
+                        kv.encode("gender",user.data.gender);
+                        kv.encode("avatar", URL.IMAGE_URL+user.data.avatar);
+                        kv.encode("intro",user.data.intro);
+                        kv.encode("isLogin",true);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);// 当前->目标
                         startActivity(intent);
                     }
@@ -195,6 +206,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                         ToastUtils.showToast(msg);
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.instance().removeActivity(this);
     }
 }
 

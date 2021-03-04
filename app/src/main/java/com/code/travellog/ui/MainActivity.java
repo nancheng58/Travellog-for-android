@@ -1,17 +1,23 @@
 package com.code.travellog.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.KeyEvent;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.view.correct.WorkFragment;
 import com.code.travellog.core.view.course.VideoFragment;
 import com.code.travellog.core.view.home.HomeFragment;
 import com.code.travellog.core.view.mine.MineFragment;
+import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.BaseActivity;
 
 
@@ -26,6 +32,8 @@ public class MainActivity extends BaseActivity {
 
     private MineFragment mMineFragment;
 
+    //定义一个变量，来标识是否退出
+    private static int isExit=0;
 
     @Override
     public int getLayoutId() {
@@ -39,7 +47,7 @@ public class MainActivity extends BaseActivity {
         initNavBar();
         //init fragment
         initFragment(0);
-
+        App.instance().addActivity(this);
     }
 
     /**
@@ -135,6 +143,38 @@ public class MainActivity extends BaseActivity {
 
         if (mMineFragment != null) {
             fragmentTransaction.hide(mMineFragment);
+        }
+    }
+
+    //实现按两次后退才退出
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            super.handleMessage(msg);
+            isExit--;
+        }
+    };
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            isExit++;
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode,event);
+    }
+
+    private void exit(){
+        if(isExit<2){
+            ToastUtils.showToast("再按一次退出");
+
+            //利用handler延迟发送更改状态信息
+            handler.sendEmptyMessageDelayed(0,2000);
+
+        }else{
+//            super.onBackPressed();
+            App.mInstance.exitApp();
         }
     }
 }

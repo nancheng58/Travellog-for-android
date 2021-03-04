@@ -6,6 +6,12 @@ import android.net.NetworkInfo;
 
 import com.code.travellog.App;
 
+import java.io.File;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 /**
  * @author：tqzhang  on 18/7/23 11:33
  */
@@ -33,6 +39,11 @@ public class NetworkUtils {
     public static boolean isNetworkAvailable(){
         return isNetworkAvailable(App.instance());
     }
-
+    public static MultipartBody.Part createPartByPathAndKey(String path, String key){
+        File file = new File(path);
+        RequestBody body = RequestBody.create(MediaType.parse("image/jpg"),file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData(key,file.getName(),body);
+        return part;
+    }
 
 }

@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:stv="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
+
+    tools:ignore="NamespaceTypo">
+    <include layout="@layout/item_title_layout" />
+    <com.allen.library.SuperTextView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:sLeftIconRes="@drawable/back_icon"
+        app:sBackgroundDrawableRes="@color/navigation_bar"
+        stv:sLeftBottomTextColor="@color/color_ffca00"
+        stv:sCenterViewGravity="left_center"
+        stv:sLeftTopTextString="在此页面您可以进行用户信息的管理"
+        stv:sLeftViewGravity="left_center"
+        stv:sShapeCornersTopLeftRadius="8dp"
+        stv:sShapeCornersTopRightRadius="8dp"
+        stv:sRightViewType="edittext" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorAccent"
+        android:text="退出登录"
+        />
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="8dp"
+            app:cardElevation="3dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/white"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/badge_text_size"
+
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                >
+            <com.allen.library.SuperTextView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:sBackgroundDrawableRes="@android:color/holo_purple"
+                stv:sLeftBottomTextColor="@color/color_ffca00"
+                stv:sCenterViewGravity="left_center"
+                stv:sLeftBottomTextString="不需要更改的字段可以为空"
+                stv:sLeftTopTextString="修改个人信息"
+                stv:sLeftViewGravity="left_center"
+                stv:sShapeCornersTopLeftRadius="8dp"
+                stv:sShapeCornersTopRightRadius="8dp"
+                stv:sDividerLineType="bottom"
+                stv:sRightViewType="edittext" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black_000000">
+
+                    <EditText
+                        android:id="@+id/intro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:hint="个人简介"
+                        android:drawableBottom="@drawable/editline"
+
+                        android:inputType="text"
+                        android:paddingBottom="2dp"
+                        android:textColor="@color/black"
+                        android:textCursorDrawable="@drawable/bg_input_cursor_2"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp">
+                <TextView
+                    android:gravity=""
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="性别"
+                    android:textSize="16sp"
+                    />
+                <RadioGroup
+                    android:layout_weight="1"
+
+                    android:id="@+id/rg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="男" />
+
+                    <RadioButton
+                        android:id="@+id/femle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="女" />
+                </RadioGroup>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black">
+
+                    <EditText
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:hint="手机号码"
+                        android:inputType="textPhonetic"
+                        android:paddingBottom="2dp"
+                        android:drawableBottom="@drawable/editline"
+                        android:textColor="@color/black"
+                        android:textCursorDrawable="@drawable/bg_input_cursor_2"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:orientation="horizontal"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black">
+
+                    <EditText
+                        android:id="@+id/et_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:hint="邮箱地址"
+                        android:drawableBottom="@drawable/editline"
+
+                        android:inputType="textEmailAddress"
+                        android:paddingBottom="2dp"
+                        android:textColor="@color/black"
+                        android:textCursorDrawable="@drawable/bg_input_cursor_2"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_userInfo"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="0dp"
+                android:background="@android:drawable/button_onoff_indicator_off"
+                android:stateListAnimator="@drawable/state_list_animator_z"
+                android:text="提交"
+
+                android:textColor="@color/blue" />
+
+        </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="8dp"
+            app:cardElevation="3dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/badge_text_size"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                >
+                <com.allen.library.SuperTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    app:sBackgroundDrawableRes="@color/design_default_color_secondary"
+                    stv:sLeftBottomTextColor="@color/main_color"
+                    stv:sCenterViewGravity="left_center"
+                    stv:sLeftBottomTextString="请输入原密码和新密码"
+                    stv:sLeftTopTextString="更改密码"
+                    stv:sLeftViewGravity="left_center"
+                    stv:sShapeCornersTopLeftRadius="8dp"
+                    stv:sShapeCornersTopRightRadius="8dp"
+                    stv:sRightViewType="edittext" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black">
+                    <com.chaychan.viewlib.PowerfulEditText
+                        android:id="@+id/oldpwd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:funcType="canWatchPwd"
+                        android:inputType="textPassword"
+                        android:hint="原密码"
+                        android:drawableBottom="@drawable/editline"
+
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:paddingBottom="2dp"
+                        android:textColor="@color/black"
+                        android:textCursorDrawable="@drawable/bg_input_cursor_2"
+                        android:textSize="16sp"
+
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black">
+
+                    <com.chaychan.viewlib.PowerfulEditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:hint="新密码"
+                        android:drawableBottom="@drawable/editline"
+
+                        android:inputType="textPassword"
+                        android:paddingBottom="2dp"
+                        android:textColor="@color/black"
+                        app:funcType="canWatchPwd"
+
+                        android:textCursorDrawable="@drawable/bg_input_cursor_2"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black">
+
+                    <com.chaychan.viewlib.PowerfulEditText
+                        android:id="@+id/repassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_bg_edit_2"
+                        android:hint="重复新密码"
+                        android:inputType="textPassword"
+                        android:paddingBottom="2dp"
+                        android:textColor="@color/black"
+                        android:drawableBottom="@drawable/editline"
+
+                        android:textCursorDrawable="@drawable/bg_input_cursor_2"
+                        app:funcType="canWatchPwd"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btn_changePwd"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="0dp"
+                android:background="@android:drawable/button_onoff_indicator_off"
+                android:stateListAnimator="@drawable/state_list_animator_z"
+                android:text="提交"
+
+                android:textColor="@color/blue" />
+
+        </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+</LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+
