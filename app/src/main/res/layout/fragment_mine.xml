@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:leon="http://schemas.android.com/tools"
+    xmlns:stv="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/MyCheckBox"
@@ -37,21 +37,25 @@
                 app:civ_border_color="#FFFFFF"
                 app:civ_border_width="2dp" />
 
-            <TextView
-                android:id="@+id/userName"
-                android:layout_width="122dp"
-                android:layout_height="wrap_content"
 
+            <com.allen.library.SuperTextView
+                android:id="@+id/userInfo"
+                android:layout_width="201dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="71dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="57dp"
                 android:layout_toEndOf="@+id/avater"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/user"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                stv:sCenterBottomTextColor="@color/colorAccent"
+                stv:sCenterTopTextString=" "
+                stv:sCenterViewGravity="left_center"
+                stv:sLeftBottomTextString="个性签名"
+                stv:sLeftIconRes="@drawable/bank_zhao_shang"
+                stv:sLeftTopTextString="用户名"
+                stv:sLeftViewGravity="left_center"
+                stv:sRightCheckBoxRes="@drawable/circular_check_bg"
+                stv:sRightViewType="checkbox" />
 
             <ImageView
                 android:id="@+id/userMore"

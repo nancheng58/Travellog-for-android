@@ -25,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.allen.library.SuperTextView;
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
 import com.code.travellog.config.URL;
@@ -72,8 +73,8 @@ public class MineFragment extends BaseFragment {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.avater)
     protected CircleImageView imageView;
-    @BindView(R.id.userName)
-    TextView userName;
+    @BindView(R.id.userInfo)
+    SuperTextView userInfo;
     @BindView(R.id.userMore) ImageView userMore;
     protected Context mContext;
     protected MMKV kv;
@@ -123,8 +124,9 @@ public class MineFragment extends BaseFragment {
 
         String url = kv.decodeString("avatar");
         String username = kv.decodeString("userName");
+        String intro = kv.decodeString("intro");
 
-        userName.setText(username);
+        userInfo.setLeftTopString(username).setLeftBottomString(intro);
         mabout = getActivity().findViewById(R.id.tv_about);
         Glide.with(mContext).load(url)
                 .transform(new GlideCircleTransform(mContext))

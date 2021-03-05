@@ -11,17 +11,20 @@
     tools:ignore="NamespaceTypo">
     <include layout="@layout/item_title_layout" />
     <com.allen.library.SuperTextView
+        android:id="@+id/tv_title2"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         app:sLeftIconRes="@drawable/back_icon"
         app:sBackgroundDrawableRes="@color/navigation_bar"
         stv:sLeftBottomTextColor="@color/color_ffca00"
-        stv:sCenterViewGravity="left_center"
-        stv:sLeftTopTextString="在此页面您可以进行用户信息的管理"
+        stv:sCenterViewGravity="center"
+        stv:sCenterTextString="在此页面您可以进行用户信息的管理"
         stv:sLeftViewGravity="left_center"
         stv:sShapeCornersTopLeftRadius="8dp"
+        stv:sDividerLineColor="@color/black"
         stv:sShapeCornersTopRightRadius="8dp"
-        stv:sRightViewType="edittext" />
+
+        />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -115,7 +118,7 @@
                 <RadioGroup
                     android:layout_weight="1"
 
-                    android:id="@+id/rg"
+                    android:id="@+id/genderRG"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

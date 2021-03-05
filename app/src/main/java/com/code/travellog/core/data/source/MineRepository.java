@@ -4,7 +4,7 @@ import com.code.travellog.core.data.BaseRepository;
 import com.code.travellog.util.StringUtil;
 
 /**
- * @deprecated 用户信息获取仓库
+ * @description 用户信息获取仓库
  * @date: 2021/2/22
  */
 public class MineRepository extends BaseRepository {

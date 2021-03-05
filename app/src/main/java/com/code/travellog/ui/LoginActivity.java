@@ -62,8 +62,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @Order(1)
     @NotEmpty(message = "用户名不能为空")
-    @Length(min=3,max=12,message = "用户名3~12位之间，且不能全为数字")
-    @Pattern(regex = "^\\w+$",message = "仅可输入数字 字母 下划线")
+    @Length(min=3,max=20,message = "输入必须在3~20位之间")
     @BindView(R.id.userName)
     EditText userName;
     @NotEmpty(message = "密码不能为空")
@@ -86,17 +85,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     @BindView(R.id.fab)
     FloatingActionButton fab;
     @BindView(R.id.et_captcha_avater) ImageView captcha_avater;
-
+    @BindView(R.id.tv_forgetpwd) TextView forgetpwd;
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
     }
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//    }
 
     @Override
     public void initViews(Bundle savedInstanceState) {
@@ -112,7 +105,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 validator.validate();
             }
         });
-        GetCaptchaAvater();
+        forgetpwd.setOnClickListener(v -> {
+            Intent intent = new Intent(this,ForgetPwdActivity.class);
+            startActivity(intent);
+        });
+        getCaptchaAvater();
     }
 
     @Override
@@ -145,7 +142,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @SuppressLint("CheckResult")
     @OnClick(R.id.et_captcha_avater)
-    public void GetCaptchaAvater()
+    public void getCaptchaAvater()
     {
         HttpHelper.getInstance().create(ApiService.class).getCaptchaAvater()
                 .subscribeOn(Schedulers.io())
@@ -207,7 +204,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     }
                 });
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

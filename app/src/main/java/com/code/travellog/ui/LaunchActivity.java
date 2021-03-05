@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 /**
- * @deprecated: 起始页界面
+ * @description: 起始页界面
  * @date: 2021/2/24
  */
 public class LaunchActivity extends BaseActivity {

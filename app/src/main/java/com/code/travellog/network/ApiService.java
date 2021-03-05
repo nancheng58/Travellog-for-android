@@ -65,6 +65,17 @@ public interface ApiService {
     @POST(URL.BASE_URL2+"user/avatar")
     Flowable<BasePojo> postCaptchaAvater(@Body MultipartBody multipartBody);
 
+    @FormUrlEncoded
+    @POST(URL.BASE_URL2+"user/info")
+    Flowable<User> postUserInfo(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST(URL.BASE_URL2+"user/password")
+    Flowable<BasePojo> changePwd(@FieldMap Map<String,String> params);
+
+    @FormUrlEncoded
+    @POST(URL.BASE_URL2+"user/reset")
+    Flowable<BasePojo> resetPwd(@FieldMap Map<String,String> params);
 
     @POST(URL.HOME_LIST)
     @FormUrlEncoded

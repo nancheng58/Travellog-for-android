@@ -28,7 +28,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mvvm.base.BaseActivity;
 
 /**
- * @deprecated : 关于 界面
+ * @description : 关于 界面
  * @date: 2021/2/23
  */
 public class AboutActivity extends MaterialAboutActivity {

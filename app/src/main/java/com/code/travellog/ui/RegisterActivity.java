@@ -58,7 +58,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RegisterActivity extends BaseActivity implements Validator.ValidationListener {
     @Order(1)
     @NotEmpty(message = "用户名不能为空")
-    @Length(min=6,max=12,message = "用户名6~12位之间")
+    @Length(min=6,max=12,message = "用户名6~12位之间，且不能全为数字")
     @BindView(R.id.et_rusername)
     EditText userName;
     @Order(2)
@@ -108,7 +108,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                 validator.validate();
             }
         });
-        GetCaptchaAvater();
+        getCaptchaAvater();
     }
 
 
@@ -171,7 +171,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 
     }
     @OnClick(R.id.et_rcaptcha_avater)
-    public void GetCaptchaAvater()
+    public void getCaptchaAvater()
     {
         HttpHelper.getInstance().create(ApiService.class).getCaptchaAvater()
                 .subscribeOn(Schedulers.io())
