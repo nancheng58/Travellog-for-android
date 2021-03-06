@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -47,6 +48,8 @@ import com.tencent.mmkv.MMKV;
 import com.zxy.tiny.Tiny;
 import com.zxy.tiny.callback.FileWithBitmapCallback;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -59,6 +62,11 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import pl.aprilapps.easyphotopicker.ChooserType;
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
+import pl.aprilapps.easyphotopicker.MediaFile;
+import pl.aprilapps.easyphotopicker.MediaSource;
 
 /**
  * @description "我的"页面
@@ -80,8 +88,7 @@ public class MineFragment extends BaseFragment {
     protected MMKV kv;
     protected Unbinder butterKnife;
     /* 图片上传 */
-    private static final int MY_ADD_CASE_CALL_PHONE = 6;    //调取系统摄像头的请求码
-    private static final int MY_ADD_CASE_CALL_PHONE2 = 7;    //打开相册的请求码
+    private static final int CHOOSER_PERMISSIONS_REQUEST_CODE = 7459;
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     private LayoutInflater inflater;
@@ -89,8 +96,8 @@ public class MineFragment extends BaseFragment {
     private TextView takePhotoTV;
     private TextView choosePhotoTV;
     private TextView cancelTV;
-
-    public static MineFragment newInstance() {
+    private EasyImage easyImage ;
+   public static MineFragment newInstance() {
         return new MineFragment();
     }
 
@@ -121,7 +128,13 @@ public class MineFragment extends BaseFragment {
         mTitleBar = getViewById(R.id.rl_title_bar);
         mTitle = getViewById(R.id.tv_title);
         setTitle(getResources().getString(R.string.mine_title_name));
-
+        easyImage = new EasyImage.Builder(mContext)
+                .setChooserTitle("上传头像")
+                .setChooserType(ChooserType.CAMERA_AND_GALLERY)
+                .setCopyImagesToPublicGalleryFolder(false)
+                .setFolderName("picCache")
+                .allowMultiple(false)
+                .build();
         String url = kv.decodeString("avatar");
         String username = kv.decodeString("userName");
         String intro = kv.decodeString("intro");
@@ -131,9 +144,14 @@ public class MineFragment extends BaseFragment {
         Glide.with(mContext).load(url)
                 .transform(new GlideCircleTransform(mContext))
                 .into(imageView);
-        imageView = getActivity().findViewById(R.id.avater);
+
         imageView.setOnClickListener(v -> {
-            UpdatePhoto();
+            String[] necessaryPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            if (arePermissionsGranted(necessaryPermissions)) {
+                easyImage.openChooser(activity);
+            } else {
+                requestPermissionsCompat(necessaryPermissions, CHOOSER_PERMISSIONS_REQUEST_CODE);
+            }
         });
         mabout.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
             @Override
@@ -148,137 +166,135 @@ public class MineFragment extends BaseFragment {
         });
     }
 
-    public void UpdatePhoto() {
+//    public void UpdatePhoto() {
+//
+//        builder = new AlertDialog.Builder(activity);//创建对话框
+//        inflater = getLayoutInflater();
+//        layout = inflater.inflate(R.layout.dialog_select_photo, null);//获取自定义布局
+//        builder.setView(layout);//设置对话框的布局
+//        dialog = builder.create();//生成最终的对话框
+//        dialog.show();//显示对话框
+//
+//        takePhotoTV = layout.findViewById(R.id.photograph);
+//        choosePhotoTV = layout.findViewById(R.id.photo);
+//        cancelTV = layout.findViewById(R.id.cancel);
+//        //设置监听
+//        takePhotoTV.setOnClickListener(v -> {
+//                    String[] necessaryPermissions = new String[]{Manifest.permission.CAMERA};
+//                    if (arePermissionsGranted(necessaryPermissions)) {
+//                        easyImage.openCameraForImage(MainActivity.this);
+//                    } else {
+//                        requestPermissionsCompat(necessaryPermissions, CAMERA_REQUEST_CODE);
+//                    }
+//            }
+//            dialog.dismiss();
+//        });
+//        choosePhotoTV.setOnClickListener(v -> {
+//            //"点击了相册";
+//            //  6.0之后动态申请权限 SD卡写入权限
+//            if (ContextCompat.checkSelfPermission(mContext,
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(activity,
+//                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                        MY_ADD_CASE_CALL_PHONE2);
+//
+//            } else {
+//                //打开相册
+//                choosePhoto();
+//            }
+//            dialog.dismiss();
+//        });
+//        cancelTV.setOnClickListener(v -> {
+//            dialog.dismiss();//关闭对话框
+//
+//        });
+//    }
+//    private void takePhoto() throws IOException {
+//        Intent intent = new Intent();
+//        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+//        // 获取文件
+//        File file = createFileIfNeed("UserIcon.png");
+//        //拍照后原图回存入此路径下
+//        Uri uri;
+//        /*
+//         * 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
+//         */
+//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+//            uri = Uri.fromFile(file);
+//        } else {
+//            uri = FileProvider.getUriForFile(mContext, "com.code.travellog.fileprovider", file);
+//        }
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+//        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+//        startActivityForResult(intent, 1);
+//    }
 
-        builder = new AlertDialog.Builder(activity);//创建对话框
-        inflater = getLayoutInflater();
-        layout = inflater.inflate(R.layout.dialog_select_photo, null);//获取自定义布局
-        builder.setView(layout);//设置对话框的布局
-        dialog = builder.create();//生成最终的对话框
-        dialog.show();//显示对话框
+//    // 在sd卡中创建一保存图片（原图和缩略图共用的）文件夹
+//    private File createFileIfNeed(String fileName) throws IOException {
+//        String fileA =  getContext().getCacheDir() Environment.DIRECTORY_DCIM
+//
+//        File fileJA = new File(fileA);
+//        if (!fileJA.exists()) {
+//            fileJA.mkdirs();
+//        }
+//        File file = new File(fileA, fileName);
+//        if (!file.exists()) {
+//            file.createNewFile();
+//        }
+//        return file;
+//    }
 
-        takePhotoTV = layout.findViewById(R.id.photograph);
-        choosePhotoTV = layout.findViewById(R.id.photo);
-        cancelTV = layout.findViewById(R.id.cancel);
-        //设置监听
-        takePhotoTV.setOnClickListener(v -> {
-            //"点击了照相";
-            //  6.0之后动态申请权限 摄像头调取权限,SD卡写入权限
-            //判断是否拥有权限，true则动态申请
-            if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        MY_ADD_CASE_CALL_PHONE);
-            } else {
-                try {
-                    //有权限,去打开摄像头
-                    takePhoto();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            dialog.dismiss();
-        });
-        choosePhotoTV.setOnClickListener(v -> {
-            //"点击了相册";
-            //  6.0之后动态申请权限 SD卡写入权限
-            if (ContextCompat.checkSelfPermission(mContext,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        MY_ADD_CASE_CALL_PHONE2);
+//    /**
+//     * 打开相册
+//     */
+//    private void choosePhoto() {
+//        //这是打开系统默认的相册(就是你系统怎么分类,就怎么显示,首先展示分类列表)
+//        Intent picture = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        startActivityForResult(picture, 2);
+//    }
 
-            } else {
-                //打开相册
-                choosePhoto();
-            }
-            dialog.dismiss();
-        });
-        cancelTV.setOnClickListener(v -> {
-            dialog.dismiss();//关闭对话框
-
-        });
-    }
-    private void takePhoto() throws IOException {
-        Intent intent = new Intent();
-        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        // 获取文件
-        File file = createFileIfNeed("UserIcon.png");
-        //拍照后原图回存入此路径下
-        Uri uri;
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-            uri = Uri.fromFile(file);
-        } else {
-            /**
-             * 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
-             * 并且这样可以解决MIUI系统上拍照返回size为0的情况
-             */
-            uri = FileProvider.getUriForFile(mContext, "com.code.travellog.fileprovider", file);
-        }
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-        startActivityForResult(intent, 1);
-    }
-
-    // 在sd卡中创建一保存图片（原图和缩略图共用的）文件夹
-    private File createFileIfNeed(String fileName) throws IOException {
-        String fileA = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/picCache";
-        File fileJA = new File(fileA);
-        if (!fileJA.exists()) {
-            fileJA.mkdirs();
-        }
-        File file = new File(fileA, fileName);
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        return file;
-    }
-
-    /**
-     * 打开相册
-     */
-    private void choosePhoto() {
-        //这是打开系统默认的相册(就是你系统怎么分类,就怎么显示,首先展示分类列表)
-        Intent picture = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(picture, 2);
-    }
-
-    /**
-     * 申请权限回调方法
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
-     */
+//    /**
+//     * 申请权限回调方法
+//     *
+//     * @param requestCode
+//     * @param permissions
+//     * @param grantResults
+//     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        if (requestCode == MY_ADD_CASE_CALL_PHONE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                try {
-                    takePhoto();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                ToastUtils.showToast("拒绝了你的请求");
-                //"权限拒绝");
-            }
-        }
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if (requestCode == CHOOSER_PERMISSIONS_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Log.w("PermissionsResult:",requestCode + grantResults.toString() + permissions);
 
-
-        if (requestCode == MY_ADD_CASE_CALL_PHONE2) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                choosePhoto();
-            } else {
-                //"权限拒绝");
-                ToastUtils.showToast("拒绝了你的请求");
-            }
+            easyImage.openChooser(activity);
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == MY_ADD_CASE_CALL_PHONE) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                try {
+//                    takePhoto();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                ToastUtils.showToast("拒绝了你的请求");
+//                //"权限拒绝");
+//            }
+//        }
     }
+//
+//
+//        if (requestCode == MY_ADD_CASE_CALL_PHONE2) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                choosePhoto();
+//            } else {
+//                //"权限拒绝");
+//                ToastUtils.showToast("拒绝了你的请求");
+//            }
+//        }
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    }
 
     /**
      * startActivityForResult执行后的回调方法，接收返回的图片
@@ -289,36 +305,55 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // 拍照
-        if (requestCode == 1 && resultCode != Activity.RESULT_CANCELED) {
-
-            String state = Environment.getExternalStorageState();
-            if (!state.equals(Environment.MEDIA_MOUNTED)) return;
-            // 把原图显示到界面上
-            Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
-            Tiny.getInstance().source(readpic()).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
-                @Override
-                public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
-                    saveImageToServer(bitmap, outfile);//显示图片到imgView上
-                }
-            });
-        }
-        // 上传图片
-        else if (requestCode == 2 && resultCode == Activity.RESULT_OK
-                && null != data) {
-            try {
-                Uri selectedImage = data.getData();//获取路径
-                Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
-                Tiny.getInstance().source(selectedImage).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
-                    @Override
-                    public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
-                        saveImageToServer(bitmap, outfile);
+        easyImage.handleActivityResult(requestCode, resultCode, data, activity, new DefaultCallback() {
+            @Override
+            public void onMediaFilesPicked(@NotNull MediaFile[] imgFiles, @NotNull MediaSource mediaSource) {
+                    for(MediaFile imageFile : imgFiles) {
+                        Log.d("Easyimage",imageFile.getFile().toString());
                     }
-                });
-            } catch (Exception e) {
-                ToastUtils.showToast("上传失败，请重试");
+                    saveImageToServer(imgFiles);
             }
-        }
+            @Override
+            public void onImagePickerError(@NonNull Throwable error, @NonNull MediaSource source) {
+                //Some error handling
+                error.printStackTrace();
+            }
+
+            @Override
+            public void onCanceled(@NonNull MediaSource source) {
+                //Not necessary to remove any files manually anymore
+            }
+        });
+//        // 拍照
+//        if (requestCode == 1 && resultCode != Activity.RESULT_CANCELED) {
+//
+//            String state = Environment.getExternalStorageState();
+//            if (!state.equals(Environment.MEDIA_MOUNTED)) return;
+//            // 把原图显示到界面上
+//            Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
+//            Tiny.getInstance().source(readpic()).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
+//                @Override
+//                public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
+//                    saveImageToServer(bitmap, outfile);//显示图片到imgView上
+//                }
+//            });
+//        }
+//        // 上传图片
+//        else if (requestCode == 2 && resultCode == Activity.RESULT_OK
+//                && null != data) {
+//            try {
+//                Uri selectedImage = data.getData();//获取路径
+//                Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
+//                Tiny.getInstance().source(selectedImage).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
+//                    @Override
+//                    public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
+//                        saveImageToServer(bitmap, outfile);
+//                    }
+//                });
+//            } catch (Exception e) {
+//                ToastUtils.showToast("上传失败，请重试");
+//            }
+//        }
     }
 
     /**
@@ -330,19 +365,20 @@ public class MineFragment extends BaseFragment {
     }
 
     @SuppressLint("CheckResult")
-    private void saveImageToServer(final Bitmap bitmap, String outfile) {
-        File file = new File(outfile);
-        Log.w("filename",outfile);
-        Glide.with(mContext).load(bitmap)
+    private void saveImageToServer(@NotNull MediaFile[] returnedPhotos) {
+//        File file = new File(outfile);
+        Log.w("Imagefile",returnedPhotos[0].getFile().toString());
+
+        Glide.with(mContext).load(returnedPhotos[0].getFile())
                 .transform(new GlideCircleTransform(mContext))
                 .into(imageView);
         String uid = Integer.toString(MMKV.defaultMMKV().decodeInt("uid"));
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"),file);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"),returnedPhotos[0].getFile());
         MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("uid",uid)
                 .addFormDataPart("code","travel")
-                .addFormDataPart("avatar",outfile,requestBody).build();
-                NetworkUtils.createPartByPathAndKey(outfile,"file");
+                .addFormDataPart("avatar",returnedPhotos[0].getFile().toString(),requestBody).build();
+                NetworkUtils.createPartByPathAndKey(returnedPhotos[0].getFile().getPath(),"file");
         HttpHelper.getInstance().create(ApiService.class).postCaptchaAvater(multipartBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -362,8 +398,30 @@ public class MineFragment extends BaseFragment {
                     }
                 });
     }
+    /**
+     * @description 权限申请
+     * @param
+     * @return
+     * @time 2021/3/6 16:35
+     */
 
+    protected void requestPermissionsCompat(String[] permissions, int requestCode) {
+        requestPermissions( permissions, requestCode);
+    }
+    /**
+     * @description 权限检测
+     * @param
+     * @return
+     * @time 2021/3/6 16:36
+     */
+    protected boolean arePermissionsGranted(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED)
+                return false;
 
+        }
+        return true;
+    }
 
     @Override
     protected void onStateRefresh() {

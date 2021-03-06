@@ -18,6 +18,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        profile {
+        }
     }
 
 }
@@ -77,4 +79,5 @@ dependencies {
     api  'com.tencent:mmkv-static:1.2.7'
     api 'com.zxy.android:tiny:1.1.0' //一个高保真、高压缩比的图片压缩框架
     api 'com.github.chaychan:PowerfulViewLibrary:1.2.2' //功能强大的EditText
+
 }

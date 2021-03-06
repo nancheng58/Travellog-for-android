@@ -1,10 +1,14 @@
 package com.code.travellog.ui;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -20,6 +24,7 @@ import com.code.travellog.core.view.mine.MineFragment;
 import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.BaseActivity;
 
+import java.util.List;
 
 
 public class MainActivity extends BaseActivity {
@@ -145,8 +150,18 @@ public class MainActivity extends BaseActivity {
             fragmentTransaction.hide(mMineFragment);
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        for(Fragment fragment : fragmentManager.getFragments())
+        {
+            fragment.onActivityResult(requestCode,resultCode,data);
+        }
+    }
 
     //实现按两次后退才退出
+    @SuppressLint("HandlerLeak")
     Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg){

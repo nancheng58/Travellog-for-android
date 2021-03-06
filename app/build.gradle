@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-parcelize'
 android {
     compileSdkVersion 30
     signingConfigs {
@@ -12,7 +12,9 @@ android {
             storePassword '19991231'
         }
     }
-
+    packagingOptions {
+        pickFirst 'META-INF/library_release.kotlin_module'
+    }
     buildTypes {
         debug {
             signingConfig signingConfigs.release
@@ -62,5 +64,6 @@ dependencies {
     kapt  'com.jakewharton:butterknife-compiler:10.2.1'
     api 'com.github.lygttpod:SuperTextView:2.4.5'
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
+    api 'com.github.jkwiecien:EasyImage:3.0.4'
 
 }

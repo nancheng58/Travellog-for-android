@@ -1,12 +1,18 @@
 package com.mvvm.base;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
@@ -96,6 +102,14 @@ public abstract class BaseFragment extends Fragment {
         } else {
             onInVisible();
         }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+//        for (Fragment fragment: getChildFragmentManager().getFragments())
+//        {
+//            fragment.onActivityResult(requestCode, resultCode, data);
+//        }
     }
 
     /**
