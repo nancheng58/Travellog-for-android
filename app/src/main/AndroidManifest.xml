@@ -5,11 +5,19 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
 
@@ -44,6 +52,8 @@
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
         <activity android:name="com.code.travellog.core.view.common.CommonActivity" />
         <activity android:name="com.code.travellog.core.view.correct.WorkDetailsActivity" />
+        <activity android:name=".ui.MakeAlbumActivity"/>
+        <activity android:name=".ui.MyAlbumActivity"/>
         <activity android:name="com.code.travellog.ui.AboutActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
         <activity android:name=".ui.LaunchActivity">

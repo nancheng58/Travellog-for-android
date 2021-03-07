@@ -40,22 +40,25 @@
 
             <com.allen.library.SuperTextView
                 android:id="@+id/userInfo"
-                android:layout_width="201dp"
-                android:layout_height="wrap_content"
+                android:layout_width="193dp"
+                android:layout_height="87dp"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="57dp"
+                android:layout_marginTop="37dp"
                 android:layout_toEndOf="@+id/avater"
+                android:layout_toLeftOf="@id/userMore"
                 stv:sCenterBottomTextColor="@color/colorAccent"
                 stv:sCenterTopTextString=" "
                 stv:sCenterViewGravity="left_center"
                 stv:sLeftBottomTextString="个性签名"
                 stv:sLeftIconRes="@drawable/bank_zhao_shang"
                 stv:sLeftTopTextString="用户名"
+                app:sLeftTopTextSize="20sp"
                 stv:sLeftViewGravity="left_center"
                 stv:sRightCheckBoxRes="@drawable/circular_check_bg"
-                stv:sRightViewType="checkbox" />
+                stv:sRightViewType="checkbox"
+                stv:sUseRipple="false" />
 
             <ImageView
                 android:id="@+id/userMore"
@@ -64,17 +67,18 @@
                 android:layout_alignParentEnd="true"
 
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="98dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginEnd="31dp"
                 android:layout_marginBottom="0dp"
+                android:layout_toEndOf="@+id/userInfo"
                 android:src="@drawable/righticon" />
         </RelativeLayout>
 
         <com.leon.lib.settingview.LSettingItem
-            android:id="@+id/item_one"
+            android:id="@+id/tv_album"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:isShowRightText="true"
+            app:isShowRightText="false"
             app:leftIcon="@drawable/article_icon"
 
             app:leftText="我的影集"
@@ -85,22 +89,29 @@
 
 
         <com.leon.lib.settingview.LSettingItem
-            android:id="@+id/item_five"
+            android:id="@+id/tv_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:isShowUnderLine="true"
-            app:leftTextMarginLeft="48dp"
-
+            app:leftIcon="@drawable/activities_icon"
             app:leftText="深色模式"
             app:rightStyle="iconSwitch" />
-
         <com.leon.lib.settingview.LSettingItem
+            android:id="@+id/tv_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:isShowRightText="false"
+            app:leftText="设置"
+            app:leftIcon="@drawable/icon_settings"
 
+            app:rightTextColor="@color/colorPrimary" />
+        <com.leon.lib.settingview.LSettingItem
+            android:id="@+id/tv_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:leftIcon="@drawable/vic_my_publish"
             app:isShowRightText="true"
             app:leftText="检查更新"
-            app:leftTextMarginLeft="48dp"
             app:rightText="V1.0.0"
             app:rightTextColor="@color/colorPrimary" />
         <com.leon.lib.settingview.LSettingItem

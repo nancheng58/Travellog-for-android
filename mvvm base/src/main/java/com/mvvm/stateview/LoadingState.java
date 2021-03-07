@@ -5,12 +5,14 @@ import com.tqzhang.stateview.stateview.BaseStateControl;
 import trecyclerview.com.mvvm.R;
 
 /**
- * @author：tqzhang  on 18/7/16 15:07
+ * @description loading UI
+ * @time 2021/3/7 10:40
  */
+
 public class LoadingState extends BaseStateControl {
     @Override
     protected int onCreateView() {
-        return R.layout.loading_view;
+        return R.layout.loading;
     }
 
     @Override

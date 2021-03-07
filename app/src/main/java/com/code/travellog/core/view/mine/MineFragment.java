@@ -2,42 +2,32 @@ package com.code.travellog.core.view.mine;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
 import com.allen.library.SuperTextView;
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
-import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
-import com.code.travellog.core.data.pojo.user.User;
 import com.code.travellog.glide.GlideCircleTransform;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.ui.AboutActivity;
-import com.code.travellog.ui.LoginActivity;
-import com.code.travellog.ui.MainActivity;
+import com.code.travellog.ui.MakeAlbumActivity;
+import com.code.travellog.ui.MyAlbumActivity;
 import com.code.travellog.ui.UserInfoActivity;
 import com.code.travellog.util.NetworkUtils;
 import com.code.travellog.util.ToastUtils;
@@ -45,16 +35,12 @@ import com.leon.lib.settingview.LSettingItem;
 import com.mvvm.base.BaseFragment;
 import com.mvvm.http.HttpHelper;
 import com.tencent.mmkv.MMKV;
-import com.zxy.tiny.Tiny;
-import com.zxy.tiny.callback.FileWithBitmapCallback;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -83,12 +69,33 @@ public class MineFragment extends BaseFragment {
     protected CircleImageView imageView;
     @BindView(R.id.userInfo)
     SuperTextView userInfo;
-    @BindView(R.id.userMore) ImageView userMore;
+    @BindView(R.id.userMore)
+    ImageView userMore;
     protected Context mContext;
     protected MMKV kv;
     protected Unbinder butterKnife;
     /* 图片上传 */
     private static final int CHOOSER_PERMISSIONS_REQUEST_CODE = 7459;
+    @BindView(R.id.iv_back)
+    ImageView ivBack;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.iv_search)
+    ImageView ivSearch;
+    @BindView(R.id.rl_title_bar)
+    RelativeLayout rlTitleBar;
+    @BindView(R.id.tv_album)
+    LSettingItem tvAlbum;
+    @BindView(R.id.tv_theme)
+    LSettingItem tvTheme;
+    @BindView(R.id.tv_setting)
+    LSettingItem tvSetting;
+    @BindView(R.id.tv_update)
+    LSettingItem tvUpdate;
+    @BindView(R.id.tv_about)
+    LSettingItem tvAbout;
+    @BindView(R.id.content_layout)
+    LinearLayout contentLayout;
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     private LayoutInflater inflater;
@@ -96,12 +103,11 @@ public class MineFragment extends BaseFragment {
     private TextView takePhotoTV;
     private TextView choosePhotoTV;
     private TextView cancelTV;
-    private EasyImage easyImage ;
-   public static MineFragment newInstance() {
+    private EasyImage easyImage;
+
+    public static MineFragment newInstance() {
         return new MineFragment();
     }
-
-
 
     @Override
     public int getLayoutResId() {
@@ -116,7 +122,7 @@ public class MineFragment extends BaseFragment {
     @Override
     public void initView(Bundle state) {
         loadManager.showSuccess();
-        butterKnife =ButterKnife.bind(this, rootView);
+        butterKnife = ButterKnife.bind(this, rootView);
         this.mContext = activity;
         kv = MMKV.defaultMMKV();
 
@@ -153,6 +159,17 @@ public class MineFragment extends BaseFragment {
                 requestPermissionsCompat(necessaryPermissions, CHOOSER_PERMISSIONS_REQUEST_CODE);
             }
         });
+        userMore.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, UserInfoActivity.class);
+            startActivity(intent);
+        });
+        tvAlbum.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
+            @Override
+            public void click(boolean isChecked) {
+                Intent intent = new Intent(activity, MyAlbumActivity.class);
+                startActivity(intent);
+            }
+        });
         mabout.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
             @Override
             public void click(boolean isChecked) {
@@ -160,144 +177,22 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-        userMore.setOnClickListener(v -> {
-            Intent intent = new Intent(activity,UserInfoActivity.class);
-            startActivity(intent);
-        });
+
     }
 
-//    public void UpdatePhoto() {
-//
-//        builder = new AlertDialog.Builder(activity);//创建对话框
-//        inflater = getLayoutInflater();
-//        layout = inflater.inflate(R.layout.dialog_select_photo, null);//获取自定义布局
-//        builder.setView(layout);//设置对话框的布局
-//        dialog = builder.create();//生成最终的对话框
-//        dialog.show();//显示对话框
-//
-//        takePhotoTV = layout.findViewById(R.id.photograph);
-//        choosePhotoTV = layout.findViewById(R.id.photo);
-//        cancelTV = layout.findViewById(R.id.cancel);
-//        //设置监听
-//        takePhotoTV.setOnClickListener(v -> {
-//                    String[] necessaryPermissions = new String[]{Manifest.permission.CAMERA};
-//                    if (arePermissionsGranted(necessaryPermissions)) {
-//                        easyImage.openCameraForImage(MainActivity.this);
-//                    } else {
-//                        requestPermissionsCompat(necessaryPermissions, CAMERA_REQUEST_CODE);
-//                    }
-//            }
-//            dialog.dismiss();
-//        });
-//        choosePhotoTV.setOnClickListener(v -> {
-//            //"点击了相册";
-//            //  6.0之后动态申请权限 SD卡写入权限
-//            if (ContextCompat.checkSelfPermission(mContext,
-//                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                    != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(activity,
-//                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-//                        MY_ADD_CASE_CALL_PHONE2);
-//
-//            } else {
-//                //打开相册
-//                choosePhoto();
-//            }
-//            dialog.dismiss();
-//        });
-//        cancelTV.setOnClickListener(v -> {
-//            dialog.dismiss();//关闭对话框
-//
-//        });
-//    }
-//    private void takePhoto() throws IOException {
-//        Intent intent = new Intent();
-//        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-//        // 获取文件
-//        File file = createFileIfNeed("UserIcon.png");
-//        //拍照后原图回存入此路径下
-//        Uri uri;
-//        /*
-//         * 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
-//         */
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-//            uri = Uri.fromFile(file);
-//        } else {
-//            uri = FileProvider.getUriForFile(mContext, "com.code.travellog.fileprovider", file);
-//        }
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-//        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-//        startActivityForResult(intent, 1);
-//    }
-
-//    // 在sd卡中创建一保存图片（原图和缩略图共用的）文件夹
-//    private File createFileIfNeed(String fileName) throws IOException {
-//        String fileA =  getContext().getCacheDir() Environment.DIRECTORY_DCIM
-//
-//        File fileJA = new File(fileA);
-//        if (!fileJA.exists()) {
-//            fileJA.mkdirs();
-//        }
-//        File file = new File(fileA, fileName);
-//        if (!file.exists()) {
-//            file.createNewFile();
-//        }
-//        return file;
-//    }
-
-//    /**
-//     * 打开相册
-//     */
-//    private void choosePhoto() {
-//        //这是打开系统默认的相册(就是你系统怎么分类,就怎么显示,首先展示分类列表)
-//        Intent picture = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        startActivityForResult(picture, 2);
-//    }
-
-//    /**
-//     * 申请权限回调方法
-//     *
-//     * @param requestCode
-//     * @param permissions
-//     * @param grantResults
-//     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CHOOSER_PERMISSIONS_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.w("PermissionsResult:",requestCode + grantResults.toString() + permissions);
-
+            Log.w("PermissionsResult:", requestCode + grantResults.toString() + permissions);
             easyImage.openChooser(activity);
         }
-//        if (requestCode == MY_ADD_CASE_CALL_PHONE) {
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                try {
-//                    takePhoto();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            } else {
-//                ToastUtils.showToast("拒绝了你的请求");
-//                //"权限拒绝");
-//            }
-//        }
     }
-//
-//
-//        if (requestCode == MY_ADD_CASE_CALL_PHONE2) {
-//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                choosePhoto();
-//            } else {
-//                //"权限拒绝");
-//                ToastUtils.showToast("拒绝了你的请求");
-//            }
-//        }
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
 
     /**
      * startActivityForResult执行后的回调方法，接收返回的图片
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -308,11 +203,12 @@ public class MineFragment extends BaseFragment {
         easyImage.handleActivityResult(requestCode, resultCode, data, activity, new DefaultCallback() {
             @Override
             public void onMediaFilesPicked(@NotNull MediaFile[] imgFiles, @NotNull MediaSource mediaSource) {
-                    for(MediaFile imageFile : imgFiles) {
-                        Log.d("Easyimage",imageFile.getFile().toString());
-                    }
-                    saveImageToServer(imgFiles);
+                for (MediaFile imageFile : imgFiles) {
+                    Log.d("Easyimage", imageFile.getFile().toString());
+                }
+                saveImageToServer(imgFiles);
             }
+
             @Override
             public void onImagePickerError(@NonNull Throwable error, @NonNull MediaSource source) {
                 //Some error handling
@@ -324,69 +220,30 @@ public class MineFragment extends BaseFragment {
                 //Not necessary to remove any files manually anymore
             }
         });
-//        // 拍照
-//        if (requestCode == 1 && resultCode != Activity.RESULT_CANCELED) {
-//
-//            String state = Environment.getExternalStorageState();
-//            if (!state.equals(Environment.MEDIA_MOUNTED)) return;
-//            // 把原图显示到界面上
-//            Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
-//            Tiny.getInstance().source(readpic()).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
-//                @Override
-//                public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
-//                    saveImageToServer(bitmap, outfile);//显示图片到imgView上
-//                }
-//            });
-//        }
-//        // 上传图片
-//        else if (requestCode == 2 && resultCode == Activity.RESULT_OK
-//                && null != data) {
-//            try {
-//                Uri selectedImage = data.getData();//获取路径
-//                Tiny.FileCompressOptions options = new Tiny.FileCompressOptions();
-//                Tiny.getInstance().source(selectedImage).asFile().withOptions(options).compress(new FileWithBitmapCallback() {
-//                    @Override
-//                    public void callback(boolean isSuccess, Bitmap bitmap, String outfile, Throwable t) {
-//                        saveImageToServer(bitmap, outfile);
-//                    }
-//                });
-//            } catch (Exception e) {
-//                ToastUtils.showToast("上传失败，请重试");
-//            }
-//        }
-    }
-
-    /**
-     * 从保存原图的地址读取图片
-     */
-    private String readpic() {
-        String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/picCache/" + "UserIcon.png";
-        return filePath;
     }
 
     @SuppressLint("CheckResult")
     private void saveImageToServer(@NotNull MediaFile[] returnedPhotos) {
-//        File file = new File(outfile);
-        Log.w("Imagefile",returnedPhotos[0].getFile().toString());
 
+        Log.w("Imagefile", returnedPhotos[0].getFile().toString());
         Glide.with(mContext).load(returnedPhotos[0].getFile())
                 .transform(new GlideCircleTransform(mContext))
                 .into(imageView);
         String uid = Integer.toString(MMKV.defaultMMKV().decodeInt("uid"));
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"),returnedPhotos[0].getFile());
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), returnedPhotos[0].getFile());
         MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("uid",uid)
-                .addFormDataPart("code","travel")
-                .addFormDataPart("avatar",returnedPhotos[0].getFile().toString(),requestBody).build();
-                NetworkUtils.createPartByPathAndKey(returnedPhotos[0].getFile().getPath(),"file");
+                .addFormDataPart("uid", uid)
+                .addFormDataPart("code", "travel")
+                .addFormDataPart("avatar", returnedPhotos[0].getFile().toString(), requestBody).build();
+        NetworkUtils.createPartByPathAndKey(returnedPhotos[0].getFile().getPath(), "file");
         HttpHelper.getInstance().create(ApiService.class).postCaptchaAvater(multipartBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new RxSubscriber<BasePojo>() {
                     @Override
                     public void onSuccess(BasePojo basePojo) {
-                        if(basePojo.code!=200) {
-                            onFailure(basePojo.msg,basePojo.code);
+                        if (basePojo.code != 200) {
+                            onFailure(basePojo.msg, basePojo.code);
                             return;
                         }
                         ToastUtils.showToast("更改头像成功！");
@@ -398,20 +255,22 @@ public class MineFragment extends BaseFragment {
                     }
                 });
     }
+
     /**
-     * @description 权限申请
      * @param
      * @return
+     * @description 权限申请
      * @time 2021/3/6 16:35
      */
 
     protected void requestPermissionsCompat(String[] permissions, int requestCode) {
-        requestPermissions( permissions, requestCode);
+        requestPermissions(permissions, requestCode);
     }
+
     /**
-     * @description 权限检测
      * @param
      * @return
+     * @description 权限检测
      * @time 2021/3/6 16:36
      */
     protected boolean arePermissionsGranted(String[] permissions) {
@@ -427,14 +286,17 @@ public class MineFragment extends BaseFragment {
     protected void onStateRefresh() {
 
     }
+
     /**
      * set title
+     *
      * @param titleName
      */
     protected void setTitle(String titleName) {
         mTitleBar.setVisibility(View.VISIBLE);
         mTitle.setText(titleName);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
