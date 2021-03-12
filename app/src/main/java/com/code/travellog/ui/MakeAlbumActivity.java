@@ -43,15 +43,21 @@ public class MakeAlbumActivity extends BaseActivity {
 
     private AlbumMakeFragment albumMakeFragment;
     private AlbumResultFragment albumResultFragment;
-
+    private int workid;
     @Override
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
         initToolBar();
         initFragment(0);
     }
-
-    private void initFragment(int i) {
+    public void setWorkid(int workid)
+    {
+        this.workid = workid ;
+    }
+    public int getWorkid(){
+        return workid ;
+    }
+    public void initFragment(int i) {
         FragmentManager mfragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = mfragmentManager.beginTransaction();
         hideFragment(fragmentTransaction);

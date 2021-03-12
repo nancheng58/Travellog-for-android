@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 
 import com.allen.library.SuperTextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.glide.GlideCircleTransform;
@@ -148,7 +149,10 @@ public class MineFragment extends BaseFragment {
         userInfo.setLeftTopString(username).setLeftBottomString(intro);
         mabout = getActivity().findViewById(R.id.tv_about);
         Glide.with(mContext).load(url)
+                .error(R.drawable.user_default)
                 .transform(new GlideCircleTransform(mContext))
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(imageView);
 
         imageView.setOnClickListener(v -> {
@@ -235,8 +239,8 @@ public class MineFragment extends BaseFragment {
                 .addFormDataPart("uid", uid)
                 .addFormDataPart("code", "travel")
                 .addFormDataPart("avatar", returnedPhotos[0].getFile().toString(), requestBody).build();
-        NetworkUtils.createPartByPathAndKey(returnedPhotos[0].getFile().getPath(), "file");
-        HttpHelper.getInstance().create(ApiService.class).postCaptchaAvater(multipartBody)
+//        NetworkUtils.createPartByPathAndKey(returnedPhotos[0].getFile().getPath(), "file");
+        HttpHelper.getInstance().create(ApiService.class).postAvater(multipartBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new RxSubscriber<BasePojo>() {

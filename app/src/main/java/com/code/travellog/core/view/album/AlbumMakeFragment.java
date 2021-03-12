@@ -1,10 +1,13 @@
 package com.code.travellog.core.view.album;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
@@ -26,12 +29,25 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.allen.library.SuperTextView;
+import com.code.travellog.AI.AiBoostManager;
 import com.code.travellog.R;
+import com.code.travellog.config.URL;
+import com.code.travellog.core.data.pojo.BasePojo;
+import com.code.travellog.core.data.pojo.album.AlbumPostPojo;
+import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
+import com.code.travellog.core.data.pojo.picture.ImageVo;
 import com.code.travellog.glide.GlideCacheEngine;
 import com.code.travellog.glide.GlideEngine;
+import com.code.travellog.network.ApiService;
+import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.ui.FullyGridLayoutManager;
+import com.code.travellog.ui.MakeAlbumActivity;
 import com.code.travellog.ui.adapter.GridImageAdapter;
 import com.code.travellog.ui.listener.DragListener;
+import com.code.travellog.util.Base64Utils;
+import com.code.travellog.util.BitmapUtil;
+import com.code.travellog.util.JsonUtils;
+import com.code.travellog.util.NetworkUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.broadcast.BroadcastAction;
 import com.luck.picture.lib.broadcast.BroadcastManager;
@@ -49,15 +65,29 @@ import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.luck.picture.lib.tools.ToastUtils;
 import com.mvvm.base.BaseFragment;
+import com.mvvm.event.LiveBus;
+import com.mvvm.http.HttpHelper;
 
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * @description:
@@ -71,8 +101,8 @@ public class AlbumMakeFragment extends BaseFragment {
     ImageView leftBack;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.tv_right)
-    TextView tvRight;
+    @BindView(R.id.btn_submit)
+    TextView btn_submit;
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
     @BindView(R.id.tv_updateimg)
@@ -83,12 +113,12 @@ public class AlbumMakeFragment extends BaseFragment {
     SuperTextView tvAlbumbgm;
     @BindView(R.id.tv_albumpoetry)
     SuperTextView tvAlbumpoetry;
-    @BindView(R.id.userName)
-    EditText userName;
+    @BindView(R.id.title)
+    EditText title;
+    @BindView(R.id.description)
+    EditText description;
 
-    public static AlbumMakeFragment newInstance() {
-        return new AlbumMakeFragment();
-    }
+
 
     private final static String TAG = AlbumMakeFragment.class.getSimpleName();
     int aspect_ratio_x = 0;
@@ -109,12 +139,17 @@ public class AlbumMakeFragment extends BaseFragment {
     private PictureWindowAnimationStyle mWindowAnimationStyle;
     private PictureSelectorUIStyle mSelectorUIStyle;
     private DragListener mDragListener;
-
+    private List<LocalMedia> localMediaList;
     private Unbinder unbinder;
     @BindView(R.id.recycler)
     RecyclerView recycler;
+    private List<AiBoostManager.Data> mDetectorresult;
     private GridImageAdapter mAdapter;
-
+    private AiBoostManager aiBoostManager ;
+    private int workid;
+    public static AlbumMakeFragment newInstance() {
+        return new AlbumMakeFragment();
+    }
 
     @Override
     public int getLayoutResId() {
@@ -129,8 +164,10 @@ public class AlbumMakeFragment extends BaseFragment {
         tvAlbumbgm.setLeftTopTextIsBold(true);
         tvAlbumpoetry.setLeftTopTextIsBold(true);
         tvAlbumtitle.setLeftTopTextIsBold(true);
+        aiBoostManager = AiBoostManager.newInstance();
         FullyGridLayoutManager manager = new FullyGridLayoutManager(activity,
                 4, GridLayoutManager.VERTICAL, false);
+        aiBoostManager.initialize(activity,"mobilenet_quant_v1_224.tflite",1001,"labels_mobilenet_quant_v1_224.txt");
         recycler.setLayoutManager(manager);
         recycler.addItemDecoration(new GridSpacingItemDecoration(4,
                 ScreenUtils.dip2px(activity, 8), false));// item 分割和分布样式
@@ -140,6 +177,15 @@ public class AlbumMakeFragment extends BaseFragment {
         }
         themeId = R.style.picture_white_style;
         getWhiteStyle();
+        btn_submit.setOnClickListener(v -> {
+            getImageObjectDetector(localMediaList);
+            LiveBus.getDefault().subscribe(AiBoostManager.EVENT_KEY_OBJECT,null,List.class).observe(this,list -> {
+                mDetectorresult = list;
+                postAlbum();
+                Log.w(TAG,mDetectorresult.toString());
+            });
+
+        });
         mWindowAnimationStyle = new PictureWindowAnimationStyle();
         mWindowAnimationStyle.ofAllAnimation(R.anim.picture_anim_up_in, R.anim.picture_anim_down_out);
         mAdapter.setSelectMax(maxSelectNum);
@@ -226,6 +272,7 @@ public class AlbumMakeFragment extends BaseFragment {
                 }
             }
         };
+        // 图片拖动
         mItemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
             public boolean isLongPressDragEnabled() {
@@ -354,7 +401,121 @@ public class AlbumMakeFragment extends BaseFragment {
                     BroadcastAction.ACTION_DELETE_PREVIEW_POSITION);
         }
     }
+    @SuppressLint("CheckResult")
+    public void postAlbum()
+    {
+        Log.w("getworkid","qwq") ;
+        HttpHelper.getInstance().create(ApiService.class).getWorkid()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new RxSubscriber<AlbumWorkPojo>() {
+                    @Override
+                    public void onSuccess(AlbumWorkPojo albumWorkPojo) {
+                        if(albumWorkPojo.code!=200) onFailure(albumWorkPojo.msg,albumWorkPojo.code);
+                        else { workid = albumWorkPojo.data.work_id;
+                        Log.w("workid",workid + "") ;
+                            upLoadPic();
+                        }
 
+                    }
+                    @Override
+                    public void onFailure(String msg, int code) {
+                        com.code.travellog.util.ToastUtils.showToast(msg);
+                    }
+                });
+
+    }
+    int Turn = 0;
+    @SuppressLint("CheckResult")
+    public void upLoadPic()
+    {
+        AlbumPostPojo albumPostPojo = new AlbumPostPojo();
+        int i = 0 ;
+        albumPostPojo.images = new ArrayList<String>(localMediaList.size());
+        albumPostPojo.factors = new ArrayList<AlbumPostPojo.Data>(localMediaList.size());
+        for(LocalMedia localMedia : localMediaList){
+            albumPostPojo.images.add(i,localMedia.getAndroidQToPath());
+
+            AlbumPostPojo.Data data = new AlbumPostPojo.Data();
+            data.types = new ArrayList<>();
+            data.values = new ArrayList<>();
+            albumPostPojo.factors.add(i,data);
+            i ++ ;
+        }
+        i = 0;int  j = 0 ;
+        for (AiBoostManager.Data entry : mDetectorresult){
+            albumPostPojo.factors.get(i).types.add(entry.type);
+            albumPostPojo.factors.get(i).values.add(entry.value);
+            j ++;
+            if (j == 3) {
+                i++;
+                j=0;
+            }
+        }
+        Log.w(TAG, JsonUtils.toJson(albumPostPojo));
+        saveJSONDataToFile("info.json",JsonUtils.toJson(albumPostPojo));
+        File file =new File(activity.getFilesDir(),"info.json");
+        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+
+//        MultipartBody.Part part = NetworkUtils.createPartByPathAndKey("info.json", "files");
+        MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.getName(), requestBody).build();
+        HttpHelper.getInstance().create(ApiService.class).upLoadImg(URL.ALBUM_URL+workid+"/upload",multipartBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new RxSubscriber<BasePojo>() {
+                    @Override
+                    public void onSuccess(BasePojo basePojo) {
+                        if (basePojo.code != 200) {
+                            onFailure(basePojo.msg, basePojo.code);
+                            return;
+                        }
+                        Turn ++ ;
+                        if (Turn == localMediaList.size()){
+                            com.code.travellog.util.ToastUtils.showToast("json上传成功");
+                            getResult();
+                        }
+                    }
+                    @Override
+                    public void onFailure(String msg, int code) {
+                        com.code.travellog.util.ToastUtils.showToast(msg);
+                    }
+                });
+//        List<MultipartBody.Part> parts = new ArrayList<>();
+        for(LocalMedia localMedia : localMediaList){
+//            MultipartBody.Part part = NetworkUtils.createPartByPathAndKey(localMedia.getAndroidQToPath(), "files");
+//            parts.add(part);
+            multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("file", localMedia.getFileName(), requestBody).build();
+        HttpHelper.getInstance().create(ApiService.class).upLoadImg(URL.ALBUM_URL+workid+"/upload",multipartBody)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new RxSubscriber<BasePojo>() {
+                    @Override
+                    public void onSuccess(BasePojo basePojo) {
+                        if (basePojo.code != 200) {
+                            onFailure(basePojo.msg, basePojo.code);
+                            return;
+                        }
+                        Turn ++ ;
+                        if (Turn == localMediaList.size()){
+                            com.code.travellog.util.ToastUtils.showToast("图片上传成功");
+                            getResult();
+                        }
+                    }
+                    @Override
+                    public void onFailure(String msg, int code) {
+                        com.code.travellog.util.ToastUtils.showToast(msg);
+                    }
+                });
+        }
+    }
+    private void getResult()
+    {
+        ((MakeAlbumActivity)getActivity()).setWorkid(workid);
+        ((MakeAlbumActivity)getActivity()).initFragment(1);
+
+    }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -447,11 +608,54 @@ public class AlbumMakeFragment extends BaseFragment {
                     //.videoQuality()// 视频录制质量 0 or 1
                     //.recordVideoSecond()//录制视频秒数 默认60s
                     //.forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
-                    .forResult(new MyResultCallback(mAdapter));
+                    .forResult(new OnResultCallbackListener<LocalMedia>() {
+                        @Override
+                        public void onResult(List<LocalMedia> result) {
+                            for (LocalMedia media : result) {
+                                Log.i(TAG, "是否压缩:" + media.isCompressed());
+                                Log.i(TAG, "压缩:" + media.getCompressPath());
+                                Log.i(TAG, "原图:" + media.getPath());
+                                Log.i(TAG, "绝对路径:" + media.getRealPath());
+                                Log.i(TAG, "是否裁剪:" + media.isCut());
+                                Log.i(TAG, "裁剪:" + media.getCutPath());
+                                Log.i(TAG, "是否开启原图:" + media.isOriginal());
+                                Log.i(TAG, "原图路径:" + media.getOriginalPath());
+                                Log.i(TAG, "Android Q 特有Path:" + media.getAndroidQToPath());
 
+                                Log.i(TAG, "宽高: " + media.getWidth() + "x" + media.getHeight());
+                                Log.i(TAG, "Size: " + media.getSize());
+                                // TODO 可以通过PictureSelectorExternalUtils.getExifInterface();方法获取一些额外的资源信息，如旋转角度、经纬度等信息
+                            }
+                            if (mAdapter != null) {
+                                mAdapter.setList(result);
+                                mAdapter.notifyDataSetChanged();
+                            }
+                            localMediaList = result ;
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
         }
     };
+    public void getImageObjectDetector(List<LocalMedia> result)
+    {
+        aiBoostManager.setTotal(result.size());
+        Log.w(TAG,result.size()+"");
+        aiBoostManager.setResultEmpty();
+        for (LocalMedia media : result){
+            try {
+                if (null != media.getPath()) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(media.getRealPath());
+                    Log.w(TAG, bitmap.toString());
+                    aiBoostManager.run(bitmap);
+                }
+            }catch (Exception e){e.printStackTrace();}
+        }
 
+    }
     private void getWhiteStyle() {
         // 相册主题
         mPictureParameterStyle = new PictureParameterStyle();
@@ -554,6 +758,7 @@ public class AlbumMakeFragment extends BaseFragment {
                 Log.i(TAG, "是否开启原图:" + media.isOriginal());
                 Log.i(TAG, "原图路径:" + media.getOriginalPath());
                 Log.i(TAG, "Android Q 特有Path:" + media.getAndroidQToPath());
+
                 Log.i(TAG, "宽高: " + media.getWidth() + "x" + media.getHeight());
                 Log.i(TAG, "Size: " + media.getSize());
                 // TODO 可以通过PictureSelectorExternalUtils.getExifInterface();方法获取一些额外的资源信息，如旋转角度、经纬度等信息
@@ -596,7 +801,18 @@ public class AlbumMakeFragment extends BaseFragment {
             }
         }
     }
-
+    /**
+     * 保存JSON数据到文件
+     */
+    private void saveJSONDataToFile(String fileName, String jsonData) {
+        try {
+            FileOutputStream fos = activity.openFileOutput(fileName,  Context.MODE_PRIVATE);
+            fos.write(jsonData.toString().getBytes());
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     protected void onStateRefresh() {
     }

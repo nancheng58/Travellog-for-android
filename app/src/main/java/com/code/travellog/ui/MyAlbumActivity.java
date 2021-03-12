@@ -2,6 +2,7 @@ package com.code.travellog.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -41,14 +42,22 @@ public class MyAlbumActivity extends BaseActivity {
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
         ButterKnife.bind(this);
-
-        tvText.setRightImageViewClickListener(new SuperTextView.OnRightImageViewClickListener() {
+        rlTitleBar.setVisibility(View.VISIBLE);
+        tvTitle.setText("我的影集");
+        tvText.setLeftTopTextIsBold(true);
+        tvText.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
             @Override
-            public void onClickListener(ImageView imageView) {
+            public void onClickListener(SuperTextView superTextView) {
                 Intent intent = new Intent(MyAlbumActivity.this , MakeAlbumActivity.class);
                 startActivity(intent);
             }
         });
+//        tvText.setRightImageViewClickListener(new SuperTextView.OnRightImageViewClickListener() {
+//            @Override
+//            public void onClickListener(ImageView imageView) {
+//
+//            }
+//        });
     }
 
 }

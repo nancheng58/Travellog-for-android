@@ -3,6 +3,7 @@ package com.code.travellog.network;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.activity.ActivityListVo;
+import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
 import com.code.travellog.core.data.pojo.article.ArticleTypeVo;
 import com.code.travellog.core.data.pojo.article.ArticleVo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
@@ -44,6 +45,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Url;
 
 /**
  * @author tqzhang
@@ -63,11 +65,14 @@ public interface ApiService {
     Flowable<ImageVo> getCaptchaAvater();
 
     @POST(URL.BASE_URL2+"user/avatar")
-    Flowable<BasePojo> postCaptchaAvater(@Body MultipartBody multipartBody);
+    Flowable<BasePojo> postAvater(@Body MultipartBody multipartBody);
 
     @FormUrlEncoded
     @POST(URL.BASE_URL2+"user/info")
     Flowable<User> postUserInfo(@FieldMap Map<String,String> params);
+
+    @GET(URL.BASE_URL2+"user/info")
+    Flowable<User> getUserInfo();
 
     @FormUrlEncoded
     @POST(URL.BASE_URL2+"user/password")
@@ -77,6 +82,14 @@ public interface ApiService {
     @POST(URL.BASE_URL2+"user/reset")
     Flowable<BasePojo> resetPwd(@FieldMap Map<String,String> params);
 
+    @GET(URL.BASE_URL2+"movie/new")
+    Flowable<AlbumWorkPojo> getWorkid();
+
+    @POST
+    Flowable<BasePojo> upLoadImg(@Url String url ,@Body MultipartBody multipartBody);
+
+    @GET
+    Flowable<BasePojo> startAlbum(@Url String url);
     @POST(URL.HOME_LIST)
     @FormUrlEncoded
     Flowable<HomeListVo> getHomeData(@Field("professionid") String professionId);

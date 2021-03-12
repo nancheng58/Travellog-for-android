@@ -41,7 +41,7 @@ public class NetworkUtils {
     }
     public static MultipartBody.Part createPartByPathAndKey(String path, String key){
         File file = new File(path);
-        RequestBody body = RequestBody.create(MediaType.parse("image/jpg"),file);
+        RequestBody body = RequestBody.create(MediaType.parse("image/*"),file);
         MultipartBody.Part part = MultipartBody.Part.createFormData(key,file.getName(),body);
         return part;
     }

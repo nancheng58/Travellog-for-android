@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <include layout="@layout/item_title_layout" />
-
     <com.allen.library.SuperTextView
         android:id="@+id/tv_makealbum"
         android:layout_width="match_parent"
@@ -26,7 +25,7 @@
         app:sRightIconWidth="30dp"
         app:sRightIconHeight="30dp"
         app:sRightIconMarginRight="25dp"
-        app:sRightIconRes="@drawable/ic_add_image"/>
+        />
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="wrap_content"
@@ -47,8 +46,15 @@
             app:sLeftBottomTextString="查看自己的影集>>"
             app:sLeftIconHeight="40dp"
             app:sLeftIconWidth="40dp"
+            app:sLeftIconRes="@drawable/article_icon"
             app:sLeftTopTextString="我的影集(在下面有个列表，还没写)"
             app:sLeftViewGravity="left_center"
             app:sRightIconRes="@drawable/tag_more_icon" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_myalbum"
+            android:layout_marginTop="63dp" />
     </RelativeLayout>
 </LinearLayout>

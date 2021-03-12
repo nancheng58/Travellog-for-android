@@ -148,7 +148,7 @@ public class GridImageAdapter extends
             viewHolder.mIvDel.setOnClickListener(view -> {
                 int index = viewHolder.getAdapterPosition();
                 // 这里有时会返回-1造成数据下标越界,具体可参考getAdapterPosition()源码，
-                // 通过源码分析应该是bindViewHolder()暂未绘制完成导致，知道原因的也可联系我~感谢
+                // 通过源码分析应该是bindViewHolder()暂未绘制完成导致
                 if (index != RecyclerView.NO_POSITION && list.size() > index) {
                     list.remove(index);
                     notifyItemRemoved(index);

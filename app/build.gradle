@@ -14,6 +14,8 @@ android {
     }
     packagingOptions {
         pickFirst 'META-INF/library_release.kotlin_module'
+        doNotStrip '*/arm64-v8a/libaiboost_skel*.so'
+        doNotStrip '*/armeabi-v7a/libaiboost_skel*.so'
     }
     buildTypes {
         debug {
@@ -46,7 +48,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
-
+    aaptOptions {
+        noCompress "tflite"
+    }
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
@@ -56,7 +60,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     api project(':mvvm base')
     api 'com.jakewharton:butterknife:10.2.1'
