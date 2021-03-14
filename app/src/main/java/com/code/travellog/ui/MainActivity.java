@@ -67,8 +67,8 @@ public class MainActivity extends BaseActivity {
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         mBottomNavigationBar
                 .addItem(new BottomNavigationItem(R.mipmap.tab_home_icon, R.string.home_title_name).setInactiveIconResource(R.mipmap.tab_home_icon_def))
-                .addItem(new BottomNavigationItem(R.mipmap.tab_works_icon, R.string.work_title_name).setInactiveIconResource(R.mipmap.tab_works_icon_def))
-                .addItem(new BottomNavigationItem(R.mipmap.tab_course_icon, R.string.video_title_name).setInactiveIconResource(R.mipmap.tab_course_icon_def))
+                .addItem(new BottomNavigationItem(R.mipmap.tab_course_icon, R.string.work_title_name).setInactiveIconResource(R.mipmap.tab_course_icon_def))
+                .addItem(new BottomNavigationItem(R.mipmap.tab_works_icon, R.string.travel_title_name).setInactiveIconResource(R.mipmap.tab_works_icon_def))
                 .addItem(new BottomNavigationItem(R.mipmap.tab_mine_icon, R.string.mine_title_name).setInactiveIconResource(R.mipmap.tab_mine_icon_def))
                 .setFirstSelectedPosition(0)
                 .initialise();

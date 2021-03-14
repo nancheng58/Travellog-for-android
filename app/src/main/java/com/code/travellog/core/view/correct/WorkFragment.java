@@ -33,6 +33,8 @@ public class WorkFragment extends BaseListFragment<WorkViewModel> implements OnI
     public void initView(Bundle state) {
         super.initView(state);
         setTitle(getResources().getString(R.string.work_title_name));
+//        refreshHelper.setEnableLoadMore(false);
+//        refreshHelper.setEnableAutoLoadMore(t);
     }
 
 
@@ -50,7 +52,7 @@ public class WorkFragment extends BaseListFragment<WorkViewModel> implements OnI
         });
 
         registerSubscriber(WorkRepository.EVENT_KEY_WORK_MORE, WorksListVo.class).observe(this, worksListVo -> {
-            if (worksListVo != null) {
+            if (worksListVo!=null && worksListVo.data.content != null) {
                 lastId = worksListVo.data.content.get(worksListVo.data.content.size() - 1).tid;
                 uTime = worksListVo.data.content.get(worksListVo.data.content.size() - 1).utime;
                 mItems.addAll(worksListVo.data.content);

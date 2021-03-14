@@ -4,8 +4,10 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 /**
- * 屏幕像素转换工具类
+ * @description 屏幕像素转换工具类
+ * @time 2021/3/14 14:45
  */
+
 public class DisplayUtil {
     public static int px2dp(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;

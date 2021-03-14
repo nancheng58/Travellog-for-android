@@ -23,8 +23,10 @@ import java.util.List;
 
 
 /**
- * @author：tqzhang on 18/7/10 16:20
+ * @description Lifecycle基类
+ * @time 2021/3/14 13:57
  */
+
 public abstract class AbsLifecycleFragment<T extends AbsViewModel> extends BaseFragment {
 
     protected T mViewModel;

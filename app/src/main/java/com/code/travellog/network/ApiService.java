@@ -3,6 +3,7 @@ package com.code.travellog.network;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.activity.ActivityListVo;
+import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
 import com.code.travellog.core.data.pojo.article.ArticleTypeVo;
 import com.code.travellog.core.data.pojo.article.ArticleVo;
@@ -85,6 +86,8 @@ public interface ApiService {
     @GET(URL.BASE_URL2+"movie/new")
     Flowable<AlbumWorkPojo> getWorkid();
 
+    @GET
+    Flowable<AlbumResultPojo> getAlbumResult(@Url String url);
     @POST
     Flowable<BasePojo> upLoadImg(@Url String url ,@Body MultipartBody multipartBody);
 

@@ -23,13 +23,6 @@ import java.util.Set;
 
 /**
  * @Description:主要功能:Json工具类(需要依赖Gson 2.0以上)
- * @Prject: CommonUtilLibrary
- * @Package: com.jingewenku.abrahamcaijin.commonutil
- * @author: AbrahamCaiJin
- * @date: 2017年06月06日 16:16
- * @Copyright: 个人版权所有
- * @Company:
- * @version: 1.0.0
  */
 
 public class JsonUtils {

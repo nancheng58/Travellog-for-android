@@ -434,7 +434,7 @@ public class AlbumMakeFragment extends BaseFragment {
         albumPostPojo.images = new ArrayList<String>(localMediaList.size());
         albumPostPojo.factors = new ArrayList<AlbumPostPojo.Data>(localMediaList.size());
         for(LocalMedia localMedia : localMediaList){
-            albumPostPojo.images.add(i,localMedia.getAndroidQToPath());
+            albumPostPojo.images.add(i,localMedia.getFileName());
 
             AlbumPostPojo.Data data = new AlbumPostPojo.Data();
             data.types = new ArrayList<>();
@@ -472,7 +472,7 @@ public class AlbumMakeFragment extends BaseFragment {
                         }
                         Turn ++ ;
                         if (Turn == localMediaList.size()){
-                            com.code.travellog.util.ToastUtils.showToast("json上传成功");
+//                            com.code.travellog.util.ToastUtils.showToast("json上传成功");
                             getResult();
                         }
                     }
@@ -483,8 +483,8 @@ public class AlbumMakeFragment extends BaseFragment {
                 });
 //        List<MultipartBody.Part> parts = new ArrayList<>();
         for(LocalMedia localMedia : localMediaList){
-//            MultipartBody.Part part = NetworkUtils.createPartByPathAndKey(localMedia.getAndroidQToPath(), "files");
-//            parts.add(part);
+            file = new File(localMedia.getAndroidQToPath());
+            requestBody = RequestBody.create(MediaType.parse("image/*"), file);
             multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("file", localMedia.getFileName(), requestBody).build();
         HttpHelper.getInstance().create(ApiService.class).upLoadImg(URL.ALBUM_URL+workid+"/upload",multipartBody)
@@ -512,7 +512,9 @@ public class AlbumMakeFragment extends BaseFragment {
     }
     private void getResult()
     {
-        ((MakeAlbumActivity)getActivity()).setWorkid(workid);
+        Bundle bundle = new Bundle();
+        bundle.putInt("workid",workid);
+        this.setArguments(bundle);
         ((MakeAlbumActivity)getActivity()).initFragment(1);
 
     }

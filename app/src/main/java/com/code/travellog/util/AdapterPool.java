@@ -6,6 +6,8 @@ import com.adapter.adapter.DelegateAdapter;
 import com.adapter.adapter.OneToMany;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.activity.ActivityListVo;
+import com.code.travellog.core.data.pojo.album.AlbumListPojo;
+import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.article.ArticleInfoVo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 import com.code.travellog.core.data.pojo.book.BookList;
@@ -66,7 +68,16 @@ public class AdapterPool {
         return adapterPool;
     }
 
+    public DelegateAdapter.Builder getFootprintAdapter(Context context) {
+        return new DelegateAdapter.Builder<>()
+                .bind(BannerListVo.class, new BannerItemView(context))
+                .bind(WorksListVo.Works.class, new CorrectItemHolder(context));
+    }
 
+    public DelegateAdapter.Builder getAlbumResultAdapter(Context context) {
+        return new DelegateAdapter.Builder<>()
+                .bind(AlbumResultPojo.class, new BannerItemView(context));
+    }
 
     public DelegateAdapter.Builder getWorkAdapter(Context context) {
         return new DelegateAdapter.Builder<>()

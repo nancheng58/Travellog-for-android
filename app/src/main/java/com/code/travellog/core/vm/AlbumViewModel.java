@@ -16,4 +16,8 @@ public class AlbumViewModel extends AbsViewModel<AlbumRepository> {
     public AlbumViewModel(@NonNull Application application) {
         super(application);
     }
+
+    public void getAlbumResult(int workid){
+        mRepository.loadAlbumResult(workid);
+    }
 }
