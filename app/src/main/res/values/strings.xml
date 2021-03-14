@@ -23,6 +23,11 @@
     <string name="srl_footer_failed">加载失败</string>
     <string name="srl_footer_nothing">没有更多数据了</string>
 
+    <string name="weather_identification_name">天气识别</string>
+    <string name="style_transfer_name">风格迁移</string>
+    <string name="poetry_generation">诗歌生成</string>
+    <string name="color_extraction">色彩提取</string>
+
     <string name="special_tab_name">专题</string>
 
     <string name="qa_title_name">问答</string>
@@ -35,6 +40,7 @@
     <string name="material_title_name">图库</string>
     <string name="recommend_tab_name">推荐</string>
 
+    
     <string name="recommend_live_type">直播推荐</string>
     <string name="recommend_video_type">视频课程</string>
     <string name="recommend_book_type">图书推荐</string>

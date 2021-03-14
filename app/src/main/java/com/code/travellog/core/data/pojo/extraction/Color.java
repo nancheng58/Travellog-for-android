@@ -1,14 +1,22 @@
-package com.code.travellog.core.data.pojo.picture;
+package com.code.travellog.core.data.pojo.extraction;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Color implements Serializable {    //色彩提取
-    public Integer k;
-    public Float[][] result;
-    public Color(int in_k){
-        this.k=in_k;
-        result=new Float[k][3];
+
+    public static class DataBean{
+        public int k;
+        public List<ColorData> result ;
     }
+    public static class ColorData {
+        public List<Float> TODO;
+    }
+//    public Float[][] result;
+//    public Color(int in_k){
+//        this.k=in_k;
+//        result=new Float[k][3];
+//    }
     /*
     {
         "code": 200,

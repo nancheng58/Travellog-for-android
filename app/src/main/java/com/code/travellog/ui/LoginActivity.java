@@ -3,28 +3,21 @@ package com.code.travellog.ui;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.code.travellog.App;
 import com.code.travellog.R;
-import com.code.travellog.R2;
-import com.code.travellog.config.Constants;
-import com.code.travellog.config.URL;
-import com.code.travellog.core.data.pojo.live.LiveDetailsVo;
-import com.code.travellog.core.data.pojo.picture.ImageVo;
-import com.code.travellog.core.data.pojo.user.User;
-import com.code.travellog.core.view.live.LiveDetailsActivity;
+import com.code.travellog.core.data.pojo.image.ImagePojo;
+import com.code.travellog.core.data.pojo.user.UserPojo;
+import com.code.travellog.core.data.source.UserRepository;
+import com.code.travellog.core.vm.UserViewModel;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.Base64Utils;
@@ -38,27 +31,19 @@ import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
-import com.mobsandgeeks.saripaar.annotation.Pattern;
-import com.mvvm.base.BaseActivity;
+import com.mvvm.base.AbsLifecycleActivity;
 import com.mvvm.http.HttpHelper;
-import com.mvvm.http.rx.RxSchedulers;
-import com.tencent.mmkv.MMKV;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class LoginActivity extends BaseActivity implements Validator.ValidationListener {
+public class LoginActivity extends AbsLifecycleActivity<UserViewModel> implements Validator.ValidationListener {
 
     @Order(1)
     @NotEmpty(message = "用户名不能为空")
@@ -86,6 +71,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     FloatingActionButton fab;
     @BindView(R.id.et_captcha_avater) ImageView captcha_avater;
     @BindView(R.id.tv_forgetpwd) TextView forgetpwd;
+
+    public UserViewModel userViewModel ;
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -95,6 +82,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     public void initViews(Bundle savedInstanceState) {
         App.instance().addActivity(this);
         loadManager.showSuccess();
+        super.initViews(savedInstanceState);
         ButterKnife.bind(this);
         validator = new Validator(this);
         validator.setValidationListener(this);
@@ -109,9 +97,31 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             Intent intent = new Intent(this,ForgetPwdActivity.class);
             startActivity(intent);
         });
+        dataObserver();
         getCaptchaAvater();
     }
-
+    @Override
+    protected void dataObserver() {
+        registerSubscriber(UserRepository.ENTER_KEY_LOGIN,UserPojo.class).observe(this,userPojo -> {
+            if(userPojo.code!=200) {ToastUtils.showToast(userPojo.msg);}
+            else{
+                ToastUtils.showToast("登陆成功，欢迎进入！");
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);// 当前->目标
+                startActivity(intent);
+            }
+        });
+        String login = "login";
+        registerSubscriber(UserRepository.ENTER_KEY_CAP,login,ImagePojo.class).observe(this,imagePojo -> {
+            if(imagePojo.code == 200){
+                byte[] bitmapbyte = Base64Utils.decode(imagePojo.data.get(0).img);
+                Bitmap bitmap =BitmapFactory.decodeByteArray(bitmapbyte,0,bitmapbyte.length);
+                ImageView img =findViewById(R.id.et_captcha_avater);
+                bitmap = BitmapUtil.ChangeSize(bitmap,120,200);
+                img.setImageBitmap(bitmap);
+            }
+            else ToastUtils.showToast(imagePojo.msg);
+        });
+    }
     @Override
     public void onValidationSucceeded() {
         Login();
@@ -129,7 +139,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             else ToastUtils.showToast(message);
         }
     }
-
     @OnClick(R.id.fab)
     public void to_register_Activity()
     {
@@ -142,27 +151,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @SuppressLint("CheckResult")
     @OnClick(R.id.et_captcha_avater)
-    public void getCaptchaAvater()
-    {
-        HttpHelper.getInstance().create(ApiService.class).getCaptchaAvater()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<ImageVo>() {
-                    @Override
-                    public void onSuccess(ImageVo imageVo) {
-                        byte[] bitmapbyte = Base64Utils.decode(imageVo.data.get(0).img);
-                        Bitmap bitmap =BitmapFactory.decodeByteArray(bitmapbyte,0,bitmapbyte.length);
-                        ImageView img =findViewById(R.id.et_captcha_avater);
-                        bitmap = BitmapUtil.ChangeSize(bitmap,120,200);
-                        img.setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onFailure(String msg, int code) {
-                            ToastUtils.showToast(msg);
-                    }
-
-                });
+    public void getCaptchaAvater() {
+        mViewModel.getCaptcha("login");
     }
     @SuppressLint("CheckResult")
     @OnClick(R.id.btn_login)
@@ -170,39 +160,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         String username = userName.getText().toString();
         String pwd = StringUtil.md5(password.getText().toString());// md5 加密
         String captcha = captchacode.getText().toString();
-        HashMap<String,String> params = new HashMap<String, String>();
-        params.put("user",username);
-        params.put("password",pwd);
-        params.put("captcha",captcha);
-        HttpHelper.getInstance().create(ApiService.class).LoginApi(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<User>() {
-                    @Override
-                    public void onSuccess(User user) {
-                        if(user.code!=200) {
-                            onFailure(user.msg,user.code);
-                            return;
-                        }
-                        ToastUtils.showToast("登陆成功，欢迎进入！");
-                        MMKV kv = MMKV.defaultMMKV();
-                        kv.encode("uid",user.data.uid);
-                        kv.encode("userName",user.data.uname);
-                        kv.encode("phone",user.data.phone);
-                        kv.encode("email",user.data.email);
-                        kv.encode("gender",user.data.gender);
-                        kv.encode("avatar", URL.IMAGE_URL+user.data.avatar);
-                        kv.encode("intro",user.data.intro);
-                        kv.encode("isLogin",true);
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);// 当前->目标
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onFailure(String msg, int code) {
-                        ToastUtils.showToast(msg);
-                    }
-                });
+        mViewModel.postLogin(username,pwd,captcha);
     }
     @Override
     protected void onDestroy() {

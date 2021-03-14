@@ -5,11 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Binder;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateInterpolator;
@@ -17,10 +15,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.code.travellog.R2;
 import com.code.travellog.core.data.pojo.BasePojo;
-import com.code.travellog.core.data.pojo.picture.ImageVo;
-import com.code.travellog.core.data.pojo.user.User;
+import com.code.travellog.core.data.pojo.image.ImagePojo;
+import com.code.travellog.core.data.pojo.user.UserPojo;
+import com.code.travellog.core.data.source.UserRepository;
+import com.code.travellog.core.vm.UserViewModel;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.Base64Utils;
@@ -40,9 +39,7 @@ import androidx.cardview.widget.CardView;
 import com.code.travellog.R;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.mobsandgeeks.saripaar.annotation.NotEmpty;
-import com.mobsandgeeks.saripaar.annotation.Order;
-import com.mobsandgeeks.saripaar.annotation.Password;
+import com.mvvm.base.AbsLifecycleActivity;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.http.HttpHelper;
 
@@ -55,7 +52,7 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class RegisterActivity extends BaseActivity implements Validator.ValidationListener {
+public class RegisterActivity extends AbsLifecycleActivity<UserViewModel> implements Validator.ValidationListener {
     @Order(1)
     @NotEmpty(message = "用户名不能为空")
     @Length(min=6,max=12,message = "用户名6~12位之间，且不能全为数字")
@@ -100,6 +97,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
         ButterKnife.bind(this);
+        super.initViews(savedInstanceState);
         validator = new Validator(this);
         validator.setValidationListener(this);
         button.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +106,31 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                 validator.validate();
             }
         });
+        dataObserver();
         getCaptchaAvater();
+    }
+
+    @Override
+    protected void dataObserver() {
+        registerSubscriber(UserRepository.ENTER_KEY_RES, BasePojo.class).observe(this,basePojo -> {
+            if (basePojo.code == 200){
+                ToastUtils.showToast("注册成功，请登录！");
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);// 当前->目标
+                startActivity(intent);
+            }
+            else ToastUtils.showToast(basePojo.msg);
+        });
+        String regist = "register";
+        registerSubscriber(UserRepository.ENTER_KEY_CAP,regist,ImagePojo.class).observe(this, imagePojo -> {
+            if (imagePojo.code == 200){
+                byte[] bitmapbyte = Base64Utils.decode(imagePojo.data.get(0).img);
+                Bitmap bitmap =BitmapFactory.decodeByteArray(bitmapbyte,0,bitmapbyte.length);
+                ImageView img =findViewById(R.id.et_captcha_avater);
+                bitmap = BitmapUtil.ChangeSize(bitmap,120,200);
+                img.setImageBitmap(bitmap);
+            }
+            else ToastUtils.showToast(imagePojo.msg);
+        });
     }
 
 
@@ -133,65 +155,19 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     @OnClick(R.id.btn_register)
     public void Register()
     {
-//        Intent intent = new Intent(this, SlideActivity.class) ;// 当前;目标
-////        EditText useridText = (EditText) findViewById(R.id.et_rusername);
-//        EditText pwdText = (EditText) findViewById(R.id.et_rpassword);
-//        EditText usernameText = (EditText) findViewById(R.id.et_rusername);
-//        EditText rpwdText = (EditText) findViewById(R.id.et_repeatpassword);
-//        EditText phoneText = (EditText) findViewById(R.id.et_phone);
-//        EditText emailText = (EditText) findViewById(R.id.et_email);
-//        EditText captchaText = findViewById(R.id.et_rcaptcha);
         String pwd = StringUtil.md5(password.getText().toString());// md5 加密
+
             HashMap<String,String> params = new HashMap<String, String>();
             params.put("uname",userName.getText().toString());
             params.put("password",pwd);
             params.put("phone",phone.getText().toString());
             params.put("email",email.getText().toString());
             params.put("captcha",captchacode.getText().toString());
-            HttpHelper.getInstance().create(ApiService.class).RegisterApi(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<BasePojo>() {
-
-                    @Override
-                    public void onSuccess(BasePojo basePojo) {
-                        if(basePojo.code!=200) {
-                            onFailure(basePojo.msg,basePojo.code);
-                            return;
-                        }
-                        ToastUtils.showToast("注册成功，请登录！");
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);// 当前->目标
-                        startActivity(intent);
-                    }
-                    @Override
-                    public void onFailure(String msg, int code) {
-                        ToastUtils.showToast(msg);
-                    }
-                });
-
+            mViewModel.postRegister(params);
     }
     @OnClick(R.id.et_rcaptcha_avater)
-    public void getCaptchaAvater()
-    {
-        HttpHelper.getInstance().create(ApiService.class).getCaptchaAvater()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<ImageVo>() {
-                    @Override
-                    public void onSuccess(ImageVo imageVo) {
-                        byte[] bitmapbyte = Base64Utils.decode(imageVo.data.get(0).img);
-                        Bitmap bitmap =BitmapFactory.decodeByteArray(bitmapbyte,0,bitmapbyte.length);
-                        ImageView img =findViewById(R.id.et_rcaptcha_avater);
-                        bitmap = BitmapUtil.ChangeSize(bitmap,120,200);
-                        img.setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onFailure(String msg, int code) {
-
-                    }
-
-                });
+    public void getCaptchaAvater() {
+        mViewModel.getCaptcha("resister");
     }
 
     @OnClick(R.id.fab)

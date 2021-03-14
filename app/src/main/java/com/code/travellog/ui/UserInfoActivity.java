@@ -21,7 +21,7 @@ import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
-import com.code.travellog.core.data.pojo.user.User;
+import com.code.travellog.core.data.pojo.user.UserPojo;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;
@@ -32,7 +32,6 @@ import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
-import com.mobsandgeeks.saripaar.annotation.Pattern;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.http.HttpHelper;
 import com.tencent.mmkv.MMKV;
@@ -156,10 +155,10 @@ public class UserInfoActivity extends BaseActivity implements Validator.Validati
         HttpHelper.getInstance().create(ApiService.class).postUserInfo(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<User>() {
+                .subscribeWith(new RxSubscriber<UserPojo>() {
 
                     @Override
-                    public void onSuccess(User user) {
+                    public void onSuccess(UserPojo user) {
                         if(user.code!=200) {
                             onFailure(user.msg,user.code);
                             return;

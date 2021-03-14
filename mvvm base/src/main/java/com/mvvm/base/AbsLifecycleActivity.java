@@ -1,5 +1,6 @@
 package com.mvvm.base;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
@@ -9,11 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 
+import com.mvvm.event.LiveBus;
 import com.mvvm.stateview.ErrorState;
 import com.mvvm.stateview.LoadingState;
 import com.mvvm.stateview.StateConstants;
 import com.mvvm.util.TUtil;
 import com.tqzhang.stateview.stateview.BaseStateControl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author：tqzhang on 18/8/10 11:40
@@ -21,7 +26,7 @@ import com.tqzhang.stateview.stateview.BaseStateControl;
 public abstract class AbsLifecycleActivity<T extends AbsViewModel> extends BaseActivity {
 
     protected T mViewModel;
-
+    private List<Object> eventKeys = new ArrayList<>();
     public AbsLifecycleActivity() {
 
     }
@@ -29,7 +34,11 @@ public abstract class AbsLifecycleActivity<T extends AbsViewModel> extends BaseA
     @Override
     public void initViews(Bundle savedInstanceState) {
         mViewModel = VMProviders(this, (Class<T>) TUtil.getInstance(this, 0));
-        dataObserver();
+        if(null != mViewModel){
+            dataObserver();
+            mViewModel.mRepository.loadState.observe(this,observer);
+        }
+
     }
 
 
@@ -42,6 +51,21 @@ public abstract class AbsLifecycleActivity<T extends AbsViewModel> extends BaseA
 
     }
 
+    protected <T> MutableLiveData<T> registerSubscriber(Object eventKey, Class<T> tClass) {
+
+        return registerSubscriber(eventKey, null, tClass);
+    }
+
+    protected <T> MutableLiveData<T> registerSubscriber(Object eventKey, String tag, Class<T> tClass) {
+        String event;
+        if (TextUtils.isEmpty(tag)) {
+            event = (String) eventKey;
+        } else {
+            event = eventKey + tag;
+        }
+        eventKeys.add(event);
+        return LiveBus.getDefault().subscribe(eventKey, tag, tClass);
+    }
     @Override
     protected void onStateRefresh() {
         showLoading();
@@ -80,4 +104,17 @@ public abstract class AbsLifecycleActivity<T extends AbsViewModel> extends BaseA
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        clearEvent();
+    }
+    private void clearEvent() {
+        if (eventKeys != null && eventKeys.size() > 0) {
+            for (int i = 0; i < eventKeys.size(); i++) {
+                LiveBus.getDefault().clear(eventKeys.get(i));
+            }
+        }
+    }
 }

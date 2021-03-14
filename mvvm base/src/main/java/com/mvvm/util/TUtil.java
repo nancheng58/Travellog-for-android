@@ -5,8 +5,10 @@ import androidx.annotation.NonNull;
 import java.lang.reflect.ParameterizedType;
 
 /**
- * @author：tqzhang on 18/8/18 21:33
+ * @description  泛型静态生成
+ * @time 2021/3/14 21:14
  */
+
 public class TUtil {
     public static <T> T getNewInstance(Object object, int i) {
         if(object!=null){

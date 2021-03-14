@@ -14,21 +14,16 @@ import android.widget.LinearLayout;
 import androidx.cardview.widget.CardView;
 
 import com.code.travellog.R;
-import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
-import com.code.travellog.core.data.pojo.picture.ImageVo;
-import com.code.travellog.core.data.pojo.user.User;
+import com.code.travellog.core.data.pojo.image.ImagePojo;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.Base64Utils;
 import com.code.travellog.util.BitmapUtil;
-import com.code.travellog.util.StringUtil;
 import com.code.travellog.util.ToastUtils;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mobsandgeeks.saripaar.Validator;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.http.HttpHelper;
-import com.tencent.mmkv.MMKV;
 
 import java.util.HashMap;
 
@@ -110,10 +105,10 @@ public class ForgetPwdActivity extends BaseActivity {
         HttpHelper.getInstance().create(ApiService.class).getCaptchaAvater()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<ImageVo>() {
+                .subscribeWith(new RxSubscriber<ImagePojo>() {
                     @Override
-                    public void onSuccess(ImageVo imageVo) {
-                        byte[] bitmapbyte = Base64Utils.decode(imageVo.data.get(0).img);
+                    public void onSuccess(ImagePojo imagePojo) {
+                        byte[] bitmapbyte = Base64Utils.decode(imagePojo.data.get(0).img);
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapbyte,0,bitmapbyte.length);
                         ImageView img =findViewById(R.id.et_captcha_avater);
                         bitmap = BitmapUtil.ChangeSize(bitmap,120,200);

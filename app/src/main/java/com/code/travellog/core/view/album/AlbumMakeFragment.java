@@ -35,7 +35,6 @@ import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.album.AlbumPostPojo;
 import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
-import com.code.travellog.core.data.pojo.picture.ImageVo;
 import com.code.travellog.glide.GlideCacheEngine;
 import com.code.travellog.glide.GlideEngine;
 import com.code.travellog.network.ApiService;
@@ -44,10 +43,7 @@ import com.code.travellog.ui.FullyGridLayoutManager;
 import com.code.travellog.ui.MakeAlbumActivity;
 import com.code.travellog.ui.adapter.GridImageAdapter;
 import com.code.travellog.ui.listener.DragListener;
-import com.code.travellog.util.Base64Utils;
-import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.JsonUtils;
-import com.code.travellog.util.NetworkUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.broadcast.BroadcastAction;
 import com.luck.picture.lib.broadcast.BroadcastManager;
@@ -68,17 +64,12 @@ import com.mvvm.base.BaseFragment;
 import com.mvvm.event.LiveBus;
 import com.mvvm.http.HttpHelper;
 
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

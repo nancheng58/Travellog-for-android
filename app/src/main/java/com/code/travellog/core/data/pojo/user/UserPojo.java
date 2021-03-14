@@ -4,7 +4,7 @@ import com.code.travellog.core.data.pojo.BasePojo;
 
 import java.io.Serializable;
 
-public class User extends BasePojo {
+public class UserPojo extends BasePojo {
 
     public DataBean data;
     public static class DataBean{

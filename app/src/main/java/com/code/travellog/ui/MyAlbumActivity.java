@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
  * @description:
  * @date: 2021/3/7
  */
-public class MyAlbumActivity extends BaseActivity {
+public class MyAlbumActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.tv_title)
@@ -45,6 +45,8 @@ public class MyAlbumActivity extends BaseActivity {
         rlTitleBar.setVisibility(View.VISIBLE);
         tvTitle.setText("我的影集");
         tvText.setLeftTopTextIsBold(true);
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(this);
         tvText.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
             @Override
             public void onClickListener(SuperTextView superTextView) {
@@ -60,4 +62,8 @@ public class MyAlbumActivity extends BaseActivity {
 //        });
     }
 
+    @Override
+    public void onClick(View v) {
+        finish();
+    }
 }

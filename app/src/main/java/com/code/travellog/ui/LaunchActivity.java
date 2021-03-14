@@ -2,7 +2,7 @@ package com.code.travellog.ui;
 
 import com.code.travellog.R;
 import com.code.travellog.config.URL;
-import com.code.travellog.core.data.pojo.user.User;
+import com.code.travellog.core.data.pojo.user.UserPojo;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.ToastUtils;
@@ -12,7 +12,6 @@ import com.tencent.mmkv.MMKV;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -62,10 +61,10 @@ public class LaunchActivity extends BaseActivity {
         HttpHelper.getInstance().create(ApiService.class).getUserInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<User>() {
+                .subscribeWith(new RxSubscriber<UserPojo>() {
 
                     @Override
-                    public void onSuccess(User user) {
+                    public void onSuccess(UserPojo user) {
                         if(user.code!=200) {
                             onFailure(user.msg,user.code);
                             return;

@@ -1,13 +1,22 @@
-package com.code.travellog.core.data.pojo.picture;
+package com.code.travellog.core.data.pojo.weather;
 
-import java.io.Serializable;
+import com.code.travellog.core.data.pojo.BasePojo;
+
 import java.util.List;
 
-public class Weather implements Serializable {  //天气识别
-    public String weather;
-    public Integer weather_id;
-    public List<String> weather_specises;
-    public List<String> rate_list;
+/**
+ * @description:
+ * @date: 2021/3/14
+ */
+public class WeatherPojo extends BasePojo {
+
+    public DataBean data;
+    public static class DataBean{
+        public String weather;
+        public int weather_id;
+        public List<String> tags;
+        public List<Float> rate;
+    }
     /*
     {
         "code": 200,

@@ -28,24 +28,20 @@ import com.code.travellog.core.data.pojo.live.LiveTypeVo;
 import com.code.travellog.core.data.pojo.material.MaterialRecommendVo;
 import com.code.travellog.core.data.pojo.material.MaterialTypeVo;
 import com.code.travellog.core.data.pojo.material.MaterialVo;
-import com.code.travellog.core.data.pojo.picture.ImageVo;
+import com.code.travellog.core.data.pojo.image.ImagePojo;
 import com.code.travellog.core.data.pojo.qa.QaListVo;
-import com.code.travellog.core.data.pojo.user.User;
+import com.code.travellog.core.data.pojo.user.UserPojo;
 
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Url;
 
 /**
@@ -56,24 +52,24 @@ public interface ApiService {
     // login
     @FormUrlEncoded
     @POST(URL.BASE_URL2+"user/login")
-    Flowable<User> LoginApi(@FieldMap Map<String,String> params);
+    Flowable<UserPojo> LoginApi(@FieldMap Map<String,String> params);
     //register
     @FormUrlEncoded
     @POST(URL.BASE_URL2+"user/register")
     Flowable<BasePojo> RegisterApi(@FieldMap Map<String,String> params);
     // get captcha
     @GET(URL.BASE_URL2+"user/captcha")
-    Flowable<ImageVo> getCaptchaAvater();
+    Flowable<ImagePojo> getCaptchaAvater();
 
     @POST(URL.BASE_URL2+"user/avatar")
     Flowable<BasePojo> postAvater(@Body MultipartBody multipartBody);
 
     @FormUrlEncoded
     @POST(URL.BASE_URL2+"user/info")
-    Flowable<User> postUserInfo(@FieldMap Map<String,String> params);
+    Flowable<UserPojo> postUserInfo(@FieldMap Map<String,String> params);
 
     @GET(URL.BASE_URL2+"user/info")
-    Flowable<User> getUserInfo();
+    Flowable<UserPojo> getUserInfo();
 
     @FormUrlEncoded
     @POST(URL.BASE_URL2+"user/password")
