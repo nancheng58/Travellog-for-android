@@ -3,7 +3,7 @@ package com.code.travellog.core.data.pojo.extraction;
 import java.io.Serializable;
 import java.util.List;
 
-public class Color implements Serializable {    //色彩提取
+public class ColorPojo implements Serializable {    //色彩提取
 
     public static class DataBean{
         public int k;

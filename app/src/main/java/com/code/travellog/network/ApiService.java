@@ -19,6 +19,7 @@ import com.code.travellog.core.data.pojo.course.CourseListVo;
 import com.code.travellog.core.data.pojo.course.CourseRemVo;
 import com.code.travellog.core.data.pojo.course.CourseTypeVo;
 import com.code.travellog.core.data.pojo.dynamic.DynamicListVo;
+import com.code.travellog.core.data.pojo.extraction.ColorPojo;
 import com.code.travellog.core.data.pojo.followdraw.FollowDrawRecommendVo;
 import com.code.travellog.core.data.pojo.followdraw.FollowDrawTypeVo;
 import com.code.travellog.core.data.pojo.home.HomeListVo;
@@ -29,8 +30,10 @@ import com.code.travellog.core.data.pojo.material.MaterialRecommendVo;
 import com.code.travellog.core.data.pojo.material.MaterialTypeVo;
 import com.code.travellog.core.data.pojo.material.MaterialVo;
 import com.code.travellog.core.data.pojo.image.ImagePojo;
+import com.code.travellog.core.data.pojo.poetry.PoetryPojo;
 import com.code.travellog.core.data.pojo.qa.QaListVo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
+import com.code.travellog.core.data.pojo.weather.WeatherPojo;
 
 import java.util.Map;
 
@@ -80,15 +83,27 @@ public interface ApiService {
     Flowable<BasePojo> resetPwd(@FieldMap Map<String,String> params);
 
     @GET(URL.BASE_URL2+"movie/new")
-    Flowable<AlbumWorkPojo> getWorkid();
+    Flowable<AlbumWorkPojo> getAlbumWorkid();
 
     @GET
     Flowable<AlbumResultPojo> getAlbumResult(@Url String url);
     @POST
-    Flowable<BasePojo> upLoadImg(@Url String url ,@Body MultipartBody multipartBody);
+    Flowable<BasePojo> postPic(@Url String url ,@Body MultipartBody multipartBody);
 
     @GET
     Flowable<BasePojo> startAlbum(@Url String url);
+
+    @POST(URL.API_URL+"color")
+    Flowable<ColorPojo> getColor(@Body MultipartBody multipartBody);
+
+    @POST(URL.API_URL+"weather")
+    Flowable<WeatherPojo> getWeather(@Body MultipartBody multipartBody);
+
+    @POST(URL.API_URL+"poem")
+    Flowable<PoetryPojo> getPoetry(String keyword ,int length ,int experience ,int history);
+
+
+
     @POST(URL.HOME_LIST)
     @FormUrlEncoded
     Flowable<HomeListVo> getHomeData(@Field("professionid") String professionId);

@@ -34,7 +34,10 @@ import com.code.travellog.R;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.album.AlbumPostPojo;
+import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
+import com.code.travellog.core.data.source.AlbumRepository;
+import com.code.travellog.core.vm.AlbumViewModel;
 import com.code.travellog.glide.GlideCacheEngine;
 import com.code.travellog.glide.GlideEngine;
 import com.code.travellog.network.ApiService;
@@ -44,6 +47,7 @@ import com.code.travellog.ui.MakeAlbumActivity;
 import com.code.travellog.ui.adapter.GridImageAdapter;
 import com.code.travellog.ui.listener.DragListener;
 import com.code.travellog.util.JsonUtils;
+import com.code.travellog.util.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.broadcast.BroadcastAction;
 import com.luck.picture.lib.broadcast.BroadcastManager;
@@ -59,7 +63,7 @@ import com.luck.picture.lib.style.PictureSelectorUIStyle;
 import com.luck.picture.lib.style.PictureWindowAnimationStyle;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
-import com.luck.picture.lib.tools.ToastUtils;
+import com.mvvm.base.AbsLifecycleFragment;
 import com.mvvm.base.BaseFragment;
 import com.mvvm.event.LiveBus;
 import com.mvvm.http.HttpHelper;
@@ -84,7 +88,7 @@ import okhttp3.RequestBody;
  * @description:
  * @date: 2021/3/7
  */
-public class AlbumMakeFragment extends BaseFragment {
+public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
 
     @BindView(R.id.tv_delete_text)
     TextView tvDeleteText;
@@ -151,6 +155,7 @@ public class AlbumMakeFragment extends BaseFragment {
     public void initView(Bundle state) {
 
         unbinder = ButterKnife.bind(this, rootView);
+        super.initView(state);
         updateimgText.setLeftTopTextIsBold(true);
         tvAlbumbgm.setLeftTopTextIsBold(true);
         tvAlbumpoetry.setLeftTopTextIsBold(true);
@@ -392,32 +397,34 @@ public class AlbumMakeFragment extends BaseFragment {
                     BroadcastAction.ACTION_DELETE_PREVIEW_POSITION);
         }
     }
-    @SuppressLint("CheckResult")
+
+    @Override
+    protected void dataObserver() {
+        registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMID,AlbumWorkPojo.class).observe(this,albumWorkPojo -> {
+            if(albumWorkPojo.code!=200) ToastUtils.showToast(albumWorkPojo.msg);
+            else { workid = albumWorkPojo.data.work_id;
+                Log.w("workid",workid + "") ;
+                upLoadPic();
+            }
+        });
+        registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMPIC, BasePojo.class).observe(this,basePojo -> {
+            if(basePojo.code != 200 ) ToastUtils.showToast(basePojo.msg);
+            else{
+                if(++Turn == localMediaList.size() + 1 ){
+                    getResult();
+                    Turn = 0;
+                }
+            }
+        });
+    }
+
     public void postAlbum()
     {
         Log.w("getworkid","qwq") ;
-        HttpHelper.getInstance().create(ApiService.class).getWorkid()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<AlbumWorkPojo>() {
-                    @Override
-                    public void onSuccess(AlbumWorkPojo albumWorkPojo) {
-                        if(albumWorkPojo.code!=200) onFailure(albumWorkPojo.msg,albumWorkPojo.code);
-                        else { workid = albumWorkPojo.data.work_id;
-                        Log.w("workid",workid + "") ;
-                            upLoadPic();
-                        }
-
-                    }
-                    @Override
-                    public void onFailure(String msg, int code) {
-                        com.code.travellog.util.ToastUtils.showToast(msg);
-                    }
-                });
-
+        mViewModel.getAlbumId();
     }
     int Turn = 0;
-    @SuppressLint("CheckResult")
+
     public void upLoadPic()
     {
         AlbumPostPojo albumPostPojo = new AlbumPostPojo();
@@ -447,58 +454,58 @@ public class AlbumMakeFragment extends BaseFragment {
         saveJSONDataToFile("info.json",JsonUtils.toJson(albumPostPojo));
         File file =new File(activity.getFilesDir(),"info.json");
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
-
-//        MultipartBody.Part part = NetworkUtils.createPartByPathAndKey("info.json", "files");
         MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("file", file.getName(), requestBody).build();
-        HttpHelper.getInstance().create(ApiService.class).upLoadImg(URL.ALBUM_URL+workid+"/upload",multipartBody)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<BasePojo>() {
-                    @Override
-                    public void onSuccess(BasePojo basePojo) {
-                        if (basePojo.code != 200) {
-                            onFailure(basePojo.msg, basePojo.code);
-                            return;
-                        }
-                        Turn ++ ;
-                        if (Turn == localMediaList.size()){
-//                            com.code.travellog.util.ToastUtils.showToast("json上传成功");
-                            getResult();
-                        }
-                    }
-                    @Override
-                    public void onFailure(String msg, int code) {
-                        com.code.travellog.util.ToastUtils.showToast(msg);
-                    }
-                });
-//        List<MultipartBody.Part> parts = new ArrayList<>();
+        mViewModel.postPic(workid,multipartBody);
+//        HttpHelper.getInstance().create(ApiService.class).upLoadImg(URL.ALBUM_URL+workid+"/upload",multipartBody)
+//                .subscribeOn(Schedulers.io())
+//
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(new RxSubscriber<BasePojo>() {
+//                    @Override
+//                    public void onSuccess(BasePojo basePojo) {
+//                        if (basePojo.code != 200) {
+//                            onFailure(basePojo.msg, basePojo.code);
+//                            return;
+//                        }
+//                        Turn ++ ;
+//                        if (Turn == localMediaList.size()){
+////                            com.code.travellog.util.ToastUtils.showToast("json上传成功");
+//                            getResult();
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(String msg, int code) {
+//                        com.code.travellog.util.ToastUtils.showToast(msg);
+//                    }
+//                });
         for(LocalMedia localMedia : localMediaList){
             file = new File(localMedia.getAndroidQToPath());
             requestBody = RequestBody.create(MediaType.parse("image/*"), file);
             multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("file", localMedia.getFileName(), requestBody).build();
-        HttpHelper.getInstance().create(ApiService.class).upLoadImg(URL.ALBUM_URL+workid+"/upload",multipartBody)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<BasePojo>() {
-                    @Override
-                    public void onSuccess(BasePojo basePojo) {
-                        if (basePojo.code != 200) {
-                            onFailure(basePojo.msg, basePojo.code);
-                            return;
-                        }
-                        Turn ++ ;
-                        if (Turn == localMediaList.size()){
-                            com.code.travellog.util.ToastUtils.showToast("图片上传成功");
-                            getResult();
-                        }
-                    }
-                    @Override
-                    public void onFailure(String msg, int code) {
-                        com.code.travellog.util.ToastUtils.showToast(msg);
-                    }
-                });
+            mViewModel.postPic(workid,multipartBody);
+//        HttpHelper.getInstance().create(ApiService.class).upLoadImg(URL.ALBUM_URL+workid+"/upload",multipartBody)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(new RxSubscriber<BasePojo>() {
+//                    @Override
+//                    public void onSuccess(BasePojo basePojo) {
+//                        if (basePojo.code != 200) {
+//                            onFailure(basePojo.msg, basePojo.code);
+//                            return;
+//                        }
+//                        Turn ++ ;
+//                        if (Turn == localMediaList.size()){
+//                            com.code.travellog.util.ToastUtils.showToast("图片上传成功");
+//                            getResult();
+//                        }
+//                    }
+//                    @Override
+//                    public void onFailure(String msg, int code) {
+//                        com.code.travellog.util.ToastUtils.showToast(msg);
+//                    }
+//                });
         }
     }
     private void getResult()
@@ -520,7 +527,7 @@ public class AlbumMakeFragment extends BaseFragment {
                 Bundle extras = intent.getExtras();
                 if (extras != null) {
                     int position = extras.getInt(PictureConfig.EXTRA_PREVIEW_DELETE_POSITION);
-                    ToastUtils.s(context, "delete image index:" + position);
+                    ToastUtils.showToast("delete image index:" + position);
                     mAdapter.remove(position);
                     mAdapter.notifyItemRemoved(position);
                 }

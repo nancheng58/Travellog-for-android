@@ -8,6 +8,7 @@ public class URL {
     public static final String BASE_URL2 = "https://travel.mrning.com/";
     public static final String IMAGE_URL = "https://travel.mrning.com";
     public static final String ALBUM_URL = BASE_URL2 + "movie/";
+    public static final String API_URL = BASE_URL2 + "api/";
     public static final String WORK_DETAIL = "/v1_2/correct/get_correct_detail";
     public static final String MATERIAL_TYPE = "/v1_3/material/maintypelist";
     public static final String MATERIAL_LIST_NEW = "/v1_3/material/getnew";

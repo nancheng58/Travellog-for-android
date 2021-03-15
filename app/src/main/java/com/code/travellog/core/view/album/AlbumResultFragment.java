@@ -19,6 +19,7 @@ import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.ui.MakeAlbumActivity;
 import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.util.AdapterPool;
+import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.AbsLifecycleFragment;
 import com.mvvm.http.HttpHelper;
 
@@ -46,16 +47,25 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
     public void initView(Bundle state) {
         super.initView(state);
         startAlbum();
-
+        dataObserver();
     }
 
     @Override
     protected void dataObserver() {
         if(getArguments() != null) workid =getArguments().getInt("work_id");
+        registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMSTART,BasePojo.class).observe(this,basePojo -> {
+            if(basePojo.code != 200) ToastUtils.showToast(basePojo.msg);
+            else {
+                //TODO
+            }
+        });
         registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMRESULT, AlbumResultPojo.class).observe(this, albumResultPojo -> {
             if(albumResultPojo == null ) return ;
-            if (albumResultPojo.data.status != lastStaus){
-
+            else if (albumResultPojo.code != 200){
+                ToastUtils.showToast(albumResultPojo.msg);
+            }
+            else if (albumResultPojo.data.status != lastStaus){
+                //TODO
             }
             lastStaus = albumResultPojo.data.status;
         });
@@ -86,25 +96,9 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
         super.showLoading();
     }
 
-    @SuppressLint("CheckResult")
     public void startAlbum()
     {
 //        workid = (((MakeAlbumActivity)getActivity())).getWorkid();
-        HttpHelper.getInstance().create(ApiService.class).startAlbum(URL.ALBUM_URL+workid+"/start")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<BasePojo>() {
-                    @Override
-                    public void onSuccess(BasePojo basePojo) {
-                        if (basePojo.code != 200) {
-                            onFailure(basePojo.msg, basePojo.code);
-                            return;
-                        }
-                    }
-                    @Override
-                    public void onFailure(String msg, int code) {
-                        com.code.travellog.util.ToastUtils.showToast(msg);
-                    }
-                });
+        mViewModel.AlbumStart(workid);
     }
 }
