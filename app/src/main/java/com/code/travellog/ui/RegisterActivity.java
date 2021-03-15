@@ -156,7 +156,6 @@ public class RegisterActivity extends AbsLifecycleActivity<UserViewModel> implem
     public void Register()
     {
         String pwd = StringUtil.md5(password.getText().toString());// md5 加密
-
             HashMap<String,String> params = new HashMap<String, String>();
             params.put("uname",userName.getText().toString());
             params.put("password",pwd);

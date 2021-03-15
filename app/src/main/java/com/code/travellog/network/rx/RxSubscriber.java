@@ -16,8 +16,10 @@ import io.reactivex.subscribers.DisposableSubscriber;
 import retrofit2.HttpException;
 
 /**
- * @author tqzhang
+ * @description 订阅对象
+ * @time 2021/3/15 7:41
  */
+
 public abstract class RxSubscriber<T> extends DisposableSubscriber<T> {
 
 

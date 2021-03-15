@@ -12,8 +12,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * @author：tqzhang on 18/8/20 14:11
+ * @description RxJava 操作转换
+ * @time 2021/3/15 7:37
  */
+
 public class RxSchedulers {
     public static <T> ObservableTransformer<T, T> io_main(int context) {
         return new ObservableTransformer<T, T>() {

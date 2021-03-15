@@ -8,8 +8,10 @@ import com.mvvm.util.TUtil;
 
 
 /**
- * @author：tqzhang on 18/7/26 16:15
+ * @description ViewModel基类
+ * @time 2021/3/15 7:33
  */
+
 public class AbsViewModel<T extends AbsRepository> extends AndroidViewModel {
 
 

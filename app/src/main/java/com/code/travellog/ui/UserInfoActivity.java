@@ -22,6 +22,8 @@ import com.code.travellog.R;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
+import com.code.travellog.core.data.source.UserRepository;
+import com.code.travellog.core.vm.UserViewModel;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;
@@ -32,6 +34,7 @@ import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
+import com.mvvm.base.AbsLifecycleActivity;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.http.HttpHelper;
 import com.tencent.mmkv.MMKV;
@@ -49,19 +52,18 @@ import io.reactivex.schedulers.Schedulers;
  * @description: 用户信息 界面
  * @date: 2021/2/23
  */
-public class UserInfoActivity extends BaseActivity implements Validator.ValidationListener {
-    protected RelativeLayout mTitleBar;
-    protected TextView mTitle;
+public class UserInfoActivity extends AbsLifecycleActivity<UserViewModel> implements Validator.ValidationListener,View.OnClickListener{
+
     protected String gender="0";
     protected Validator validator;
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.tv_title)
-    TextView tvTitle;
+    TextView mTitle;
     @BindView(R.id.iv_search)
     ImageView ivSearch;
     @BindView(R.id.rl_title_bar)
-    RelativeLayout rlTitleBar;
+    RelativeLayout mTitleBar;
     @BindView(R.id.btn_logout)
     Button btnLogout;
     @BindView(R.id.intro)
@@ -107,13 +109,15 @@ public class UserInfoActivity extends BaseActivity implements Validator.Validati
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
         App.instance().addActivity(this);
-        mTitleBar = findViewById(R.id.rl_title_bar);
-        mTitle = findViewById(R.id.tv_title);
+        ButterKnife.bind(this);
+        super.initViews(savedInstanceState);
         kv = MMKV.defaultMMKV();
         setTitle(getResources().getString(R.string.move_title_name));
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(this);
         validator = new Validator(this);
         validator.setValidationListener(this);
-        ButterKnife.bind(this);
+        dataObserver();
         btnChangePwd.setOnClickListener(v -> {validator.validate();});
         superTextView.setLeftImageViewClickListener(imageView -> {
             UserInfoActivity.super.onBackPressed();
@@ -130,6 +134,29 @@ public class UserInfoActivity extends BaseActivity implements Validator.Validati
                         gender="2";
                     default:break;
                 }
+            }
+        });
+    }
+
+    @Override
+    protected void dataObserver() {
+        registerSubscriber(UserRepository.ENTER_KEY_USERINFO,UserPojo.class).observe(this,user -> {
+            if(user.code!=200) {
+                ToastUtils.showToast(user.msg);
+            }
+            ToastUtils.showToast("修改成功！");
+            kv.encode("uid",user.data.uid);
+            kv.encode("userName",user.data.uname);
+            kv.encode("phone",user.data.phone);
+            kv.encode("email",user.data.email);
+            kv.encode("gender",user.data.gender);
+            kv.encode("avatar", URL.IMAGE_URL+user.data.avatar);
+            kv.encode("intro",user.data.intro);
+        });
+        registerSubscriber(UserRepository.ENTER_KEY_RERWD,BasePojo.class).observe(this,basePojo -> {
+            if(basePojo.code != 200) ToastUtils.showToast(basePojo.msg);
+            else{
+                ToastUtils.showToast("修改成功！");
             }
         });
     }
@@ -152,31 +179,23 @@ public class UserInfoActivity extends BaseActivity implements Validator.Validati
         params.put("phone",phone.getText().toString());
         params.put("email",email.getText().toString());
         params.put("intro",intro.getText().toString());
-        HttpHelper.getInstance().create(ApiService.class).postUserInfo(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<UserPojo>() {
+        mViewModel.postUserInfo(params);
+    }
 
-                    @Override
-                    public void onSuccess(UserPojo user) {
-                        if(user.code!=200) {
-                            onFailure(user.msg,user.code);
-                            return;
-                        }
-                        ToastUtils.showToast("修改成功！");
-                        kv.encode("uid",user.data.uid);
-                        kv.encode("userName",user.data.uname);
-                        kv.encode("phone",user.data.phone);
-                        kv.encode("email",user.data.email);
-                        kv.encode("gender",user.data.gender);
-                        kv.encode("avatar", URL.IMAGE_URL+user.data.avatar);
-                        kv.encode("intro",user.data.intro);
-                    }
-                    @Override
-                    public void onFailure(String msg, int code) {
-                        ToastUtils.showToast(msg);
-                    }
-                });
+    @SuppressLint("CheckResult")
+    public void changePwd()
+    {
+        String pwd = StringUtil.md5(oldpwd.getText().toString());
+        String newpwd = password.getText().toString();
+        String newrepwd = repassword.getText().toString();
+        if ((!newpwd.equals(newrepwd))){
+            ToastUtils.showToast("两次密码输入不一致，请重新输入");
+            return;
+        }
+        HashMap<String,String> params = new HashMap<String, String>();
+        params.put("old_password",pwd);
+        params.put("new_password",StringUtil.md5(newpwd));
+        mViewModel.postRePwd(params);
     }
     @OnClick({R.id.btn_logout,R.id.btn_userInfo})
     public void onClick(View view) {
@@ -205,45 +224,13 @@ public class UserInfoActivity extends BaseActivity implements Validator.Validati
             case R.id.btn_userInfo:
                 PostUserInfo();
                 break;
+            case R.id.iv_back:finish();
             default:break;
         }
-    }
-    @SuppressLint("CheckResult")
-    public void changePwd()
-    {
-        String pwd = StringUtil.md5(oldpwd.getText().toString());
-        String newpwd = password.getText().toString();
-        String newrepwd = repassword.getText().toString();
-        if ((!newpwd.equals(newrepwd))){
-            ToastUtils.showToast("两次密码输入不一致，请重新输入");
-            return;
-        }
-        HashMap<String,String> param = new HashMap<String, String>();
-        param.put("old_password",pwd);
-        param.put("new_password",StringUtil.md5(newpwd));
-        HttpHelper.getInstance().create(ApiService.class).changePwd(param)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<BasePojo>() {
-
-                    @Override
-                    public void onSuccess(BasePojo basePojo) {
-                        if(basePojo.code!=200) {
-                            onFailure(basePojo.msg,basePojo.code);
-                            return;
-                        }
-                        ToastUtils.showToast("修改成功！");
-                    }
-                    @Override
-                    public void onFailure(String msg, int code) {
-                        ToastUtils.showToast(msg);
-                    }
-                });
     }
     @Override
     public void onValidationSucceeded() {
         changePwd();
-        return;
     }
 
     @Override

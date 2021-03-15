@@ -70,7 +70,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     api 'com.leon:lsettingviewlibrary:1.7.0' // setting layout
-    api 'com.github.daniel-stoneuk:material-about-library:3.2.0-rc01'
+    api 'com.github.daniel-stoneuk:material-about-library:3.1.2'
     api "com.mikepenz:iconics-core:2.9.5@aar"
     api 'com.mikepenz:community-material-typeface:2.0.46.1@aar'
     api 'net.yslibrary.licenseadapter:licenseadapter:3.0.0'

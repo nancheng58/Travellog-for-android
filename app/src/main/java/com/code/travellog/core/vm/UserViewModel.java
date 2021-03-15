@@ -10,7 +10,7 @@ import com.mvvm.base.AbsViewModel;
 import java.util.HashMap;
 
 /**
- * @description:
+ * @description: 用户VM
  * @date: 2021/3/14
  */
 public class UserViewModel  extends AbsViewModel<UserRepository> {
@@ -25,5 +25,11 @@ public class UserViewModel  extends AbsViewModel<UserRepository> {
     }
     public void postRegister(HashMap<String,String> parms){
         mRepository.postRegister(parms);
+    }
+    public void postRePwd(HashMap<String,String>parms) {
+        mRepository.postRePwd(parms);
+    }
+    public void postUserInfo(HashMap<String,String>parms){
+        mRepository.postUserInfo(parms);
     }
 }

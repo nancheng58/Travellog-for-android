@@ -25,18 +25,18 @@
             android:gravity="left"
             android:orientation="horizontal">
 
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/avater"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="39dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="37dp"
                 android:src="@drawable/user_default"
                 app:civ_border_color="#FFFFFF"
                 app:civ_border_width="2dp" />
-
 
             <com.allen.library.SuperTextView
                 android:id="@+id/userInfo"
@@ -48,17 +48,14 @@
                 android:layout_marginTop="37dp"
                 android:layout_toEndOf="@+id/avater"
                 android:layout_toLeftOf="@id/userMore"
-                stv:sCenterBottomTextColor="@color/colorAccent"
-                stv:sCenterTopTextString=" "
-                stv:sCenterViewGravity="left_center"
-                stv:sLeftBottomTextString="个性签名"
-                stv:sLeftIconRes="@drawable/bank_zhao_shang"
-                stv:sLeftTopTextString="用户名"
+                app:sCenterBottomTextColor="@color/colorAccent"
+                app:sCenterTopTextString=" "
+                app:sCenterViewGravity="left_center"
+                app:sLeftBottomTextString="个性签名"
+                app:sLeftTopTextString="用户名"
                 app:sLeftTopTextSize="20sp"
-                stv:sLeftViewGravity="left_center"
-                stv:sRightCheckBoxRes="@drawable/circular_check_bg"
-                stv:sRightViewType="checkbox"
-                stv:sUseRipple="false" />
+                app:sLeftViewGravity="left_center"
+                app:sUseRipple="false" />
 
             <ImageView
                 android:id="@+id/userMore"
@@ -67,10 +64,8 @@
                 android:layout_alignParentEnd="true"
 
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="31dp"
-                android:layout_marginBottom="0dp"
-                android:layout_toEndOf="@+id/userInfo"
+                android:layout_marginEnd="21dp"
+                android:layout_marginBottom="-3dp"
                 android:src="@drawable/righticon" />
         </RelativeLayout>
 

@@ -8,8 +8,10 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
- * @author：tqzhang on 18/7/26 16:15
+ * @description 数据仓库基类
+ * @time 2021/3/15 7:34
  */
+
 public abstract class AbsRepository {
 
     private CompositeDisposable mCompositeDisposable;

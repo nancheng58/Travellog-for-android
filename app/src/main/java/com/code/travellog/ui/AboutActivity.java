@@ -48,20 +48,23 @@ public class AboutActivity extends MaterialAboutActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        switch (getIntent().getIntExtra(THEME_EXTRA, THEME_LIGHT)) {
-            case THEME_LIGHT:
-                setTheme(R.style.MyCheckBox);
-                break;
-            case THEME_DARK:
-                setTheme(R.style.MyCheckBox);
-                break;
-            case THEME_DAYNIGHT:
-                setTheme(R.style.MyCheckBox);
-                break;
-            case THEME_CUSTOM_CARDVIEW:
-                setTheme(R.style.MyCheckBox);
-                break;
-        }
+
+        setTheme(R.style.AppTheme_MaterialAboutActivity_Light);
+
+//        switch (getIntent().getIntExtra(THEME_EXTRA, THEME_LIGHT)) {
+//            case THEME_LIGHT:
+//                setTheme(R.style.AppTheme_MaterialAboutActivity_Light);
+//                break;
+//            case THEME_DARK:
+//                setTheme(R.style.MyCheckBox);
+//                break;
+//            case THEME_DAYNIGHT:
+//                setTheme(R.style.MyCheckBox);
+//                break;
+//            case THEME_CUSTOM_CARDVIEW:
+//                setTheme(R.style.MyCheckBox);
+//                break;
+//        }
 
         super.onCreate(savedInstanceState);
 
@@ -71,7 +74,8 @@ public class AboutActivity extends MaterialAboutActivity {
 
     @Override
     protected CharSequence getActivityTitle() {
-        return getString(R.string.mal_title_about);
+        return "关于";
+//        return getString(R.string.mal_title_about);
     }
 
     @NonNull
@@ -129,7 +133,7 @@ public class AboutActivity extends MaterialAboutActivity {
 
             MaterialAboutCard.Builder otherCardBuilder = new MaterialAboutCard.Builder();
             otherCardBuilder.title("更多");
-            otherCardBuilder.outline(false);
+//            otherCardBuilder.outline(false);
 
             otherCardBuilder.cardColor(Color.parseColor("#c0cfff"));
 

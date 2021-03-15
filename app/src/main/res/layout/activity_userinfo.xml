@@ -14,9 +14,7 @@
         android:id="@+id/tv_title2"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        app:sLeftIconRes="@drawable/back_icon"
-        app:sBackgroundDrawableRes="@color/navigation_bar"
-        stv:sLeftBottomTextColor="@color/color_ffca00"
+        stv:sBackgroundDrawableRes="@color/navigation_bar"
         stv:sCenterViewGravity="center"
         stv:sCenterTextString="在此页面您可以进行用户信息的管理"
         stv:sLeftViewGravity="left_center"
@@ -33,14 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/colorAccent"
-        android:text="退出登录"
-        />
+
         <androidx.cardview.widget.CardView
             app:cardCornerRadius="8dp"
             app:cardElevation="3dp"
@@ -63,8 +54,7 @@
             <com.allen.library.SuperTextView
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                app:sBackgroundDrawableRes="@android:color/holo_purple"
-                stv:sLeftBottomTextColor="@color/color_ffca00"
+                app:sBackgroundDrawableRes="@color/app_color_f6"
                 stv:sCenterViewGravity="left_center"
                 stv:sLeftBottomTextString="不需要更改的字段可以为空"
                 stv:sLeftTopTextString="修改个人信息"
@@ -232,8 +222,7 @@
                 <com.allen.library.SuperTextView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    app:sBackgroundDrawableRes="@color/design_default_color_secondary"
-                    stv:sLeftBottomTextColor="@color/main_color"
+                    app:sBackgroundDrawableRes="@color/app_color_f6"
                     stv:sCenterViewGravity="left_center"
                     stv:sLeftBottomTextString="请输入原密码和新密码"
                     stv:sLeftTopTextString="更改密码"
@@ -348,7 +337,14 @@
 
         </LinearLayout>
         </androidx.cardview.widget.CardView>
-
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/app_color_blue"
+            android:text="退出登录"
+            />
 </LinearLayout>
     </ScrollView>
 
