@@ -23,6 +23,7 @@ import com.code.travellog.core.data.pojo.material.MaterialInfoVo;
 import com.code.travellog.core.data.pojo.material.MatreialSubjectVo;
 import com.code.travellog.core.data.pojo.qa.QaListVo;
 import com.code.travellog.core.view.activity.holder.ActivityItemHolder;
+import com.code.travellog.core.view.album.holder.AlbumResultHolder;
 import com.code.travellog.core.view.article.holder.ArticleRem1ItemHolder;
 import com.code.travellog.core.view.article.holder.ArticleRem2ItemHolder;
 import com.code.travellog.core.view.article.holder.ArticleRem3ItemHolder;
@@ -76,7 +77,7 @@ public class AdapterPool {
 
     public DelegateAdapter.Builder getAlbumResultAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
-                .bind(AlbumResultPojo.class, new BannerItemView(context));
+                .bind(AlbumResultPojo.class, new AlbumResultHolder(context));
     }
 
     public DelegateAdapter.Builder getWorkAdapter(Context context) {

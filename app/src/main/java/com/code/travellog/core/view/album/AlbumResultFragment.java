@@ -2,6 +2,8 @@ package com.code.travellog.core.view.album;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,7 +54,8 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
 
     @Override
     protected void dataObserver() {
-        if(getArguments() != null) workid =getArguments().getInt("work_id");
+//        if(getArguments() != null) workid =getArguments().getInt("work_id");
+        workid=((MakeAlbumActivity)activity).getWorkid();
         registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMSTART,BasePojo.class).observe(this,basePojo -> {
             if(basePojo.code != 200) ToastUtils.showToast(basePojo.msg);
             else {
@@ -64,10 +67,27 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
             else if (albumResultPojo.code != 200){
                 ToastUtils.showToast(albumResultPojo.msg);
             }
+//            else if(albumResultPojo.data.status != 3 ){
+//                Log.w("AlbumResultInfo",albumResultPojo.data.info);
+//
+//                getRemoteData();
+//            }
             else if (albumResultPojo.data.status != lastStaus){
                 //TODO
+                Log.w("AlbumResultInfo",albumResultPojo.data.info);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getRemoteData();
+                    }
+                }
+                , 1000);
+                mItems.clear();
+                mItems.add(albumResultPojo);
+                setData();
+                lastStaus = albumResultPojo.data.status;
             }
-            lastStaus = albumResultPojo.data.status;
+
         });
     }
 

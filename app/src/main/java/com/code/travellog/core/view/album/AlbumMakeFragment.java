@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.allen.library.SuperTextView;
 import com.code.travellog.AI.AiBoostManager;
 import com.code.travellog.R;
+import com.code.travellog.config.Constants;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.album.AlbumPostPojo;
@@ -152,10 +153,16 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
     }
 
     @Override
+    protected int getContentResId() {
+        return R.id.content_album;
+    }
+
+    @Override
     public void initView(Bundle state) {
 
         unbinder = ButterKnife.bind(this, rootView);
         super.initView(state);
+        loadManager.showSuccess();
         updateimgText.setLeftTopTextIsBold(true);
         tvAlbumbgm.setLeftTopTextIsBold(true);
         tvAlbumpoetry.setLeftTopTextIsBold(true);
@@ -171,6 +178,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
         if (state != null && state.getParcelableArrayList("selectorList") != null) {
             mAdapter.setList(state.getParcelableArrayList("selectorList"));
         }
+        dataObserver();
         themeId = R.style.picture_white_style;
         getWhiteStyle();
         btn_submit.setOnClickListener(v -> {
@@ -400,6 +408,8 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
 
     @Override
     protected void dataObserver() {
+//        LiveBus.getDefault().subscribe(Constants.EVENT_KEY_WORK_STATE).observe(this, observer);
+
         registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMID,AlbumWorkPojo.class).observe(this,albumWorkPojo -> {
             if(albumWorkPojo.code!=200) ToastUtils.showToast(albumWorkPojo.msg);
             else { workid = albumWorkPojo.data.work_id;
@@ -510,9 +520,10 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
     }
     private void getResult()
     {
-        Bundle bundle = new Bundle();
-        bundle.putInt("workid",workid);
-        this.setArguments(bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("workid",workid);
+//        this.setArguments(bundle);
+        ((MakeAlbumActivity)getActivity()).setWorkid(workid);
         ((MakeAlbumActivity)getActivity()).initFragment(1);
 
     }

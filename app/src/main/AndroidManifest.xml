@@ -23,6 +23,10 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <!--允许程序读写手机状态和身份-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:name="com.code.travellog.App"
         android:allowBackup="true"
@@ -32,10 +36,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
-        android:theme="@style/MyCheckBox">
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/MyCheckBox"
+        tools:targetApi="n">
+        <meta-data android:name="com.amap.api.v2.apikey"
+            android:value="9778dd871a7f95d19120894df86230fb">
+            </meta-data>
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.code.travellog.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -57,6 +66,7 @@
         <activity android:name="com.code.travellog.core.view.correct.WorkDetailsActivity" />
         <activity android:name=".ui.MakeAlbumActivity"/>
         <activity android:name=".ui.MyAlbumActivity"/>
+        <activity android:name=".ui.MapActivity"/>
         <activity android:name="com.code.travellog.ui.AboutActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
         <activity android:name=".ui.LaunchActivity">

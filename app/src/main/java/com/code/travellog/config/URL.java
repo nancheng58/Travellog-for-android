@@ -6,6 +6,8 @@ package com.code.travellog.config;
 public class URL {
     public static final String BASE_URL = "https://api.meiyuanbang.com/";
     public static final String BASE_URL2 = "https://travel.mrning.com/";
+//    public static final String BASE_URL2 = "http://192.168.233.236:8000/";
+
     public static final String IMAGE_URL = "https://travel.mrning.com";
     public static final String ALBUM_URL = BASE_URL2 + "movie/";
     public static final String API_URL = BASE_URL2 + "api/";

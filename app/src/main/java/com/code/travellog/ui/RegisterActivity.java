@@ -125,7 +125,7 @@ public class RegisterActivity extends AbsLifecycleActivity<UserViewModel> implem
             if (imagePojo.code == 200){
                 byte[] bitmapbyte = Base64Utils.decode(imagePojo.data.get(0).img);
                 Bitmap bitmap =BitmapFactory.decodeByteArray(bitmapbyte,0,bitmapbyte.length);
-                ImageView img =findViewById(R.id.et_captcha_avater);
+                ImageView img =findViewById(R.id.et_rcaptcha_avater);
                 bitmap = BitmapUtil.ChangeSize(bitmap,120,200);
                 img.setImageBitmap(bitmap);
             }
@@ -166,7 +166,7 @@ public class RegisterActivity extends AbsLifecycleActivity<UserViewModel> implem
     }
     @OnClick(R.id.et_rcaptcha_avater)
     public void getCaptchaAvater() {
-        mViewModel.getCaptcha("resister");
+        mViewModel.getCaptcha("register");
     }
 
     @OnClick(R.id.fab)

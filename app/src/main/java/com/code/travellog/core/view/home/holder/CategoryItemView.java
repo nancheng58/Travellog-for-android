@@ -30,10 +30,10 @@ public class CategoryItemView extends AbsItemHolder<CategoryVo, CategoryItemView
 
     public CategoryItemView(Context context) {
         super(context);
-        tvNames = new String[]{mContext.getResources().getString(R.string.dynamic_title_name),
-                mContext.getResources().getString(R.string.material_title_name),
-                mContext.getResources().getString(R.string.article_title_name),
-                mContext.getResources().getString(R.string.follow_draw_title_name),
+        tvNames = new String[]{mContext.getResources().getString(R.string.weather_identification_name),
+                mContext.getResources().getString(R.string.color_extraction),
+                mContext.getResources().getString(R.string.poetry_generation),
+                mContext.getResources().getString(R.string.style_transfer_name),
                 mContext.getResources().getString(R.string.live_title_name),
                 mContext.getResources().getString(R.string.book_title_name),
                 mContext.getResources().getString(R.string.qa_title_name),

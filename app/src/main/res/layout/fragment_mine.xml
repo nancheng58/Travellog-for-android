@@ -9,7 +9,10 @@
     >
 
     <include layout="@layout/item_title_layout" />
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <LinearLayout
         android:id="@+id/content_layout"
         android:layout_width="wrap_content"
@@ -109,6 +112,7 @@
             app:leftText="检查更新"
             app:rightText="V1.0.0"
             app:rightTextColor="@color/colorPrimary" />
+
         <com.leon.lib.settingview.LSettingItem
             android:id="@+id/tv_about"
             android:layout_width="match_parent"
@@ -118,6 +122,23 @@
             app:leftText="关于"
 
         />
+        <com.leon.lib.settingview.LSettingItem
+            android:id="@+id/tv_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:isShowUnderLine="false"
+            app:leftText="测试页面"
+            />
+        <com.leon.lib.settingview.LSettingItem
+            android:id="@+id/tv_gaode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:isShowUnderLine="false"
+            app:leftText="高德地图测试"
 
+            />
     </LinearLayout>
+    </ScrollView>
 </LinearLayout>

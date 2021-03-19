@@ -7,9 +7,10 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 /**
- * @description
- * @author：tqzhang on 19/4/16 14:37
+ * @description Smart 刷新插件管理器
+ * @time 2021/3/15 20:12
  */
+
 public class RefreshHelper implements OnRefreshListener, OnLoadMoreListener {
 
     private int pageIndex = 1;

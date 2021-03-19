@@ -21,8 +21,10 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 import static com.mvvm.util.TUtil.checkNotNull;
 
 /**
- * @author：tqzhang on 18/4/18 17:19
+ * @description
+ * @time 2021/2/15 19:27
  */
+
 public class HttpHelper {
 
     private static volatile HttpHelper mHttpHelper = null;

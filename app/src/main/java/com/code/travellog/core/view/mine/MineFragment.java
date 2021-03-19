@@ -27,10 +27,9 @@ import com.code.travellog.glide.GlideCircleTransform;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.ui.AboutActivity;
-import com.code.travellog.ui.MakeAlbumActivity;
+import com.code.travellog.ui.MapActivity;
 import com.code.travellog.ui.MyAlbumActivity;
 import com.code.travellog.ui.UserInfoActivity;
-import com.code.travellog.util.NetworkUtils;
 import com.code.travellog.util.ToastUtils;
 import com.leon.lib.settingview.LSettingItem;
 import com.mvvm.base.BaseFragment;
@@ -41,7 +40,6 @@ import org.jetbrains.annotations.NotNull;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -97,6 +95,10 @@ public class MineFragment extends BaseFragment {
     LSettingItem tvAbout;
     @BindView(R.id.content_layout)
     LinearLayout contentLayout;
+    @BindView(R.id.tv_test)
+    LSettingItem tvTest;
+    @BindView(R.id.tv_gaode)
+    LSettingItem tvGaode;
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     private LayoutInflater inflater;
@@ -181,7 +183,13 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-
+        tvGaode.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
+            @Override
+            public void click(boolean isChecked) {
+                Intent intent = new Intent(activity, MapActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
