@@ -144,20 +144,22 @@ public class AiBoostManager {
                     e.printStackTrace();
                 }
                 try {
-                    InputStream input = assetManager.open(modelPath);
-                    int length = input.available();
-                    byte[] buffer = new byte[length];
-                    input.read(buffer);
-                    modelbuf = ByteBuffer.allocateDirect(length);
-                    modelbuf.order(ByteOrder.nativeOrder());
-                    modelbuf.put(buffer);
-                    aiboost = new AiBoostInterpreter(modelbuf, input_shapes, options);
+                        InputStream input = assetManager.open(modelPath);
+                        int length = input.available();
+                        byte[] buffer = new byte[length];
+                        input.read(buffer);
+                        modelbuf = ByteBuffer.allocateDirect(length);
+                        modelbuf.order(ByteOrder.nativeOrder());
+                        modelbuf.put(buffer);
+                        aiboost = new AiBoostInterpreter(modelbuf, input_shapes, options);
+
                 }catch(FileNotFoundException var6){
-                    Log.d(TAG, var6.toString());
-                    throw new RuntimeException(var6);
+
+                        Log.d(TAG, var6.toString());
+                        throw new RuntimeException(var6);
                 } catch (IOException var7) {
-                    Log.d(TAG, var7.toString());
-                    throw new RuntimeException(var7);
+                        Log.d(TAG, var7.toString());
+                        throw new RuntimeException(var7);
                 }
 
                 if (aiboost != null) {

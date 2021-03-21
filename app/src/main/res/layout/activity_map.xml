@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/root_layout">
+    <include layout="@layout/item_title_layout"/>
     <com.amap.api.maps.MapView
 
         android:id="@+id/map"
@@ -9,4 +11,33 @@
         android:layout_width="match_parent"
 
         android:layout_height="match_parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.yinglan.scrolllayout.ScrollLayout
+        android:id="@+id/scroll_down_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.yinglan.scrolllayout.content.ContentRecyclerView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"></com.yinglan.scrolllayout.content.ContentRecyclerView>
+
+            <TextView
+                android:id="@+id/text_foot"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/blue"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="点击或上滑打开" />
+
+
+        </RelativeLayout>
+
+    </com.yinglan.scrolllayout.ScrollLayout>
+</RelativeLayout>

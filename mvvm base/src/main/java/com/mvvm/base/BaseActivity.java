@@ -7,6 +7,8 @@ import android.view.View;
 import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
+import java.io.IOException;
+
 /**
  * @description Activity 基类
  * @time 2021/2/23 15:31
