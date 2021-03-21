@@ -86,4 +86,6 @@ dependencies {
     api 'org.tensorflow:tensorflow-lite:2.1.0'
     api 'org.tensorflow:tensorflow-lite-gpu:2.1.0'
     api 'com.yinglan.scrolllayout:scrolllayout:1.0.2'
+    api 'io.sgr:s2-geometry-library-java:1.0.1'
+
 }

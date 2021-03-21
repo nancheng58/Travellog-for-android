@@ -1,6 +1,7 @@
 package com.code.travellog.ui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -41,12 +42,15 @@ import com.code.travellog.cluster.ClusterItem;
 import com.code.travellog.cluster.ClusterOverlay;
 import com.code.travellog.cluster.ClusterRender;
 import com.code.travellog.cluster.RegionItem;
+import com.code.travellog.core.data.pojo.geo.GeoPojo;
 import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
 import com.code.travellog.core.data.source.PictureRepository;
 import com.code.travellog.core.vm.PictureViewModel;
 import com.code.travellog.ui.adapter.RecyclerViewAdapter;
 import com.code.travellog.util.AssetsUtil;
 import com.code.travellog.util.ScreenUtil;
+import com.google.common.geometry.S2CellId;
+import com.google.common.geometry.S2LatLng;
 import com.luck.picture.lib.PictureSelectorExternalUtils;
 import com.mvvm.base.AbsLifecycleActivity;
 import com.mvvm.base.BaseActivity;
@@ -71,6 +75,8 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     @BindView(R.id.map)
     MapView map;
     AMap aMap;
+
+    private GeoPojo geoPojo ;
     private int clusterRadius = 100;
 
     private Map<Integer, Drawable> mBackDrawAbles = new HashMap<Integer, Drawable>();
@@ -98,8 +104,8 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
     @Override
     protected void dataObserver() {
-        registerSubscriber(PictureRepository.EVENT_KEY_PICEXIF,List.class).observe(this,list -> {
-            pictureExifPojoList = list ;
+        registerSubscriber(PictureRepository.EVENT_KEY_PICEXIF,GeoPojo.class).observe(this,list -> {
+            geoPojo = list ;
             init();
 
         });
@@ -174,15 +180,14 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         }
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         // 定义经纬度坐标
-        LatLng centerBJPoint= new LatLng(39.904989,116.405285);
+//        LatLng centerBJPoint= new LatLng(39.904989,116.405285);
         // 定义了一个配置 AMap 对象的参数类
-        AMapOptions mapOptions = new AMapOptions();
+//        AMapOptions mapOptions = new AMapOptions();
         // 设置了一个可视范围的初始化位置
         // CameraPosition 第一个参数： 目标位置的屏幕中心点经纬度坐标。
         // CameraPosition 第二个参数： 目标可视区域的缩放级别
@@ -196,13 +201,6 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
 
 
-        //地图样式
-//        aMap.setCustomMapStyle(
-//                new com.amap.api.maps.model.CustomMapStyleOptions()
-//                        .setEnable(true)
-//                        .setStyleData(AssetsUtil.getAssetsStyle(MapActivity.this,"style.data"))
-//                        .setStyleExtraData(AssetsUtil.getAssetsStyle(MapActivity.this,"style_extra.data"))
-//        );
 
     }
     private void init() {
@@ -213,7 +211,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             //这个类就是设置地图移动的参数，CameraPosition，参数1---要移动到的经纬度，
             //参数2---地图的放缩级别zoom，参数3---地图倾斜度，参数4---地图的旋转角度
             CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(
-                    new CameraPosition(new LatLng(38.67, 116.50), 5, 0, 0));
+                    new CameraPosition(new LatLng(38.67, 116.50), 6, 0, 0));
             //带动画的移动，aMap添加动画监听时，会有动画效果。不添加不会开启动画
             aMap.animateCamera(mCameraUpdate, 5000, new AMap.CancelableCallback() {
                 @Override
@@ -226,6 +224,14 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             });
             aMap.getUiSettings().setRotateGesturesEnabled(false);//旋转
             aMap.getUiSettings().setTiltGesturesEnabled(false);//倾斜
+
+            //地图样式
+//            aMap.setCustomMapStyle(
+//                    new com.amap.api.maps.model.CustomMapStyleOptions()
+//                            .setEnable(true)
+//                            .setStyleData(AssetsUtil.getAssetsStyle(MapActivity.this,"style.data"))
+//                            .setStyleExtraData(AssetsUtil.getAssetsStyle(MapActivity.this,"style_extra.data"))
+//            );
 //            //点击可以动态添加点
 //            aMap.setOnMapClickListener(new AMap.OnMapClickListener() {
 //                @Override
@@ -251,16 +257,17 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             public void run() {
 
                 List<ClusterItem> items = new ArrayList<ClusterItem>();
-                loadManager.showSuccess();
+                HashMap<Long, GeoPojo.DataBean> dataBeanHashMap = geoPojo.geo;
                 //随机10000个点
-                for (int i = 0; i < pictureExifPojoList.size(); i++) {
+                for (Long id : dataBeanHashMap.keySet()) {
 
-                    double lat = pictureExifPojoList.get(i).lan;
-                    double lon = pictureExifPojoList.get(i).lon;
-
+                    GeoPojo.DataBean dataBean = dataBeanHashMap.get(id);
+                    double lat = dataBean.lan;
+                    double lon = dataBean.lng;
+//                    test(lat,lon);
                     LatLng latLng = new LatLng(lat, lon, false);
                     RegionItem regionItem = new RegionItem(latLng,
-                            "test" + i);
+                            id.toString());
                     items.add(regionItem);
 
                 }
@@ -269,13 +276,20 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
                         getApplicationContext());
                 mClusterOverlay.setClusterRenderer(MapActivity.this);
                 mClusterOverlay.setOnClusterClickListener(MapActivity.this);
+                loadManager.showSuccess();
 
             }
 
         }
                 .start();
     }
-
+    private void test(double lat, double lng)
+    {
+        int currentLevel =13;
+        S2LatLng s2LatLng = S2LatLng.fromDegrees(lat, lng);
+        S2CellId cellId = S2CellId.fromLatLng(s2LatLng).parent(currentLevel);
+        Log.w("geoText",cellId.toString());
+    }
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
@@ -321,6 +335,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 0));
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public Drawable getDrawAble(int clusterNum) {
         int radius = dp2px(getApplicationContext(), 80);
@@ -329,7 +344,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             if (bitmapDrawable == null) {
                 bitmapDrawable =
                         getApplication().getResources().getDrawable(
-                                R.drawable.bbbb);
+                                R.drawable.defaultcluster);
                 mBackDrawAbles.put(1, bitmapDrawable);
             }
 

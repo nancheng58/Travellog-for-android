@@ -8,15 +8,19 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.code.travellog.core.data.BaseRepository;
+import com.code.travellog.core.data.pojo.geo.GeoPojo;
 import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
 import com.code.travellog.util.GeoUtil;
 import com.code.travellog.util.StringUtil;
+import com.google.common.geometry.S2CellId;
+import com.google.common.geometry.S2LatLng;
 import com.mvvm.event.LiveBus;
 import com.mvvm.stateview.StateConstants;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * @description: 本地图片仓库
@@ -25,6 +29,7 @@ import java.util.Collections;
 public class PictureRepository extends BaseRepository {
     public static String EVENT_KEY_PICEXIF = null ;
     public static String EVENT_KEY_PICPATH = null ;
+    public static final int currentLevel =13;
     public PictureRepository() {
         if(EVENT_KEY_PICEXIF == null) EVENT_KEY_PICEXIF = StringUtil.getEventKey();
         if(EVENT_KEY_PICPATH == null) EVENT_KEY_PICPATH = StringUtil.getEventKey();
@@ -120,6 +125,33 @@ public class PictureRepository extends BaseRepository {
             } catch (Exception e) { e.printStackTrace(); }
         // 进行反转集合
 //        Collections.reverse(galleryList);
-        LiveBus.getDefault().postEvent(EVENT_KEY_PICEXIF,galleryList);
+        getGeoExif(galleryList);
+
     }
+    private void getGeoExif(ArrayList<PictureExifPojo> galleryList ){
+        GeoPojo geoPojo = new GeoPojo();
+        geoPojo.geo = new HashMap<>();
+        for (PictureExifPojo pictureExifPojo :galleryList){
+            GeoUtil.LatLng latLng  = new GeoUtil.LatLng(pictureExifPojo.lan,pictureExifPojo.lon);
+            latLng = GeoUtil.gcj02ToWgs84(latLng);// 地理坐标变换：GCJ-02 -> WGS-84
+            S2LatLng s2LatLng = S2LatLng.fromDegrees(latLng.latitude,latLng.longitude);
+            S2CellId cellId = S2CellId.fromLatLng(s2LatLng).parent(currentLevel);
+            Long pos = cellId.id() ;
+
+            if(geoPojo.geo.get(pos)!=null) {
+                GeoPojo.DataBean dataBean = geoPojo.geo.get(pos);
+                dataBean.path.add(pictureExifPojo.path);
+            }
+            else {
+                GeoPojo.DataBean dataBean = new GeoPojo.DataBean() ;
+                dataBean.lan = pictureExifPojo.lan;
+                dataBean.lng = pictureExifPojo.lon;
+                dataBean.path = new ArrayList<>();
+                geoPojo.geo.put(pos,dataBean);
+            }
+            Log.w("geoText",pos.toString());
+        }
+        LiveBus.getDefault().postEvent(EVENT_KEY_PICEXIF,geoPojo);
+    }
+
 }
