@@ -36,6 +36,9 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.code.travellog.R;
 import com.code.travellog.cluster.ClusterClickListener;
 import com.code.travellog.cluster.ClusterItem;
@@ -71,7 +74,7 @@ import butterknife.ButterKnife;
  * @date: 2021/3/17
  */
 public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implements ClusterRender,
-        AMap.OnMapLoadedListener, ClusterClickListener {
+        AMap.OnMapLoadedListener, ClusterClickListener, GeocodeSearch.OnGeocodeSearchListener {
     @BindView(R.id.map)
     MapView map;
     AMap aMap;
@@ -84,6 +87,8 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     private ClusterOverlay mClusterOverlay;
 
     private List<PictureExifPojo> pictureExifPojoList;
+
+    private GeocodeSearch geocoderSearch;
     @Override
     public int getLayoutId() {
         return R.layout.activity_map;
@@ -92,6 +97,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     @Override
     public void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
+        showLoading();
         mScrollLayout = (ScrollLayout) findViewById(R.id.scroll_down_layout);
         text_foot = (TextView) findViewById(R.id.text_foot);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_view);
@@ -213,6 +219,8 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(
                     new CameraPosition(new LatLng(38.67, 116.50), 6, 0, 0));
             //带动画的移动，aMap添加动画监听时，会有动画效果。不添加不会开启动画
+            geocoderSearch = new GeocodeSearch(MapActivity.this);
+            geocoderSearch.setOnGeocodeSearchListener(this);
             aMap.animateCamera(mCameraUpdate, 5000, new AMap.CancelableCallback() {
                 @Override
                 public void onFinish() {
@@ -266,6 +274,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
                     double lon = dataBean.lng;
 //                    test(lat,lon);
                     LatLng latLng = new LatLng(lat, lon, false);
+                    Log.e("ditu",String.valueOf(lat));
                     RegionItem regionItem = new RegionItem(latLng,
                             id.toString());
                     items.add(regionItem);
@@ -276,6 +285,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
                         getApplicationContext());
                 mClusterOverlay.setClusterRenderer(MapActivity.this);
                 mClusterOverlay.setOnClusterClickListener(MapActivity.this);
+
                 loadManager.showSuccess();
 
             }
@@ -285,6 +295,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     }
     private void test(double lat, double lng)
     {
+
         int currentLevel =13;
         S2LatLng s2LatLng = S2LatLng.fromDegrees(lat, lng);
         S2CellId cellId = S2CellId.fromLatLng(s2LatLng).parent(currentLevel);
@@ -331,6 +342,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         for (ClusterItem clusterItem : clusterItems) {
             builder.include(clusterItem.getPosition());
         }
+        
         LatLngBounds latLngBounds = builder.build();
         aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 0));
     }
@@ -385,5 +397,15 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
             return bitmapDrawable;
         }
+    }
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
     }
 }

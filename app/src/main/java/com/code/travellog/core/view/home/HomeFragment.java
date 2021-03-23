@@ -78,22 +78,22 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
         }
         mItems.add(homeMergeVo.bannerListVo);
         mItems.add(new CategoryVo("title"));
-        mItems.add(new TypeVo(getResources().getString(R.string.recommend_live_type)));
-        if (homeMergeVo.homeListVo.data.live_recommend.size() > 0) {
-            mItems.addAll(homeMergeVo.homeListVo.data.live_recommend);
-        }
-        mItems.add(new TypeVo(getResources().getString(R.string.recommend_video_type)));
-        if (homeMergeVo.homeListVo.data.course.size() > 0) {
-            mItems.addAll(homeMergeVo.homeListVo.data.course);
-        }
-        mItems.add(new TypeVo(getResources().getString(R.string.recommend_book_type)));
-        if (homeMergeVo.homeListVo.data.publishingbook.size() > 0) {
-            mItems.add(new BookList(homeMergeVo.homeListVo.data.publishingbook));
-        }
-        mItems.add(new TypeVo(getResources().getString(R.string.special_tab_name)));
-        if (homeMergeVo.homeListVo.data.matreialsubject.size() > 0) {
-            mItems.addAll(homeMergeVo.homeListVo.data.matreialsubject);
-        }
+//        mItems.add(new TypeVo(getResources().getString(R.string.recommend_live_type)));
+//        if (homeMergeVo.homeListVo.data.live_recommend.size() > 0) {
+//            mItems.addAll(homeMergeVo.homeListVo.data.live_recommend);
+//        }
+//        mItems.add(new TypeVo(getResources().getString(R.string.recommend_video_type)));
+//        if (homeMergeVo.homeListVo.data.course.size() > 0) {
+//            mItems.addAll(homeMergeVo.homeListVo.data.course);
+//        }
+//        mItems.add(new TypeVo(getResources().getString(R.string.recommend_book_type)));
+//        if (homeMergeVo.homeListVo.data.publishingbook.size() > 0) {
+//            mItems.add(new BookList(homeMergeVo.homeListVo.data.publishingbook));
+//        }
+//        mItems.add(new TypeVo(getResources().getString(R.string.special_tab_name)));
+//        if (homeMergeVo.homeListVo.data.matreialsubject.size() > 0) {
+//            mItems.addAll(homeMergeVo.homeListVo.data.matreialsubject);
+//        }
         setData();
     }
 

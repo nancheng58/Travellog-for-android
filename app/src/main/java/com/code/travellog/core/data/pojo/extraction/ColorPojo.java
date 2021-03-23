@@ -1,22 +1,20 @@
 package com.code.travellog.core.data.pojo.extraction;
 
+import com.code.travellog.core.data.pojo.BasePojo;
+
 import java.io.Serializable;
 import java.util.List;
 
-public class ColorPojo implements Serializable {    //色彩提取
+public class ColorPojo extends BasePojo {    //色彩提取
 
-    public static class DataBean{
-        public int k;
-        public List<ColorData> result ;
-    }
-    public static class ColorData {
-        public List<Float> TODO;
-    }
-//    public Float[][] result;
-//    public Color(int in_k){
-//        this.k=in_k;
-//        result=new Float[k][3];
+    public List<List<Float>> data;
+//    public static class DataBean{
+//        public List<ColorData> result ;
 //    }
+//    public static class ColorData {
+//        public List<Float> TODO;
+//    }
+
     /*
     {
         "code": 200,

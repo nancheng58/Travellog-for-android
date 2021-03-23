@@ -12,9 +12,7 @@ import com.code.travellog.core.data.pojo.home.CatagoryInfoVo;
 
 import java.util.List;
 
-/**
- * @author：tqzhang  on 18/6/26 14:05
- */
+
 public class HomeCategoryAdapter extends BaseRecyclerAdapter<CatagoryInfoVo> {
 
 

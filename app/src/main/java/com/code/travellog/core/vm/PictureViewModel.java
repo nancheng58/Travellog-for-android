@@ -19,7 +19,7 @@ public class PictureViewModel extends AbsViewModel<PictureRepository> {
         super(application);
     }
     public void getGalleryExif(ContentResolver contentResolver) throws IOException {
-        mRepository.getGalleryExif(contentResolver);
+        mRepository.getGeoExif(contentResolver);
     }
     public void getGalleryPhotosPath(ContentResolver contentResolver){
         mRepository.getGalleryPhotosPath(contentResolver);

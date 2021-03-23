@@ -3,10 +3,14 @@ package com.code.travellog.core.data.source;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.code.travellog.App;
 import com.code.travellog.core.data.BaseRepository;
 import com.code.travellog.core.data.pojo.geo.GeoPojo;
 import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
@@ -17,10 +21,13 @@ import com.google.common.geometry.S2LatLng;
 import com.mvvm.event.LiveBus;
 import com.mvvm.stateview.StateConstants;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+
+import tech.spiro.addrparser.parser.Location;
 
 /**
  * @description: 本地图片仓库
@@ -85,7 +92,7 @@ public class PictureRepository extends BaseRepository {
         postState(StateConstants.SUCCESS_STATE);
     }
 
-    public void getGalleryExif(ContentResolver resolver) throws IOException {
+    private ArrayList<PictureExifPojo> getGalleryExif(ContentResolver resolver) throws IOException {
 
         ArrayList<PictureExifPojo> galleryList = new ArrayList<PictureExifPojo>();
         ExifInterface exifInterface  = null;
@@ -105,12 +112,21 @@ public class PictureRepository extends BaseRepository {
                             int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
                             int lanColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.LATITUDE);
                             String path = imagecursor.getString(dataColumnIndex);
-                            exifInterface = new ExifInterface(path);
+                            if(Build.VERSION.SDK_INT==Build.VERSION_CODES.R){
+                                Uri uri = Uri.fromFile(new File(path));
+                                Uri newuri = MediaStore.setRequireOriginal(uri);
+                                InputStream stream = resolver.openInputStream(newuri);
+                                exifInterface = new ExifInterface(stream);
+                            }else {
+                                exifInterface = new ExifInterface(path);
+                            }
+
                             String lat = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
                             String lon = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
                             String latRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
-                            String lngRef = exifInterface.getAttribute
-                                    (ExifInterface.TAG_GPS_LONGITUDE_REF);
+                            String lngRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+                            String E =exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
+                            Log.e("TAGGGGG",E);
                             if(lat != null && lon != null){
                                 PictureExifPojo pictureExifPojo = new PictureExifPojo() ;
                                 pictureExifPojo.path = path ;
@@ -125,10 +141,10 @@ public class PictureRepository extends BaseRepository {
             } catch (Exception e) { e.printStackTrace(); }
         // 进行反转集合
 //        Collections.reverse(galleryList);
-        getGeoExif(galleryList);
-
+        return galleryList;
     }
-    private void getGeoExif(ArrayList<PictureExifPojo> galleryList ){
+    public void getGeoExif(ContentResolver resolver ) throws IOException {
+        ArrayList<PictureExifPojo> galleryList =getGalleryExif(resolver);
         GeoPojo geoPojo = new GeoPojo();
         geoPojo.geo = new HashMap<>();
         for (PictureExifPojo pictureExifPojo :galleryList){
@@ -154,4 +170,33 @@ public class PictureRepository extends BaseRepository {
         LiveBus.getDefault().postEvent(EVENT_KEY_PICEXIF,geoPojo);
     }
 
+    public void getCity(ContentResolver resolver) throws IOException {
+
+        ArrayList<PictureExifPojo> galleryList =getGalleryExif(resolver);
+        GeoPojo geoPojo = new GeoPojo();
+        geoPojo.geo = new HashMap<>();
+        for (PictureExifPojo pictureExifPojo :galleryList){
+            GeoUtil.LatLng latLng  = new GeoUtil.LatLng(pictureExifPojo.lan,pictureExifPojo.lon);
+            latLng = GeoUtil.gcj02ToWgs84(latLng);// 地理坐标变换：GCJ-02 -> WGS-84
+            S2LatLng s2LatLng = S2LatLng.fromDegrees(latLng.latitude,latLng.longitude);
+            S2CellId cellId = S2CellId.fromLatLng(s2LatLng).parent(currentLevel);
+            Long pos = cellId.id() ;
+
+            if(geoPojo.geo.get(pos)!=null) {
+                GeoPojo.DataBean dataBean = geoPojo.geo.get(pos);
+                dataBean.path.add(pictureExifPojo.path);
+            }
+            else {
+                GeoPojo.DataBean dataBean = new GeoPojo.DataBean() ;
+                dataBean.lan = pictureExifPojo.lan;
+                dataBean.lng = pictureExifPojo.lon;
+                dataBean.path = new ArrayList<>();
+                geoPojo.geo.put(pos,dataBean);
+            }
+            Log.w("geoText",pos.toString());
+        }
+        LiveBus.getDefault().postEvent(EVENT_KEY_PICEXIF,geoPojo);
+        Location location = App.regionDataengine.parse(118.750934,32.038634);
+
+    }
 }

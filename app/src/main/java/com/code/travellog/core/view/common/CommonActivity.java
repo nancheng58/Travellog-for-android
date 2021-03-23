@@ -3,6 +3,9 @@ package com.code.travellog.core.view.common;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.view.View;
@@ -15,17 +18,21 @@ import com.code.travellog.config.Constants;
 import com.code.travellog.core.view.activity.ActivityListFragment;
 import com.code.travellog.core.view.article.ArticleFragment;
 import com.code.travellog.core.view.book.BookFragment;
+import com.code.travellog.core.view.color.ColorFragment;
 import com.code.travellog.core.view.dynamic.DynamicFragment;
 import com.code.travellog.core.view.followdraw.FollowDrawFragment;
 import com.code.travellog.core.view.live.LiveFragment;
 import com.code.travellog.core.view.material.MaterialFragment;
 import com.code.travellog.core.view.qa.QaListFragment;
+import com.code.travellog.core.view.weather.WeatherFragment;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.base.BaseFragment;
 
 /**
- * @author：tqzhang on 18/7/2 14:17
+ * @description 界面选择类
+ * @time 2021/3/23 19:54
  */
+
 public class CommonActivity extends BaseActivity implements View.OnClickListener {
 
     private String typeFragment;
@@ -71,11 +78,11 @@ public class CommonActivity extends BaseActivity implements View.OnClickListener
 
     private void showFragment() {
         switch (typeFragment) {
-            case Constants.MATERIAL:
-                commitFragment(MaterialFragment.newInstance());
+            case Constants.WEATHER:
+                commitFragment(WeatherFragment.newInstance());
                 break;
-            case Constants.ARTICLE:
-                commitFragment(ArticleFragment.newInstance());
+            case Constants.COLOR:
+                commitFragment(ColorFragment.newInstance());
                 break;
             case Constants.FOLLOW_DRAW:
                 commitFragment(FollowDrawFragment.newInstance());
@@ -111,7 +118,15 @@ public class CommonActivity extends BaseActivity implements View.OnClickListener
         starter.putExtra("title_name", titleName);
         context.startActivity(starter);
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        for(Fragment fragment : fragmentManager.getFragments())
+        {
+            fragment.onActivityResult(requestCode,resultCode,data);
+        }
+    }
     @Override
     public void onClick(View v) {
         finish();

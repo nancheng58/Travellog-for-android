@@ -13,6 +13,12 @@ public class Constants {
     public static final String VIDEO_TAG = "video";
     public static final String MINE_TAG = "mine";
 
+    public final static String WEATHER = "Weather";
+    public final static String COLOR = "Color";
+    public final static String STYLE = "Style";
+    public final static String POETRY = "Poetry";
+
+
     public final static String MATERIAL = "Material";
     public final static String FOLLOW_DRAW = "FollowDraw";
     public final static String ARTICLE = "Article";

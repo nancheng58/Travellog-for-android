@@ -90,6 +90,6 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31"
     api 'com.github.jkwiecien:EasyImage:3.0.4'
     implementation 'com.amap.api:3dmap:latest.integration'
-
-
+    implementation 'com.amap.api:search:latest.integration'
+    implementation 'tech.spiro:addrparser:1.1'
 }

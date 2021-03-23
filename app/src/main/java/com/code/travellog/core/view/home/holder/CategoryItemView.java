@@ -62,14 +62,14 @@ public class CategoryItemView extends AbsItemHolder<CategoryVo, CategoryItemView
         holder.recyclerView.setNestedScrollingEnabled(false);
         adapter.notifyDataSetChanged();
         adapter.setOnItemClickListener((v, position) -> {
-            if (list.get(position).title.equals(mContext.getResources().getString(R.string.material_title_name))) {
-                CommonActivity.start(mContext, Constants.MATERIAL, mContext.getResources().getString(R.string.material_title_name));
-            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.article_title_name))) {
-                CommonActivity.start(mContext, Constants.ARTICLE, mContext.getResources().getString(R.string.article_title_name));
-            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.follow_draw_title_name))) {
-                CommonActivity.start(mContext, Constants.FOLLOW_DRAW, mContext.getResources().getString(R.string.follow_draw_title_name));
-            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.live_title_name))) {
-                CommonActivity.start(mContext, Constants.LIVE, mContext.getResources().getString(R.string.live_title_name));
+            if (list.get(position).title.equals(mContext.getResources().getString(R.string.weather_identification_name))) {
+                CommonActivity.start(mContext, Constants.WEATHER, mContext.getResources().getString(R.string.weather_identification_name));
+            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.color_extraction))) {
+                CommonActivity.start(mContext, Constants.COLOR, mContext.getResources().getString(R.string.color_extraction));
+            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.poetry_generation))) {
+                CommonActivity.start(mContext, Constants.POETRY, mContext.getResources().getString(R.string.poetry_generation));
+            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.style_transfer_name))) {
+                CommonActivity.start(mContext, Constants.STYLE, mContext.getResources().getString(R.string.style_transfer_name));
             } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.book_title_name))) {
                 CommonActivity.start(mContext, Constants.BOOK, mContext.getResources().getString(R.string.book_title_name));
             } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.dynamic_title_name))) {

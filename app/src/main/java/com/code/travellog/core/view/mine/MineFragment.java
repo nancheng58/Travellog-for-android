@@ -124,7 +124,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void initView(Bundle state) {
-        loadManager.showSuccess();
+
         butterKnife = ButterKnife.bind(this, rootView);
         this.mContext = activity;
         kv = MMKV.defaultMMKV();
@@ -190,6 +190,7 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+        loadManager.showSuccess();
     }
 
     @Override

@@ -47,6 +47,11 @@ public class ApiRepository extends BaseRepository {
         .compose(RxSchedulers.io_main())
         .subscribeWith(new RxSubscriber<ColorPojo>() {
             @Override
+            protected void onNoNetWork() {
+                super.onNoNetWork();
+            }
+
+            @Override
             public void onSuccess(ColorPojo colorPojo) {
                 postData(ENTER_KEY_COLOR,colorPojo);
                 postState(StateConstants.SUCCESS_STATE);
