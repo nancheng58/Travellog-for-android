@@ -10,8 +10,12 @@ import android.util.Log;
 import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
 
+import com.aiunit.vision.common.ConnectionCallback;
 import com.bumptech.glide.Glide;
 import com.code.travellog.config.URL;
+import com.coloros.ocs.ai.cv.CVUnit;
+import com.coloros.ocs.ai.cv.CVUnitClient;
+import com.coloros.ocs.base.common.ConnectionResult;
 import com.luck.picture.lib.style.PictureCropParameterStyle;
 import com.luck.picture.lib.style.PictureParameterStyle;
 import com.mvvm.http.HttpHelper;
@@ -37,6 +41,8 @@ import tech.spiro.addrparser.io.RegionDataInput;
 import tech.spiro.addrparser.io.file.JSONFileRegionDataInput;
 import tech.spiro.addrparser.parser.LocationParserEngine;
 import tech.spiro.addrparser.parser.ParserEngineException;
+import com.coloros.ocs.base.common.api.OnConnectionFailedListener;
+import com.coloros.ocs.base.common.api.OnConnectionSucceedListener;
 
 
 /**
@@ -47,6 +53,7 @@ public class App extends Application implements ComponentCallbacks2 {
     public static Context mContext;
     public static LocationParserEngine regionDataengine;
     public static PictureParameterStyle mPictureParameterStyle;
+    public static CVUnitClient mCVClient;
     private Set<Activity> mActivities;
     static { // 防止内存泄漏
         //设置全局的Header构建器
@@ -73,6 +80,7 @@ public class App extends Application implements ComponentCallbacks2 {
         } catch (ParserEngineException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -86,6 +94,36 @@ public class App extends Application implements ComponentCallbacks2 {
         return mInstance;
     }
 
+    public CVUnitClient getCVUnit(){
+        if(mCVClient == null){
+            mCVClient = CVUnit.getVideoStyleTransferDetectorClient
+                    (this.getApplicationContext()).addOnConnectionSucceedListener(new OnConnectionSucceedListener() {
+                @Override
+                public void onConnectionSucceed() {
+                    Log.i("TAG", " authorize connect: onConnectionSucceed");
+                }
+            }).addOnConnectionFailedListener(new OnConnectionFailedListener() {
+                @Override
+                public void onConnectionFailed(ConnectionResult connectionResult) {
+                    Log.e("TAG", " authorize connect: onFailure: " + connectionResult.getErrorCode());
+                }
+            });
+            mCVClient.initService(this, new ConnectionCallback() {
+                @Override
+                public void onServiceConnect() {
+                    Log.i("TAG", "initService: onServiceConnect");
+                    int startCode = mCVClient.start();
+                }
+
+                @Override
+                public void onServiceDisconnect() {
+                    Log.e("TAG", "initService: onServiceDisconnect: ");
+                }
+            });
+
+        }
+        return mCVClient;
+    }
     public PictureParameterStyle getWhiteStyle() {
         // 相册主题
 

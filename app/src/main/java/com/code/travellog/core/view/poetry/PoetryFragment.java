@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.extraction.ColorPojo;
-import com.code.travellog.core.data.pojo.weather.WeatherPojo;
 import com.code.travellog.core.data.source.ApiRepository;
 import com.code.travellog.core.vm.ApiViewModel;
 import com.code.travellog.util.ToastUtils;
@@ -30,9 +29,6 @@ import org.jetbrains.annotations.NotNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.ChooserType;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -73,7 +69,7 @@ public class PoetryFragment extends AbsLifecycleFragment<ApiViewModel> {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.activity_color;
+        return R.layout.fragment_color;
     }
 
     @Override

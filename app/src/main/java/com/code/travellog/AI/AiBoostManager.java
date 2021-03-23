@@ -1,5 +1,6 @@
 package com.code.travellog.AI;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -187,6 +188,7 @@ public class AiBoostManager {
         reader.close();
         return labelList;
     }
+    @SuppressLint("StaticFieldLeak")
     private class ComputeTask extends AsyncTask<Bitmap, Void, String> {
         @Override
         protected String doInBackground(Bitmap... inputs) {

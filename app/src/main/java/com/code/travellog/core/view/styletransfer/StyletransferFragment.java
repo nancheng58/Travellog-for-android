@@ -1,10 +1,12 @@
-package com.code.travellog.core.view.color;
+package com.code.travellog.core.view.styletransfer;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +18,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.aiunit.core.FrameData;
+import com.aiunit.vision.common.FrameInputSlot;
+import com.aiunit.vision.common.FrameOutputSlot;
 import com.bumptech.glide.Glide;
+import com.code.travellog.App;
 import com.code.travellog.R;
-import com.code.travellog.core.data.pojo.extraction.ColorPojo;
-import com.code.travellog.core.data.source.ApiRepository;
 import com.code.travellog.core.vm.ApiViewModel;
 import com.code.travellog.util.ToastUtils;
+import com.coloros.ocs.ai.cv.CVUnitClient;
 import com.mvvm.base.AbsLifecycleFragment;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,9 +34,6 @@ import org.jetbrains.annotations.NotNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import pl.aprilapps.easyphotopicker.ChooserType;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -42,7 +44,7 @@ import pl.aprilapps.easyphotopicker.MediaSource;
  * @description:
  * @date: 2021/3/23
  */
-public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
+public class StyletransferFragment extends AbsLifecycleFragment<ApiViewModel> {
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.tv_title)
@@ -57,27 +59,28 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
     Button btnResult;
     Unbinder butterKnife;
     /* 图片上传 */
-    private static final int CHOOSER_PERMISSIONS_REQUEST_CODE = 7461;
-    @BindView(R.id.textView)
-    TextView textView;
+    private static final int CHOOSER_PERMISSIONS_REQUEST_CODE = 7462;
+    @BindView(R.id.btn_get)
+    Button btnGet;
+    @BindView(R.id.content_style)
+    LinearLayout contentStyle;
     private MediaFile selectedImageFile;
-    @BindView(R.id.content_color)
-    LinearLayout content_color;
     private EasyImage easyImage;
     private Context mContext;
+    private CVUnitClient mCVClient;
 
-    public static ColorFragment newInstance() {
-        return new ColorFragment();
+    public static StyletransferFragment newInstance() {
+        return new StyletransferFragment();
     }
 
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_color;
+        return R.layout.fragment_style;
     }
 
     @Override
     protected int getContentResId() {
-        return R.id.content_color;
+        return R.id.content_style;
     }
 
     @Override
@@ -92,7 +95,7 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
                 .setFolderName("picCache")
                 .allowMultiple(false)
                 .build();
-
+        mCVClient = App.instance().getCVUnit();
         loadManager.showSuccess();
         ToastUtils.showToast("请点击图片并选择照片");
         image.setOnClickListener(v -> {
@@ -108,36 +111,32 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
                 ToastUtils.showToast("请先选择图片");
             } else {
                 ToastUtils.showToast("获取中，请稍后");
-                RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), selectedImageFile.getFile());
-                MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("image", selectedImageFile.getFile().toString(), requestBody).build();
-
-                mViewModel.getColorResult(multipartBody);
+                computeResult();
             }
         });
-        textView.setVisibility(View.INVISIBLE);
+        btnGet.setVisibility(View.INVISIBLE);
     }
 
     @SuppressLint("DefaultLocale")
     @Override
     protected void dataObserver() {
-        registerSubscriber(ApiRepository.ENTER_KEY_COLOR, ColorPojo.class).observe(this, colorPojo -> {
-
-            if(colorPojo.code!=200){
-                ToastUtils.showToast(colorPojo.msg);
-            }
-            else {
-                ToastUtils.showToast("获取成功");
-//                StringBuilder textToShow = new StringBuilder();
-//                textToShow.append("最大概率天气: " + weatherPojo.data.weather);
-//                for(int i = 0 ;i <weatherPojo.data.rate.size(); i++){
-//                    textToShow.append(String.format("\n %s: %4.2f", weatherPojo.data.tags.get(i), weatherPojo.data.rate.get(i)));
-//                }
-//                textView.setText(textToShow);
-                textView.setVisibility(View.VISIBLE);
-
-            }
-        });
+//        registerSubscriber(ApiRepository.ENTER_KEY_COLOR, ColorPojo.class).observe(this, colorPojo -> {
+//
+//            if(colorPojo.code!=200){
+//                ToastUtils.showToast(colorPojo.msg);
+//            }
+//            else {
+//                ToastUtils.showToast("获取成功");
+////                StringBuilder textToShow = new StringBuilder();
+////                textToShow.append("最大概率天气: " + weatherPojo.data.weather);
+////                for(int i = 0 ;i <weatherPojo.data.rate.size(); i++){
+////                    textToShow.append(String.format("\n %s: %4.2f", weatherPojo.data.tags.get(i), weatherPojo.data.rate.get(i)));
+////                }
+////                textView.setText(textToShow);
+//                textView.setVisibility(View.VISIBLE);
+//
+//            }
+//        });
     }
 
 
@@ -173,12 +172,25 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
         });
     }
 
+    public void computeResult() {
+        Bitmap bitmap = BitmapFactory.decodeFile(selectedImageFile.getFile().getAbsolutePath());
+        FrameInputSlot inputSlot = (FrameInputSlot) mCVClient.createInputSlot();
+        inputSlot.setTargetBitmap(bitmap);
+        FrameOutputSlot outputSlot = (FrameOutputSlot) mCVClient.createOutputSlot();
+        mCVClient.process(inputSlot, outputSlot);
+        FrameData frameData = outputSlot.getOutFrameData();
+        byte[] outImageBuffer = frameData.getData();
+        Glide.with(mContext).load(outImageBuffer)
+                .into(image);
+        ToastUtils.showToast("获取成功");
+        btnGet.setVisibility(View.VISIBLE);
+    }
+
     public void setUI(@NotNull MediaFile[] returnedPhotos) {
         Log.w("Imagefile", returnedPhotos[0].getFile().toString());
         Glide.with(mContext).load(returnedPhotos[0].getFile())
                 .into(image);
         selectedImageFile = returnedPhotos[0];
-
     }
 
     @Override
@@ -231,6 +243,13 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
     public void onDestroyView() {
         super.onDestroyView();
         butterKnife.unbind();
+        if (mCVClient != null) {
+            mCVClient.stop();
+        }
+        assert mCVClient != null;
+        mCVClient.releaseService();
+        mCVClient = null;
+
     }
 
 

@@ -72,7 +72,7 @@ public class WeatherFragment extends AbsLifecycleFragment<ApiViewModel> {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.activity_weather;
+        return R.layout.fragment_weather;
     }
 
     @Override

@@ -23,7 +23,9 @@ import com.code.travellog.core.view.dynamic.DynamicFragment;
 import com.code.travellog.core.view.followdraw.FollowDrawFragment;
 import com.code.travellog.core.view.live.LiveFragment;
 import com.code.travellog.core.view.material.MaterialFragment;
+import com.code.travellog.core.view.poetry.PoetryFragment;
 import com.code.travellog.core.view.qa.QaListFragment;
+import com.code.travellog.core.view.styletransfer.StyletransferFragment;
 import com.code.travellog.core.view.weather.WeatherFragment;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.base.BaseFragment;
@@ -84,11 +86,11 @@ public class CommonActivity extends BaseActivity implements View.OnClickListener
             case Constants.COLOR:
                 commitFragment(ColorFragment.newInstance());
                 break;
-            case Constants.FOLLOW_DRAW:
-                commitFragment(FollowDrawFragment.newInstance());
+            case Constants.POETRY:
+                commitFragment(PoetryFragment.newInstance());
                 break;
-            case Constants.DYNAMIC:
-                commitFragment(DynamicFragment.newInstance());
+            case Constants.STYLE:
+                commitFragment(StyletransferFragment.newInstance());
                 break;
             case Constants.BOOK:
                 commitFragment(BookFragment.newInstance());

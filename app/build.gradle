@@ -30,7 +30,7 @@ android {
     }
     defaultConfig {
         applicationId "com.code.travellog"
-        minSdkVersion 23
+        minSdkVersion 29
         targetSdkVersion 30
         versionCode 2
         versionName "2.0"
@@ -60,6 +60,11 @@ android {
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'   // aar目录
+        }
     }
     signingConfigs {
         //调试版的keystore

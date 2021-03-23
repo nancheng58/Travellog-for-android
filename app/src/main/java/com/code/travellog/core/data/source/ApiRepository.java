@@ -19,10 +19,13 @@ public class ApiRepository extends BaseRepository {
     public static String ENTER_KEY_WRATHER = null;
     public static String ENTER_KEY_COLOR = null;
     public static String ENTER_KEY_POETRY = null;
+    public static String ENTER_KEY_STYLE = null;
     public ApiRepository(){
         if(ENTER_KEY_WRATHER == null) ENTER_KEY_WRATHER = StringUtil.getEventKey();
         if(ENTER_KEY_COLOR == null) ENTER_KEY_COLOR = StringUtil.getEventKey();
         if(ENTER_KEY_POETRY == null) ENTER_KEY_POETRY = StringUtil.getEventKey();
+        if(ENTER_KEY_STYLE == null) ENTER_KEY_STYLE = StringUtil.getEventKey();
+
     }
     public void loadWeatherResult(MultipartBody multipartBody)
     {
