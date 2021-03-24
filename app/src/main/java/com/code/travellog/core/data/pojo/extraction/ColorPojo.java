@@ -7,10 +7,11 @@ import java.util.List;
 
 public class ColorPojo extends BasePojo {    //色彩提取
 
-    public List<List<Float>> data;
-//    public static class DataBean{
-//        public List<ColorData> result ;
-//    }
+    public DataBean data;
+    public static class DataBean{
+        int k;
+        public List<List<Float>> result ;
+    }
 //    public static class ColorData {
 //        public List<Float> TODO;
 //    }

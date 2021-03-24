@@ -5,6 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
@@ -58,8 +62,20 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
     Unbinder butterKnife;
     /* 图片上传 */
     private static final int CHOOSER_PERMISSIONS_REQUEST_CODE = 7461;
-    @BindView(R.id.textView)
-    TextView textView;
+    @BindView(R.id.textView1)
+    TextView textView1;
+    @BindView(R.id.maincolor)
+    ImageView maincolor;
+    @BindView(R.id.textView2)
+    TextView textView2;
+    @BindView(R.id.secondarycolor)
+    ImageView secondarycolor;
+    @BindView(R.id.result)
+    LinearLayout result;
+    @BindView(R.id.maintextView)
+    TextView maintextView;
+    @BindView(R.id.secondarytextView)
+    TextView secondarytextView;
     private MediaFile selectedImageFile;
     @BindView(R.id.content_color)
     LinearLayout content_color;
@@ -115,7 +131,8 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
                 mViewModel.getColorResult(multipartBody);
             }
         });
-        textView.setVisibility(View.INVISIBLE);
+
+        result.setVisibility(View.INVISIBLE);
     }
 
     @SuppressLint("DefaultLocale")
@@ -123,19 +140,38 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
     protected void dataObserver() {
         registerSubscriber(ApiRepository.ENTER_KEY_COLOR, ColorPojo.class).observe(this, colorPojo -> {
 
-            if(colorPojo.code!=200){
+            if (colorPojo.code != 200) {
                 ToastUtils.showToast(colorPojo.msg);
-            }
-            else {
+            } else {
                 ToastUtils.showToast("获取成功");
-//                StringBuilder textToShow = new StringBuilder();
-//                textToShow.append("最大概率天气: " + weatherPojo.data.weather);
-//                for(int i = 0 ;i <weatherPojo.data.rate.size(); i++){
-//                    textToShow.append(String.format("\n %s: %4.2f", weatherPojo.data.tags.get(i), weatherPojo.data.rate.get(i)));
-//                }
+                StringBuilder textToShow = new StringBuilder();
+                float r = 0, b = 0, g = 0;
+                for (int i = 0; i < colorPojo.data.result.size(); i++) {
+                    r = colorPojo.data.result.get(i).get(0);
+                    g = colorPojo.data.result.get(i).get(1);
+                    b = colorPojo.data.result.get(i).get(2);
+                    textToShow.append(String.format("\n rgb值为(%.0f ,%.0f ,%.0f)", r, g, b));
+                    if (i == 0) {
+                        ColorStateList colors = ColorStateList.valueOf(Color.argb(255, r, g, b));
+                        Drawable drawable = DrawableCompat.wrap(maincolor.getDrawable());
+                        DrawableCompat.setTintList(drawable, colors);
+                        maincolor.setImageDrawable(drawable);
+                        maintextView.setText(textToShow);
+                    } else {
+                        ColorStateList colors = ColorStateList.valueOf(Color.argb(255, r, g, b));
+                        Drawable drawable = DrawableCompat.wrap(secondarycolor.getDrawable());
+                        DrawableCompat.setTintList(drawable, colors);
+                        secondarycolor.setImageDrawable(drawable);
+                        secondarytextView.setText(textToShow);
+                    }
+                    textToShow = new StringBuilder();
+                }
+//                textView.setTextColor();
 //                textView.setText(textToShow);
-                textView.setVisibility(View.VISIBLE);
-
+//                textView.setVisibility(View.VISIBLE);
+//                textView1.setText("1111");
+//                textView1.setVisibility(View.VISIBLE);
+                result.setVisibility(View.VISIBLE);
             }
         });
     }

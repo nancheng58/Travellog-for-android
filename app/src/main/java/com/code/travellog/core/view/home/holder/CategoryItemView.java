@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author：tqzhang on 18/6/20 13:41
+ * @description
+ * @time 2021/3/24 13:56
  */
+
 public class CategoryItemView extends AbsItemHolder<CategoryVo, CategoryItemView.ViewHolder> {
     private String[] tvNames;
     private int[] tvIcons;

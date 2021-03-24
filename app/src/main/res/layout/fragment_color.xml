@@ -35,22 +35,94 @@
                 android:layout_gravity="center"
 
                 android:text="获取结果" />
+            <LinearLayout
+                android:id="@+id/result"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="none"
                 android:layout_marginTop="@dimen/dp10"
-
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:textAllCaps="false"
-                android:textAppearance="@android:style/TextAppearance"
                 android:textSize="18sp"
-                tools:layout_editor_absoluteX="171dp"
-                tools:layout_editor_absoluteY="243dp"
-                tools:text="none"
+                android:textColor="@color/black"
+                android:text="主要颜色"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
+                <ImageView
+                            android:id="@+id/maincolor"
+                            android:layout_width="35dp"
+                            android:layout_height="31dp"
+                    android:layout_marginTop="@dimen/dp10"
+
+                    android:layout_gravity="center"
+                            android:src="@color/app_color_c51" />
+                        <TextView
+                            android:id="@+id/maintextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp10"
+                            android:gravity="center"
+                            android:textAllCaps="false"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent" />
+                    </LinearLayout>
+
+            <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:text="次要颜色"
+
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+                <ImageView
+                    android:id="@+id/secondarycolor"
+                    android:layout_width="35dp"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:layout_gravity="center"
+                    android:layout_height="31dp"
+                    android:src="@color/app_color_c51" />
+                <TextView
+                    android:id="@+id/secondarytextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:gravity="center"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
         </LinearLayout>
 
 </LinearLayout>

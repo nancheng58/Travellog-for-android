@@ -25,11 +25,17 @@ import com.bumptech.glide.Glide;
 import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.core.vm.ApiViewModel;
+import com.code.travellog.glide.GlideCircleTransform;
+import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.ToastUtils;
 import com.coloros.ocs.ai.cv.CVUnitClient;
+import com.luck.picture.lib.tools.BitmapUtils;
 import com.mvvm.base.AbsLifecycleFragment;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +74,7 @@ public class StyletransferFragment extends AbsLifecycleFragment<ApiViewModel> {
     private EasyImage easyImage;
     private Context mContext;
     private CVUnitClient mCVClient;
-
+    private Bitmap outbitmap;
     public static StyletransferFragment newInstance() {
         return new StyletransferFragment();
     }
@@ -115,6 +121,14 @@ public class StyletransferFragment extends AbsLifecycleFragment<ApiViewModel> {
             }
         });
         btnGet.setVisibility(View.INVISIBLE);
+        btnGet.setOnClickListener(v -> {
+            if(BitmapUtil.saveMyBitmap(outbitmap)) {
+                ToastUtils.showToast("保存成功");
+            }else {
+                ToastUtils.showToast("保存失败");
+            }
+
+        });
     }
 
     @SuppressLint("DefaultLocale")
@@ -174,14 +188,29 @@ public class StyletransferFragment extends AbsLifecycleFragment<ApiViewModel> {
 
     public void computeResult() {
         Bitmap bitmap = BitmapFactory.decodeFile(selectedImageFile.getFile().getAbsolutePath());
+
+//        bitmap
+        Glide.with(mContext).load(bitmap)
+//                .transform(new GlideCircleTransform(mContext))
+                .into(image);
+        bitmap = BitmapUtil.ChangeSize(bitmap,60,80);
+        Log.w("qwq0",selectedImageFile.getFile().getAbsolutePath());
         FrameInputSlot inputSlot = (FrameInputSlot) mCVClient.createInputSlot();
         inputSlot.setTargetBitmap(bitmap);
         FrameOutputSlot outputSlot = (FrameOutputSlot) mCVClient.createOutputSlot();
         mCVClient.process(inputSlot, outputSlot);
         FrameData frameData = outputSlot.getOutFrameData();
         byte[] outImageBuffer = frameData.getData();
-        Glide.with(mContext).load(outImageBuffer)
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Log.w("qwq", String.valueOf(frameData.height) + " " +frameData.width);
+        outbitmap = BitmapUtil.byteArrayRGBABitmap(outImageBuffer,frameData.width,frameData.height);
+//        bitmap = BitmapFactory.decodeByteArray(outImageBuffer,0,outImageBuffer.length);
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//        byte[] bitmapBytes = baos.toByteArray();
+        Glide.with(mContext).load(outbitmap)
                 .into(image);
+
+//        startActivity(BitmapUtil.saveMyBitmap(bitmap));
         ToastUtils.showToast("获取成功");
         btnGet.setVisibility(View.VISIBLE);
     }
