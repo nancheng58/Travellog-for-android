@@ -51,7 +51,8 @@ import com.coloros.ocs.base.common.api.OnConnectionSucceedListener;
 public class App extends Application implements ComponentCallbacks2 {
     public static App mInstance;
     public static Context mContext;
-    public static LocationParserEngine regionDataengine;
+//    public static LocationParserEngine regionDataengine;
+
     public static PictureParameterStyle mPictureParameterStyle;
     public static CVUnitClient mCVClient;
     private Set<Activity> mActivities;
@@ -73,13 +74,13 @@ public class App extends Application implements ComponentCallbacks2 {
 //                return new ClassicsFooter(context).setDrawableSize(20);
 //            }
 //        });
-        RegionDataInput regionDataInput = new JSONFileRegionDataInput("path/china-region.json");
-        regionDataengine = new LocationParserEngine(regionDataInput);
-        try {
-            regionDataengine.init();
-        } catch (ParserEngineException e) {
-            e.printStackTrace();
-        }
+//        RegionDataInput regionDataInput = new JSONFileRegionDataInput("path/china-region.json");
+//        regionDataengine = new LocationParserEngine(regionDataInput);
+//        try {
+//            regionDataengine.init();
+//        } catch (ParserEngineException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -128,7 +129,7 @@ public class App extends Application implements ComponentCallbacks2 {
         // 相册主题
 
         if(mPictureParameterStyle == null){
-            PictureParameterStyle mPictureParameterStyle = new PictureParameterStyle();
+            mPictureParameterStyle = new PictureParameterStyle();
             // 是否改变状态栏字体颜色(黑白切换)
             mPictureParameterStyle.isChangeStatusBarFontColor = true;
             // 是否开启右下角已完成(0/9)风格

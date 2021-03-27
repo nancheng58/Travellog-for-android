@@ -10,6 +10,7 @@
 
     <include layout="@layout/item_title_layout" />
     <ScrollView
+        android:id="@+id/scrollcontent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >

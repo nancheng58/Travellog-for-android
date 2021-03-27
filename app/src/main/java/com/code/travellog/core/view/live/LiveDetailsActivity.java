@@ -14,7 +14,7 @@ import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.course.CourseDetailRemVideoVo;
 import com.code.travellog.core.data.pojo.course.CourseDetailVo;
 import com.code.travellog.core.data.pojo.live.LiveDetailsVo;
-import com.code.travellog.core.view.course.holder.CourseRecommendHolder;
+import com.code.travellog.core.view.forum.holder.ForumRecommendHolder;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.util.DisplayUtil;
 import com.code.travellog.widget.LiveVideoPlayer;
@@ -162,7 +162,7 @@ public class LiveDetailsActivity extends BaseActivity {
     private void setData(CourseDetailRemVideoVo lessonDetailAboutVideoBean) {
         ItemData items = new ItemData();
         DelegateAdapter adapter = new DelegateAdapter.Builder<>()
-                .bind(CourseDetailRemVideoVo.DataBean.CourseListBean.class, new CourseRecommendHolder(LiveDetailsActivity.this)).build();
+                .bind(CourseDetailRemVideoVo.DataBean.CourseListBean.class, new ForumRecommendHolder(LiveDetailsActivity.this)).build();
         mRecyclerView.setAdapter(adapter);
         for (int i = 0; i < lessonDetailAboutVideoBean.getData().getCourse_list().size(); i++) {
             items.add(lessonDetailAboutVideoBean.getData().getCourse_list().get(i));

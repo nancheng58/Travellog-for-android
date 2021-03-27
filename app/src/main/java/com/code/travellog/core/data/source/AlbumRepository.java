@@ -32,7 +32,7 @@ public class AlbumRepository extends BaseRepository {
 
     }
 
-    public void getAblumId(){
+    public void getAlbumId(){
         addDisposable(apiService.getAlbumWorkid()
                     .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<AlbumWorkPojo>() {
@@ -74,7 +74,7 @@ public class AlbumRepository extends BaseRepository {
         .subscribeWith(new RxSubscriber<BasePojo>() {
             @Override
             public void onSuccess(BasePojo basePojo) {
-                postData(EVENT_KEY_ALBUMPIC,basePojo);
+                postData(EVENT_KEY_ALBUMSTART,basePojo);
                 postState(StateConstants.SUCCESS_STATE);
             }
 

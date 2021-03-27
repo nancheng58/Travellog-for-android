@@ -1,4 +1,4 @@
-package com.code.travellog.core.view.course;
+package com.code.travellog.core.view.forum;
 
 import android.content.Intent;
 import android.os.Bundle;

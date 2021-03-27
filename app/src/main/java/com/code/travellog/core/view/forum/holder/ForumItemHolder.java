@@ -1,4 +1,4 @@
-package com.code.travellog.core.view.course.holder;
+package com.code.travellog.core.view.forum.holder;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -18,10 +18,10 @@ import com.code.travellog.util.DisplayUtil;
 /**
  * @author：tqzhang on 18/6/19 15:00
  */
-public class CourseItemHolder extends AbsItemHolder<CourseInfoVo, CourseItemHolder.ViewHolder> {
+public class ForumItemHolder extends AbsItemHolder<CourseInfoVo, ForumItemHolder.ViewHolder> {
     private int commonWidth;
 
-    public CourseItemHolder(Context context) {
+    public ForumItemHolder(Context context) {
         super(context);
         commonWidth = (int) ((float) DisplayUtil.getScreenWidth(mContext)
                 / 2);

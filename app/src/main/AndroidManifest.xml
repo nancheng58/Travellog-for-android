@@ -77,7 +77,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.code.travellog.core.view.course.VideoDetailsActivity"
+            android:name="com.code.travellog.core.view.forum.VideoDetailsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity

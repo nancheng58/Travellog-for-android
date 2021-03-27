@@ -2,21 +2,12 @@ package com.code.travellog.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,17 +16,17 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.adapter.adapter.DelegateAdapter;
+import com.adapter.adapter.ItemData;
+import com.adapter.listener.OnItemClickListener;
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeResult;
@@ -45,23 +36,24 @@ import com.code.travellog.cluster.ClusterItem;
 import com.code.travellog.cluster.ClusterOverlay;
 import com.code.travellog.cluster.ClusterRender;
 import com.code.travellog.cluster.RegionItem;
+import com.code.travellog.core.data.pojo.geo.CityListPojo;
+import com.code.travellog.core.data.pojo.geo.CityPojo;
 import com.code.travellog.core.data.pojo.geo.GeoPojo;
 import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
 import com.code.travellog.core.data.source.PictureRepository;
 import com.code.travellog.core.vm.PictureViewModel;
-import com.code.travellog.ui.adapter.RecyclerViewAdapter;
-import com.code.travellog.util.AssetsUtil;
+import com.code.travellog.core.view.map.MapItemHolder;
+import com.code.travellog.util.AdapterPool;
 import com.code.travellog.util.ScreenUtil;
+import com.code.travellog.util.ToastUtils;
 import com.google.common.geometry.S2CellId;
 import com.google.common.geometry.S2LatLng;
-import com.luck.picture.lib.PictureSelectorExternalUtils;
 import com.mvvm.base.AbsLifecycleActivity;
-import com.mvvm.base.BaseActivity;
 import com.yinglan.scrolllayout.ScrollLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +66,7 @@ import butterknife.ButterKnife;
  * @date: 2021/3/17
  */
 public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implements ClusterRender,
-        AMap.OnMapLoadedListener, ClusterClickListener, GeocodeSearch.OnGeocodeSearchListener {
+        AMap.OnMapLoadedListener, ClusterClickListener, GeocodeSearch.OnGeocodeSearchListener,OnItemClickListener {
     @BindView(R.id.map)
     MapView map;
     AMap aMap;
@@ -94,6 +86,10 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         return R.layout.activity_map;
     }
 
+    protected DelegateAdapter adapter;
+
+    protected ItemData mItems;
+
     @Override
     public void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
@@ -101,18 +97,37 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         mScrollLayout = (ScrollLayout) findViewById(R.id.scroll_down_layout);
         text_foot = (TextView) findViewById(R.id.text_foot);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_view);
-        recyclerView.setAdapter(new RecyclerViewAdapter(this));
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL));
+        adapter = createAdapter() ;
+        mItems = new ItemData();
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         getData();
         dataObserver();
         setBottomBar();
     }
+    protected void setUiData(Collection<?> data) {
+        mItems.clear();
+        mItems.addAll(data);
+        setData();
+    }
+    protected void setData() {
+        adapter.setDatas(mItems);
+        adapter.notifyDataSetChanged();
 
+    }
+    protected DelegateAdapter createAdapter() {
+        return AdapterPool.newInstance().getMapAdapter(this)
+                .setOnItemClickListener(this)
+                .build();
+    }
     @Override
     protected void dataObserver() {
-        registerSubscriber(PictureRepository.EVENT_KEY_PICEXIF,GeoPojo.class).observe(this,list -> {
+        registerSubscriber(PictureRepository.ENTER_KEY_GEO,GeoPojo.class).observe(this,list -> {
             geoPojo = list ;
             init();
+        });
+        registerSubscriber(PictureRepository.ENTER_KEY_CITYLIST, CityListPojo.class).observe(this, cityListPojo -> {
+            setUiData(cityListPojo.cityPojos);
 
         });
     }
@@ -128,7 +143,8 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         }
         else{
             try {
-                mViewModel.getGalleryExif(getContentResolver());
+//                mViewModel.getGalleryExif(getContentResolver());
+                mViewModel.getCityList(getContentResolver());
             }catch (IOException e) {e.printStackTrace();}
         }
     }
@@ -313,8 +329,8 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     protected void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
-        map.onDestroy();
-        mClusterOverlay.onDestroy();
+        if(map != null) map.onDestroy();
+        if(mClusterOverlay !=null) mClusterOverlay.onDestroy();
     }
     @Override
     protected void onResume() {
@@ -407,5 +423,12 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     @Override
     public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
 
+    }
+
+    @Override
+    public void onItemClick(View view, int position, Object o) {
+        if(o instanceof CityPojo){
+            ToastUtils.showToast("点击了"+((CityPojo) o).city);
+        }
     }
 }

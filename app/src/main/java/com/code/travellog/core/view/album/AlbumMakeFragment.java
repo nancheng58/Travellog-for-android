@@ -487,6 +487,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
 //        Bundle bundle = new Bundle();
 //        bundle.putInt("workid",workid);
 //        this.setArguments(bundle);
+        Log.w(TAG,"updata complete and get Result");
         ((MakeAlbumActivity)getActivity()).setWorkid(workid);
         ((MakeAlbumActivity)getActivity()).initFragment(1);
 

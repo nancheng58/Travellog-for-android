@@ -119,7 +119,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public int getContentResId() {
-        return R.id.content_layout;
+        return R.id.scrollcontent;
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.adapter.adapter.DelegateAdapter;
 import com.adapter.adapter.OneToMany;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.activity.ActivityListVo;
-import com.code.travellog.core.data.pojo.album.AlbumListPojo;
+import com.code.travellog.core.data.pojo.album.AlbumResultDescriptionPojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.article.ArticleInfoVo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
@@ -17,13 +17,15 @@ import com.code.travellog.core.data.pojo.correct.WorksListVo;
 import com.code.travellog.core.data.pojo.course.CourseInfoVo;
 import com.code.travellog.core.data.pojo.dynamic.DynamicInfoVo;
 import com.code.travellog.core.data.pojo.followdraw.FollowDrawInfoVo;
+import com.code.travellog.core.data.pojo.geo.CityPojo;
 import com.code.travellog.core.data.pojo.home.CategoryVo;
 import com.code.travellog.core.data.pojo.live.LiveRecommendVo;
 import com.code.travellog.core.data.pojo.material.MaterialInfoVo;
 import com.code.travellog.core.data.pojo.material.MatreialSubjectVo;
 import com.code.travellog.core.data.pojo.qa.QaListVo;
 import com.code.travellog.core.view.activity.holder.ActivityItemHolder;
-import com.code.travellog.core.view.album.holder.AlbumResultHolder;
+import com.code.travellog.core.view.album.holder.AlbumResultHeaderHolder;
+import com.code.travellog.core.view.album.holder.AlbumResultStepHolder;
 import com.code.travellog.core.view.article.holder.ArticleRem1ItemHolder;
 import com.code.travellog.core.view.article.holder.ArticleRem2ItemHolder;
 import com.code.travellog.core.view.article.holder.ArticleRem3ItemHolder;
@@ -31,7 +33,7 @@ import com.code.travellog.core.view.book.holder.BookItemHolder;
 import com.code.travellog.core.view.book.holder.BookListHolder;
 import com.code.travellog.core.view.common.TypeItemView;
 import com.code.travellog.core.view.correct.holder.CorrectItemHolder;
-import com.code.travellog.core.view.course.holder.CourseItemHolder;
+import com.code.travellog.core.view.forum.holder.ForumItemHolder;
 import com.code.travellog.core.view.dynamic.holder.DynamicArticleHolder;
 import com.code.travellog.core.view.dynamic.holder.DynamicCorrectHolder;
 import com.code.travellog.core.view.dynamic.holder.DynamicCourseHolder;
@@ -45,6 +47,7 @@ import com.code.travellog.core.view.home.holder.HomeLiveItemView;
 import com.code.travellog.core.view.home.holder.HomeMaterialItemView;
 import com.code.travellog.core.view.live.holder.LiveItemHolder;
 import com.code.travellog.core.view.live.holder.LiveListItemHolder;
+import com.code.travellog.core.view.map.MapItemHolder;
 import com.code.travellog.core.view.material.holder.MaterialItemHolder;
 import com.code.travellog.core.view.material.holder.MaterialListHolder;
 import com.code.travellog.core.view.qa.holder.QaListItemHolder;
@@ -77,8 +80,21 @@ public class AdapterPool {
 
     public DelegateAdapter.Builder getAlbumResultAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
-                .bind(AlbumResultPojo.class, new AlbumResultHolder(context));
+                .bind(AlbumResultPojo.class, new AlbumResultHeaderHolder(context))
+                .bind(AlbumResultDescriptionPojo.class,new AlbumResultStepHolder(context));
     }
+
+    public DelegateAdapter.Builder getMapAdapter(Context context) {
+        return new DelegateAdapter.Builder<>()
+                .bind(CityPojo.class, new MapItemHolder(context));
+    }
+
+
+
+
+
+
+
 
     public DelegateAdapter.Builder getWorkAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
@@ -115,14 +131,14 @@ public class AdapterPool {
         return new DelegateAdapter.Builder<>()
                 .bind(TypeVo.class, new TypeItemView(context))
                 .bind(BannerListVo.class, new BannerItemView(context))
-                .bind(CourseInfoVo.class, new CourseItemHolder(context))
+                .bind(CourseInfoVo.class, new ForumItemHolder(context))
                 .bind(LiveRecommendVo.class, new HomeLiveItemView(context));
 
     }
 
     public DelegateAdapter.Builder getCourseListAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
-                .bind(CourseInfoVo.class, new CourseItemHolder(context));
+                .bind(CourseInfoVo.class, new ForumItemHolder(context));
 
     }
 
@@ -162,7 +178,7 @@ public class AdapterPool {
                 .bind(TypeVo.class, new TypeItemView(context))
                 .bind(CategoryVo.class, new CategoryItemView(context))
                 .bind(BookList.class, new BookItemHolder(context))
-                .bind(CourseInfoVo.class, new CourseItemHolder(context))
+                .bind(CourseInfoVo.class, new ForumItemHolder(context))
                 .bind(LiveRecommendVo.class, new HomeLiveItemView(context))
                 .bind(MatreialSubjectVo.class, new HomeMaterialItemView(context));
     }

@@ -18,9 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * @author：tqzhang on 18/8/1 10:43
- */
+
 public abstract class BaseViewPagerFragment<T extends AbsViewModel> extends AbsLifecycleFragment<T> {
 
     protected SlidingTabLayout mTabLayout;

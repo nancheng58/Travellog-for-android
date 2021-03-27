@@ -24,4 +24,7 @@ public class PictureViewModel extends AbsViewModel<PictureRepository> {
     public void getGalleryPhotosPath(ContentResolver contentResolver){
         mRepository.getGalleryPhotosPath(contentResolver);
     }
+    public void getCityList(ContentResolver contentResolver) throws IOException {
+        mRepository.getCityList(contentResolver);
+    }
 }

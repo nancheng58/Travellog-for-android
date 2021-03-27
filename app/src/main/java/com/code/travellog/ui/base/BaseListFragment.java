@@ -15,11 +15,15 @@ import com.mvvm.base.AbsLifecycleFragment;
 import com.mvvm.base.AbsViewModel;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 
 /**
- * @author：tqzhang on 18/7/10 16:20
+ * @description
+ * @time 2021/2/27 10:21
  */
+
 public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecycleFragment<T> implements RefreshHelper.OnHelperRefreshListener, RefreshHelper.OnHelperLoadMoreListener {
 
     protected SmartRefreshLayout mSmartRefreshLayout;
@@ -147,9 +151,9 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         getRemoteData();
     }
 
-    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+    private final RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        public void onScrollStateChanged(@NotNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                 if (activity != null) {

@@ -1,4 +1,4 @@
-package com.code.travellog.core.view.course.holder;
+package com.code.travellog.core.view.forum.holder;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -16,9 +16,9 @@ import com.code.travellog.core.data.pojo.course.CourseDetailRemVideoVo;
 /**
  * @author：tqzhang on 18/7/16 17:37
  */
-public class CourseRecommendHolder extends AbsItemHolder<CourseDetailRemVideoVo.DataBean.CourseListBean, CourseRecommendHolder.ViewHolder> {
+public class ForumRecommendHolder extends AbsItemHolder<CourseDetailRemVideoVo.DataBean.CourseListBean, ForumRecommendHolder.ViewHolder> {
 
-    public CourseRecommendHolder(Context context) {
+    public ForumRecommendHolder(Context context) {
         super(context);
     }
 

@@ -1,4 +1,4 @@
-package com.code.travellog.core.view.course;
+package com.code.travellog.core.view.forum;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,14 +20,14 @@ import com.code.travellog.util.AdapterPool;
 /**
  * @author：tqzhang on 18/5/2 19:40
  */
-public class CourseListFragment extends BaseListFragment<CourseViewModel> implements OnItemClickListener {
+public class ForumListFragment extends BaseListFragment<CourseViewModel> implements OnItemClickListener {
 
     private String mCatalogId;
 
     private boolean loadMore = false;
 
-    public static CourseListFragment newInstance() {
-        return new CourseListFragment();
+    public static ForumListFragment newInstance() {
+        return new ForumListFragment();
     }
 
     @Override

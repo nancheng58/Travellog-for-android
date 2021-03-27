@@ -22,7 +22,7 @@ import com.code.travellog.core.data.pojo.live.LiveRecommendVo;
 import com.code.travellog.core.view.common.TypeItemView;
 import com.code.travellog.core.view.correct.holder.CorrectPicHolder;
 import com.code.travellog.core.view.correct.holder.CorrectRemItemHolder;
-import com.code.travellog.core.view.course.holder.CourseItemHolder;
+import com.code.travellog.core.view.forum.holder.ForumItemHolder;
 import com.code.travellog.core.view.home.holder.HomeLiveItemView;
 import com.code.travellog.core.vm.WorkViewModel;
 import com.mvvm.base.AbsLifecycleActivity;
@@ -77,7 +77,7 @@ public class WorkDetailsActivity extends AbsLifecycleActivity<WorkViewModel> imp
     private void initAdapter() {
         adapter = new DelegateAdapter.Builder<>()
                 .bind(WorkDetailVo.class, new CorrectPicHolder(weakReference.get()))
-                .bind(CourseInfoVo.class, new CourseItemHolder(weakReference.get()))
+                .bind(CourseInfoVo.class, new ForumItemHolder(weakReference.get()))
                 .bind(LiveRecommendVo.class, new HomeLiveItemView(weakReference.get()))
                 .bind(WorkInfoVo.class, new CorrectRemItemHolder(weakReference.get()))
                 .bind(TypeVo.class, new TypeItemView(weakReference.get()))

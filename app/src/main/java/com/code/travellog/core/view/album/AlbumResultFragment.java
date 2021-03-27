@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import com.adapter.adapter.DelegateAdapter;
 import com.code.travellog.R;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
+import com.code.travellog.core.data.pojo.album.AlbumResultDescriptionPojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.source.AlbumRepository;
 import com.code.travellog.core.vm.AlbumViewModel;
@@ -25,6 +28,10 @@ import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.AbsLifecycleFragment;
 import com.mvvm.http.HttpHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -37,29 +44,43 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
     public static AlbumResultFragment newInstance(){
         return new AlbumResultFragment();
     }
-
+    ImageView ivBack;
     @Override
     public int getLayoutResId() {
-        return R.layout.fragment_ablumresult;
+        return R.layout.fragment_list_common;
     }
-
+    private List<String> list;
     private int workid ;
-    private int lastStaus;
+    private int lastStaus = 0;
+    private String lastDes = null ;
+    private AlbumResultDescriptionPojo albumResultDescriptionPojo = null;
     @Override
     public void initView(Bundle state) {
         super.initView(state);
         startAlbum();
         dataObserver();
+        ivBack = getActivity().findViewById(R.id.iv_back);
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(v -> {
+            onDestroy();
+        });
+//        mSmartRefreshLayout.s
+        isLoadMore = false;
+        isRefresh = true;
+        albumResultDescriptionPojo = new AlbumResultDescriptionPojo();
+        albumResultDescriptionPojo.descriptions = new ArrayList<>();
+        setTitle("影集生成");
+        mSmartRefreshLayout.setEnableLoadMore(false);
+        onLoadMore(false,0);
     }
 
     @Override
     protected void dataObserver() {
 //        if(getArguments() != null) workid =getArguments().getInt("work_id");
-        workid=((MakeAlbumActivity)activity).getWorkid();
         registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMSTART,BasePojo.class).observe(this,basePojo -> {
             if(basePojo.code != 200) ToastUtils.showToast(basePojo.msg);
             else {
-                //TODO
+                getRemoteData();
             }
         });
         registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMRESULT, AlbumResultPojo.class).observe(this, albumResultPojo -> {
@@ -72,20 +93,18 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
 //
 //                getRemoteData();
 //            }
-            else if (albumResultPojo.data.status != lastStaus){
+//            else if (albumResultPojo.data.status != lastStaus)
+            {
                 //TODO
-                Log.w("AlbumResultInfo",albumResultPojo.data.info);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getRemoteData();
-                    }
-                }
-                , 1000);
-                mItems.clear();
-                mItems.add(albumResultPojo);
-                setData();
-                lastStaus = albumResultPojo.data.status;
+                Log.w("AlbumResultInfo",albumResultPojo.data.description);
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        getRemoteData();
+//                    }
+//                }
+//                , 1000);
+                AlbumResultFragment.this.addItems(albumResultPojo);
             }
 
         });
@@ -94,6 +113,7 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
     @Override
     protected void onStateRefresh() {
         super.onStateRefresh();
+        getRemoteData();
     }
 
     @Override
@@ -103,7 +123,7 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
 
     @Override
     protected RecyclerView.LayoutManager createLayoutManager() {
-        return new LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false);
+        return new LinearLayoutManager(activity,RecyclerView.VERTICAL,false);
     }
 
     @Override
@@ -119,6 +139,19 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
     public void startAlbum()
     {
 //        workid = (((MakeAlbumActivity)getActivity())).getWorkid();
+        workid=((MakeAlbumActivity)activity).getWorkid();
+
         mViewModel.AlbumStart(workid);
+    }
+    private void addItems(AlbumResultPojo albumResultPojo){
+
+        if(!lastDes.equals(albumResultPojo.data.description))
+            albumResultDescriptionPojo.descriptions.add(albumResultPojo.data.description);
+        if(isRefresh) mItems.clear();
+        mItems.add(albumResultPojo);
+        mItems.add(albumResultDescriptionPojo);
+        setData();
+        lastStaus = albumResultPojo.data.status;
+        lastDes = albumResultPojo.data.description;
     }
 }

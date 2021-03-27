@@ -18,13 +18,11 @@ import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.view.correct.WorkFragment;
-import com.code.travellog.core.view.course.VideoFragment;
+import com.code.travellog.core.view.forum.VideoFragment;
 import com.code.travellog.core.view.home.HomeFragment;
 import com.code.travellog.core.view.mine.MineFragment;
 import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.BaseActivity;
-
-import java.util.List;
 
 
 public class MainActivity extends BaseActivity {

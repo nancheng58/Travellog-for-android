@@ -22,6 +22,9 @@ import com.code.travellog.core.data.pojo.dynamic.DynamicListVo;
 import com.code.travellog.core.data.pojo.extraction.ColorPojo;
 import com.code.travellog.core.data.pojo.followdraw.FollowDrawRecommendVo;
 import com.code.travellog.core.data.pojo.followdraw.FollowDrawTypeVo;
+import com.code.travellog.core.data.pojo.geo.CityListResultPojo;
+import com.code.travellog.core.data.pojo.geo.CityPojo;
+import com.code.travellog.core.data.pojo.geo.CityResultPojo;
 import com.code.travellog.core.data.pojo.home.HomeListVo;
 import com.code.travellog.core.data.pojo.live.LiveDetailsVo;
 import com.code.travellog.core.data.pojo.live.LiveListVo;
@@ -100,7 +103,26 @@ public interface ApiService {
     Flowable<WeatherPojo> getWeather(@Body MultipartBody multipartBody);
 
     @POST(URL.API_URL+"poem")
-    Flowable<PoetryPojo> getPoetry(String keyword ,int length ,int experience ,int history);
+    @FormUrlEncoded
+    Flowable<PoetryPojo> getPoetry(@Field("keyword") String keyword ,@Field("length") int length ,@Field("experience") int experience ,@Field("history") int history);
+
+    @POST(URL.API_URL+"location")
+    @FormUrlEncoded
+    Flowable<CityListResultPojo> getCityList(@Field("longitude") String longitude,@Field("latitude") String latitude);
+
+    @GET(URL.API_URL+"location")
+    @FormUrlEncoded
+    Flowable<CityResultPojo> getCity(@Field("longitude") String longitude,@Field("latitude") String latitude);
+
+
+
+
+
+
+
+
+
+
 
 
 

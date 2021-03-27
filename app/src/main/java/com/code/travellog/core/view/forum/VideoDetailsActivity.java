@@ -1,4 +1,4 @@
-package com.code.travellog.core.view.course;
+package com.code.travellog.core.view.forum;
 
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.course.CourseDetailRemVideoVo;
 import com.code.travellog.core.data.pojo.course.CourseDetailVo;
-import com.code.travellog.core.view.course.holder.CourseRecommendHolder;
+import com.code.travellog.core.view.forum.holder.ForumRecommendHolder;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.DisplayUtil;
@@ -27,8 +27,10 @@ import io.reactivex.schedulers.Schedulers;
 
 
 /**
- * @author：tqzhang on 18/7/7 15:09
+ * @description 视频页面
+ * @time 2021/3/24 20:46
  */
+
 public class VideoDetailsActivity extends BaseActivity {
     private StandardGSYVideoPlayer mVideoPlayer;
     private OrientationUtils mOrientationUtils;
@@ -161,7 +163,7 @@ public class VideoDetailsActivity extends BaseActivity {
     private void setData(CourseDetailRemVideoVo lessonDetailAboutVideoBean) {
         ItemData items = new ItemData();
         DelegateAdapter adapter = new DelegateAdapter.Builder<>()
-        .bind(CourseDetailRemVideoVo.DataBean.CourseListBean.class, new CourseRecommendHolder(VideoDetailsActivity.this)).build();
+        .bind(CourseDetailRemVideoVo.DataBean.CourseListBean.class, new ForumRecommendHolder(VideoDetailsActivity.this)).build();
         mRecyclerView.setAdapter(adapter);
         items.addAll(lessonDetailAboutVideoBean.getData().getCourse_list());
 //        mRecyclerView.refreshComplete(items, false);

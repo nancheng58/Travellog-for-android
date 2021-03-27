@@ -1,4 +1,4 @@
-package com.code.travellog.core.view.course;
+package com.code.travellog.core.view.forum;
 
 import android.os.Bundle;
 
@@ -83,12 +83,12 @@ public class VideoFragment extends BaseViewPagerFragment<CourseViewModel> {
                 CourseRecommendFragment courseRecommendFragment = CourseRecommendFragment.newInstance();
                 mFragments.add(courseRecommendFragment);
             } else {
-                CourseListFragment courseListFragment = CourseListFragment.newInstance();
+                ForumListFragment forumListFragment = ForumListFragment.newInstance();
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.F_CATALOG_ID, titleName.get(i).id);
                 bundle.putSerializable(Constants.S_CATALOG, titleName.get(i).s_catalog);
-                courseListFragment.setArguments(bundle);
-                mFragments.add(courseListFragment);
+                forumListFragment.setArguments(bundle);
+                mFragments.add(forumListFragment);
             }
 
         }
