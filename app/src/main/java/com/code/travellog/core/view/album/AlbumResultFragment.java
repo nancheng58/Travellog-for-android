@@ -69,6 +69,11 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
         isRefresh = true;
         albumResultDescriptionPojo = new AlbumResultDescriptionPojo();
         albumResultDescriptionPojo.descriptions = new ArrayList<>();
+        albumResultDescriptionPojo.descriptions.add("图片收集完成");
+        albumResultDescriptionPojo.descriptions.add("图片物体识别完成");
+        albumResultDescriptionPojo.descriptions.add("图像监督检测完成");
+        albumResultDescriptionPojo.descriptions.add("上传图片完成");
+        albumResultDescriptionPojo.descriptions.add("请求服务器");
         setTitle("影集生成");
         mSmartRefreshLayout.setEnableLoadMore(false);
         onLoadMore(false,0);
@@ -145,7 +150,8 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
     }
     private void addItems(AlbumResultPojo albumResultPojo){
 
-        if(!lastDes.equals(albumResultPojo.data.description))
+        if(lastDes == null) albumResultDescriptionPojo.descriptions.add(albumResultPojo.data.description);
+        else if(lastDes!=null &&!lastDes.equals(albumResultPojo.data.description))
             albumResultDescriptionPojo.descriptions.add(albumResultPojo.data.description);
         if(isRefresh) mItems.clear();
         mItems.add(albumResultPojo);

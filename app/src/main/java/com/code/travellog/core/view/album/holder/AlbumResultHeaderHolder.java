@@ -64,6 +64,13 @@ public class AlbumResultHeaderHolder extends AbsItemHolder<AlbumResultPojo, Albu
             stepBean3 = new StepBean("已完成", -1);
             stepBean4 = new StepBean("完成", -1);
         }
+        else if (status == 3){
+            stepBean0 = new StepBean("开始", 1);
+            stepBean1 = new StepBean("排队等待中", 1);
+            stepBean2 = new StepBean("正在生成", 1);
+            stepBean3 = new StepBean("已完成", 0);
+            stepBean4 = new StepBean("完成", -1);
+        }
         stepsBeanList.add(stepBean0);
         stepsBeanList.add(stepBean1);
         stepsBeanList.add(stepBean2);

@@ -18,6 +18,7 @@ import com.code.travellog.core.data.pojo.album.AlbumResultDescriptionPojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,6 +51,7 @@ public class AlbumResultStepHolder extends AbsItemHolder<AlbumResultDescriptionP
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull AlbumResultDescriptionPojo albumResultDescriptionPojo) {
         List<String> list = albumResultDescriptionPojo.descriptions;
+//        Collections.reverse(list);
 ////        int status = albumResultPojo.data.status;
 //        ((List<String>) list).add("您已提交定单，等待系统确认");
 //        ((List<String>) list).add("您的商品需要从外地调拨，我们会尽快处理，请耐心等待");
@@ -65,8 +67,9 @@ public class AlbumResultStepHolder extends AbsItemHolder<AlbumResultDescriptionP
 //        ((List<String>) list).add("您的订单在京东【北京中关村大厦站】验货完成，正在分配配送员");
 //        ((List<String>) list).add("配送员【包牙齿】已出发，联系电话【130-0000-0000】，感谢您的耐心等待，参加评价还能赢取好多礼物哦");
 //        ((List<String>) list).add("感谢你在京东购物，欢迎你下次光临！");
-        holder.stepView.setStepsViewIndicatorComplectingPosition(((List<String>) list).size() - 2)//设置完成的步数
+        holder.stepView.setStepsViewIndicatorComplectingPosition(((List<String>) list).size())//设置完成的步数
                 .setStepViewTexts(list)//总步骤
+                .reverseDraw(false)
                 .setTextSize(12)
                 .setLinePaddingProportion(0.85f)//设置indicator线与线间距的比例系数
                 .setStepsViewIndicatorCompletedLineColor(ContextCompat.getColor(mContext, android.R.color.white))//设置StepsViewIndicator完成线的颜色

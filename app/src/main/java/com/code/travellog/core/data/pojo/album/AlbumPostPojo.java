@@ -11,6 +11,9 @@ import java.util.List;
 public class AlbumPostPojo implements Serializable {
     public ArrayList<String> images;
     public ArrayList<Data> factors;
+    public String title;
+    public String description;
+    public String muisc;
     public static class DataBean{
         public String path;
     }

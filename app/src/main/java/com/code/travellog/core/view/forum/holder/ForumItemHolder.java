@@ -16,8 +16,10 @@ import com.code.travellog.glide.GlideCircleTransform;
 import com.code.travellog.util.DisplayUtil;
 
 /**
- * @author：tqzhang on 18/6/19 15:00
+ * @description 论坛组件
+ * @time 2021/3/27 21:16
  */
+
 public class ForumItemHolder extends AbsItemHolder<CourseInfoVo, ForumItemHolder.ViewHolder> {
     private int commonWidth;
 

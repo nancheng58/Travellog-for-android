@@ -18,8 +18,10 @@ import com.code.travellog.util.AdapterPool;
 
 
 /**
- * @author：tqzhang on 18/5/2 19:40
+ * @description
+ * @time 2021/3/26 21:10
  */
+
 public class ForumListFragment extends BaseListFragment<CourseViewModel> implements OnItemClickListener {
 
     private String mCatalogId;

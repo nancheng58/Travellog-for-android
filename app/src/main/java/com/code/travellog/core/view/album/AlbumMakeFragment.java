@@ -189,13 +189,17 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
                 ContextCompat.getColor(getContext(), R.color.app_color_black),
                 mPictureParameterStyle.isChangeStatusBarFontColor);
         btn_submit.setOnClickListener(v -> {
-            getImageObjectDetector(localMediaList);
-            LiveBus.getDefault().subscribe(AiBoostManager.EVENT_KEY_OBJECT,null,List.class).observe(this,list -> {
-                mDetectorresult = list;
-                postAlbum();
-                Log.w(TAG,mDetectorresult.toString());
-            });
+            if(localMediaList.size() == 0) ToastUtils.showToast("图片集合不能为空");
+            else if(title.getText() == null){
+                ToastUtils.showToast("标题不能为空");
+            }
+            else if(description.getText() == null){
+                ToastUtils.showToast("标题不能为空");
+            }
+            else {
+                getImageObjectDetector(localMediaList);
 
+            }
         });
         mWindowAnimationStyle = new PictureWindowAnimationStyle();
         mWindowAnimationStyle.ofAllAnimation(R.anim.picture_anim_up_in, R.anim.picture_anim_down_out);
@@ -416,7 +420,11 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
     @Override
     protected void dataObserver() {
 //        LiveBus.getDefault().subscribe(Constants.EVENT_KEY_WORK_STATE).observe(this, observer);
-
+        LiveBus.getDefault().subscribe(AiBoostManager.EVENT_KEY_OBJECT,null,List.class).observe(this,list -> {
+            mDetectorresult = list;
+            postAlbum();
+            Log.w(TAG,mDetectorresult.toString());
+        });
         registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMID,AlbumWorkPojo.class).observe(this,albumWorkPojo -> {
             if(albumWorkPojo.code!=200) ToastUtils.showToast(albumWorkPojo.msg);
             else { workid = albumWorkPojo.data.work_id;
@@ -448,6 +456,9 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
         int i = 0 ;
         albumPostPojo.images = new ArrayList<String>(localMediaList.size());
         albumPostPojo.factors = new ArrayList<AlbumPostPojo.Data>(localMediaList.size());
+        albumPostPojo.description = description.getText().toString();
+        albumPostPojo.title = description.getText().toString();
+        albumPostPojo.muisc = null ;
         for(LocalMedia localMedia : localMediaList){
             albumPostPojo.images.add(i,localMedia.getFileName());
 
@@ -481,6 +492,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
                     .addFormDataPart("file", localMedia.getFileName(), requestBody).build();
             mViewModel.postPic(workid,multipartBody);
         }
+
     }
     private void getResult()
     {
