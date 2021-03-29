@@ -30,6 +30,7 @@ import com.mvvm.http.HttpHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -59,7 +60,7 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
         super.initView(state);
         startAlbum();
         dataObserver();
-        ivBack = getActivity().findViewById(R.id.iv_back);
+        ivBack = Objects.requireNonNull(getActivity()).findViewById(R.id.iv_back);
         ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(v -> {
             onDestroy();
@@ -74,6 +75,7 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
         albumResultDescriptionPojo.descriptions.add("图像监督检测完成");
         albumResultDescriptionPojo.descriptions.add("上传图片完成");
         albumResultDescriptionPojo.descriptions.add("请求服务器");
+        albumResultDescriptionPojo.step = 5;
         setTitle("影集生成");
         mSmartRefreshLayout.setEnableLoadMore(false);
         onLoadMore(false,0);
@@ -89,18 +91,15 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
             }
         });
         registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMRESULT, AlbumResultPojo.class).observe(this, albumResultPojo -> {
-            if(albumResultPojo == null ) return ;
+            if(albumResultPojo == null ) ;
             else if (albumResultPojo.code != 200){
                 ToastUtils.showToast(albumResultPojo.msg);
             }
-//            else if(albumResultPojo.data.status != 3 ){
-//                Log.w("AlbumResultInfo",albumResultPojo.data.info);
-//
-//                getRemoteData();
-//            }
-//            else if (albumResultPojo.data.status != lastStaus)
+            else if (albumResultPojo.data.status == -1){
+                ToastUtils.showToast(albumResultPojo.data.description);
+            }
+            else
             {
-                //TODO
                 Log.w("AlbumResultInfo",albumResultPojo.data.description);
 //                new Handler().postDelayed(new Runnable() {
 //                    @Override
@@ -109,17 +108,19 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
 //                    }
 //                }
 //                , 1000);
+
                 AlbumResultFragment.this.addItems(albumResultPojo);
             }
 
         });
     }
 
-    @Override
-    protected void onStateRefresh() {
-        super.onStateRefresh();
-        getRemoteData();
-    }
+//    @Override
+//    protected void onStateRefresh() {
+//        super.onStateRefresh();
+////        refreshHelper.refreshComplete();
+////        getRemoteData();
+//    }
 
     @Override
     protected DelegateAdapter createAdapter() {
@@ -136,10 +137,6 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
         mViewModel.getAlbumResult(workid);
     }
 
-    @Override
-    protected void showLoading() {
-        super.showLoading();
-    }
 
     public void startAlbum()
     {
@@ -150,14 +147,19 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
     }
     private void addItems(AlbumResultPojo albumResultPojo){
 
-        if(lastDes == null) albumResultDescriptionPojo.descriptions.add(albumResultPojo.data.description);
-        else if(lastDes!=null &&!lastDes.equals(albumResultPojo.data.description))
+        if(lastDes == null || !lastDes.equals(albumResultPojo.data.description)){
             albumResultDescriptionPojo.descriptions.add(albumResultPojo.data.description);
-        if(isRefresh) mItems.clear();
-        mItems.add(albumResultPojo);
-        mItems.add(albumResultDescriptionPojo);
-        setData();
-        lastStaus = albumResultPojo.data.status;
-        lastDes = albumResultPojo.data.description;
+            if(isRefresh) mItems.clear();
+            if(albumResultPojo.data.status == 3 ) {
+                albumResultDescriptionPojo.descriptions.add("影集生成已经完成，请见个人影集列表");
+            }
+            mItems.add(albumResultPojo);
+            mItems.add(albumResultDescriptionPojo);
+//            rootView.invalidate();
+            setData();
+            lastStaus = albumResultPojo.data.status;
+            lastDes = albumResultPojo.data.description;
+        }
+
     }
 }

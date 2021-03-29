@@ -51,6 +51,13 @@ public class AlbumResultHeaderHolder extends AbsItemHolder<AlbumResultPojo, Albu
         List<StepBean> stepsBeanList = new ArrayList<>();
         StepBean stepBean0 = null, stepBean1 = null, stepBean2 = null, stepBean3 = null, stepBean4 = null;
         int status = albumResultPojo.data.status;
+        if (status == 0) {
+            stepBean0 = new StepBean("开始", 0);
+            stepBean1 = new StepBean("排队等待中", -1);
+            stepBean2 = new StepBean("正在生成", -1);
+            stepBean3 = new StepBean("已完成", -1);
+            stepBean4 = new StepBean("完成", -1);
+        }
         if (status == 1) {
             stepBean0 = new StepBean("开始", 1);
             stepBean1 = new StepBean("排队等待中", 0);

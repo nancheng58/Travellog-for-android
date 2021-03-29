@@ -34,6 +34,7 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
         super.initView(state);
         setTitle(getResources().getString(R.string.home_title_name));
         refreshHelper.setEnableLoadMore(true);
+        loadManager.showSuccess();
     }
 
     /**
@@ -67,7 +68,7 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
 
     @Override
     protected void getRemoteData() {
-        mViewModel.getHomeListData();
+//        mViewModel.getHomeListData();
     }
 
     private void addItems(HomeMergeVo homeMergeVo) {

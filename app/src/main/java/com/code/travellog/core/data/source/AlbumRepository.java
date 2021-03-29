@@ -39,7 +39,7 @@ public class AlbumRepository extends BaseRepository {
                     @Override
                     public void onSuccess(AlbumWorkPojo albumWorkPojo) {
                         postData(EVENT_KEY_ALBUMID,albumWorkPojo);
-//                        postState(StateConstants.SUCCESS_STATE);
+                        postState(StateConstants.SUCCESS_STATE);
                     }
 
                     @Override

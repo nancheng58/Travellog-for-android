@@ -48,6 +48,7 @@ import com.code.travellog.ui.FullyGridLayoutManager;
 import com.code.travellog.ui.MakeAlbumActivity;
 import com.code.travellog.ui.adapter.GridImageAdapter;
 import com.code.travellog.ui.listener.DragListener;
+import com.code.travellog.util.FileUitl;
 import com.code.travellog.util.JsonUtils;
 import com.code.travellog.util.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
@@ -76,6 +77,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -142,7 +144,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
     RecyclerView recycler;
     private List<AiBoostManager.Data> mDetectorresult;
     private GridImageAdapter mAdapter;
-    private AiBoostManager aiBoostManager ;
+    private AiBoostManager aiBoostManager = null;
     private int workid;
     public static AlbumMakeFragment newInstance() {
         return new AlbumMakeFragment();
@@ -190,15 +192,19 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
                 mPictureParameterStyle.isChangeStatusBarFontColor);
         btn_submit.setOnClickListener(v -> {
             if(localMediaList.size() == 0) ToastUtils.showToast("图片集合不能为空");
-            else if(title.getText() == null){
-                ToastUtils.showToast("标题不能为空");
+            else if(TextUtils.isEmpty(title.getText())){
+                ToastUtils.showToast("影集标题不能为空");
             }
-            else if(description.getText() == null){
-                ToastUtils.showToast("标题不能为空");
+            else if(TextUtils.isEmpty(description.getText())){
+                ToastUtils.showToast("描述不能为空");
             }
             else {
                 getImageObjectDetector(localMediaList);
-
+                registerSubscriber(AiBoostManager.EVENT_KEY_OBJECT,null,List.class).observe(this,list -> {
+                    mDetectorresult = list;
+                    postAlbum();
+                    Log.w(TAG,mDetectorresult.toString());
+                });
             }
         });
         mWindowAnimationStyle = new PictureWindowAnimationStyle();
@@ -420,11 +426,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
     @Override
     protected void dataObserver() {
 //        LiveBus.getDefault().subscribe(Constants.EVENT_KEY_WORK_STATE).observe(this, observer);
-        LiveBus.getDefault().subscribe(AiBoostManager.EVENT_KEY_OBJECT,null,List.class).observe(this,list -> {
-            mDetectorresult = list;
-            postAlbum();
-            Log.w(TAG,mDetectorresult.toString());
-        });
+
         registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMID,AlbumWorkPojo.class).observe(this,albumWorkPojo -> {
             if(albumWorkPojo.code!=200) ToastUtils.showToast(albumWorkPojo.msg);
             else { workid = albumWorkPojo.data.work_id;
@@ -460,7 +462,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
         albumPostPojo.title = description.getText().toString();
         albumPostPojo.muisc = null ;
         for(LocalMedia localMedia : localMediaList){
-            albumPostPojo.images.add(i,localMedia.getFileName());
+            albumPostPojo.images.add(i, i+FileUitl.getImgType(localMedia.getAndroidQToPath()));
 
             AlbumPostPojo.Data data = new AlbumPostPojo.Data();
             data.types = new ArrayList<>();
@@ -485,12 +487,16 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
         MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("file", file.getName(), requestBody).build();
         mViewModel.postPic(workid,multipartBody);
+        i = 0;
+        Log.w(TAG,"图片数量 "+ localMediaList.size());
         for(LocalMedia localMedia : localMediaList){
+
             file = new File(localMedia.getAndroidQToPath());
             requestBody = RequestBody.create(MediaType.parse("image/*"), file);
             multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                    .addFormDataPart("file", localMedia.getFileName(), requestBody).build();
+                    .addFormDataPart("file",i+FileUitl.getImgType(localMedia.getAndroidQToPath()), requestBody).build();
             mViewModel.postPic(workid,multipartBody);
+            i ++ ;
         }
 
     }
@@ -500,7 +506,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
 //        bundle.putInt("workid",workid);
 //        this.setArguments(bundle);
         Log.w(TAG,"updata complete and get Result");
-        ((MakeAlbumActivity)getActivity()).setWorkid(workid);
+        ((MakeAlbumActivity) Objects.requireNonNull(getActivity())).setWorkid(workid);
         ((MakeAlbumActivity)getActivity()).initFragment(1);
 
     }

@@ -8,4 +8,5 @@ import java.util.List;
  */
 public class AlbumResultDescriptionPojo {
     public List<String> descriptions ;
+    public int step;
 }

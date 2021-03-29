@@ -7,7 +7,7 @@ public class Constants {
     public static final String SPName = "parms";
     public static final String ALBUMMAKE_TAG = "albummake";
     public static final String ALBUMRESULT_TAG = "albumresult";
-
+    public static final String APPID = "com.code.travellog.App";
     public static final String HOME_TAG = "home";
     public static final String WORK_TAG = "work";
     public static final String VIDEO_TAG = "video";
