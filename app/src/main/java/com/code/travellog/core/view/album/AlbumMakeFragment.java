@@ -459,7 +459,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
         albumPostPojo.images = new ArrayList<String>(localMediaList.size());
         albumPostPojo.factors = new ArrayList<AlbumPostPojo.Data>(localMediaList.size());
         albumPostPojo.description = description.getText().toString();
-        albumPostPojo.title = description.getText().toString();
+        albumPostPojo.title = title.getText().toString();
         albumPostPojo.muisc = null ;
         for(LocalMedia localMedia : localMediaList){
             albumPostPojo.images.add(i, i+FileUitl.getImgType(localMedia.getAndroidQToPath()));

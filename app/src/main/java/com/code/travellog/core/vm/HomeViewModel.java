@@ -19,6 +19,10 @@ public class HomeViewModel extends AbsViewModel<HomeRepository> {
     private void getHomeListData(String id) {
         mRepository.loadHomeData(id);
     }
+    private void getAlbumList() {
+        mRepository.loadAlbumData();
+    }
+
 
     private void getBannerData(String posType,
                                String fCatalogId,
@@ -31,7 +35,8 @@ public class HomeViewModel extends AbsViewModel<HomeRepository> {
 
     public void getHomeListData() {
         getBannerData("1", "4", "109", "", null);
-        getHomeListData("0");
+//        getHomeListData("0");
+        getAlbumList();
         mRepository.loadHomeData();
     }
 

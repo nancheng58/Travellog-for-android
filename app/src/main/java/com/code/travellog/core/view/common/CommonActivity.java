@@ -92,18 +92,19 @@ public class CommonActivity extends BaseActivity implements View.OnClickListener
             case Constants.STYLE:
                 commitFragment(StyletransferFragment.newInstance());
                 break;
-            case Constants.BOOK:
+            case Constants.SUPERVISION:
                 commitFragment(BookFragment.newInstance());
                 break;
-            case Constants.LIVE:
+            case Constants.SUPER:
                 commitFragment(LiveFragment.newInstance());
+                break;
+            case Constants.OBJECT:
+                commitFragment(QaListFragment.newInstance());
                 break;
             case Constants.ACTIVITY:
                 commitFragment(ActivityListFragment.newInstance());
                 break;
-            case Constants.QA:
-                commitFragment(QaListFragment.newInstance());
-                break;
+
             default:
                 break;
         }

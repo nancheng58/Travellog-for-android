@@ -3,9 +3,10 @@
 buildscript {
     
     repositories {
-        google()
+
 
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        google()
         maven {
             url "http://dl.bintray.com/glomadrian/maven"
         }

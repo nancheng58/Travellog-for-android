@@ -14,15 +14,7 @@ public class AlbumListPojo extends BasePojo {
     public static class DataBean{
         public int uid ;
         public int movie_num;
-        public List<Datalist> movies;
-    }
-    public static class Datalist{
-        public int work_id;
-        public String create_time ;
-        public String update_time;
-        public int status ;
-        public String description;
-        public String info ;
+        public List<AlbumPojo> movies;
     }
     /**
     "data": {

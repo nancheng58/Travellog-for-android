@@ -31,7 +31,7 @@ public class ForumItemHolder extends AbsItemHolder<CourseInfoVo, ForumItemHolder
 
     @Override
     public int getLayoutResId() {
-        return R.layout.home_remmend_course;
+        return R.layout.item_home_album;
     }
 
     @Override

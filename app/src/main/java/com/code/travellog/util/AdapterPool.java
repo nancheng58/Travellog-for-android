@@ -6,11 +6,12 @@ import com.adapter.adapter.DelegateAdapter;
 import com.adapter.adapter.OneToMany;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.activity.ActivityListVo;
+import com.code.travellog.core.data.pojo.album.AlbumListPojo;
+import com.code.travellog.core.data.pojo.album.AlbumPojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultDescriptionPojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.article.ArticleInfoVo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
-import com.code.travellog.core.data.pojo.book.BookList;
 import com.code.travellog.core.data.pojo.book.BookVo;
 import com.code.travellog.core.data.pojo.common.TypeVo;
 import com.code.travellog.core.data.pojo.correct.WorksListVo;
@@ -29,7 +30,6 @@ import com.code.travellog.core.view.album.holder.AlbumResultStepHolder;
 import com.code.travellog.core.view.article.holder.ArticleRem1ItemHolder;
 import com.code.travellog.core.view.article.holder.ArticleRem2ItemHolder;
 import com.code.travellog.core.view.article.holder.ArticleRem3ItemHolder;
-import com.code.travellog.core.view.book.holder.BookItemHolder;
 import com.code.travellog.core.view.book.holder.BookListHolder;
 import com.code.travellog.core.view.common.TypeItemView;
 import com.code.travellog.core.view.correct.holder.CorrectItemHolder;
@@ -42,9 +42,9 @@ import com.code.travellog.core.view.dynamic.holder.DynamicLiveHolder;
 import com.code.travellog.core.view.dynamic.holder.DynamicSubjectHolder;
 import com.code.travellog.core.view.dynamic.holder.DynamicWorkHolder;
 import com.code.travellog.core.view.followdraw.holder.FollowDrawListHolder;
+import com.code.travellog.core.view.home.holder.AlbumItemHolder;
 import com.code.travellog.core.view.home.holder.CategoryItemView;
 import com.code.travellog.core.view.home.holder.HomeLiveItemView;
-import com.code.travellog.core.view.home.holder.HomeMaterialItemView;
 import com.code.travellog.core.view.live.holder.LiveItemHolder;
 import com.code.travellog.core.view.live.holder.LiveListItemHolder;
 import com.code.travellog.core.view.map.MapItemHolder;
@@ -54,8 +54,10 @@ import com.code.travellog.core.view.qa.holder.QaListItemHolder;
 import com.code.travellog.widget.banner.BannerItemView;
 
 /**
- * @author：tqzhang on 18/8/3 16:25
+ * @description
+ * @time 2021/2/30 19:56
  */
+
 public class AdapterPool {
 
     private static AdapterPool adapterPool;
@@ -72,6 +74,20 @@ public class AdapterPool {
         return adapterPool;
     }
 
+    // Home 布局适配器
+    public DelegateAdapter.Builder getHomeAdapter(Context context) {
+        return new DelegateAdapter.Builder<>()
+                .bind(BannerListVo.class, new BannerItemView(context))
+                .bind(CategoryVo.class, new CategoryItemView(context))
+                .bind(TypeVo.class, new TypeItemView(context))
+                .bind(AlbumPojo.class, new AlbumItemHolder(context));
+//                .bind(TypeVo.class, new TypeItemView(context))
+//                .bind(CategoryVo.class, new CategoryItemView(context))
+//                .bind(BookList.class, new BookItemHolder(context))
+//                .bind(CourseInfoVo.class, new ForumItemHolder(context))
+//                .bind(LiveRecommendVo.class, new HomeLiveItemView(context))
+//                .bind(MatreialSubjectVo.class, new HomeMaterialItemView(context));
+    }
     public DelegateAdapter.Builder getFootprintAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
                 .bind(BannerListVo.class, new BannerItemView(context))
@@ -171,17 +187,7 @@ public class AdapterPool {
         return new DelegateAdapter.Builder<>()
                 .bind(LiveRecommendVo.class, new LiveItemHolder(context));
     }
-    // Home 布局适配器
-    public DelegateAdapter.Builder getHomeAdapter(Context context) {
-        return new DelegateAdapter.Builder<>()
-                .bind(BannerListVo.class, new BannerItemView(context))
-                .bind(TypeVo.class, new TypeItemView(context))
-                .bind(CategoryVo.class, new CategoryItemView(context))
-                .bind(BookList.class, new BookItemHolder(context))
-                .bind(CourseInfoVo.class, new ForumItemHolder(context))
-                .bind(LiveRecommendVo.class, new HomeLiveItemView(context))
-                .bind(MatreialSubjectVo.class, new HomeMaterialItemView(context));
-    }
+
 
     public DelegateAdapter.Builder getDynamicAdapter(Context context) {
         return new DelegateAdapter.Builder<>()

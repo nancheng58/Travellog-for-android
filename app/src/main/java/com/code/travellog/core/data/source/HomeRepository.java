@@ -2,6 +2,7 @@ package com.code.travellog.core.data.source;
 
 
 import com.code.travellog.core.data.BaseRepository;
+import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 import com.code.travellog.core.data.pojo.home.HomeListVo;
 import com.code.travellog.core.data.pojo.home.HomeMergeVo;
@@ -23,7 +24,10 @@ public class HomeRepository extends BaseRepository {
 
     private Flowable<BannerListVo> mBannerObservable;
 
+    private Flowable<AlbumListPojo> mAlbumListObservable;
+
     private final HomeMergeVo homeMergeVo = new HomeMergeVo();
+
 
     public HomeRepository() {
         if (EVENT_KEY_HOME == null) {
@@ -35,6 +39,10 @@ public class HomeRepository extends BaseRepository {
         mHomeListObservable = apiService.getHomeData(id);
     }
 
+    public void loadAlbumData()
+    {
+        mAlbumListObservable =apiService.getAlbumList();
+    }
     public void loadBannerData(String posType,
                                String fCatalogId,
                                String sCatalogId,
@@ -45,7 +53,7 @@ public class HomeRepository extends BaseRepository {
 
 
     public void loadHomeData() {
-        addDisposable(Flowable.concat(mBannerObservable, mHomeListObservable)
+        addDisposable(Flowable.concat(mBannerObservable, mAlbumListObservable)
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<Object>() {
                     @Override
@@ -57,8 +65,8 @@ public class HomeRepository extends BaseRepository {
                     public void onSuccess(Object object) {
                         if (object instanceof BannerListVo) {
                             homeMergeVo.bannerListVo = (BannerListVo) object;
-                        } else if (object instanceof HomeListVo) {
-                            homeMergeVo.homeListVo = (HomeListVo) object;
+                        } else if (object instanceof AlbumListPojo) {
+                            homeMergeVo.albumListPojo = (AlbumListPojo) object;
                             if (homeMergeVo != null) {
                                 postData(EVENT_KEY_HOME, homeMergeVo);
                                 postState(StateConstants.SUCCESS_STATE);

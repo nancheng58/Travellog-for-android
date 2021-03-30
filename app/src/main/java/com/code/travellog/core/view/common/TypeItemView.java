@@ -14,8 +14,10 @@ import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.common.TypeVo;
 
 /**
- * @author：tqzhang on 18/6/20 13:41
+ * @description
+ * @time 2021/3/30 15:22
  */
+
 public class TypeItemView extends AbsItemHolder<TypeVo, TypeItemView.ViewHolder> {
 
     public TypeItemView(Context context) {

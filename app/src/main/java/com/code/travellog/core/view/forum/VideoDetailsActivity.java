@@ -1,5 +1,6 @@
 package com.code.travellog.core.view.forum;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,12 +11,16 @@ import com.adapter.adapter.DelegateAdapter;
 import com.adapter.adapter.ItemData;
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
+import com.code.travellog.config.Constants;
+import com.code.travellog.config.URL;
+import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.course.CourseDetailRemVideoVo;
 import com.code.travellog.core.data.pojo.course.CourseDetailVo;
 import com.code.travellog.core.view.forum.holder.ForumRecommendHolder;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.DisplayUtil;
+import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.http.HttpHelper;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
@@ -37,7 +42,7 @@ public class VideoDetailsActivity extends BaseActivity {
 
     protected RecyclerView mRecyclerView;
 
-    private String lessonId;
+    private String albumId;
     private String teacherId;
     private String fCatalogId;
     private String sCatalogId;
@@ -55,7 +60,7 @@ public class VideoDetailsActivity extends BaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-        lessonId = getIntent().getStringExtra("course_id");
+        albumId = getIntent().getStringExtra(Constants.AlBUM_ID);
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mVideoPlayer = findViewById(R.id.video_player);
@@ -100,29 +105,24 @@ public class VideoDetailsActivity extends BaseActivity {
 
 
 
+    @SuppressLint("CheckResult")
     private void getNetWorkData() {
-        if (TextUtils.isEmpty(lessonId)) {
-            //页面加载错误
+        if (TextUtils.isEmpty(albumId)) {
+            ToastUtils.showToast("加载出错");
             return;
         }
-        HttpHelper.getInstance().create(ApiService.class).getVideoDetailsData(lessonId, "")
+        String url = URL.ALBUM_URL+albumId+"/status";
+        HttpHelper.getInstance().create(ApiService.class).getAlbumResult(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<CourseDetailVo>() {
+                .subscribeWith(new RxSubscriber<AlbumResultPojo>() {
 
                     @Override
-                    public void onSuccess(CourseDetailVo courseDetailVo) {
-                        lessonData = courseDetailVo.data;
-                        fCatalogId = lessonData.f_catalog_id;
-                        sCatalogId = lessonData.s_catalog_id;
-                        teacherId = lessonData.teacheruid;
-                        ImageView imageView = new ImageView(VideoDetailsActivity.this);
-                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        Glide.with(VideoDetailsActivity.this).load(courseDetailVo.data.thumb_url).into(imageView);
-                        mVideoPlayer.setThumbImageView(imageView);
-                        mVideoPlayer.setUp(courseDetailVo.data.sectioin.get(0).videos.get(0).video_info.m3u8url, false, courseDetailVo.data.sectioin.get(0).videos.get(0).title);
-                        mVideoPlayer.startPlayLogic();
-                        getAboutData();
+                    public void onSuccess(AlbumResultPojo albumResultPojo) {
+                        if(albumResultPojo.data.status != 3 )
+                            ToastUtils.showToast("地址为空");
+                        else setUI(albumResultPojo);
+//                        getAboutData();
                     }
 
                     @Override
@@ -135,9 +135,26 @@ public class VideoDetailsActivity extends BaseActivity {
 
 
     }
+    private void setUI(AlbumResultPojo albumResultPojo)
+    {
+        //                        lessonData = courseDetailVo.data;
+//                        fCatalogId = lessonData.f_catalog_id;
+//                        sCatalogId = lessonData.s_catalog_id;
+//                        teacherId = lessonData.teacheruid;
+        ImageView imageView = new ImageView(VideoDetailsActivity.this);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        //TODO
 
+        Glide.with(VideoDetailsActivity.this).load(R.drawable.work_icon).into(imageView);
+        mVideoPlayer.setThumbImageView(imageView);
+//                        String videourl =
+        mVideoPlayer.setUp(URL.IMAGE_URL+albumResultPojo.data.info, false, albumResultPojo.data.description);
+        mVideoPlayer.startPlayLogic();
+        loadManager.showSuccess();
+    }
+    @SuppressLint("CheckResult")
     private void getAboutData() {
-        HttpHelper.getInstance().create(ApiService.class).getVideoAboutData(lessonId, fCatalogId, sCatalogId, teacherId, "20")
+        HttpHelper.getInstance().create(ApiService.class).getVideoAboutData(albumId, fCatalogId, sCatalogId, teacherId, "20")
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

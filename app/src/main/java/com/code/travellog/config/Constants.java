@@ -17,17 +17,27 @@ public class Constants {
     public final static String COLOR = "Color";
     public final static String STYLE = "Style";
     public final static String POETRY = "Poetry";
+    public final static String SUPER = "super";
+    public final static String OBJECT = "Object ";
+    public final static String SUPERVISION = "supervision";
+    public final static String ACTIVITY = "Activity";
 
+
+//    public final static String LIVE = "Live";
+//    public final static String BOOK = "Book";
+//    public final static String DYNAMIC = "Dynamic";
+//    public final static String ACTIVITY = "Activity";
+//    public final static String QA = "Qa";
 
     public final static String MATERIAL = "Material";
     public final static String FOLLOW_DRAW = "FollowDraw";
     public final static String ARTICLE = "Article";
-    public final static String LIVE = "Live";
-    public final static String BOOK = "Book";
-    public final static String DYNAMIC = "Dynamic";
-    public final static String ACTIVITY = "Activity";
-    public final static String QA = "Qa";
 
+//    public final static String supervision = "Dynamic";
+//    public final static String ACTIVITY = "Activity";
+//    public final static String QA = "Qa";
+
+    public final static String AlBUM_ID = "album_id";
     public final static String COURSE_ID = "course_id";
     public final static String CORRECT_ID = "correct_id";
     public final static String F_CATALOG_ID = "f_catalog_id";

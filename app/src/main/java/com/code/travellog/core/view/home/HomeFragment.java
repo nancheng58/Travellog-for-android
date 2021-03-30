@@ -9,6 +9,9 @@ import android.view.View;
 import com.adapter.adapter.DelegateAdapter;
 import com.adapter.listener.OnItemClickListener;
 import com.code.travellog.R;
+import com.code.travellog.core.data.pojo.album.AlbumListPojo;
+import com.code.travellog.core.data.pojo.album.AlbumPojo;
+import com.code.travellog.core.data.pojo.common.TypeVo;
 import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.course.CourseInfoVo;
@@ -33,7 +36,7 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
     public void initView(final Bundle state) {
         super.initView(state);
         setTitle(getResources().getString(R.string.home_title_name));
-        refreshHelper.setEnableLoadMore(true);
+        refreshHelper.setEnableLoadMore(false);
         loadManager.showSuccess();
     }
 
@@ -68,7 +71,7 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
 
     @Override
     protected void getRemoteData() {
-//        mViewModel.getHomeListData();
+        mViewModel.getHomeListData();
     }
 
     private void addItems(HomeMergeVo homeMergeVo) {
@@ -81,10 +84,10 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
 //        if (homeMergeVo.homeListVo.data.live_recommend.size() > 0) {
 //            mItems.addAll(homeMergeVo.homeListVo.data.live_recommend);
 //        }
-//        mItems.add(new TypeVo(getResources().getString(R.string.recommend_video_type)));
-//        if (homeMergeVo.homeListVo.data.course.size() > 0) {
-//            mItems.addAll(homeMergeVo.homeListVo.data.course);
-//        }
+        mItems.add(new TypeVo(getResources().getString(R.string.home_album_list)));
+        if (homeMergeVo.albumListPojo.data.movie_num > 0) {
+            mItems.addAll(homeMergeVo.albumListPojo.data.movies);
+        }
 //        mItems.add(new TypeVo(getResources().getString(R.string.recommend_book_type)));
 //        if (homeMergeVo.homeListVo.data.publishingbook.size() > 0) {
 //            mItems.add(new BookList(homeMergeVo.homeListVo.data.publishingbook));
@@ -99,9 +102,9 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
     @Override
     public void onItemClick(View view, int i, Object object) {
         if (object != null) {
-            if (object instanceof CourseInfoVo) {
+            if (object instanceof AlbumPojo) {
                 Intent intent = new Intent(activity, VideoDetailsActivity.class);
-                intent.putExtra(Constants.COURSE_ID, ((CourseInfoVo) object).courseid);
+                intent.putExtra(Constants.AlBUM_ID, String.valueOf(((AlbumPojo) object).work_id));
                 activity.startActivity(intent);
             }
         }

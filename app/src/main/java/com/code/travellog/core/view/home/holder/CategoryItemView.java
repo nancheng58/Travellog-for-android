@@ -36,9 +36,9 @@ public class CategoryItemView extends AbsItemHolder<CategoryVo, CategoryItemView
                 mContext.getResources().getString(R.string.color_extraction),
                 mContext.getResources().getString(R.string.poetry_generation),
                 mContext.getResources().getString(R.string.style_transfer_name),
-                mContext.getResources().getString(R.string.live_title_name),
-                mContext.getResources().getString(R.string.book_title_name),
-                mContext.getResources().getString(R.string.qa_title_name),
+                mContext.getResources().getString(R.string.image_supervision),
+                mContext.getResources().getString(R.string.object_detection),
+                mContext.getResources().getString(R.string.super_resolution),
                 mContext.getResources().getString(R.string.activity_title_name)};
         tvIcons = new int[]{R.drawable.dynamic_icon, R.drawable.work_icon, R.drawable.article_icon, R.drawable.follow_draw_icon, R.drawable.live_icon, R.drawable.book_icon, R.drawable.qa_icon, R.drawable.activities_icon};
         initData();
@@ -72,12 +72,12 @@ public class CategoryItemView extends AbsItemHolder<CategoryVo, CategoryItemView
                 CommonActivity.start(mContext, Constants.POETRY, mContext.getResources().getString(R.string.poetry_generation));
             } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.style_transfer_name))) {
                 CommonActivity.start(mContext, Constants.STYLE, mContext.getResources().getString(R.string.style_transfer_name));
-            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.book_title_name))) {
-                CommonActivity.start(mContext, Constants.BOOK, mContext.getResources().getString(R.string.book_title_name));
-            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.dynamic_title_name))) {
-                CommonActivity.start(mContext, Constants.DYNAMIC, mContext.getResources().getString(R.string.dynamic_title_name));
-            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.qa_title_name))) {
-                CommonActivity.start(mContext, Constants.QA, mContext.getResources().getString(R.string.qa_title_name));
+            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.image_supervision))) {
+                CommonActivity.start(mContext, Constants.SUPERVISION, mContext.getResources().getString(R.string.image_supervision));
+            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.object_detection))) {
+                CommonActivity.start(mContext, Constants.OBJECT, mContext.getResources().getString(R.string.object_detection));
+            } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.super_resolution))) {
+                CommonActivity.start(mContext, Constants.SUPER, mContext.getResources().getString(R.string.super_resolution));
             } else if (list.get(position).title.equals(mContext.getResources().getString(R.string.activity_title_name))) {
                 CommonActivity.start(mContext, Constants.ACTIVITY, mContext.getResources().getString(R.string.activity_title_name));
             }

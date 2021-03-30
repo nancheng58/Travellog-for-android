@@ -1,5 +1,6 @@
 package com.code.travellog.core.data.pojo.home;
 
+import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 
 /**
@@ -7,5 +8,6 @@ import com.code.travellog.core.data.pojo.banner.BannerListVo;
  */
 public class HomeMergeVo {
     public BannerListVo bannerListVo;
-    public HomeListVo homeListVo;
+    public AlbumListPojo albumListPojo ;
+//    public HomeListVo homeListVo;
 }

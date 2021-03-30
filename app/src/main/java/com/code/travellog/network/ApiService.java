@@ -3,6 +3,7 @@ package com.code.travellog.network;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.activity.ActivityListVo;
+import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
 import com.code.travellog.core.data.pojo.article.ArticleTypeVo;
@@ -85,16 +86,21 @@ public interface ApiService {
     @POST(URL.BASE_URL2+"user/reset")
     Flowable<BasePojo> resetPwd(@FieldMap Map<String,String> params);
 
+    @POST
+    Flowable<BasePojo> postPic(@Url String url ,@Body MultipartBody multipartBody);
+
     @GET(URL.BASE_URL2+"movie/new")
     Flowable<AlbumWorkPojo> getAlbumWorkid();
 
     @GET
-    Flowable<AlbumResultPojo> getAlbumResult(@Url String url);
-    @POST
-    Flowable<BasePojo> postPic(@Url String url ,@Body MultipartBody multipartBody);
+    Flowable<BasePojo> startAlbum(@Url String url);
 
     @GET
-    Flowable<BasePojo> startAlbum(@Url String url);
+    Flowable<AlbumResultPojo> getAlbumResult(@Url String url);
+
+    @GET(URL.ALBUM_URL+"list")
+    Flowable<AlbumListPojo> getAlbumList();
+
 
     @POST(URL.API_URL+"color")
     Flowable<ColorPojo> getColor(@Body MultipartBody multipartBody);
