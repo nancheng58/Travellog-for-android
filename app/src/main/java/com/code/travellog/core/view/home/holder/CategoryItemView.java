@@ -10,7 +10,6 @@ import android.view.View;
 import com.adapter.holder.AbsHolder;
 import com.adapter.holder.AbsItemHolder;
 import com.code.travellog.R;
-import com.code.travellog.ui.adapter.HomeCategoryAdapter;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.home.CatagoryInfoVo;
 import com.code.travellog.core.data.pojo.home.CategoryVo;

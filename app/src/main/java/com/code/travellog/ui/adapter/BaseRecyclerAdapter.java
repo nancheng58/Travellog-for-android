@@ -12,9 +12,6 @@ import com.code.travellog.ui.base.BaseViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author tqzhang on 17/6/6 12:08
- */
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
     private OnItemClickListener onItemClickListener;

@@ -108,4 +108,5 @@ dependencies {
     //adapter dependence
     implementation 'com.github.chezi008:adapter-delegate:1.0.3'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+    implementation 'com.github.pharidali:AnimatedSplash:1.0.0'//启动页
 }

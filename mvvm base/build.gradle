@@ -87,5 +87,6 @@ dependencies {
     api 'org.tensorflow:tensorflow-lite-gpu:2.1.0'
     api 'com.yinglan.scrolllayout:scrolllayout:1.0.2'
     api 'io.sgr:s2-geometry-library-java:1.0.1'
+    api 'com.daimajia.androidanimations:library:2.4@aar' //optional
 
 }

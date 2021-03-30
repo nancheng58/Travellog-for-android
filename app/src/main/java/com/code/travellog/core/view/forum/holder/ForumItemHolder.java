@@ -62,10 +62,10 @@ public class ForumItemHolder extends AbsItemHolder<CourseInfoVo, ForumItemHolder
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             mVideoImage = getViewById(R.id.iv_video_image);
-            mUserIcon = getViewById(R.id.iv_user_icon);
+            mUserIcon = getViewById(R.id.iv_icon);
             mLookNum = getViewById(R.id.tv_look_num);
             mVideoTitle = getViewById(R.id.tv_video_title);
-            mUserName = getViewById(R.id.tv_user_name);
+            mUserName = getViewById(R.id.tv_create_time);
         }
     }
 

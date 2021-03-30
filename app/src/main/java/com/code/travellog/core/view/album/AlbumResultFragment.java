@@ -65,7 +65,6 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
         ivBack.setOnClickListener(v -> {
             onDestroy();
         });
-//        mSmartRefreshLayout.s
         isLoadMore = false;
         isRefresh = true;
         albumResultDescriptionPojo = new AlbumResultDescriptionPojo();
@@ -96,11 +95,11 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
                 ToastUtils.showToast(albumResultPojo.msg);
             }
             else if (albumResultPojo.data.status == -1){
-                ToastUtils.showToast(albumResultPojo.data.description);
+                ToastUtils.showToast(albumResultPojo.data.result_msg);
             }
             else
             {
-                Log.w("AlbumResultInfo",albumResultPojo.data.description);
+                Log.w("AlbumResultInfo",albumResultPojo.data.result_msg);
 //                new Handler().postDelayed(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -114,13 +113,6 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
 
         });
     }
-
-//    @Override
-//    protected void onStateRefresh() {
-//        super.onStateRefresh();
-////        refreshHelper.refreshComplete();
-////        getRemoteData();
-//    }
 
     @Override
     protected DelegateAdapter createAdapter() {
@@ -147,8 +139,8 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
     }
     private void addItems(AlbumResultPojo albumResultPojo){
 
-        if(lastDes == null || !lastDes.equals(albumResultPojo.data.description)){
-            albumResultDescriptionPojo.descriptions.add(albumResultPojo.data.description);
+        if(lastDes == null || !lastDes.equals(albumResultPojo.data.movie_description)){
+            albumResultDescriptionPojo.descriptions.add(albumResultPojo.data.movie_description);
             if(isRefresh) mItems.clear();
             if(albumResultPojo.data.status == 3 ) {
                 albumResultDescriptionPojo.descriptions.add("影集生成已经完成，请见个人影集列表");
@@ -158,7 +150,7 @@ public class AlbumResultFragment extends BaseListFragment<AlbumViewModel> {
 //            rootView.invalidate();
             setData();
             lastStaus = albumResultPojo.data.status;
-            lastDes = albumResultPojo.data.description;
+            lastDes = albumResultPojo.data.movie_description;
         }
 
     }

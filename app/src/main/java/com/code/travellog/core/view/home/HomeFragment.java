@@ -12,6 +12,7 @@ import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.album.AlbumPojo;
 import com.code.travellog.core.data.pojo.common.TypeVo;
+import com.code.travellog.core.data.pojo.home.ButtonPojo;
 import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.course.CourseInfoVo;
@@ -84,6 +85,8 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
 //        if (homeMergeVo.homeListVo.data.live_recommend.size() > 0) {
 //            mItems.addAll(homeMergeVo.homeListVo.data.live_recommend);
 //        }
+        mItems.add(new ButtonPojo(1));
+        mItems.add(new ButtonPojo(2));
         mItems.add(new TypeVo(getResources().getString(R.string.home_album_list)));
         if (homeMergeVo.albumListPojo.data.movie_num > 0) {
             mItems.addAll(homeMergeVo.albumListPojo.data.movies);

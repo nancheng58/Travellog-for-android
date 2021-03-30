@@ -13,13 +13,15 @@ public class AlbumResultPojo extends BasePojo {
     public DataBean data;
     public static class DataBean{
         public int work_id;
-        public String uid;
+        public int uid;
+        public String movie_title;
+        public String movie_description;
         public String create_time ;
         public String update_time;
         public int status ;
-        public String description;
-        public String info ;
-        public int image_num ;
+        public String status_msg;
+        public String result_msg;
+        public int image_num;
         public List<String> image_urls;
     }
 

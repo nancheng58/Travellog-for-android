@@ -19,6 +19,7 @@ import com.code.travellog.core.data.pojo.course.CourseInfoVo;
 import com.code.travellog.core.data.pojo.dynamic.DynamicInfoVo;
 import com.code.travellog.core.data.pojo.followdraw.FollowDrawInfoVo;
 import com.code.travellog.core.data.pojo.geo.CityPojo;
+import com.code.travellog.core.data.pojo.home.ButtonPojo;
 import com.code.travellog.core.data.pojo.home.CategoryVo;
 import com.code.travellog.core.data.pojo.live.LiveRecommendVo;
 import com.code.travellog.core.data.pojo.material.MaterialInfoVo;
@@ -44,6 +45,7 @@ import com.code.travellog.core.view.dynamic.holder.DynamicWorkHolder;
 import com.code.travellog.core.view.followdraw.holder.FollowDrawListHolder;
 import com.code.travellog.core.view.home.holder.AlbumItemHolder;
 import com.code.travellog.core.view.home.holder.CategoryItemView;
+import com.code.travellog.core.view.home.holder.HomeButtonItemView;
 import com.code.travellog.core.view.home.holder.HomeLiveItemView;
 import com.code.travellog.core.view.live.holder.LiveItemHolder;
 import com.code.travellog.core.view.live.holder.LiveListItemHolder;
@@ -79,6 +81,7 @@ public class AdapterPool {
         return new DelegateAdapter.Builder<>()
                 .bind(BannerListVo.class, new BannerItemView(context))
                 .bind(CategoryVo.class, new CategoryItemView(context))
+                .bind(ButtonPojo.class,new HomeButtonItemView(context))
                 .bind(TypeVo.class, new TypeItemView(context))
                 .bind(AlbumPojo.class, new AlbumItemHolder(context));
 //                .bind(TypeVo.class, new TypeItemView(context))

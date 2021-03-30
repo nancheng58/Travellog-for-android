@@ -1,6 +1,5 @@
 package com.code.travellog.core.view.picture;
 
-import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -26,11 +25,11 @@ public class MyAlbumFragment extends AlbumFragment {
     public List<File> buildAlbumSrc() {
 
         List<File> fileList = new ArrayList<>();
-         assert AlbumActivity.file !=null;
-         for(String filename :AlbumActivity.file){
+         assert PictureShowActivity.file !=null;
+         for(String filename : PictureShowActivity.file){
              fileList.add(new File(filename));
          }
-        Log.w("11111","test"+AlbumActivity.file.size());
+        Log.w("11111","test"+ PictureShowActivity.file.size());
 //        String path = Environment.getExternalStorageDirectory().getAbsolutePath()
 //                + "/DCIM/Camera/IMG_20210327_195230.jpg";
 //        Log.w("11",path);
@@ -74,7 +73,7 @@ public class MyAlbumFragment extends AlbumFragment {
 
     @Override
     public void onChooseModeChange(boolean isChoose) {
-        ((AlbumActivity)getActivity()).onChooseModeChange(isChoose);
+        ((PictureShowActivity)getActivity()).onChooseModeChange(isChoose);
     }
 
     public static RequestOptions buildOptions() {

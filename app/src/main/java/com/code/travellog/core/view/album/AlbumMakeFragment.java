@@ -454,51 +454,52 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
 
     public void upLoadPic()
     {
-        AlbumPostPojo albumPostPojo = new AlbumPostPojo();
-        int i = 0 ;
-        albumPostPojo.images = new ArrayList<String>(localMediaList.size());
-        albumPostPojo.factors = new ArrayList<AlbumPostPojo.Data>(localMediaList.size());
-        albumPostPojo.description = description.getText().toString();
-        albumPostPojo.title = title.getText().toString();
-        albumPostPojo.muisc = null ;
-        for(LocalMedia localMedia : localMediaList){
-            albumPostPojo.images.add(i, i+FileUitl.getImgType(localMedia.getAndroidQToPath()));
+        new Thread(()->{
+            AlbumPostPojo albumPostPojo = new AlbumPostPojo();
+            int i = 0 ;
+            albumPostPojo.images = new ArrayList<String>(localMediaList.size());
+            albumPostPojo.factors = new ArrayList<AlbumPostPojo.Data>(localMediaList.size());
+            albumPostPojo.description = description.getText().toString();
+            albumPostPojo.title = title.getText().toString();
+            albumPostPojo.muisc = null ;
+            for(LocalMedia localMedia : localMediaList){
+                albumPostPojo.images.add(i, i+FileUitl.getImgType(localMedia.getAndroidQToPath()));
 
-            AlbumPostPojo.Data data = new AlbumPostPojo.Data();
-            data.types = new ArrayList<>();
-            data.values = new ArrayList<>();
-            albumPostPojo.factors.add(i,data);
-            i ++ ;
-        }
-        i = 0;int  j = 0 ;
-        for (AiBoostManager.Data entry : mDetectorresult){
-            albumPostPojo.factors.get(i).types.add(entry.type);
-            albumPostPojo.factors.get(i).values.add(entry.value);
-            j ++;
-            if (j == 3) {
-                i++;
-                j=0;
+                AlbumPostPojo.Data data = new AlbumPostPojo.Data();
+                data.types = new ArrayList<>();
+                data.values = new ArrayList<>();
+                albumPostPojo.factors.add(i,data);
+                i ++ ;
             }
-        }
-        Log.w(TAG, JsonUtils.toJson(albumPostPojo));
-        saveJSONDataToFile("info.json",JsonUtils.toJson(albumPostPojo));
-        File file =new File(activity.getFilesDir(),"info.json");
-        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
-        MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("file", file.getName(), requestBody).build();
-        mViewModel.postPic(workid,multipartBody);
-        i = 0;
-        Log.w(TAG,"图片数量 "+ localMediaList.size());
-        for(LocalMedia localMedia : localMediaList){
-
-            file = new File(localMedia.getAndroidQToPath());
-            requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-            multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                    .addFormDataPart("file",i+FileUitl.getImgType(localMedia.getAndroidQToPath()), requestBody).build();
+            i = 0;int  j = 0 ;
+            for (AiBoostManager.Data entry : mDetectorresult){
+                albumPostPojo.factors.get(i).types.add(entry.type);
+                albumPostPojo.factors.get(i).values.add(entry.value);
+                j ++;
+                if (j == 3) {
+                    i++;
+                    j=0;
+                }
+            }
+            Log.w(TAG, JsonUtils.toJson(albumPostPojo));
+            saveJSONDataToFile("info.json",JsonUtils.toJson(albumPostPojo));
+            File file =new File(activity.getFilesDir(),"info.json");
+            RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+            MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("file", file.getName(), requestBody).build();
             mViewModel.postPic(workid,multipartBody);
-            i ++ ;
-        }
+            i = 0;
+            Log.w(TAG,"图片数量 "+ localMediaList.size());
+            for(LocalMedia localMedia : localMediaList){
 
+                file = new File(localMedia.getAndroidQToPath());
+                requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+                multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("file",i+FileUitl.getImgType(localMedia.getAndroidQToPath()), requestBody).build();
+                mViewModel.postPic(workid,multipartBody);
+                i ++ ;
+            }
+        }).start();
     }
     private void getResult()
     {

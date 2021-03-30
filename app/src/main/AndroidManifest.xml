@@ -59,7 +59,7 @@
         <activity android:name=".ui.ForgetPwdActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
         <activity android:name=".ui.UserInfoActivity" />
-        <activity android:name=".core.view.picture.AlbumActivity" />
+        <activity android:name=".core.view.picture.PictureShowActivity" />
         <activity android:name=".core.view.picture.MyPreviewActivity"/>
         <activity android:name=".ui.ResetPwdActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>

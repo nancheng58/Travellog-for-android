@@ -41,14 +41,10 @@ import com.code.travellog.core.data.pojo.geo.CityPojo;
 import com.code.travellog.core.data.pojo.geo.GeoPojo;
 import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
 import com.code.travellog.core.data.source.PictureRepository;
-import com.code.travellog.core.view.picture.AlbumActivity;
+import com.code.travellog.core.view.picture.PictureShowActivity;
 import com.code.travellog.core.vm.PictureViewModel;
-import com.code.travellog.core.view.map.MapItemHolder;
 import com.code.travellog.util.AdapterPool;
 import com.code.travellog.util.ScreenUtil;
-import com.code.travellog.util.ToastUtils;
-import com.google.common.geometry.S2CellId;
-import com.google.common.geometry.S2LatLng;
 import com.mvvm.base.AbsLifecycleActivity;
 import com.yinglan.scrolllayout.ScrollLayout;
 
@@ -348,15 +344,15 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         else {
             LatLng latLng =clusterItems.get(0).getPosition();
 
-            List<String> path = null;
+            CityPojo cityPojo1 = null ;
             for(CityPojo cityPojo : cityListPojo) {
                 if(cityPojo.lan == latLng.latitude && cityPojo.lng == latLng.longitude){
-                    path = cityPojo.path ;
+                    cityPojo1 = cityPojo ;
                     break;
                 }
             }
-            assert path != null ;
-            AlbumActivity.start(MapActivity.this,path);
+            assert cityPojo1 != null ;
+            PictureShowActivity.start(MapActivity.this,cityPojo1);
         }
     }
 
@@ -426,7 +422,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     public void onItemClick(View view, int position, Object o) {
         if(o instanceof CityPojo){
 //            ToastUtils.showToast("点击了"+((CityPojo) o).city);
-            AlbumActivity.start(MapActivity.this,((CityPojo) o).path);
+            PictureShowActivity.start(MapActivity.this,((CityPojo) o));
 
         }
     }

@@ -119,8 +119,8 @@ public class VideoDetailsActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(AlbumResultPojo albumResultPojo) {
-                        if(albumResultPojo.data.status != 3 )
-                            ToastUtils.showToast("地址为空");
+                        if(albumResultPojo.data.status != 200 )
+                            ToastUtils.showToast("该影集"+albumResultPojo.data.status_msg);
                         else setUI(albumResultPojo);
 //                        getAboutData();
                     }
@@ -145,10 +145,9 @@ public class VideoDetailsActivity extends BaseActivity {
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         //TODO
 
-        Glide.with(VideoDetailsActivity.this).load(R.drawable.work_icon).into(imageView);
+        Glide.with(VideoDetailsActivity.this).load(URL.IMAGE_URL+albumResultPojo.data.image_urls.get(0)).into(imageView);
         mVideoPlayer.setThumbImageView(imageView);
-//                        String videourl =
-        mVideoPlayer.setUp(URL.IMAGE_URL+albumResultPojo.data.info, false, albumResultPojo.data.description);
+        mVideoPlayer.setUp(URL.IMAGE_URL+albumResultPojo.data.result_msg, false, albumResultPojo.data.movie_title);
         mVideoPlayer.startPlayLogic();
         loadManager.showSuccess();
     }
