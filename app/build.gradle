@@ -16,6 +16,7 @@ android {
         pickFirst 'META-INF/library_release.kotlin_module'
         doNotStrip '*/arm64-v8a/libaiboost_skel*.so'
         doNotStrip '*/armeabi-v7a/libaiboost_skel*.so'
+        exclude 'classes.dex'
     }
     buildTypes {
         debug {
@@ -46,7 +47,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '29.0.2'
+    buildToolsVersion '30.0.2'
 
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
@@ -66,6 +67,7 @@ android {
             dirs 'libs'   // aar目录
         }
     }
+
     signingConfigs {
         //调试版的keystore
         debug {
@@ -88,6 +90,8 @@ dependencies {
     implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     api project(':mvvm base')
+//    api project(':album')
+
     api 'com.jakewharton:butterknife:10.2.1'
     apply plugin: 'com.jakewharton.butterknife'
     kapt  'com.jakewharton:butterknife-compiler:10.2.1'
@@ -98,4 +102,11 @@ dependencies {
     implementation 'com.amap.api:search:latest.integration'
     implementation 'tech.spiro:addrparser:1.1'
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0-beta05' //沉浸式标题
+    implementation ('com.ycjiang:VideoPlayModule:2.1.85'){
+        exclude group:'com.google.android.exoplayer2'
+    }
+    //adapter dependence
+    implementation 'com.github.chezi008:adapter-delegate:1.0.3'
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+
 }

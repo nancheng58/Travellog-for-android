@@ -41,6 +41,7 @@ import com.code.travellog.core.data.pojo.geo.CityPojo;
 import com.code.travellog.core.data.pojo.geo.GeoPojo;
 import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
 import com.code.travellog.core.data.source.PictureRepository;
+import com.code.travellog.core.view.picture.AlbumActivity;
 import com.code.travellog.core.vm.PictureViewModel;
 import com.code.travellog.core.view.map.MapItemHolder;
 import com.code.travellog.util.AdapterPool;
@@ -80,6 +81,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
     private List<PictureExifPojo> pictureExifPojoList;
 
+    private List<CityPojo> cityListPojo = null;
     private GeocodeSearch geocoderSearch;
     @Override
     public int getLayoutId() {
@@ -127,6 +129,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             init();
         });
         registerSubscriber(PictureRepository.ENTER_KEY_CITYLIST, CityListPojo.class).observe(this, cityListPojo -> {
+            this.cityListPojo =cityListPojo.cityPojos ;
             setUiData(cityListPojo.cityPojos);
 
         });
@@ -143,7 +146,6 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         }
         else{
             try {
-//                mViewModel.getGalleryExif(getContentResolver());
                 mViewModel.getCityList(getContentResolver());
             }catch (IOException e) {e.printStackTrace();}
         }
@@ -174,7 +176,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         });
     }
 
-    private ScrollLayout.OnScrollChangedListener mOnScrollChangedListener = new ScrollLayout.OnScrollChangedListener() {
+    private final ScrollLayout.OnScrollChangedListener mOnScrollChangedListener = new ScrollLayout.OnScrollChangedListener() {
         @Override
         public void onScrollProgressChanged(float currentProgress) {
             if (currentProgress >= 0) {
@@ -206,10 +208,6 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        // 定义经纬度坐标
-//        LatLng centerBJPoint= new LatLng(39.904989,116.405285);
-        // 定义了一个配置 AMap 对象的参数类
-//        AMapOptions mapOptions = new AMapOptions();
         // 设置了一个可视范围的初始化位置
         // CameraPosition 第一个参数： 目标位置的屏幕中心点经纬度坐标。
         // CameraPosition 第二个参数： 目标可视区域的缩放级别
@@ -222,14 +220,12 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         map.onCreate(savedInstanceState);
 
 
-
-
     }
     private void init() {
         if (aMap == null) {
             // 初始化地图
             aMap = map.getMap();
-            aMap.setOnMapLoadedListener(this);
+//            aMap.setOnMapLoadedListener(this);
             //这个类就是设置地图移动的参数，CameraPosition，参数1---要移动到的经纬度，
             //参数2---地图的放缩级别zoom，参数3---地图倾斜度，参数4---地图的旋转角度
             CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(
@@ -248,7 +244,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             });
             aMap.getUiSettings().setRotateGesturesEnabled(false);//旋转
             aMap.getUiSettings().setTiltGesturesEnabled(false);//倾斜
-
+            onMapLoaded();
             //地图样式
 //            aMap.setCustomMapStyle(
 //                    new com.amap.api.maps.model.CustomMapStyleOptions()
@@ -276,46 +272,32 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
     @Override
     public void onMapLoaded() {
-        //添加测试数据
-        new Thread() {
-            public void run() {
+        //添加数据
+        new Thread(() -> {
 
-                List<ClusterItem> items = new ArrayList<ClusterItem>();
-                HashMap<Long, GeoPojo.DataBean> dataBeanHashMap = geoPojo.geo;
-                //随机10000个点
-                for (Long id : dataBeanHashMap.keySet()) {
+            List<ClusterItem> items = new ArrayList<ClusterItem>();
+            HashMap<Long, GeoPojo.DataBean> dataBeanHashMap = geoPojo.geo;
+            for (Long id : dataBeanHashMap.keySet()) {
 
-                    GeoPojo.DataBean dataBean = dataBeanHashMap.get(id);
-                    double lat = dataBean.lan;
-                    double lon = dataBean.lng;
-//                    test(lat,lon);
-                    LatLng latLng = new LatLng(lat, lon, false);
-                    Log.e("ditu",String.valueOf(lat));
-                    RegionItem regionItem = new RegionItem(latLng,
-                            id.toString());
-                    items.add(regionItem);
-
-                }
-                mClusterOverlay = new ClusterOverlay(aMap, items,
-                        dp2px(getApplicationContext(), clusterRadius),
-                        getApplicationContext());
-                mClusterOverlay.setClusterRenderer(MapActivity.this);
-                mClusterOverlay.setOnClusterClickListener(MapActivity.this);
-
-                loadManager.showSuccess();
+                GeoPojo.DataBean dataBean = dataBeanHashMap.get(id);
+                double lat = dataBean.lan;
+                double lon = dataBean.lng;
+                LatLng latLng = new LatLng(lat, lon, false);
+                Log.e("onMapLoaded",String.valueOf(lat));
+                RegionItem regionItem = new RegionItem(latLng,
+                        id.toString());
+                items.add(regionItem);
 
             }
+            mClusterOverlay = new ClusterOverlay(aMap, items,
+                    dp2px(getApplicationContext(), clusterRadius),
+                    getApplicationContext());
+            mClusterOverlay.setClusterRenderer(MapActivity.this);
+            mClusterOverlay.setOnClusterClickListener(MapActivity.this);
 
-        }
-                .start();
-    }
-    private void test(double lat, double lng)
-    {
+            loadManager.showSuccess();
 
-        int currentLevel =13;
-        S2LatLng s2LatLng = S2LatLng.fromDegrees(lat, lng);
-        S2CellId cellId = S2CellId.fromLatLng(s2LatLng).parent(currentLevel);
-        Log.w("geoText",cellId.toString());
+        }).start();
     }
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
@@ -354,13 +336,28 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     @Override
     public void onClick(Marker marker, List<ClusterItem> clusterItems) {
 
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (ClusterItem clusterItem : clusterItems) {
-            builder.include(clusterItem.getPosition());
+        if(clusterItems.size() > 1 ){
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (ClusterItem clusterItem : clusterItems) {
+                builder.include(clusterItem.getPosition());
+            }
+
+            LatLngBounds latLngBounds = builder.build();
+            aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 0));
         }
-        
-        LatLngBounds latLngBounds = builder.build();
-        aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 0));
+        else {
+            LatLng latLng =clusterItems.get(0).getPosition();
+
+            List<String> path = null;
+            for(CityPojo cityPojo : cityListPojo) {
+                if(cityPojo.lan == latLng.latitude && cityPojo.lng == latLng.longitude){
+                    path = cityPojo.path ;
+                    break;
+                }
+            }
+            assert path != null ;
+            AlbumActivity.start(MapActivity.this,path);
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -428,7 +425,10 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     @Override
     public void onItemClick(View view, int position, Object o) {
         if(o instanceof CityPojo){
-            ToastUtils.showToast("点击了"+((CityPojo) o).city);
+//            ToastUtils.showToast("点击了"+((CityPojo) o).city);
+            AlbumActivity.start(MapActivity.this,((CityPojo) o).path);
+
         }
     }
+
 }

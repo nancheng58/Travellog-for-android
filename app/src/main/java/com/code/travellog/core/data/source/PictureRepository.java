@@ -180,6 +180,7 @@ public class PictureRepository extends BaseRepository {
                 dataBean.lan = pictureExifPojo.lan;
                 dataBean.lng = pictureExifPojo.lon;
                 dataBean.path = new ArrayList<>();
+                dataBean.path.add(pictureExifPojo.path);
                 geoPojo.geo.put(pos,dataBean);
             }
             Log.w("geoText",pos.toString());
@@ -230,6 +231,8 @@ public class PictureRepository extends BaseRepository {
         HashMap<Long, GeoPojo.DataBean> geo = geoPojo.geo;
         CityListPojo cityListPojo = new CityListPojo() ;
         cityListPojo.cityPojos = new ArrayList<>() ;
+        HashMap<String,CityPojo> map = new HashMap<>();
+        CityPojo cityPojo;
         int total = geo.size() , i = 0;
         for (Long cellid :geo.keySet()){
             GeoPojo.DataBean dataBean = geo.get(cellid);
@@ -237,14 +240,21 @@ public class PictureRepository extends BaseRepository {
             dataBean.province = cityListResultPojo.data.get(i).province;
             dataBean.city = cityListResultPojo.data.get(i).city;
             dataBean.county = cityListResultPojo.data.get(i).county;
-            CityPojo cityPojo  = new CityPojo() ;
-            cityPojo.city = dataBean.city ;
-            cityPojo.county = dataBean.county ;
-            cityPojo.province = dataBean.province ;
-            cityPojo.lan = dataBean.lan;
-            cityPojo.lng  = dataBean.lng;
-            cityPojo.path = dataBean.path ;
-            cityListPojo.cityPojos.add(cityPojo);
+            cityPojo = map.get(dataBean.county);
+            if(cityPojo==null){
+                cityPojo  = new CityPojo() ;
+                cityPojo.city = dataBean.city ;
+                cityPojo.county = dataBean.county ;
+                cityPojo.province = dataBean.province ;
+                cityPojo.lan = dataBean.lan;
+                cityPojo.lng  = dataBean.lng;
+                cityPojo.path = dataBean.path ;
+                cityListPojo.cityPojos.add(cityPojo);
+                map.put(cityPojo.county,cityPojo);
+            }
+            else {
+                cityPojo.path.addAll(dataBean.path );
+            }
             i++;
         }
         LiveBus.getDefault().postEvent(ENTER_KEY_GEO,geoPojo);

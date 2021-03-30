@@ -34,7 +34,8 @@ public class MapItemHolder  extends AbsItemHolder<CityPojo, MapItemHolder.ViewHo
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull CityPojo cityPojo) {
         holder.textView.setText(cityPojo.county);
-        holder.textView.setHeight(10 + 30);
+
+//        holder.textView.setHeight(10 + 30);
     }
 
 //    @Override

@@ -449,7 +449,7 @@ public class ClusterOverlay implements AMap.OnCameraChangeListener,
                 case CALCULATE_SINGLE_CLUSTER:
                     ClusterItem item = (ClusterItem) message.obj;
                     mClusterItems.add(item);
-                    Log.i("yiyi.qi","calculate single cluster");
+                    Log.i("yiyi","calculate single cluster");
                     calculateSingleCluster(item);
                     break;
             }

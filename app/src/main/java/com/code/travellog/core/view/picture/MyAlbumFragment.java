@@ -17,23 +17,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author ：chezi008 on 2018/8/19 14:57
- * @description ：
- * @email ：chezi008@163.com
+ * @description
+ * @time 2021/3/29 17:06
  */
+
 public class MyAlbumFragment extends AlbumFragment {
     @Override
     public List<File> buildAlbumSrc() {
-        File mediaFile  = null;
-        Log.w("11111","testttt");
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/DCIM/Camera/IMG_20210327_195230.jpg";
-        Log.w("11",path);
+
         List<File> fileList = new ArrayList<>();
-        fileList.add(new File(path));
-        path = Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/DCIM/Camera/IMG_20210327_195230.jpg";
-        fileList.add(new File(path));
+         assert AlbumActivity.file !=null;
+         for(String filename :AlbumActivity.file){
+             fileList.add(new File(filename));
+         }
+        Log.w("11111","test"+AlbumActivity.file.size());
+//        String path = Environment.getExternalStorageDirectory().getAbsolutePath()
+//                + "/DCIM/Camera/IMG_20210327_195230.jpg";
+//        Log.w("11",path);
+//        fileList.add(new File(path));
+//        path = Environment.getExternalStorageDirectory().getAbsolutePath()
+//                + "/DCIM/Camera/IMG_20210327_195230.jpg";
+//        fileList.add(new File(path));
         return fileList;
     }
     @Override
@@ -70,7 +74,7 @@ public class MyAlbumFragment extends AlbumFragment {
 
     @Override
     public void onChooseModeChange(boolean isChoose) {
-//        ((AlbumActivity)getActivity()).onChooseModeChange(isChoose);
+        ((AlbumActivity)getActivity()).onChooseModeChange(isChoose);
     }
 
     public static RequestOptions buildOptions() {
@@ -82,6 +86,6 @@ public class MyAlbumFragment extends AlbumFragment {
 
     @Override
     public void start2Preview(ArrayList<AlbumBean> data, int pos) {
-//        MyPreviewActivity.start(getContext(), data, pos);
+        MyPreviewActivity.start(getContext(), data, pos);
     }
 }

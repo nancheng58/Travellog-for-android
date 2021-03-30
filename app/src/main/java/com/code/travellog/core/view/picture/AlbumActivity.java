@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -16,10 +17,14 @@ import com.code.travellog.R;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ibbhub.album.AlbumFragment;
 
+import java.util.List;
+
 public class AlbumActivity extends AppCompatActivity {
 
+    public static List<String> file = null ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         setContentView(R.layout.activity_album);
         super.onCreate(savedInstanceState);
         ImmersionBar.with(this).statusBarColor(R.color.colorPrimary)
@@ -69,7 +74,10 @@ public class AlbumActivity extends AppCompatActivity {
         chooseMenu.setTitle(isChoose ? "取消" : "选择");
     }
 
-    public static void start(Context context) {
+    public static void start(Context context, List<String> files) {
+        file = files ;
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable("picPath", (Parcelable) files);
         Intent starter = new Intent(context, AlbumActivity.class);
         context.startActivity(starter);
     }
