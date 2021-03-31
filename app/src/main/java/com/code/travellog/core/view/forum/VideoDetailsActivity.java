@@ -24,11 +24,15 @@ import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.http.HttpHelper;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
+import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
+import com.shuyu.gsyvideoplayer.player.PlayerFactory;
+import com.shuyu.gsyvideoplayer.player.SystemPlayerManager;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 
 
 /**
@@ -64,6 +68,7 @@ public class VideoDetailsActivity extends BaseActivity {
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mVideoPlayer = findViewById(R.id.video_player);
+        PlayerFactory.setPlayManager(Exo2PlayerManager.class);
         int widthVideo = DisplayUtil.getScreenWidth(this);
         int heightVideo = widthVideo * 9 / 16;
         mVideoPlayer.getLayoutParams().width = widthVideo;

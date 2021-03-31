@@ -102,9 +102,12 @@ dependencies {
     implementation 'com.amap.api:search:latest.integration'
     implementation 'tech.spiro:addrparser:1.1'
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0-beta05' //沉浸式标题
-    implementation ('com.ycjiang:VideoPlayModule:2.1.85'){
-        exclude group:'com.google.android.exoplayer2'
-    }
+//    implementation ('com.ycjiang:VideoPlayModule:2.1.85'){
+//        exclude group:'VideoUi',module:'jetified-VideoUi-2.1.85-runtime'
+//    }
+
+    implementation 'com.shuyu:GSYVideoPlayer-exo2:8.1.2'
+    implementation 'com.shuyu:gsyVideoPlayer-ex_so:8.1.2'
     //adapter dependence
     implementation 'com.github.chezi008:adapter-delegate:1.0.3'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'

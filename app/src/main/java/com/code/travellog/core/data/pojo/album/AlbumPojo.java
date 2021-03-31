@@ -11,6 +11,7 @@ public class AlbumPojo {
     public int uid;
     public String movie_title;
     public String movie_description;
+    public String movie_cover;
     public String create_time ;
     public String update_time;
     public int status ;
