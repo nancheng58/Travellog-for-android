@@ -49,14 +49,14 @@ public class AlbumRepository extends BaseRepository {
                 })
         );
     }
-    public void postPic(int workid, MultipartBody multipartBody){
+    public void postPic(int workid,String index, MultipartBody multipartBody){
         String url = URL.ALBUM_URL+workid+"/upload";
         addDisposable(apiService.postPic(url,multipartBody)
         .compose(RxSchedulers.io_main())
         .subscribeWith(new RxSubscriber<BasePojo>() {
             @Override
             public void onSuccess(BasePojo basePojo) {
-                postData(EVENT_KEY_ALBUMPIC,basePojo);
+                postData(EVENT_KEY_ALBUMPIC,index,basePojo);
                 postState(StateConstants.SUCCESS_STATE);
             }
 

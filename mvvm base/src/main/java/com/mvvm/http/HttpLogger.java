@@ -23,8 +23,8 @@ public class HttpLogger implements HttpLoggingInterceptor.Logger {
             message = Logger.formatJson(message);
         }
         mMessage.append(message.concat("\n"));
-        if (message.startsWith("<-- END HTTP") ) {
-
+        if (message.startsWith("<-- END HTTP") &&mMessage.length()<300000) {
+//            Logger.e(TAG, message.length() +" "+);
             Logger.e(TAG, mMessage.toString());
         }
     }

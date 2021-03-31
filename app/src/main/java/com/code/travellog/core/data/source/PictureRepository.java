@@ -117,7 +117,8 @@ public class PictureRepository extends BaseRepository {
         galleryList0 = gson.fromJson(decodeStrings,new TypeToken<ArrayList<PictureExifPojo>>() {}.getType());
 //        galleryList0 = JsonUtils.jsonToArrayList(decodeStrings);
 
-        if (decodeStrings != null && galleryList0 != null){
+        if (decodeStrings != null && galleryList0 != null && galleryList0.size() != 0){
+            Log.w("mmkv0",decodeStrings);
             Log.w("MMKV",galleryList0.toString());
             LiveBus.getDefault().postEvent(EVENT_KEY_PICEXIF,galleryList0);
             return;
@@ -152,6 +153,7 @@ public class PictureRepository extends BaseRepository {
                     }else {
                         exifInterface = new ExifInterface(path);
                     }
+//                    exifInterface = new ExifInterface(path);
                     float a[] = new float[2];
                     exifInterface.getLatLong(a);
                     String lat = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
@@ -160,7 +162,7 @@ public class PictureRepository extends BaseRepository {
                     String lngRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
                     String E =exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
 //                            assert lat != null ;
-                    Log.e("TAGGGGG", Arrays.toString(a));
+                    Log.e("TAGGGGG", path+"\n"+Arrays.toString(a));
                     if(a[0] != 0.0 && a[1] != 0.0){
                         PictureExifPojo pictureExifPojo = new PictureExifPojo() ;
                         pictureExifPojo.path = path ;

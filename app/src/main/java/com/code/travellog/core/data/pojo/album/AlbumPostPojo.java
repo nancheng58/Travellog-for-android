@@ -14,6 +14,7 @@ public class AlbumPostPojo implements Serializable {
     public String title;
     public String description;
     public String muisc;
+    public Boolean share ;
     public static class DataBean{
         public String path;
     }

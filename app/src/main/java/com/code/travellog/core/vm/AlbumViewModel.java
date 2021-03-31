@@ -25,8 +25,8 @@ public class AlbumViewModel extends AbsViewModel<AlbumRepository> {
     public void getAlbumId() {
         mRepository.getAlbumId();
     }
-    public void postPic(int workid , MultipartBody multipartBody){
-        mRepository.postPic(workid,multipartBody);
+    public void postPic(int workid ,String index, MultipartBody multipartBody){
+        mRepository.postPic(workid,index ,multipartBody);
     }
     public void AlbumStart(int workid){
         mRepository.getAlbumStart(workid);

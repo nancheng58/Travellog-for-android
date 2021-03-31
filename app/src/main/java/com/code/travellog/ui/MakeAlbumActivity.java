@@ -1,5 +1,6 @@
 package com.code.travellog.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -10,11 +11,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.allen.library.SuperTextView;
+import com.code.travellog.AI.AiBoostManager;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.view.album.AlbumMakeFragment;
 import com.code.travellog.core.view.album.AlbumResultFragment;
+import com.code.travellog.core.view.album.VerticalStepperAdapterDemoFragment;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.mvvm.base.BaseActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,19 +49,49 @@ public class MakeAlbumActivity extends BaseActivity {
 
     private AlbumMakeFragment albumMakeFragment;
     private AlbumResultFragment albumResultFragment;
+    private VerticalStepperAdapterDemoFragment verticalStepperAdapterDemoFragment ;
     private int workid;
+    private List<LocalMedia> localMediaList;
+    private AiBoostManager aiBoostManager = null;
+    private String description ;
+    private String title ;
     @Override
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
         initToolBar();
         initFragment(0);
+        aiBoostManager = AiBoostManager.newInstance();
+        aiBoostManager.initialize(this,"mobilenet_quant_v1_224.tflite",1001,"labels_mobilenet_quant_v1_224.txt");
+
     }
     public void setWorkid(int workid)
     {
         this.workid = workid ;
     }
+
     public int getWorkid(){
         return workid ;
+    }
+    public void setLocalMediaList(List<LocalMedia> localMediaList){
+        this.localMediaList = localMediaList ;
+    }
+    public AiBoostManager getAiBoostManager() {
+        return aiBoostManager;
+    }
+    public void setAlbumDescription(String description){
+        this.description = description ;
+    }
+    public String getAlbumDescription(){
+        return description ;
+    }
+    public void setAlbumTitle(String title){
+        this.title = title ;
+    }
+    public String getAlbumTitle(){
+        return title;
+    }
+    public List<LocalMedia> getLocalMediaList(){
+        return localMediaList;
     }
     public void initFragment(int i) {
         FragmentManager mfragmentManager = getSupportFragmentManager();
@@ -74,6 +110,12 @@ public class MakeAlbumActivity extends BaseActivity {
                     fragmentTransaction.add(R.id.fragment_content, albumResultFragment, Constants.ALBUMRESULT_TAG);
                 } else fragmentTransaction.show(albumResultFragment);
                 break;
+            case 2:
+                if (verticalStepperAdapterDemoFragment == null) {
+                    verticalStepperAdapterDemoFragment = VerticalStepperAdapterDemoFragment.newInstance();
+                    fragmentTransaction.add(R.id.fragment_content, verticalStepperAdapterDemoFragment, Constants.ALBUMRESULT_TAG);
+                } else fragmentTransaction.show(verticalStepperAdapterDemoFragment);
+                break;
             default:
                 break;
         }
@@ -86,6 +128,9 @@ public class MakeAlbumActivity extends BaseActivity {
 
         if (albumResultFragment != null) {
             fragmentTransaction.hide(albumResultFragment);
+        }
+        if (verticalStepperAdapterDemoFragment != null){
+            fragmentTransaction.hide(verticalStepperAdapterDemoFragment);
         }
         fragmentTransaction.commit();
     }
