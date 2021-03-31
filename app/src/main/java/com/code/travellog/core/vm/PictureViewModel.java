@@ -5,10 +5,13 @@ import android.content.ContentResolver;
 
 import androidx.annotation.NonNull;
 
+import com.code.travellog.core.data.pojo.geo.GeoPojo;
+import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
 import com.code.travellog.core.data.source.PictureRepository;
 import com.mvvm.base.AbsViewModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @description:
@@ -19,12 +22,15 @@ public class PictureViewModel extends AbsViewModel<PictureRepository> {
         super(application);
     }
     public void getGalleryExif(ContentResolver contentResolver) throws IOException {
-        mRepository.getGeoExif(contentResolver);
+        mRepository.getGalleryExif(contentResolver);
+    }
+    public void getGeoExif(ArrayList<PictureExifPojo> arrayList){
+        mRepository.getGeoExif(arrayList);
     }
     public void getGalleryPhotosPath(ContentResolver contentResolver){
         mRepository.getGalleryPhotosPath(contentResolver);
     }
-    public void getCityList(ContentResolver contentResolver) throws IOException {
-        mRepository.getCityList(contentResolver);
+    public void getCityList(GeoPojo geoPojo)  {
+        mRepository.getCityList(geoPojo);
     }
 }

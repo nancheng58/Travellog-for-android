@@ -49,6 +49,7 @@ import com.mvvm.base.AbsLifecycleActivity;
 import com.yinglan.scrolllayout.ScrollLayout;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -120,9 +121,14 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     }
     @Override
     protected void dataObserver() {
+        registerSubscriber(PictureRepository.EVENT_KEY_PICEXIF, ArrayList.class).observe(this,arrayList -> {
+            mViewModel.getGeoExif(arrayList);
+
+        });
         registerSubscriber(PictureRepository.ENTER_KEY_GEO,GeoPojo.class).observe(this,list -> {
             geoPojo = list ;
             init();
+            mViewModel.getCityList(geoPojo);
         });
         registerSubscriber(PictureRepository.ENTER_KEY_CITYLIST, CityListPojo.class).observe(this, cityListPojo -> {
             this.cityListPojo =cityListPojo.cityPojos ;
@@ -142,7 +148,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         }
         else{
             try {
-                mViewModel.getCityList(getContentResolver());
+                mViewModel.getGalleryExif(getContentResolver());
             }catch (IOException e) {e.printStackTrace();}
         }
     }

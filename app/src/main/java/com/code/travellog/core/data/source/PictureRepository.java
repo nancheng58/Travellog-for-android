@@ -1,6 +1,7 @@
 package com.code.travellog.core.data.source;
 
 import android.annotation.SuppressLint;
+import android.app.job.JobInfo;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.media.ExifInterface;
@@ -22,12 +23,16 @@ import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
 import com.code.travellog.core.data.pojo.weather.WeatherPojo;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.GeoUtil;
+import com.code.travellog.util.JsonUtils;
 import com.code.travellog.util.StringUtil;
 import com.google.common.geometry.S2CellId;
 import com.google.common.geometry.S2LatLng;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mvvm.event.LiveBus;
 import com.mvvm.http.rx.RxSchedulers;
 import com.mvvm.stateview.StateConstants;
+import com.tencent.mmkv.MMKV;
 
 import java.io.File;
 import java.io.IOException;
@@ -102,66 +107,87 @@ public class PictureRepository extends BaseRepository {
         postState(StateConstants.SUCCESS_STATE);
     }
 
-    private ArrayList<PictureExifPojo> getGalleryExif(ContentResolver resolver) throws IOException {
+    public void getGalleryExif(ContentResolver resolver) throws IOException {
 
-        ArrayList<PictureExifPojo> galleryList = new ArrayList<PictureExifPojo>();
-        ExifInterface exifInterface  = null;
+        ArrayList<PictureExifPojo> galleryList0,galleryList;
+        MMKV mmkv = MMKV.defaultMMKV();
+
+        String decodeStrings= mmkv.decodeString ("GalleryExif");
+        Gson gson = new Gson();
+        galleryList0 = gson.fromJson(decodeStrings,new TypeToken<ArrayList<PictureExifPojo>>() {}.getType());
+//        galleryList0 = JsonUtils.jsonToArrayList(decodeStrings);
+
+        if (decodeStrings != null && galleryList0 != null){
+            Log.w("MMKV",galleryList0.toString());
+            LiveBus.getDefault().postEvent(EVENT_KEY_PICEXIF,galleryList0);
+            return;
+        }
+        galleryList  = new ArrayList<PictureExifPojo>();
+
         String DCIMPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()+"/Camera/";
-        try {
-                //获取所在相册和相册id
-                final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
-                //按照id排序
-                final String orderBy = MediaStore.Images.Media._ID;
-                //相当于sql语句默认升序排序orderBy，如果降序则最后一位参数是是orderBy+" desc "
-                Cursor imagecursor =
-                        resolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
-                                null, orderBy);
-                //从数据库中取出图存入list集合中
+        new Thread(()->{
+            ExifInterface exifInterface  = null;
+            try {
+            //获取所在相册和相册id
+            final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
+            //按照id排序
+            final String orderBy = MediaStore.Images.Media._ID;
+            //相当于sql语句默认升序排序orderBy，如果降序则最后一位参数是是orderBy+" desc "
+            Cursor imagecursor =
+                    resolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
+                            null, orderBy);
+            //从数据库中取出图存入list集合中
             if (imagecursor != null && imagecursor.getCount() > 0) {
                 int tot  =  imagecursor.getCount();
 
                 while (imagecursor.moveToNext()) {
-                            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
+                    int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
 //                            int lanColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.LATITUDE);
-                            String path = imagecursor.getString(dataColumnIndex);
-                            if(Build.VERSION.SDK_INT==Build.VERSION_CODES.R){
-                                Uri uri = Uri.fromFile(new File(path));
-                                Uri newuri = MediaStore.setRequireOriginal(uri);
-                                InputStream stream = resolver.openInputStream(newuri);
-                                exifInterface = new ExifInterface(stream);
-                            }else {
-                                exifInterface = new ExifInterface(path);
-                            }
-                            float a[] = new float[2];
-                            exifInterface.getLatLong(a);
-                            String lat = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-                            String lon = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-                            String latRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
-                            String lngRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
-                            String E =exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
+                    String path = imagecursor.getString(dataColumnIndex);
+                    if(Build.VERSION.SDK_INT==Build.VERSION_CODES.R){
+                        Uri uri = Uri.fromFile(new File(path));
+                        Uri newuri = MediaStore.setRequireOriginal(uri);
+                        InputStream stream = resolver.openInputStream(newuri);
+                        exifInterface = new ExifInterface(stream);
+                    }else {
+                        exifInterface = new ExifInterface(path);
+                    }
+                    float a[] = new float[2];
+                    exifInterface.getLatLong(a);
+                    String lat = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+                    String lon = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+                    String latRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+                    String lngRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+                    String E =exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
 //                            assert lat != null ;
-                            Log.e("TAGGGGG", Arrays.toString(a));
-                            if(a[0] != 0.0 && a[1] != 0.0){
-                                PictureExifPojo pictureExifPojo = new PictureExifPojo() ;
-                                pictureExifPojo.path = path ;
+                    Log.e("TAGGGGG", Arrays.toString(a));
+                    if(a[0] != 0.0 && a[1] != 0.0){
+                        PictureExifPojo pictureExifPojo = new PictureExifPojo() ;
+                        pictureExifPojo.path = path ;
 
 //                                pictureExifPojo.lan = GeoUtil.convertRationalLatLonToFloat(lat,latRef);
 //                                pictureExifPojo.lon = GeoUtil.convertRationalLatLonToFloat(lon,lngRef);
-                                pictureExifPojo.lan = (double) a[0];
-                                pictureExifPojo.lon = (double) a[1];
-                                galleryList.add(pictureExifPojo);
-                                Log.d("TAG", "getGalleryPhotos: " + path);
-                            }
-                        }
+                        pictureExifPojo.lan = (double) a[0];
+                        pictureExifPojo.lon = (double) a[1];
+                        galleryList.add(pictureExifPojo);
+                        Log.d("TAG", "getGalleryPhotos: " + path);
                     }
-            } catch (Exception e) { e.printStackTrace(); }
-        // 进行反转集合
+                }
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+            // 进行反转集合
 //        Collections.reverse(galleryList);
-        return galleryList;
+            LiveBus.getDefault().postEvent(EVENT_KEY_PICEXIF,galleryList);
+            String json = JsonUtils.toJson(galleryList);
+            Log.w("toJosn",json);
+            mmkv.encode("GalleryExif",json);
+        }).start();
+
     }
-    public GeoPojo getGeoExif(ContentResolver resolver ) throws IOException {
-        ArrayList<PictureExifPojo> galleryList =getGalleryExif(resolver);
+    public void getGeoExif(ArrayList<PictureExifPojo> galleryList) {
+
         GeoPojo geoPojo = new GeoPojo();
+
         geoPojo.geo = new HashMap<>();
         for (PictureExifPojo pictureExifPojo :galleryList){
             GeoUtil.LatLng latLng  = new GeoUtil.LatLng(pictureExifPojo.lan,pictureExifPojo.lon);
@@ -185,13 +211,15 @@ public class PictureRepository extends BaseRepository {
             }
             Log.w("geoText",pos.toString());
         }
-        return geoPojo;
-//        LiveBus.getDefault().postEvent(EVENT_KEY_PICEXIF,geoPojo);
+//        return geoPojo;
+        LiveBus.getDefault().postEvent(ENTER_KEY_GEO,geoPojo);
+
+
     }
 
-    public void getCityList(ContentResolver resolver) throws IOException {
+    public void getCityList(GeoPojo geoPojo ) {
 
-        GeoPojo geoPojo  = getGeoExif(resolver);
+//        GeoPojo geoPojo  = getGeoExif(resolver);
         HashMap<Long, GeoPojo.DataBean> geo = geoPojo.geo;
         StringBuilder latitude = new StringBuilder();
         StringBuilder longitude = new StringBuilder();
@@ -257,7 +285,7 @@ public class PictureRepository extends BaseRepository {
             }
             i++;
         }
-        LiveBus.getDefault().postEvent(ENTER_KEY_GEO,geoPojo);
+//        LiveBus.getDefault().postEvent(ENTER_KEY_GEO,geoPojo);
         LiveBus.getDefault().postEvent(ENTER_KEY_CITYLIST,cityListPojo);
         postState(StateConstants.SUCCESS_STATE);
     }
