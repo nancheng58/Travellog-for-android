@@ -37,6 +37,7 @@ import com.code.travellog.core.data.pojo.image.ImagePojo;
 import com.code.travellog.core.data.pojo.poetry.PoetryPojo;
 import com.code.travellog.core.data.pojo.qa.QaListVo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
+import com.code.travellog.core.data.pojo.video.VideoListPojo;
 import com.code.travellog.core.data.pojo.weather.WeatherPojo;
 
 import java.util.Map;
@@ -120,7 +121,8 @@ public interface ApiService {
     @FormUrlEncoded
     Flowable<CityResultPojo> getCity(@Field("longitude") String longitude,@Field("latitude") String latitude);
 
-
+    @GET(URL.BASE_URL2+"forum")
+    Flowable<VideoListPojo> getVideoList();
 
 
 

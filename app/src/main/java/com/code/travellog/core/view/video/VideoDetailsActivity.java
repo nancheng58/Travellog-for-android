@@ -1,4 +1,4 @@
-package com.code.travellog.core.view.forum;
+package com.code.travellog.core.view.video;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.course.CourseDetailRemVideoVo;
 import com.code.travellog.core.data.pojo.course.CourseDetailVo;
-import com.code.travellog.core.view.forum.holder.ForumRecommendHolder;
+import com.code.travellog.core.view.video.holder.ForumRecommendHolder;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.DisplayUtil;
@@ -24,9 +24,7 @@ import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.http.HttpHelper;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
-import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
 import com.shuyu.gsyvideoplayer.player.PlayerFactory;
-import com.shuyu.gsyvideoplayer.player.SystemPlayerManager;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
@@ -124,7 +122,9 @@ public class VideoDetailsActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(AlbumResultPojo albumResultPojo) {
-                        if(albumResultPojo.data.status != 200 )
+                        if(albumResultPojo.data == null )
+                            ToastUtils.showToast(albumResultPojo.msg);
+                        else if(albumResultPojo.data.status != 200)
                             ToastUtils.showToast("该影集"+albumResultPojo.data.status_msg);
                         else setUI(albumResultPojo);
 //                        getAboutData();

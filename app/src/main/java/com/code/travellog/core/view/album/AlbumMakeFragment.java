@@ -116,7 +116,8 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
     EditText title;
     @BindView(R.id.description)
     EditText description;
-
+    @BindView(R.id.tv_share)
+    SuperTextView tv_share;
 
 
     private final static String TAG = AlbumMakeFragment.class.getSimpleName();
@@ -142,10 +143,8 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
     private Unbinder unbinder;
     @BindView(R.id.recycler)
     RecyclerView recycler;
-    private List<AiBoostManager.Data> mDetectorresult;
     private GridImageAdapter mAdapter;
 
-    private int workid;
     public static AlbumMakeFragment newInstance() {
         return new AlbumMakeFragment();
     }
@@ -199,12 +198,6 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
             }
             else {
                 saveData();
-//                getImageObjectDetector(localMediaList);
-//                registerSubscriber(AiBoostManager.EVENT_KEY_OBJECT,null,List.class).observe(this,list -> {
-//                    mDetectorresult = list;
-//                    postAlbum();
-//                    Log.w(TAG,mDetectorresult.toString());
-//                });
             }
         });
         mWindowAnimationStyle = new PictureWindowAnimationStyle();
@@ -423,95 +416,15 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
         }
     }
 
-//    @Override
-//    protected void dataObserver() {
-////        LiveBus.getDefault().subscribe(Constants.EVENT_KEY_WORK_STATE).observe(this, observer);
-//
-//        registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMID,AlbumWorkPojo.class).observe(this,albumWorkPojo -> {
-//            if(albumWorkPojo.code!=200) ToastUtils.showToast(albumWorkPojo.msg);
-//            else { workid = albumWorkPojo.data.work_id;
-//                Log.w("workid",workid + "") ;
-//                upLoadPic();
-//            }
-//        });
-//        registerSubscriber(AlbumRepository.EVENT_KEY_ALBUMPIC, BasePojo.class).observe(this,basePojo -> {
-//            if(basePojo.code != 200 ) ToastUtils.showToast(basePojo.msg);
-//            else{
-//                if(++Turn == localMediaList.size() + 1 ){
-//                    getResult();
-//                    Turn = 0;
-//                }
-//            }
-//        });
-//    }
-
-//    public void postAlbum()
-//    {
-//        Log.w("getworkid","qwq") ;
-//        mViewModel.getAlbumId();
-//    }
-//    int Turn = 0;
-
-//    public void upLoadPic()
-//    {
-//        new Thread(()->{
-//            AlbumPostPojo albumPostPojo = new AlbumPostPojo();
-//            int i = 0 ;
-//            albumPostPojo.images = new ArrayList<String>(localMediaList.size());
-//            albumPostPojo.factors = new ArrayList<AlbumPostPojo.Data>(localMediaList.size());
-//            albumPostPojo.description = description.getText().toString();
-//            albumPostPojo.title = title.getText().toString();
-//            albumPostPojo.muisc = null ;
-//            for(LocalMedia localMedia : localMediaList){
-//                albumPostPojo.images.add(i, i+FileUitl.getImgType(localMedia.getAndroidQToPath()));
-//
-//                AlbumPostPojo.Data data = new AlbumPostPojo.Data();
-//                data.types = new ArrayList<>();
-//                data.values = new ArrayList<>();
-//                albumPostPojo.factors.add(i,data);
-//                i ++ ;
-//            }
-//            i = 0;int  j = 0 ;
-//            for (AiBoostManager.Data entry : mDetectorresult){
-//                albumPostPojo.factors.get(i).types.add(entry.type);
-//                albumPostPojo.factors.get(i).values.add(entry.value);
-//                j ++;
-//                if (j == 3) {
-//                    i++;
-//                    j=0;
-//                }
-//            }
-//            Log.w(TAG, JsonUtils.toJson(albumPostPojo));
-//            saveJSONDataToFile("info.json",JsonUtils.toJson(albumPostPojo));
-//            File file =new File(activity.getFilesDir(),"info.json");
-//            RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
-//            MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-//                    .addFormDataPart("file", file.getName(), requestBody).build();
-//            mViewModel.postPic(workid,multipartBody);
-//            i = 0;
-//            Log.w(TAG,"图片数量 "+ localMediaList.size());
-//            for(LocalMedia localMedia : localMediaList){
-//
-//                file = new File(localMedia.getAndroidQToPath());
-//                requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-//                multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-//                        .addFormDataPart("file",i+FileUitl.getImgType(localMedia.getAndroidQToPath()), requestBody).build();
-//                mViewModel.postPic(workid,multipartBody);
-//                i ++ ;
-//            }
-//        }).start();
-//    }
     private void saveData()
     {
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("workid",workid);
-//        this.setArguments(bundle);
-        Log.w(TAG,"saveData & transact Fragment");
-//        ((MakeAlbumActivity) Objects.requireNonNull(getActivity())).setWorkid(workid);
+        Log.w(TAG,"saveData & transact Fragment" + tv_share.getCbisChecked());
+
+        ((MakeAlbumActivity)getActivity()).setShare(tv_share.getSwitchIsChecked());
         ((MakeAlbumActivity)getActivity()).setAlbumDescription(description.getText().toString());
         ((MakeAlbumActivity)getActivity()).setAlbumTitle(title.getText().toString());
         ((MakeAlbumActivity)getActivity()).setLocalMediaList(localMediaList);
-        ((MakeAlbumActivity)getActivity()).initFragment(2);
+        ((MakeAlbumActivity)getActivity()).initFragment(1);
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override

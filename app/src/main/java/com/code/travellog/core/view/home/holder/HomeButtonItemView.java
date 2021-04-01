@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.adapter.holder.AbsHolder;
 import com.adapter.holder.AbsItemHolder;
@@ -43,6 +44,8 @@ public class HomeButtonItemView extends AbsItemHolder<ButtonPojo, HomeButtonItem
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull ButtonPojo buttonPojo) {
+        StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+        layoutParams.setFullSpan(true);
         if (buttonPojo.id == 1) {
             holder.card.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, MakeAlbumActivity.class);

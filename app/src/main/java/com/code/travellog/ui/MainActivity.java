@@ -18,7 +18,7 @@ import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.view.correct.WorkFragment;
-import com.code.travellog.core.view.forum.VideoFragment;
+import com.code.travellog.core.view.video.VideoFragment;
 import com.code.travellog.core.view.home.HomeFragment;
 import com.code.travellog.core.view.mine.MineFragment;
 import com.code.travellog.util.ToastUtils;
@@ -65,8 +65,8 @@ public class MainActivity extends BaseActivity {
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         mBottomNavigationBar
                 .addItem(new BottomNavigationItem(R.mipmap.tab_home_icon, R.string.home_title_name).setInactiveIconResource(R.mipmap.tab_home_icon_def))
-                .addItem(new BottomNavigationItem(R.mipmap.tab_course_icon, R.string.work_title_name).setInactiveIconResource(R.mipmap.tab_course_icon_def))
-                .addItem(new BottomNavigationItem(R.mipmap.tab_works_icon, R.string.travel_title_name).setInactiveIconResource(R.mipmap.tab_works_icon_def))
+                .addItem(new BottomNavigationItem(R.mipmap.tab_works_icon, R.string.work_title_name).setInactiveIconResource(R.mipmap.tab_works_icon_def))
+                .addItem(new BottomNavigationItem(R.mipmap.tab_course_icon, R.string.video_title_name).setInactiveIconResource(R.mipmap.tab_course_icon_def))
                 .addItem(new BottomNavigationItem(R.mipmap.tab_mine_icon, R.string.mine_title_name).setInactiveIconResource(R.mipmap.tab_mine_icon_def))
                 .setFirstSelectedPosition(0)
                 .initialise();

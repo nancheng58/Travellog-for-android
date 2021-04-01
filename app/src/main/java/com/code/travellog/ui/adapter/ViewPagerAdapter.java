@@ -5,12 +5,16 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.mvvm.base.BaseFragment;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author：tqzhang on 18/8/1 10:26
+ * @description
+ * @time 2021/2/2 19:30
  */
+
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<BaseFragment> fragments;
@@ -26,6 +30,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         mTitles.addAll(titles);
     }
 
+    @NotNull
     @Override
     public BaseFragment getItem(int position) {
         return fragments.get(position);

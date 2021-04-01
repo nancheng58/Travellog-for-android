@@ -18,8 +18,10 @@ import com.tqzhang.stateview.core.LoadManager;
 import com.tqzhang.stateview.stateview.BaseStateControl;
 
 /**
- * @author：tqzhang on 18/3/12 19:25
+ * @description
+ * @time 2021/2/1 19:28
  */
+
 public abstract class BaseFragment extends Fragment {
     protected View rootView;
 

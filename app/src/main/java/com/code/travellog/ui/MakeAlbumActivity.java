@@ -1,6 +1,5 @@
 package com.code.travellog.ui;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -10,13 +9,11 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.allen.library.SuperTextView;
 import com.code.travellog.AI.AiBoostManager;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.view.album.AlbumMakeFragment;
 import com.code.travellog.core.view.album.AlbumResultFragment;
-import com.code.travellog.core.view.album.VerticalStepperAdapterDemoFragment;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.mvvm.base.BaseActivity;
 
@@ -49,12 +46,12 @@ public class MakeAlbumActivity extends BaseActivity {
 
     private AlbumMakeFragment albumMakeFragment;
     private AlbumResultFragment albumResultFragment;
-    private VerticalStepperAdapterDemoFragment verticalStepperAdapterDemoFragment ;
     private int workid;
     private List<LocalMedia> localMediaList;
     private AiBoostManager aiBoostManager = null;
     private String description ;
     private String title ;
+    private boolean isShare;
     @Override
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
@@ -64,13 +61,13 @@ public class MakeAlbumActivity extends BaseActivity {
         aiBoostManager.initialize(this,"mobilenet_quant_v1_224.tflite",1001,"labels_mobilenet_quant_v1_224.txt");
 
     }
-    public void setWorkid(int workid)
+    public void setShare(boolean isShare)
     {
-        this.workid = workid ;
+        this.isShare = isShare ;
     }
 
-    public int getWorkid(){
-        return workid ;
+    public boolean getShare(){
+        return isShare ;
     }
     public void setLocalMediaList(List<LocalMedia> localMediaList){
         this.localMediaList = localMediaList ;
@@ -110,12 +107,6 @@ public class MakeAlbumActivity extends BaseActivity {
                     fragmentTransaction.add(R.id.fragment_content, albumResultFragment, Constants.ALBUMRESULT_TAG);
                 } else fragmentTransaction.show(albumResultFragment);
                 break;
-            case 2:
-                if (verticalStepperAdapterDemoFragment == null) {
-                    verticalStepperAdapterDemoFragment = VerticalStepperAdapterDemoFragment.newInstance();
-                    fragmentTransaction.add(R.id.fragment_content, verticalStepperAdapterDemoFragment, Constants.ALBUMRESULT_TAG);
-                } else fragmentTransaction.show(verticalStepperAdapterDemoFragment);
-                break;
             default:
                 break;
         }
@@ -129,8 +120,8 @@ public class MakeAlbumActivity extends BaseActivity {
         if (albumResultFragment != null) {
             fragmentTransaction.hide(albumResultFragment);
         }
-        if (verticalStepperAdapterDemoFragment != null){
-            fragmentTransaction.hide(verticalStepperAdapterDemoFragment);
+        if (albumResultFragment != null){
+            fragmentTransaction.hide(albumResultFragment);
         }
         fragmentTransaction.commit();
     }

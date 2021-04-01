@@ -144,7 +144,24 @@
                 app:sLeftViewGravity="left_center"
                 app:sRightViewType="switchBtn" />
 
+            <com.allen.library.SuperTextView
+                android:id="@+id/tv_share"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/description"
+                android:layout_marginTop="154dp"
+                app:sCenterBottomTextColor="@color/colorAccent"
+                app:sCenterTopTextString=""
+                app:sCenterViewGravity="left_center"
+                app:sLeftBottomTextColor="@color/colorAccent"
 
+                app:sLeftBottomTextString="将您的精美影集分享给别人吧>>"
+                app:sLeftIconHeight="40dp"
+                app:sLeftIconRes="@drawable/activities_icon"
+                app:sLeftIconWidth="40dp"
+                app:sLeftTopTextString="请选择自动分享到社区"
+                app:sLeftViewGravity="left_center"
+                app:sRightViewType="switchBtn" />
             <EditText
                 android:id="@+id/title"
                 android:layout_width="match_parent"

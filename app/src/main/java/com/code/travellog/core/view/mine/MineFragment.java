@@ -95,10 +95,6 @@ public class MineFragment extends BaseFragment {
     LSettingItem tvAbout;
     @BindView(R.id.content_layout)
     LinearLayout contentLayout;
-    @BindView(R.id.tv_test)
-    LSettingItem tvTest;
-    @BindView(R.id.tv_gaode)
-    LSettingItem tvGaode;
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     private LayoutInflater inflater;
@@ -183,13 +179,13 @@ public class MineFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-        tvGaode.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
-            @Override
-            public void click(boolean isChecked) {
-                Intent intent = new Intent(activity, MapActivity.class);
-                startActivity(intent);
-            }
-        });
+//        tvGaode.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
+//            @Override
+//            public void click(boolean isChecked) {
+//                Intent intent = new Intent(activity, MapActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         loadManager.showSuccess();
     }
 

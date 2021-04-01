@@ -9,24 +9,24 @@ import android.view.View;
 import com.adapter.adapter.DelegateAdapter;
 import com.adapter.listener.OnItemClickListener;
 import com.code.travellog.R;
-import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.album.AlbumPojo;
 import com.code.travellog.core.data.pojo.common.TypeVo;
 import com.code.travellog.core.data.pojo.home.ButtonPojo;
 import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.config.Constants;
-import com.code.travellog.core.data.pojo.course.CourseInfoVo;
 import com.code.travellog.core.data.pojo.home.CategoryVo;
-import com.code.travellog.core.data.pojo.home.HomeMergeVo;
+import com.code.travellog.core.data.pojo.home.HomeMergePojo;
 import com.code.travellog.core.data.source.HomeRepository;
-import com.code.travellog.core.view.forum.VideoDetailsActivity;
+import com.code.travellog.core.view.video.VideoDetailsActivity;
 import com.code.travellog.core.vm.HomeViewModel;
 import com.code.travellog.util.AdapterPool;
 
 
 /**
- * @author：tqzhang on 18/5/2 18:46
+ * @description
+ * @time 2021/3/1 18:55
  */
+
 public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnItemClickListener {
 
     public static HomeFragment newInstance() {
@@ -49,10 +49,10 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
      */
     @Override
     protected void dataObserver() {
-        registerSubscriber(HomeRepository.EVENT_KEY_HOME, HomeMergeVo.class)
-                .observe(this, homeMergeVo -> {
-                    if (homeMergeVo != null) {
-                        HomeFragment.this.addItems(homeMergeVo);
+        registerSubscriber(HomeRepository.EVENT_KEY_HOME, HomeMergePojo.class)
+                .observe(this, homeMergePojo -> {
+                    if (homeMergePojo != null) {
+                        HomeFragment.this.addItems(homeMergePojo);
                     }
                 });
 
@@ -75,11 +75,11 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
         mViewModel.getHomeListData();
     }
 
-    private void addItems(HomeMergeVo homeMergeVo) {
+    private void addItems(HomeMergePojo homeMergePojo) {
         if (isRefresh) {
             mItems.clear();
         }
-        mItems.add(homeMergeVo.bannerListVo);
+        mItems.add(homeMergePojo.bannerListVo);
         mItems.add(new CategoryVo("title"));
 //        mItems.add(new TypeVo(getResources().getString(R.string.recommend_live_type)));
 //        if (homeMergeVo.homeListVo.data.live_recommend.size() > 0) {
@@ -88,9 +88,9 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
         mItems.add(new ButtonPojo(1));
         mItems.add(new ButtonPojo(2));
         mItems.add(new TypeVo(getResources().getString(R.string.home_album_list)));
-        if (homeMergeVo.albumListPojo.data ==null) return;
-        if (homeMergeVo.albumListPojo.data.movie_num > 0) {
-            mItems.addAll(homeMergeVo.albumListPojo.data.movies);
+        if (homeMergePojo.albumListPojo.data ==null) return;
+        if (homeMergePojo.albumListPojo.data.movie_num > 0) {
+            mItems.addAll(homeMergePojo.albumListPojo.data.movies);
         }
 //        mItems.add(new TypeVo(getResources().getString(R.string.recommend_book_type)));
 //        if (homeMergeVo.homeListVo.data.publishingbook.size() > 0) {

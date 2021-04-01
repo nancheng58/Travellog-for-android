@@ -1,4 +1,4 @@
-package com.code.travellog.core.view.forum;
+package com.code.travellog.core.view.video;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +8,11 @@ import android.view.View;
 
 import com.adapter.adapter.DelegateAdapter;
 import com.adapter.listener.OnItemClickListener;
+import com.code.travellog.core.vm.VideoViewModel;
 import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.course.CourseInfoVo;
-import com.code.travellog.core.data.pojo.course.CourseListVo;
-import com.code.travellog.core.data.source.CourseRepository;
-import com.code.travellog.core.vm.CourseViewModel;
+
 import com.code.travellog.util.AdapterPool;
 
 
@@ -22,7 +21,7 @@ import com.code.travellog.util.AdapterPool;
  * @time 2021/3/26 21:10
  */
 
-public class ForumListFragment extends BaseListFragment<CourseViewModel> implements OnItemClickListener {
+public class ForumListFragment extends BaseListFragment<VideoViewModel> implements OnItemClickListener {
 
     private String mCatalogId;
 
@@ -43,13 +42,13 @@ public class ForumListFragment extends BaseListFragment<CourseViewModel> impleme
             mCatalogId = getArguments().getString(Constants.F_CATALOG_ID, null);
         }
 
-        registerSubscriber(CourseRepository.EVENT_KEY_COURSE_LIDT, mCatalogId, CourseListVo.class).observe(this, courseListVo -> {
-            if (courseListVo != null && courseListVo.data != null) {
-                lastId = courseListVo.data.get(courseListVo.data.size() - 1).courseid;
-                setUiData(courseListVo.data);
-            }
+//        registerSubscriber(VideoRepository.EVENT_KEY_VIDEOList, mCatalogId, CourseListVo.class).observe(this, courseListVo -> {
+//            if (courseListVo != null && courseListVo.data != null) {
+//                lastId = courseListVo.data.get(courseListVo.data.size() - 1).courseid;
+//                setUiData(courseListVo.data);
+//            }
 
-        });
+//        });
     }
 
 
@@ -68,7 +67,7 @@ public class ForumListFragment extends BaseListFragment<CourseViewModel> impleme
 
     @Override
     protected void getRemoteData() {
-        mViewModel.getCourseList(mCatalogId, lastId);
+//        mViewModel.getCourseList(mCatalogId, lastId);
     }
 
     @Override

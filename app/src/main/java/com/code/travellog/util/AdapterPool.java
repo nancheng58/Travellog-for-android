@@ -6,7 +6,6 @@ import com.adapter.adapter.DelegateAdapter;
 import com.adapter.adapter.OneToMany;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.activity.ActivityListVo;
-import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.album.AlbumPojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultDescriptionPojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
@@ -25,6 +24,7 @@ import com.code.travellog.core.data.pojo.live.LiveRecommendVo;
 import com.code.travellog.core.data.pojo.material.MaterialInfoVo;
 import com.code.travellog.core.data.pojo.material.MatreialSubjectVo;
 import com.code.travellog.core.data.pojo.qa.QaListVo;
+import com.code.travellog.core.data.pojo.video.VideoPojo;
 import com.code.travellog.core.view.activity.holder.ActivityItemHolder;
 import com.code.travellog.core.view.album.holder.AlbumResultHeaderHolder;
 import com.code.travellog.core.view.album.holder.AlbumResultStepHolder;
@@ -34,7 +34,7 @@ import com.code.travellog.core.view.article.holder.ArticleRem3ItemHolder;
 import com.code.travellog.core.view.book.holder.BookListHolder;
 import com.code.travellog.core.view.common.TypeItemView;
 import com.code.travellog.core.view.correct.holder.CorrectItemHolder;
-import com.code.travellog.core.view.forum.holder.ForumItemHolder;
+import com.code.travellog.core.view.video.holder.VideoItemHolder;
 import com.code.travellog.core.view.dynamic.holder.DynamicArticleHolder;
 import com.code.travellog.core.view.dynamic.holder.DynamicCorrectHolder;
 import com.code.travellog.core.view.dynamic.holder.DynamicCourseHolder;
@@ -46,7 +46,6 @@ import com.code.travellog.core.view.followdraw.holder.FollowDrawListHolder;
 import com.code.travellog.core.view.home.holder.AlbumItemHolder;
 import com.code.travellog.core.view.home.holder.CategoryItemView;
 import com.code.travellog.core.view.home.holder.HomeButtonItemView;
-import com.code.travellog.core.view.home.holder.HomeLiveItemView;
 import com.code.travellog.core.view.live.holder.LiveItemHolder;
 import com.code.travellog.core.view.live.holder.LiveListItemHolder;
 import com.code.travellog.core.view.map.MapItemHolder;
@@ -107,7 +106,12 @@ public class AdapterPool {
         return new DelegateAdapter.Builder<>()
                 .bind(CityPojo.class, new MapItemHolder(context));
     }
-
+    public DelegateAdapter.Builder getVideoRemAdapter(Context context) {
+        return new DelegateAdapter.Builder<>()
+                .bind(TypeVo.class, new TypeItemView(context))
+                .bind(BannerListVo.class, new BannerItemView(context))
+                .bind(VideoPojo.class, new VideoItemHolder(context));
+    }
 
 
 
@@ -146,18 +150,11 @@ public class AdapterPool {
                 });
     }
 
-    public DelegateAdapter.Builder getCourseRemAdapter(Context context) {
-        return new DelegateAdapter.Builder<>()
-                .bind(TypeVo.class, new TypeItemView(context))
-                .bind(BannerListVo.class, new BannerItemView(context))
-                .bind(CourseInfoVo.class, new ForumItemHolder(context))
-                .bind(LiveRecommendVo.class, new HomeLiveItemView(context));
 
-    }
 
     public DelegateAdapter.Builder getCourseListAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
-                .bind(CourseInfoVo.class, new ForumItemHolder(context));
+                .bind(CourseInfoVo.class, new VideoItemHolder(context));
 
     }
 

@@ -14,7 +14,7 @@ import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.course.CourseDetailRemVideoVo;
 import com.code.travellog.core.data.pojo.course.CourseDetailVo;
 import com.code.travellog.core.data.pojo.live.LiveDetailsVo;
-import com.code.travellog.core.view.forum.holder.ForumRecommendHolder;
+import com.code.travellog.core.view.video.holder.ForumRecommendHolder;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.util.DisplayUtil;
 import com.code.travellog.widget.LiveVideoPlayer;

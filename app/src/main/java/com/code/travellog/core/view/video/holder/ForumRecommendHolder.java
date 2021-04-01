@@ -1,4 +1,4 @@
-package com.code.travellog.core.view.forum.holder;
+package com.code.travellog.core.view.video.holder;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -13,9 +13,7 @@ import com.bumptech.glide.Glide;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.course.CourseDetailRemVideoVo;
 
-/**
- * @author：tqzhang on 18/7/16 17:37
- */
+
 public class ForumRecommendHolder extends AbsItemHolder<CourseDetailRemVideoVo.DataBean.CourseListBean, ForumRecommendHolder.ViewHolder> {
 
     public ForumRecommendHolder(Context context) {

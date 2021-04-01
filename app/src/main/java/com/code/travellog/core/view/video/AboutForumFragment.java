@@ -1,4 +1,4 @@
-package com.code.travellog.core.view.forum;
+package com.code.travellog.core.view.video;
 
 import android.os.Bundle;
 

@@ -111,7 +111,7 @@
             app:leftIcon="@drawable/vic_my_publish"
             app:isShowRightText="true"
             app:leftText="检查更新"
-            app:rightText="V1.0.0"
+            app:rightText="V3.0.0"
             app:rightTextColor="@color/colorPrimary" />
 
         <com.leon.lib.settingview.LSettingItem
@@ -123,23 +123,7 @@
             app:leftText="关于"
 
         />
-        <com.leon.lib.settingview.LSettingItem
-            android:id="@+id/tv_test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:isShowUnderLine="false"
-            app:leftText="测试页面"
-            />
-        <com.leon.lib.settingview.LSettingItem
-            android:id="@+id/tv_gaode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:isShowUnderLine="false"
-            app:leftText="高德地图测试"
 
-            />
     </LinearLayout>
     </ScrollView>
 </LinearLayout>
