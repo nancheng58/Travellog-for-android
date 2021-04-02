@@ -1,6 +1,5 @@
-package com.code.travellog.core.data.source;
+package com.code.travellog.core.data.repository;
 
-import com.code.travellog.core.data.BaseRepository;
 import com.code.travellog.core.data.pojo.extraction.ColorPojo;
 import com.code.travellog.core.data.pojo.poetry.PoetryPojo;
 import com.code.travellog.core.data.pojo.weather.WeatherPojo;

@@ -3,8 +3,7 @@ package com.code.travellog.core.vm;
 import android.app.Application;
 import androidx.annotation.NonNull;
 
-import com.code.travellog.core.data.source.HomeRepository;
-import com.code.travellog.core.data.source.VideoRepository;
+import com.code.travellog.core.data.repository.VideoRepository;
 import com.mvvm.base.AbsViewModel;
 
 

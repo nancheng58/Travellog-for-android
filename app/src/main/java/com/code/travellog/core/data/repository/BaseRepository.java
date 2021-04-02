@@ -1,4 +1,4 @@
-package com.code.travellog.core.data;
+package com.code.travellog.core.data.repository;
 
 import com.code.travellog.network.ApiService;
 import com.mvvm.base.AbsRepository;

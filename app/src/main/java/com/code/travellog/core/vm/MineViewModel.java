@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.code.travellog.core.data.source.MineRepository;
+import com.code.travellog.core.data.repository.MineRepository;
 import com.mvvm.base.AbsViewModel;
 
 /**

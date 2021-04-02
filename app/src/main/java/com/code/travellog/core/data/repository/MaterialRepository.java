@@ -1,6 +1,5 @@
-package com.code.travellog.core.data.source;
+package com.code.travellog.core.data.repository;
 
-import com.code.travellog.core.data.BaseRepository;
 import com.code.travellog.core.data.pojo.material.MaterialRecommendVo;
 import com.code.travellog.core.data.pojo.material.MaterialTypeVo;
 import com.code.travellog.core.data.pojo.material.MaterialVo;

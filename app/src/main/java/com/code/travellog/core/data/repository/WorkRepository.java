@@ -1,8 +1,7 @@
-package com.code.travellog.core.data.source;
+package com.code.travellog.core.data.repository;
 
 
 import com.code.travellog.config.Constants;
-import com.code.travellog.core.data.BaseRepository;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 import com.code.travellog.core.data.pojo.correct.WorkDetailVo;
 import com.code.travellog.core.data.pojo.correct.WorkMergeVo;
@@ -16,8 +15,10 @@ import com.mvvm.stateview.StateConstants;
 import io.reactivex.Flowable;
 
 /**
- * @author：tqzhang on 18/7/31 15:32
+ * @description
+ * @time 2021/4/2 16:26
  */
+
 public class WorkRepository extends BaseRepository {
 
 

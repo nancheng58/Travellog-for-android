@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.code.travellog.core.data.source.UserRepository;
+import com.code.travellog.core.data.repository.UserRepository;
 import com.mvvm.base.AbsViewModel;
 
 import java.util.HashMap;

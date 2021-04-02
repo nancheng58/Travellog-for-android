@@ -1,7 +1,6 @@
-package com.code.travellog.core.data.source;
+package com.code.travellog.core.data.repository;
 
 import android.annotation.SuppressLint;
-import android.app.job.JobInfo;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.media.ExifInterface;
@@ -11,16 +10,11 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.amap.api.services.geocoder.GeocodeSearch;
-import com.code.travellog.App;
-import com.code.travellog.core.data.BaseRepository;
 import com.code.travellog.core.data.pojo.geo.CityListPojo;
 import com.code.travellog.core.data.pojo.geo.CityListResultPojo;
 import com.code.travellog.core.data.pojo.geo.CityPojo;
-import com.code.travellog.core.data.pojo.geo.CityResultPojo;
 import com.code.travellog.core.data.pojo.geo.GeoPojo;
 import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
-import com.code.travellog.core.data.pojo.weather.WeatherPojo;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.GeoUtil;
 import com.code.travellog.util.JsonUtils;
@@ -40,8 +34,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import tech.spiro.addrparser.parser.Location;
 
 /**
  * @description: 本地图片仓库

@@ -16,10 +16,8 @@ import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.image.ImagePojo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
-import com.code.travellog.core.data.source.UserRepository;
+import com.code.travellog.core.data.repository.UserRepository;
 import com.code.travellog.core.vm.UserViewModel;
-import com.code.travellog.network.ApiService;
-import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.Base64Utils;
 import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.StringUtil;
@@ -32,15 +30,12 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mvvm.base.AbsLifecycleActivity;
-import com.mvvm.http.HttpHelper;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class LoginActivity extends AbsLifecycleActivity<UserViewModel> implements Validator.ValidationListener {

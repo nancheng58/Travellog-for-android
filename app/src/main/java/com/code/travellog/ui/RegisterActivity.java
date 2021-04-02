@@ -17,11 +17,8 @@ import android.widget.ImageView;
 
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.image.ImagePojo;
-import com.code.travellog.core.data.pojo.user.UserPojo;
-import com.code.travellog.core.data.source.UserRepository;
+import com.code.travellog.core.data.repository.UserRepository;
 import com.code.travellog.core.vm.UserViewModel;
-import com.code.travellog.network.ApiService;
-import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.Base64Utils;
 import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.StringUtil;
@@ -40,8 +37,6 @@ import com.code.travellog.R;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mvvm.base.AbsLifecycleActivity;
-import com.mvvm.base.BaseActivity;
-import com.mvvm.http.HttpHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,8 +44,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class RegisterActivity extends AbsLifecycleActivity<UserViewModel> implements Validator.ValidationListener {
     @Order(1)

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.code.travellog.R;
 import com.code.travellog.ui.base.BaseViewPagerFragment;
 import com.code.travellog.core.data.pojo.followdraw.FollowDrawTypeVo;
-import com.code.travellog.core.data.source.FollowDrawRepository;
+import com.code.travellog.core.data.repository.FollowDrawRepository;
 import com.code.travellog.core.vm.FollowDrawViewModel;
 import com.mvvm.base.BaseFragment;
 

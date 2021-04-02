@@ -1,47 +1,44 @@
-package com.code.travellog.core.data.source;
+package com.code.travellog.core.data.repository;
 
-import com.code.travellog.config.Constants;
-import com.code.travellog.core.data.BaseRepository;
-import com.code.travellog.core.data.pojo.qa.QaListVo;
+import com.code.travellog.core.data.pojo.activity.ActivityListVo;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;
 import com.mvvm.http.rx.RxSchedulers;
 import com.mvvm.stateview.StateConstants;
 
 /**
- * @author：tqzhang on 18/8/2 10:52
+ * @author：tqzhang on 18/7/26 16:18
  */
-public class QaRepository extends BaseRepository {
+public class ActivityRepository extends BaseRepository {
+    public static String EVENT_KEY_ACTIVITY = null;
 
-    public static String EVENT_KEY_QA = null;
 
-    public QaRepository() {
-        if (EVENT_KEY_QA == null) {
-            EVENT_KEY_QA = StringUtil.getEventKey();
+    public ActivityRepository() {
+        if (EVENT_KEY_ACTIVITY==null) {
+            EVENT_KEY_ACTIVITY = StringUtil.getEventKey();
         }
     }
 
-    public void loadQAList(String lastId) {
-        addDisposable(apiService.getQAList(lastId, Constants.PAGE_RN)
+    public void loadActivityList(String lastId, String rn) {
+        addDisposable(apiService.getActivityList(lastId, rn)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<QaListVo>() {
+                .subscribeWith(new RxSubscriber<ActivityListVo>() {
                     @Override
                     protected void onNoNetWork() {
                         postState(StateConstants.NET_WORK_STATE);
                     }
 
                     @Override
-                    public void onSuccess(QaListVo qaListVo) {
-                        postData(EVENT_KEY_QA, qaListVo);
+                    public void onSuccess(ActivityListVo activityListVo) {
+                        postData(EVENT_KEY_ACTIVITY, activityListVo);
                         postState(StateConstants.SUCCESS_STATE);
-
                     }
 
                     @Override
                     public void onFailure(String msg, int code) {
                         postState(StateConstants.ERROR_STATE);
-
                     }
                 }));
     }
+
 }

@@ -1,6 +1,5 @@
-package com.code.travellog.core.data.source;
+package com.code.travellog.core.data.repository;
 
-import com.code.travellog.core.data.BaseRepository;
 import com.code.travellog.core.data.pojo.dynamic.DynamicListVo;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;

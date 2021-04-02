@@ -22,10 +22,8 @@ import com.code.travellog.R;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
-import com.code.travellog.core.data.source.UserRepository;
+import com.code.travellog.core.data.repository.UserRepository;
 import com.code.travellog.core.vm.UserViewModel;
-import com.code.travellog.network.ApiService;
-import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;
 import com.code.travellog.util.ToastUtils;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -35,8 +33,6 @@ import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mvvm.base.AbsLifecycleActivity;
-import com.mvvm.base.BaseActivity;
-import com.mvvm.http.HttpHelper;
 import com.tencent.mmkv.MMKV;
 
 import java.util.HashMap;
@@ -45,8 +41,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @description: 用户信息 界面

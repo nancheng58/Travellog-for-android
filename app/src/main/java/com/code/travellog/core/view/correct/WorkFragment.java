@@ -13,14 +13,16 @@ import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.correct.WorkMergeVo;
 import com.code.travellog.core.data.pojo.correct.WorksListVo;
-import com.code.travellog.core.data.source.WorkRepository;
+import com.code.travellog.core.data.repository.WorkRepository;
 import com.code.travellog.core.vm.WorkViewModel;
 import com.code.travellog.util.AdapterPool;
 
 
 /**
- * @author：tqzhang on 18/5/2 19:30
+ * @description
+ * @time 2021/4/2 16:20
  */
+
 public class WorkFragment extends BaseListFragment<WorkViewModel> implements OnItemClickListener {
 
     private String uTime;

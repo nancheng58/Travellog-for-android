@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.adapter.adapter.DelegateAdapter;
 import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.core.data.pojo.dynamic.DynamicListVo;
-import com.code.travellog.core.data.source.DynamicRepository;
+import com.code.travellog.core.data.repository.DynamicRepository;
 import com.code.travellog.core.vm.DynamicViewModel;
 import com.code.travellog.util.AdapterPool;
 

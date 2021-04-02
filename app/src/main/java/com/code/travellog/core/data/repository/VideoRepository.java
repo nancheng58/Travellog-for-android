@@ -1,11 +1,9 @@
-package com.code.travellog.core.data.source;
+package com.code.travellog.core.data.repository;
 
-
-import com.code.travellog.core.data.BaseRepository;
-import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
-import com.code.travellog.core.data.pojo.home.HomeListVo;
-import com.code.travellog.core.data.pojo.home.HomeMergePojo;
+
+import com.code.travellog.core.data.pojo.video.VideoListPojo;
+import com.code.travellog.core.data.pojo.video.VideoMergePojo;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;
 import com.mvvm.http.rx.RxSchedulers;
@@ -13,37 +11,39 @@ import com.mvvm.stateview.StateConstants;
 
 import io.reactivex.Flowable;
 
+
 /**
  * @description
- * @time 2021/3/5 15:58
+ * @time 2021/4/1 16:58
  */
 
-public class HomeRepository extends BaseRepository {
+public class VideoRepository extends BaseRepository {
 
-    public static String EVENT_KEY_HOME = null;
+    public static String EVENT_KEY_VIDEO = null;
+    public static String EVENT_KEY_VIDEOTAG = null;
 
-    private Flowable<HomeListVo> mHomeListObservable;
+    private Flowable<VideoListPojo> mVideoListObservable;
 
     private Flowable<BannerListVo> mBannerObservable;
 
-    private Flowable<AlbumListPojo> mAlbumListObservable;
 
-    private final HomeMergePojo homeMergePojo = new HomeMergePojo();
+    private final VideoMergePojo videoMergePojo = new VideoMergePojo();
 
 
-    public HomeRepository() {
-        if (EVENT_KEY_HOME == null) {
-            EVENT_KEY_HOME = StringUtil.getEventKey();
+    public VideoRepository() {
+        if (EVENT_KEY_VIDEO == null) {
+            EVENT_KEY_VIDEO = StringUtil.getEventKey();
         }
+        if (EVENT_KEY_VIDEOTAG == null) EVENT_KEY_VIDEOTAG = StringUtil.getEventKey();
     }
 
-    public void loadHomeData(String id) {
-        mHomeListObservable = apiService.getHomeData(id);
-    }
+//    public void loadVideoData(String id) {
+//        mVideoListObservable = apiService.getVideoData(id);
+//    }
 
-    public void loadAlbumData()
+    public void loadVideoData()
     {
-        mAlbumListObservable =apiService.getAlbumList();
+        mVideoListObservable =apiService.getVideoList();
     }
     public void loadBannerData(String posType,
                                String fCatalogId,
@@ -54,23 +54,22 @@ public class HomeRepository extends BaseRepository {
     }
 
 
-    public void loadHomeData() {
-        addDisposable(Flowable.concat(mBannerObservable, mAlbumListObservable)
+    public void loadData() {
+        addDisposable(Flowable.concat(mBannerObservable, mVideoListObservable)
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<Object>() {
                     @Override
                     protected void onNoNetWork() {
                         postState(StateConstants.NET_WORK_STATE);
                     }
-
                     @Override
                     public void onSuccess(Object object) {
                         if (object instanceof BannerListVo) {
-                            homeMergePojo.bannerListVo = (BannerListVo) object;
-                        } else if (object instanceof AlbumListPojo) {
-                            homeMergePojo.albumListPojo = (AlbumListPojo) object;
-                            if (homeMergePojo != null) {
-                                postData(EVENT_KEY_HOME, homeMergePojo);
+                            videoMergePojo.bannerListVo = (BannerListVo) object;
+                        } else if (object instanceof VideoListPojo) {
+                            videoMergePojo.videoListPojo = (VideoListPojo) object;
+                            if (videoMergePojo != null) {
+                                postData(EVENT_KEY_VIDEO, videoMergePojo);
                                 postState(StateConstants.SUCCESS_STATE);
                             } else {
                                 postState(StateConstants.NOT_DATA_STATE);

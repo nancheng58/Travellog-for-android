@@ -58,7 +58,8 @@ public class MakeAlbumActivity extends BaseActivity {
         initToolBar();
         initFragment(0);
         aiBoostManager = AiBoostManager.newInstance();
-        aiBoostManager.initialize(this,"mobilenet_quant_v1_224.tflite",1001,"labels_mobilenet_quant_v1_224.txt");
+        aiBoostManager.initialize(this, "mobilenet_quant.tflite",
+                1001, "mobilenet_quant_labels.txt");
 
     }
     public void setShare(boolean isShare)

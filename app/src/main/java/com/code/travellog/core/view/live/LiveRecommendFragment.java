@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.adapter.adapter.DelegateAdapter;
 import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.core.data.pojo.live.LiveListVo;
-import com.code.travellog.core.data.source.LiveRepository;
+import com.code.travellog.core.data.repository.LiveRepository;
 import com.code.travellog.core.vm.LiveViewModel;
 import com.code.travellog.util.AdapterPool;
 

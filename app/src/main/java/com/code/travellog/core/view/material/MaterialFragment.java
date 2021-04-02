@@ -6,7 +6,7 @@ import com.code.travellog.R;
 import com.code.travellog.ui.base.BaseViewPagerFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.material.MaterialTypeVo;
-import com.code.travellog.core.data.source.MaterialRepository;
+import com.code.travellog.core.data.repository.MaterialRepository;
 import com.code.travellog.core.vm.MaterialViewModel;
 import com.mvvm.base.BaseFragment;
 

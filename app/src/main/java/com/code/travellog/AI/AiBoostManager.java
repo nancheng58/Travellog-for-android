@@ -34,7 +34,7 @@ import java.util.PriorityQueue;
 import java.util.concurrent.Semaphore;
 
 /**
- * @description:
+ * @description: AIBoost 管理器
  * @date: 2021/3/11
  */
 public class AiBoostManager {
@@ -56,7 +56,7 @@ public class AiBoostManager {
     private ByteBuffer imgData = null;
     private int[] intValues = new int[IMAGE_SIZE_X * IMAGE_SIZE_Y];
     private List<String> labelList;
-    private float[][] filterLabelProbArray = null;
+    private final float[][] filterLabelProbArray = null;
     private byte[][] labelProbArray = null;
     AiBoostInterpreter.Options options = null;
     public AiBoostInterpreter aiboost = null;
@@ -119,9 +119,8 @@ public class AiBoostManager {
         Turn  = 0 ;
         try{
             labelList = loadLabelList(activity);
-        }catch (IOException e) { }
+        }catch (IOException e) { e.printStackTrace();}
         try {
-
             Context context = activity.getApplicationContext();
             assetManager = context.getAssets();
             options = new AiBoostInterpreter.Options();
@@ -136,7 +135,6 @@ public class AiBoostManager {
     public void run(Bitmap bmp) throws InterruptedException {
 
         new Thread(){
-
             @Override
             public void run() {
                 try {
@@ -145,15 +143,18 @@ public class AiBoostManager {
                     e.printStackTrace();
                 }
                 try {
-                        InputStream input = assetManager.open(modelPath);
-                        int length = input.available();
-                        byte[] buffer = new byte[length];
-                        input.read(buffer);
-                        modelbuf = ByteBuffer.allocateDirect(length);
-                        modelbuf.order(ByteOrder.nativeOrder());
-                        modelbuf.put(buffer);
-                        aiboost = new AiBoostInterpreter(modelbuf, input_shapes, options);
-
+                    InputStream input = assetManager.open(modelPath);
+                    int length = input.available();
+                    byte[] buffer = new byte[length];
+                    input.read(buffer);
+                    modelbuf = ByteBuffer.allocateDirect(length);
+                    modelbuf.order(ByteOrder.nativeOrder());
+                    modelbuf.put(buffer);
+                    aiboost = new AiBoostInterpreter(modelbuf, input_shapes, options);
+                    imgData = aiboost.getInputTensor(0);
+                    sortedLabels.clear();
+                    labelProbArray = new byte[1][NUM_OF_LABELS];
+                    task = new ComputeTask().execute(bmp);
                 }catch(FileNotFoundException var6){
 
                         Log.d(TAG, var6.toString());
@@ -163,16 +164,6 @@ public class AiBoostManager {
                         throw new RuntimeException(var7);
                 }
 
-                if (aiboost != null) {
-                    imgData = aiboost.getInputTensor(0);
-                    sortedLabels.clear();
-                    labelProbArray = new byte[1][NUM_OF_LABELS];
-//                    ToastUtils.showToast("计算中...");
-                    task = new ComputeTask().execute(bmp);
-
-                } else {
-//                    ToastUtils.showToast("模型初始化中，请稍后...");
-                }
             }
         }.start();
     }
@@ -197,14 +188,12 @@ public class AiBoostManager {
         }
         @Override
         protected void onPostExecute(String result) {
-            Log.w(TAG+"PostExecute",Turn + result + Total);
-//            ToastUtils.showToast(result);
+
+            Log.w(TAG+"PostExecute result ",Turn + result + Total);
             semaphore.release();
             Turn ++;
             if(aiboost!= null) aiboost.close();
-
             if (Turn == Total - 1) LiveBus.getDefault().postEvent(EVENT_KEY_OBJECT,getResult());
-//            tv.setText(result);
         }
     }
     private void convertBitmapToByteBuffer(Bitmap bitmap) {

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.code.travellog.ui.base.BaseViewPagerFragment;
 import com.code.travellog.core.data.pojo.book.BookTypeVo;
-import com.code.travellog.core.data.source.BookRepository;
+import com.code.travellog.core.data.repository.BookRepository;
 import com.code.travellog.core.vm.BookViewModel;
 import com.mvvm.base.BaseFragment;
 

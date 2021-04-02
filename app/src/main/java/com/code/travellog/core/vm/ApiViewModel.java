@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.code.travellog.core.data.source.ApiRepository;
+import com.code.travellog.core.data.repository.ApiRepository;
 import com.mvvm.base.AbsViewModel;
 
 import okhttp3.MultipartBody;

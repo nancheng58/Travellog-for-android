@@ -40,7 +40,7 @@ import com.code.travellog.core.data.pojo.geo.CityListPojo;
 import com.code.travellog.core.data.pojo.geo.CityPojo;
 import com.code.travellog.core.data.pojo.geo.GeoPojo;
 import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
-import com.code.travellog.core.data.source.PictureRepository;
+import com.code.travellog.core.data.repository.PictureRepository;
 import com.code.travellog.core.view.picture.PictureShowActivity;
 import com.code.travellog.core.vm.PictureViewModel;
 import com.code.travellog.util.AdapterPool;
@@ -49,7 +49,6 @@ import com.mvvm.base.AbsLifecycleActivity;
 import com.yinglan.scrolllayout.ScrollLayout;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

@@ -4,7 +4,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.code.travellog.config.Constants;
-import com.code.travellog.core.data.source.FollowDrawRepository;
+import com.code.travellog.core.data.repository.FollowDrawRepository;
 import com.mvvm.base.AbsViewModel;
 
 /**

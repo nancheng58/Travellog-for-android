@@ -1,15 +1,11 @@
 package com.code.travellog.core.view.album;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -29,27 +25,15 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.allen.library.SuperTextView;
-import com.code.travellog.AI.AiBoostManager;
 import com.code.travellog.App;
 import com.code.travellog.R;
-import com.code.travellog.config.Constants;
-import com.code.travellog.config.URL;
-import com.code.travellog.core.data.pojo.BasePojo;
-import com.code.travellog.core.data.pojo.album.AlbumPostPojo;
-import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
-import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
-import com.code.travellog.core.data.source.AlbumRepository;
 import com.code.travellog.core.vm.AlbumViewModel;
 import com.code.travellog.glide.GlideCacheEngine;
 import com.code.travellog.glide.GlideEngine;
-import com.code.travellog.network.ApiService;
-import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.ui.FullyGridLayoutManager;
 import com.code.travellog.ui.MakeAlbumActivity;
 import com.code.travellog.ui.adapter.GridImageAdapter;
 import com.code.travellog.ui.listener.DragListener;
-import com.code.travellog.util.FileUitl;
-import com.code.travellog.util.JsonUtils;
 import com.code.travellog.util.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.broadcast.BroadcastAction;
@@ -67,26 +51,15 @@ import com.luck.picture.lib.style.PictureWindowAnimationStyle;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.mvvm.base.AbsLifecycleFragment;
-import com.mvvm.base.BaseFragment;
-import com.mvvm.event.LiveBus;
-import com.mvvm.http.HttpHelper;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 /**
  * @description:

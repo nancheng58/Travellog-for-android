@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.code.travellog.core.data.pojo.geo.GeoPojo;
 import com.code.travellog.core.data.pojo.picture.PictureExifPojo;
-import com.code.travellog.core.data.source.PictureRepository;
+import com.code.travellog.core.data.repository.PictureRepository;
 import com.mvvm.base.AbsViewModel;
 
 import java.io.IOException;

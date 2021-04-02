@@ -1,7 +1,6 @@
-package com.code.travellog.core.data.source;
+package com.code.travellog.core.data.repository;
 
 import com.code.travellog.config.URL;
-import com.code.travellog.core.data.BaseRepository;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.image.ImagePojo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
@@ -13,9 +12,6 @@ import com.mvvm.stateview.StateConstants;
 import com.tencent.mmkv.MMKV;
 
 import java.util.HashMap;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @description:

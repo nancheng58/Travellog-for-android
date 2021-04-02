@@ -10,7 +10,7 @@ import com.code.travellog.core.data.pojo.correct.WorkDetailVo;
 import com.code.travellog.core.data.pojo.correct.WorkMergeVo;
 import com.code.travellog.core.data.pojo.correct.WorkRecommentVo;
 import com.code.travellog.core.data.pojo.correct.WorksListVo;
-import com.code.travellog.core.data.source.WorkRepository;
+import com.code.travellog.core.data.repository.WorkRepository;
 import com.mvvm.base.AbsViewModel;
 
 

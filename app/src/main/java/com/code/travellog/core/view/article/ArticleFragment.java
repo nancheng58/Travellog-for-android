@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.code.travellog.R;
 import com.code.travellog.ui.base.BaseViewPagerFragment;
 import com.code.travellog.core.data.pojo.article.ArticleTypeVo;
-import com.code.travellog.core.data.source.ArticleRepository;
+import com.code.travellog.core.data.repository.ArticleRepository;
 import com.code.travellog.core.vm.ArticleViewModel;
 import com.mvvm.base.BaseFragment;
 

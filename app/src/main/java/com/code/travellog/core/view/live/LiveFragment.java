@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.code.travellog.ui.base.BaseViewPagerFragment;
 import com.code.travellog.core.data.pojo.live.LiveTypeVo;
-import com.code.travellog.core.data.source.LiveRepository;
+import com.code.travellog.core.data.repository.LiveRepository;
 import com.code.travellog.core.vm.LiveViewModel;
 import com.mvvm.base.BaseFragment;
 

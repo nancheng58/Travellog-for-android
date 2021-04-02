@@ -4,8 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.code.travellog.core.data.source.AlbumRepository;
-import com.code.travellog.ui.base.BaseViewHolder;
+import com.code.travellog.core.data.repository.AlbumRepository;
 import com.mvvm.base.AbsViewModel;
 
 import okhttp3.MultipartBody;

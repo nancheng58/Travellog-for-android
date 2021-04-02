@@ -15,7 +15,7 @@ import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 import com.code.travellog.core.data.pojo.common.TypeVo;
-import com.code.travellog.core.data.source.VideoRepository;
+import com.code.travellog.core.data.repository.VideoRepository;
 import com.code.travellog.util.AdapterPool;
 
 import java.util.Random;

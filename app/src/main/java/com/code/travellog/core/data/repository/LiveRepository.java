@@ -1,6 +1,5 @@
-package com.code.travellog.core.data.source;
+package com.code.travellog.core.data.repository;
 
-import com.code.travellog.core.data.BaseRepository;
 import com.code.travellog.core.data.pojo.live.LiveListVo;
 import com.code.travellog.core.data.pojo.live.LiveTypeVo;
 import com.code.travellog.network.rx.RxSubscriber;

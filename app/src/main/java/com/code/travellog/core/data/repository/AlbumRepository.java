@@ -1,13 +1,11 @@
-package com.code.travellog.core.data.source;
+package com.code.travellog.core.data.repository;
 
 import com.code.travellog.config.URL;
-import com.code.travellog.core.data.BaseRepository;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;
-import com.code.travellog.util.ToastUtils;
 import com.mvvm.http.rx.RxSchedulers;
 import com.mvvm.stateview.StateConstants;
 

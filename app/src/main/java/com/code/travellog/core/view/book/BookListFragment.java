@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.adapter.adapter.DelegateAdapter;
 import com.code.travellog.ui.base.BaseListFragment;
 import com.code.travellog.core.data.pojo.book.BookListVo;
-import com.code.travellog.core.data.source.BookRepository;
+import com.code.travellog.core.data.repository.BookRepository;
 import com.code.travellog.core.vm.BookViewModel;
 import com.code.travellog.util.AdapterPool;
 
