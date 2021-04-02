@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.code.travellog.R;
 import com.code.travellog.core.vm.VideoViewModel;
-import com.code.travellog.ui.base.BaseViewPagerFragment;
+import com.code.travellog.core.view.base.BaseViewPagerFragment;
 
 import com.mvvm.base.BaseFragment;
 

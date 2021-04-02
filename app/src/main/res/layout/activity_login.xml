@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".ui.LoginActivity">
+    tools:context=".core.view.user.LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
@@ -41,7 +41,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginBottom="-2dp"
                 android:text="欢迎登录集游"
-                android:textColor="#FFB907"
+                android:textColor="@color/app_color_blue"
                 android:textSize="22sp"
                 android:textStyle="italic" />
         </RelativeLayout>
@@ -153,7 +153,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="@dimen/dp10"
                 android:layout_gravity="center_horizontal"
-                android:textColor="@color/design_default_color_error"
+                android:textColor="@color/blue"
                 android:textSize="14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

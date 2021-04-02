@@ -6,17 +6,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.widget.ImageView;
-
-import com.adapter.adapter.DelegateAdapter;
-import com.adapter.adapter.ItemData;
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
-import com.code.travellog.core.data.pojo.course.CourseDetailRemVideoVo;
-import com.code.travellog.core.data.pojo.course.CourseDetailVo;
-import com.code.travellog.core.view.video.holder.ForumRecommendHolder;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.DisplayUtil;
@@ -48,7 +42,6 @@ public class VideoDetailsActivity extends BaseActivity {
     private String teacherId;
     private String fCatalogId;
     private String sCatalogId;
-    private CourseDetailVo.DataEntity lessonData = null;
 
     @Override
     protected void onStateRefresh() {
@@ -156,41 +149,18 @@ public class VideoDetailsActivity extends BaseActivity {
         mVideoPlayer.startPlayLogic();
         loadManager.showSuccess();
     }
-    @SuppressLint("CheckResult")
-    private void getAboutData() {
-        HttpHelper.getInstance().create(ApiService.class).getVideoAboutData(albumId, fCatalogId, sCatalogId, teacherId, "20")
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new RxSubscriber<CourseDetailRemVideoVo>() {
-
-                    @Override
-                    public void onSuccess(CourseDetailRemVideoVo courseDetailRemVideoVo) {
-                        if (courseDetailRemVideoVo != null && courseDetailRemVideoVo.errno == 0) {
-                            setData(courseDetailRemVideoVo);
-                            loadManager.showSuccess();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(String msg,int code) {
-
-                    }
-
-                });
-    }
 
 
-    private void setData(CourseDetailRemVideoVo lessonDetailAboutVideoBean) {
-        ItemData items = new ItemData();
-        DelegateAdapter adapter = new DelegateAdapter.Builder<>()
-        .bind(CourseDetailRemVideoVo.DataBean.CourseListBean.class, new ForumRecommendHolder(VideoDetailsActivity.this)).build();
-        mRecyclerView.setAdapter(adapter);
-        items.addAll(lessonDetailAboutVideoBean.getData().getCourse_list());
-//        mRecyclerView.refreshComplete(items, false);
-        adapter.setDatas(items);
-        adapter.notifyDataSetChanged();
-    }
+//    private void setData(CourseDetailRemVideoVo lessonDetailAboutVideoBean) {
+//        ItemData items = new ItemData();
+//        DelegateAdapter adapter = new DelegateAdapter.Builder<>()
+//        .bind(CourseDetailRemVideoVo.DataBean.CourseListBean.class, new ForumRecommendHolder(VideoDetailsActivity.this)).build();
+//        mRecyclerView.setAdapter(adapter);
+//        items.addAll(lessonDetailAboutVideoBean.getData().getCourse_list());
+////        mRecyclerView.refreshComplete(items, false);
+//        adapter.setDatas(items);
+//        adapter.notifyDataSetChanged();
+//    }
 
 
     @Override

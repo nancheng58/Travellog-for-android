@@ -52,26 +52,26 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-        <activity android:name="com.code.travellog.ui.MainActivity"/>
-        <activity android:name=".ui.LoginActivity"
+        <activity android:name="com.code.travellog.core.view.MainActivity"/>
+        <activity android:name=".core.view.user.LoginActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
-        <activity android:name=".ui.RegisterActivity"
+        <activity android:name=".core.view.user.RegisterActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
-        <activity android:name=".ui.ForgetPwdActivity"
+        <activity android:name=".core.view.user.ForgetPwdActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
-        <activity android:name=".ui.UserInfoActivity" />
+        <activity android:name=".core.view.user.UserInfoActivity" />
         <activity android:name=".core.view.picture.PictureShowActivity" />
         <activity android:name=".core.view.picture.MyPreviewActivity"/>
-        <activity android:name=".ui.ResetPwdActivity"
+        <activity android:name=".core.view.user.ResetPwdActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
         <activity android:name="com.code.travellog.core.view.common.CommonActivity" />
         <activity android:name="com.code.travellog.core.view.correct.WorkDetailsActivity" />
-        <activity android:name=".ui.MakeAlbumActivity"/>
-        <activity android:name=".ui.MyAlbumActivity"/>
-        <activity android:name=".ui.MapActivity"/>
-        <activity android:name="com.code.travellog.ui.AboutActivity"
+        <activity android:name=".core.view.album.MakeAlbumActivity"/>
+        <activity android:name=".core.view.album.MyAlbumActivity"/>
+        <activity android:name=".core.view.map.MapActivity"/>
+        <activity android:name="com.code.travellog.core.view.mine.AboutActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
-        <activity android:name=".ui.LaunchActivity">
+        <activity android:name=".core.view.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

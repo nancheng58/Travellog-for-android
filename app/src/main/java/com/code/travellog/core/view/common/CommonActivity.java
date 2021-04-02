@@ -15,23 +15,16 @@ import android.widget.TextView;
 
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
-import com.code.travellog.core.view.activity.ActivityListFragment;
-import com.code.travellog.core.view.article.ArticleFragment;
-import com.code.travellog.core.view.book.BookFragment;
 import com.code.travellog.core.view.color.ColorFragment;
-import com.code.travellog.core.view.dynamic.DynamicFragment;
-import com.code.travellog.core.view.followdraw.FollowDrawFragment;
-import com.code.travellog.core.view.live.LiveFragment;
-import com.code.travellog.core.view.material.MaterialFragment;
+
 import com.code.travellog.core.view.poetry.PoetryFragment;
-import com.code.travellog.core.view.qa.QaListFragment;
 import com.code.travellog.core.view.styletransfer.StyletransferFragment;
 import com.code.travellog.core.view.weather.WeatherFragment;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.base.BaseFragment;
 
 /**
- * @description 界面选择类
+ * @description 界面选择
  * @time 2021/3/23 19:54
  */
 
@@ -93,16 +86,16 @@ public class CommonActivity extends BaseActivity implements View.OnClickListener
                 commitFragment(StyletransferFragment.newInstance());
                 break;
             case Constants.SUPERVISION:
-                commitFragment(BookFragment.newInstance());
+                commitFragment(PoetryFragment.newInstance());
                 break;
             case Constants.SUPER:
-                commitFragment(LiveFragment.newInstance());
+                commitFragment(PoetryFragment.newInstance());
                 break;
             case Constants.OBJECT:
-                commitFragment(QaListFragment.newInstance());
+                commitFragment(PoetryFragment.newInstance());
                 break;
             case Constants.ACTIVITY:
-                commitFragment(ActivityListFragment.newInstance());
+                commitFragment(PoetryFragment.newInstance());
                 break;
 
             default:

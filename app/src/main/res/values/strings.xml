@@ -31,14 +31,8 @@
     <string name="image_supervision">图像监督</string>
     <string name="object_detection">物体检测</string>
     <string name="super_resolution">超分辨率</string>
-    <string name="qa_title_name">问答</string>
     <string name="activity_title_name">活动</string>
-    <string name="dynamic_title_name">动态</string>
-    <string name="book_title_name">图书</string>
-    <string name="live_title_name">直播课</string>
-    <string name="follow_draw_title_name">跟着画</string>
     <string name="article_title_name">精讲</string>
-    <string name="material_title_name">图库</string>
     <string name="recommend_tab_name">个性推荐</string>
     <string name="home_album_list">个人影集列表</string>
     
@@ -46,8 +40,8 @@
     <string name="recommend_video_type">视频课程</string>
     <string name="recommend_book_type">图书推荐</string>
     <string name="user">user</string>
-    <string name="register">register</string>
-    <string name="Username">Username</string>
+    <string name="register">注册</string>
+    <string name="Username">用户名</string>
     <string name="app_drag_delete">拖动到此处删除</string>
     <string name="app_let_go_drag_delete">松手即可删除</string>
     <string name="app_wechat_send">发送</string>

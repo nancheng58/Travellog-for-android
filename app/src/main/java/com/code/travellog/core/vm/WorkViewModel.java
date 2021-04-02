@@ -15,8 +15,10 @@ import com.mvvm.base.AbsViewModel;
 
 
 /**
- * @author：tqzhang on 18/7/31 15:32
+ * @description
+ * @time 2021/4/2 23:36
  */
+
 public class WorkViewModel extends AbsViewModel<WorkRepository> {
 
     private MutableLiveData<WorksListVo> mWorkMoreData;

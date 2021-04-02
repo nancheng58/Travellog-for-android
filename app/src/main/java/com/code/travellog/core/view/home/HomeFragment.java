@@ -12,7 +12,7 @@ import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.album.AlbumPojo;
 import com.code.travellog.core.data.pojo.common.TypeVo;
 import com.code.travellog.core.data.pojo.home.ButtonPojo;
-import com.code.travellog.ui.base.BaseListFragment;
+import com.code.travellog.core.view.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.home.CategoryVo;
 import com.code.travellog.core.data.pojo.home.HomeMergePojo;

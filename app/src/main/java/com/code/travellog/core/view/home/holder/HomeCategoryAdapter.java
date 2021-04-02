@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
-import com.code.travellog.ui.adapter.BaseRecyclerAdapter;
-import com.code.travellog.ui.base.BaseViewHolder;
+import com.code.travellog.core.view.base.adapter.BaseRecyclerAdapter;
+import com.code.travellog.core.view.base.BaseViewHolder;
 import com.code.travellog.core.data.pojo.home.CatagoryInfoVo;
 
 import java.util.List;

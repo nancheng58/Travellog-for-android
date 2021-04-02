@@ -9,7 +9,7 @@ import android.view.View;
 import com.adapter.adapter.DelegateAdapter;
 import com.adapter.listener.OnItemClickListener;
 import com.code.travellog.R;
-import com.code.travellog.ui.base.BaseListFragment;
+import com.code.travellog.core.view.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.correct.WorkMergeVo;
 import com.code.travellog.core.data.pojo.correct.WorksListVo;

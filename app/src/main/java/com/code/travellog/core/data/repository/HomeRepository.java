@@ -3,7 +3,6 @@ package com.code.travellog.core.data.repository;
 
 import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
-import com.code.travellog.core.data.pojo.home.HomeListVo;
 import com.code.travellog.core.data.pojo.home.HomeMergePojo;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;
@@ -21,7 +20,7 @@ public class HomeRepository extends BaseRepository {
 
     public static String EVENT_KEY_HOME = null;
 
-    private Flowable<HomeListVo> mHomeListObservable;
+
 
     private Flowable<BannerListVo> mBannerObservable;
 
@@ -36,9 +35,6 @@ public class HomeRepository extends BaseRepository {
         }
     }
 
-    public void loadHomeData(String id) {
-        mHomeListObservable = apiService.getHomeData(id);
-    }
 
     public void loadAlbumData()
     {

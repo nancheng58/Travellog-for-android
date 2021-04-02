@@ -18,9 +18,6 @@ public class HomeViewModel extends AbsViewModel<HomeRepository> {
         super(application);
     }
 
-    private void getHomeListData(String id) {
-        mRepository.loadHomeData(id);
-    }
     private void getAlbumList() {
         mRepository.loadAlbumData();
     }

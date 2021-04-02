@@ -14,8 +14,8 @@ import com.adapter.holder.AbsItemHolder;
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.home.ButtonPojo;
-import com.code.travellog.ui.MakeAlbumActivity;
-import com.code.travellog.ui.MapActivity;
+import com.code.travellog.core.view.album.MakeAlbumActivity;
+import com.code.travellog.core.view.map.MapActivity;
 import com.google.android.material.card.MaterialCardView;
 
 import butterknife.BindView;

@@ -55,8 +55,6 @@ public class PoetryFragment extends AbsLifecycleFragment<ApiViewModel> {
     Unbinder butterKnife;
     /* 图片上传 */
     private static final int CHOOSER_PERMISSIONS_REQUEST_CODE = 7461;
-    @BindView(R.id.textView)
-    TextView textView;
     private MediaFile selectedImageFile;
     @BindView(R.id.content_color)
     LinearLayout content_color;
@@ -89,9 +87,9 @@ public class PoetryFragment extends AbsLifecycleFragment<ApiViewModel> {
                 .setFolderName("picCache")
                 .allowMultiple(false)
                 .build();
-
-        loadManager.showSuccess();
-        ToastUtils.showToast("请点击图片并选择照片");
+        ToastUtils.showToast("功能已经集成到影集生成中，该页面还未编写，请查看其它界面");
+//        loadManager.showSuccess();
+//        ToastUtils.showToast("请点击图片以进行选择");
         image.setOnClickListener(v -> {
             String[] necessaryPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             if (arePermissionsGranted(necessaryPermissions)) {
@@ -112,29 +110,29 @@ public class PoetryFragment extends AbsLifecycleFragment<ApiViewModel> {
 //                mViewModel.getPoery(multipartBody);
             }
         });
-        textView.setVisibility(View.INVISIBLE);
+//        textView.setVisibility(View.INVISIBLE);
     }
 
     @SuppressLint("DefaultLocale")
     @Override
     protected void dataObserver() {
-        registerSubscriber(ApiRepository.ENTER_KEY_COLOR, ColorPojo.class).observe(this, colorPojo -> {
-
-            if(colorPojo.code!=200){
-                ToastUtils.showToast(colorPojo.msg);
-            }
-            else {
-                ToastUtils.showToast("获取成功");
-//                StringBuilder textToShow = new StringBuilder();
-//                textToShow.append("最大概率天气: " + weatherPojo.data.weather);
-//                for(int i = 0 ;i <weatherPojo.data.rate.size(); i++){
-//                    textToShow.append(String.format("\n %s: %4.2f", weatherPojo.data.tags.get(i), weatherPojo.data.rate.get(i)));
-//                }
-//                textView.setText(textToShow);
-                textView.setVisibility(View.VISIBLE);
-
-            }
-        });
+//        registerSubscriber(ApiRepository.ENTER_KEY_COLOR, ColorPojo.class).observe(this, colorPojo -> {
+//
+//            if(colorPojo.code!=200){
+//                ToastUtils.showToast(colorPojo.msg);
+//            }
+//            else {
+//                ToastUtils.showToast("获取成功");
+////                StringBuilder textToShow = new StringBuilder();
+////                textToShow.append("最大概率天气: " + weatherPojo.data.weather);
+////                for(int i = 0 ;i <weatherPojo.data.rate.size(); i++){
+////                    textToShow.append(String.format("\n %s: %4.2f", weatherPojo.data.tags.get(i), weatherPojo.data.rate.get(i)));
+////                }
+////                textView.setText(textToShow);
+////                textView.setVisibility(View.VISIBLE);
+//
+//            }
+//        });
     }
 
 

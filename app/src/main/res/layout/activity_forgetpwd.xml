@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".ui.LoginActivity">
+    tools:context=".core.view.user.LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"

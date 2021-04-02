@@ -24,7 +24,6 @@ import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
 import com.code.travellog.core.data.repository.AlbumRepository;
 import com.code.travellog.core.view.video.VideoDetailsActivity;
 import com.code.travellog.core.vm.AlbumViewModel;
-import com.code.travellog.ui.MakeAlbumActivity;
 import com.code.travellog.util.FileUitl;
 import com.code.travellog.util.JsonUtils;
 import com.code.travellog.util.ToastUtils;

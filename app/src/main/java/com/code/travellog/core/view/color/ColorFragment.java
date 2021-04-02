@@ -53,8 +53,6 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
     TextView tvTitle;
     @BindView(R.id.iv_search)
     ImageView ivSearch;
-    //    @BindView(R.id.rl_title_bar)
-//    RelativeLayout rlTitleBar;
     @BindView(R.id.image)
     ImageView image;
     @BindView(R.id.btn_result)
@@ -110,7 +108,7 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
                 .build();
 
         loadManager.showSuccess();
-        ToastUtils.showToast("请点击图片并选择照片");
+        ToastUtils.showToast("请点击图片以进行选择");
         image.setOnClickListener(v -> {
             String[] necessaryPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             if (arePermissionsGranted(necessaryPermissions)) {

@@ -103,7 +103,7 @@ public class StyletransferFragment extends AbsLifecycleFragment<ApiViewModel> {
                 .build();
         mCVClient = App.instance().getCVUnit();
         loadManager.showSuccess();
-        ToastUtils.showToast("请点击图片并选择照片");
+        ToastUtils.showToast("请点击图片以进行选择");
         image.setOnClickListener(v -> {
             String[] necessaryPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             if (arePermissionsGranted(necessaryPermissions)) {

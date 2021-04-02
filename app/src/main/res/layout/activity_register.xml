@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".ui.RegisterActivity">
+    tools:context=".core.view.user.RegisterActivity">
 
     <FrameLayout
         android:layout_centerInParent="true"
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_add"
-            app:cardBackgroundColor="#2ea67f"
+            app:cardBackgroundColor="@color/colorstepview"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                         android:layout_alignParentStart="true"
                         android:layout_width="8dp"
                         android:layout_height="match_parent"
-                        android:background="#03A9F4"
+                        android:background="@color/app_color_9b"
                         />
 
                     <TextView
@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content">
                         <EditText
                             android:textSize="16sp"
-                            android:hint="Password"
+                            android:hint="密码"
                             android:textColor="#f0f7f4"
                             android:id="@+id/et_rpassword"
                             android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                         <EditText
                             android:textSize="16sp"
                             android:textColor="#f0f7f4"
-                            android:hint="repeat_password"
+                            android:hint="请再输入一次密码"
                             android:id="@+id/et_repeatpassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/selector_bg_edit_2"
-                            android:hint="phone"
+                            android:hint="手机号码"
                             android:inputType="textPhonetic"
                             android:paddingBottom="2dp"
                             android:textColor="#f0f7f4"
@@ -165,7 +165,7 @@
                         <EditText
                             android:textSize="16sp"
                             android:textColor="#f0f7f4"
-                            android:hint="Email Address"
+                            android:hint="电子邮箱地址"
                             android:id="@+id/et_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -192,7 +192,7 @@
                         <EditText
                             android:textSize="16sp"
                             android:textColor="#03A9F4"
-                            android:hint="captcha"
+                            android:hint="验证码"
                             android:id="@+id/et_rcaptcha"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

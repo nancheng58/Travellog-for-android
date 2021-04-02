@@ -7,8 +7,10 @@ import com.mvvm.http.HttpHelper;
 
 
 /**
- * @author：tqzhang on 18/7/26 16:15
+ * @description
+ * @time 2021/3/12 22:36
  */
+
 public class BaseRepository extends AbsRepository {
 
     protected ApiService apiService;

@@ -28,29 +28,17 @@ import com.code.travellog.core.data.pojo.video.VideoPojo;
 import com.code.travellog.core.view.activity.holder.ActivityItemHolder;
 import com.code.travellog.core.view.album.holder.AlbumResultHeaderHolder;
 import com.code.travellog.core.view.album.holder.AlbumResultStepHolder;
-import com.code.travellog.core.view.article.holder.ArticleRem1ItemHolder;
-import com.code.travellog.core.view.article.holder.ArticleRem2ItemHolder;
-import com.code.travellog.core.view.article.holder.ArticleRem3ItemHolder;
 import com.code.travellog.core.view.book.holder.BookListHolder;
 import com.code.travellog.core.view.common.TypeItemView;
 import com.code.travellog.core.view.correct.holder.CorrectItemHolder;
 import com.code.travellog.core.view.video.holder.VideoItemHolder;
-import com.code.travellog.core.view.dynamic.holder.DynamicArticleHolder;
-import com.code.travellog.core.view.dynamic.holder.DynamicCorrectHolder;
-import com.code.travellog.core.view.dynamic.holder.DynamicCourseHolder;
-import com.code.travellog.core.view.dynamic.holder.DynamicFollowHolder;
-import com.code.travellog.core.view.dynamic.holder.DynamicLiveHolder;
-import com.code.travellog.core.view.dynamic.holder.DynamicSubjectHolder;
-import com.code.travellog.core.view.dynamic.holder.DynamicWorkHolder;
-import com.code.travellog.core.view.followdraw.holder.FollowDrawListHolder;
 import com.code.travellog.core.view.home.holder.AlbumItemHolder;
 import com.code.travellog.core.view.home.holder.CategoryItemView;
 import com.code.travellog.core.view.home.holder.HomeButtonItemView;
 import com.code.travellog.core.view.live.holder.LiveItemHolder;
 import com.code.travellog.core.view.live.holder.LiveListItemHolder;
 import com.code.travellog.core.view.map.MapItemHolder;
-import com.code.travellog.core.view.material.holder.MaterialItemHolder;
-import com.code.travellog.core.view.material.holder.MaterialListHolder;
+
 import com.code.travellog.core.view.qa.holder.QaListItemHolder;
 import com.code.travellog.widget.banner.BannerItemView;
 
@@ -135,20 +123,6 @@ public class AdapterPool {
                 .bind(ActivityListVo.DataBean.class, new ActivityItemHolder(context));
     }
 
-    public DelegateAdapter.Builder getArticleAdapter(Context context) {
-        return new DelegateAdapter.Builder<>()
-                .bindArray(ArticleInfoVo.class, new ArticleRem1ItemHolder(context), new ArticleRem2ItemHolder(context), new ArticleRem3ItemHolder(context))
-                .withClass((OneToMany<ArticleInfoVo>) (position, listBean) -> {
-                    if ("1".equals(listBean.thumbtype)) {
-                        return ArticleRem1ItemHolder.class;
-                    } else if ("2".equals(listBean.thumbtype)) {
-                        return ArticleRem2ItemHolder.class;
-                    } else if ("3".equals(listBean.thumbtype)) {
-                        return ArticleRem3ItemHolder.class;
-                    }
-                    return null;
-                });
-    }
 
 
 
@@ -158,26 +132,11 @@ public class AdapterPool {
 
     }
 
-    public DelegateAdapter.Builder getFollowAdapter(Context context) {
-        return new DelegateAdapter.Builder<>()
-                .bind(FollowDrawInfoVo.class, new FollowDrawListHolder(context));
-    }
 
     public DelegateAdapter.Builder getQaAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
                 .bind(QaListVo.DataBean.class, new QaListItemHolder(context));
     }
-
-    public DelegateAdapter.Builder getMaterialListAdapter(Context context) {
-        return new DelegateAdapter.Builder<>()
-                .bind(MaterialInfoVo.class, new MaterialListHolder(context));
-    }
-
-    public DelegateAdapter.Builder getMaterialRemAdapter(Context context) {
-        return new DelegateAdapter.Builder<>()
-                .bind(MatreialSubjectVo.class, new MaterialItemHolder(context));
-    }
-
     public DelegateAdapter.Builder getLiveAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
                 .bind(LiveRecommendVo.class, new LiveListItemHolder(context));
@@ -189,32 +148,4 @@ public class AdapterPool {
     }
 
 
-    public DelegateAdapter.Builder getDynamicAdapter(Context context) {
-        return new DelegateAdapter.Builder<>()
-                .bindArray(DynamicInfoVo.class, new DynamicCorrectHolder(context),
-                        new DynamicWorkHolder(context),
-                        new DynamicSubjectHolder(context),
-                        new DynamicArticleHolder(context),
-                        new DynamicCourseHolder(context),
-                        new DynamicLiveHolder(context),
-                        new DynamicFollowHolder(context))
-                .withClass((OneToMany<DynamicInfoVo>) (i, dynamicInfoVo) -> {
-                    if (dynamicInfoVo.subjecttype.equals(Constants.TYPE_CORRECT)) {
-                        return DynamicCorrectHolder.class;
-                    } else if (dynamicInfoVo.subjecttype.equals(Constants.TYPE_WORK)) {
-                        return DynamicWorkHolder.class;
-                    } else if (dynamicInfoVo.subjecttype.equals(Constants.TYPE_MATERIAL_SUBJECT)) {
-                        return DynamicSubjectHolder.class;
-                    } else if (dynamicInfoVo.subjecttype.equals(Constants.TYPE_ARTICLE)) {
-                        return DynamicArticleHolder.class;
-                    } else if (dynamicInfoVo.subjecttype.equals(Constants.TYPE_FOLLOW_DRAW)) {
-                        return DynamicFollowHolder.class;
-                    } else if (dynamicInfoVo.subjecttype.equals(Constants.TYPE_LIVE)) {
-                        return DynamicLiveHolder.class;
-                    } else if (dynamicInfoVo.subjecttype.equals(Constants.TYPE_LESSON)) {
-                        return DynamicCourseHolder.class;
-                    }
-                    return null;
-                });
-    }
 }
