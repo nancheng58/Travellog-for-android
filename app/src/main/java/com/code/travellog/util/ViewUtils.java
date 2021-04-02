@@ -8,8 +8,10 @@ import android.widget.TextView;
 import com.code.travellog.R;
 
 /**
- * @author：tqzhang on 18/8/15 11:24
+ * @description
+ * @time 2021/4/6 0:21
  */
+
 public class ViewUtils {
 
     public static View CreateTagView(Context context, String tagContent) {

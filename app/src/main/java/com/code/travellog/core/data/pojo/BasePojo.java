@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * @description : 响应信号基类
- * @date: 2021/2/25
+ * @date: 2021/2/2
  */
 public class BasePojo implements Serializable {
     public int code = -1;

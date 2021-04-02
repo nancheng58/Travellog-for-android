@@ -15,8 +15,10 @@ import java.security.MessageDigest;
 
 
 /**
- * @author tqzhang
+ * @description Glide 图片转换
+ * @time 2021/2/13 0:38
  */
+
 public class GlideCircleTransform extends BitmapTransformation {
     public GlideCircleTransform(Context context) {
         super();

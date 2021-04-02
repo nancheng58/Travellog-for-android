@@ -9,7 +9,7 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * @description 数据仓库基类
- * @time 2021/3/15 7:34
+ * @time 2021/1/23 7:34
  */
 
 public abstract class AbsRepository {

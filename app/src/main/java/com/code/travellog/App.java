@@ -46,8 +46,10 @@ import com.coloros.ocs.base.common.api.OnConnectionSucceedListener;
 
 
 /**
- * @author：tqzhang on 18/4/19 17:57
+ * @description
+ * @time 2021/1/11 0:28
  */
+
 public class App extends Application implements ComponentCallbacks2 {
     public static App mInstance;
     public static Context mContext;

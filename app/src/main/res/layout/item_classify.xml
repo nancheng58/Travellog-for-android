@@ -19,7 +19,6 @@
             android:layout_centerInParent="true" />
 
         <ImageView
-            android:id="@+id/answer_home_new_imv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

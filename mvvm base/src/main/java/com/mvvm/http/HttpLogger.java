@@ -6,8 +6,10 @@ import com.mvvm.util.Logger;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
- * @author：tqzhang on 18/9/8 21:31
+ * @description 网络 Log
+ * @time 2021/1/25 0:25
  */
+
 public class HttpLogger implements HttpLoggingInterceptor.Logger {
     private static String TAG = HttpLogger.class.getSimpleName();
 

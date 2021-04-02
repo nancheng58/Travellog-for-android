@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.code.travellog.widget.CustomHeightRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/dynamic_layout"
+<com.code.travellog.core.view.base.widget.CustomHeightRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
@@ -17,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.code.travellog.widget.CustomHeightImageView
+            <com.code.travellog.core.view.base.widget.CustomHeightImageView
                 android:id="@+id/iv_pic_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +36,6 @@
 
 
                 <TextView
-                    android:id="@+id/video_looknum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
@@ -61,6 +59,6 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-</com.code.travellog.widget.CustomHeightRelativeLayout>
+</com.code.travellog.core.view.base.widget.CustomHeightRelativeLayout>
 
 

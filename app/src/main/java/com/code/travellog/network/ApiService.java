@@ -30,8 +30,10 @@ import retrofit2.http.POST;
 import retrofit2.http.Url;
 
 /**
- * @author tqzhang
+ * @description RestFul 接口
+ * @time 2021/4/3 0:41
  */
+
 public interface ApiService {
 
     // login

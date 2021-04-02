@@ -22,8 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author：tqzhang on 18/8/10 11:40
+ * @description
+ * @time 2021/1/16 0:27
  */
+
 public abstract class AbsLifecycleActivity<T extends AbsViewModel> extends BaseActivity {
 
     protected T mViewModel;

@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * @description Lifecycle基类
- * @time 2021/3/14 13:57
+ * @time 2021/1/20 13:57
  */
 
 public abstract class AbsLifecycleFragment<T extends AbsViewModel> extends BaseFragment {

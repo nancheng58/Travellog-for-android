@@ -4,46 +4,21 @@
     <string name="work_title_name">游记</string>
     <string name="video_title_name">视频</string>
     <string name="mine_title_name">我的</string>
-    <string name="travel_title_name">足迹</string>
     <string name="move_title_name">更多</string>
-    <string name="srl_header_pulling">下拉可以刷新</string>
-    <string name="srl_header_refreshing">正在刷新…</string>
-    <string name="srl_header_loading">正在加载…</string>
-    <string name="srl_header_release">释放立即刷新</string>
-    <string name="srl_header_finish">刷新完成</string>
-    <string name="srl_header_failed">刷新失败</string>
-    <string name="srl_header_update">上次更新 M-d HH:mm</string>
-    <string name="srl_header_secondary">释放进入二楼</string>
-
-    <string name="srl_footer_pulling">上拉加载更多</string>
-    <string name="srl_footer_release">释放立即加载</string>
-    <string name="srl_footer_loading">正在加载…</string>
-    <string name="srl_footer_refreshing">正在刷新…</string>
-    <string name="srl_footer_finish">加载完成</string>
-    <string name="srl_footer_failed">加载失败</string>
-    <string name="srl_footer_nothing">没有更多数据了</string>
 
     <string name="weather_identification_name">天气识别</string>
     <string name="style_transfer_name">风格迁移</string>
     <string name="poetry_generation">诗歌生成</string>
     <string name="color_extraction">色彩提取</string>
-    <string name="special_tab_name">专题</string>
     <string name="image_supervision">图像监督</string>
     <string name="object_detection">物体检测</string>
     <string name="super_resolution">超分辨率</string>
     <string name="activity_title_name">活动</string>
-    <string name="article_title_name">精讲</string>
     <string name="recommend_tab_name">个性推荐</string>
     <string name="home_album_list">个人影集列表</string>
-    
-    <string name="recommend_live_type">直播推荐</string>
-    <string name="recommend_video_type">视频课程</string>
-    <string name="recommend_book_type">图书推荐</string>
-    <string name="user">user</string>
+
     <string name="register">注册</string>
     <string name="Username">用户名</string>
     <string name="app_drag_delete">拖动到此处删除</string>
     <string name="app_let_go_drag_delete">松手即可删除</string>
-    <string name="app_wechat_send">发送</string>
-    <string name="app_wechat_send_num">发送(%1$d/%2$d)</string>
 </resources>

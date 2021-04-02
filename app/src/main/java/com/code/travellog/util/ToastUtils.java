@@ -8,9 +8,10 @@ import android.widget.Toast;
 import com.code.travellog.App;
 
 /**
- * @description
- * @author：tqzhang on 19/5/8 10:24
+ * @description Toast 工具类
+ * @time 2021/4/3 0:17
  */
+
 public class ToastUtils {
 
 

@@ -16,8 +16,10 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import java.security.MessageDigest;
 
 /**
- * @author tqzhang
+ * @description
+ * @time 2021/2/5 0:40
  */
+
 public class GlideRoundTransform extends BitmapTransformation {
 
     private static float radius = 0f;

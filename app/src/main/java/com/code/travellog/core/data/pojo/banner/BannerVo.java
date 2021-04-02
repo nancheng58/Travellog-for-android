@@ -1,8 +1,10 @@
 package com.code.travellog.core.data.pojo.banner;
 
 /**
- * @author：tqzhang  on 18/5/8 15:40
+ * @description
+ * @time 2021/3/5 0:37
  */
+
 public class BannerVo {
     public String imgUrl;
     public String advid;

@@ -6,7 +6,7 @@ import trecyclerview.com.mvvm.R;
 
 /**
  * @description loading UI
- * @time 2021/3/7 10:40
+ * @time 2021/1/29 10:40
  */
 
 public class LoadingState extends BaseStateControl {

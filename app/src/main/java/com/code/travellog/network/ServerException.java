@@ -1,8 +1,10 @@
 package com.code.travellog.network;
 
 /**
- * @author：tqzhang  on 18/4/19 11:08
+ * @description Server Exception
+ * @time 2021/1/13 8:41
  */
+
 public class ServerException extends RuntimeException {
 
     public String message;

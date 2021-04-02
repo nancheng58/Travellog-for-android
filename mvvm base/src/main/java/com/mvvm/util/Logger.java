@@ -3,8 +3,10 @@ package com.mvvm.util;
 import android.util.Log;
 
 /**
- * @author：tqzhang on 18/9/8 21:28
+ * @description
+ * @time 2021/2/3 0:23
  */
+
 public class Logger {
 
     public static void e(String tag, String msg) {

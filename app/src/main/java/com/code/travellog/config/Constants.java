@@ -1,8 +1,10 @@
 package com.code.travellog.config;
 
 /**
- * @author：tqzhang on 18/7/27 16:19
+ * @description
+ * @time 2021/1/5 0:28
  */
+
 public class Constants {
     public static final String SPName = "parms";
     public static final String ALBUMMAKE_TAG = "albummake";
@@ -39,7 +41,7 @@ public class Constants {
 
     public final static String AlBUM_ID = "album_id";
     public final static String COURSE_ID = "course_id";
-    public final static String CORRECT_ID = "correct_id";
+    public final static String PLOG_ID = "plog_id";
     public final static String F_CATALOG_ID = "f_catalog_id";
     public final static String S_CATALOG = "s_catalog";
     public final static String SUB_ID = "sub_id";

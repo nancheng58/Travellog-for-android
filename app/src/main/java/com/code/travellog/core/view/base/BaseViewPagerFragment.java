@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.code.travellog.R;
 import com.code.travellog.core.view.base.adapter.ViewPagerAdapter;
-import com.code.travellog.widget.NestedViewPager;
+import com.code.travellog.core.view.base.widget.NestedViewPager;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.mvvm.base.AbsLifecycleFragment;
 import com.mvvm.base.AbsViewModel;

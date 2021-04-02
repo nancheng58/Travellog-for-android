@@ -1,8 +1,10 @@
 package com.mvvm.stateview;
 
 /**
- * @author：tqzhang on 18/7/27 16:19
+ * @description
+ * @time 2021/1/27 1:21
  */
+
 public class StateConstants {
     public static final String NET_WORK_STATE = "1";
     public static final String ERROR_STATE = "2";

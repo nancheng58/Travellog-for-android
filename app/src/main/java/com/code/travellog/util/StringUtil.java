@@ -5,8 +5,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 /**
- * @author：tqzhang on 18/8/15 11:29
+ * @description String Util
+ * @time 2021/3/3 0:26
  */
+
 public class StringUtil {
 
     public static String getEventKey() {

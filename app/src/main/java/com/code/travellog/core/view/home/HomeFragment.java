@@ -19,7 +19,7 @@ import com.code.travellog.core.data.pojo.home.HomeMergePojo;
 import com.code.travellog.core.data.repository.HomeRepository;
 import com.code.travellog.core.view.video.VideoDetailsActivity;
 import com.code.travellog.core.vm.HomeViewModel;
-import com.code.travellog.util.AdapterPool;
+import com.code.travellog.core.view.AdapterPool;
 
 
 /**

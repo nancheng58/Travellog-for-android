@@ -9,7 +9,7 @@ import com.mvvm.base.AbsViewModel;
 
 /**
  * @description: 我的页面 VM
- * @date: 2021/2/22
+ * @date: 2021/2/13
  */
 public class MineViewModel extends AbsViewModel<MineRepository> {
 

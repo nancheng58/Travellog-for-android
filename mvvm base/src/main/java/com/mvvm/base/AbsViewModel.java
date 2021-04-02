@@ -9,7 +9,7 @@ import com.mvvm.util.TUtil;
 
 /**
  * @description ViewModel基类
- * @time 2021/3/15 7:33
+ * @time 2021/1/24 7:33
  */
 
 public class AbsViewModel<T extends AbsRepository> extends AndroidViewModel {

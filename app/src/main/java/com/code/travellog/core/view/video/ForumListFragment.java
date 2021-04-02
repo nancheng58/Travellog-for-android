@@ -1,6 +1,5 @@
 package com.code.travellog.core.view.video;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,9 +10,8 @@ import com.adapter.listener.OnItemClickListener;
 import com.code.travellog.core.vm.VideoViewModel;
 import com.code.travellog.core.view.base.BaseListFragment;
 import com.code.travellog.config.Constants;
-import com.code.travellog.core.data.pojo.course.CourseInfoVo;
 
-import com.code.travellog.util.AdapterPool;
+import com.code.travellog.core.view.AdapterPool;
 
 
 /**
@@ -60,7 +58,7 @@ public class ForumListFragment extends BaseListFragment<VideoViewModel> implemen
 
     @Override
     protected DelegateAdapter createAdapter() {
-        DelegateAdapter adapter = AdapterPool.newInstance().getCourseListAdapter(getActivity())
+        DelegateAdapter adapter = AdapterPool.newInstance().getVideoRemAdapter(getActivity())
                 .setOnItemClickListener(this).build();
         return adapter;
     }
@@ -80,11 +78,11 @@ public class ForumListFragment extends BaseListFragment<VideoViewModel> implemen
     @Override
     public void onItemClick(View view, int i, Object object) {
         if (object != null) {
-            if (object instanceof CourseInfoVo) {
-                Intent intent = new Intent(activity, VideoDetailsActivity.class);
-                intent.putExtra(Constants.COURSE_ID, ((CourseInfoVo) object).courseid);
-                activity.startActivity(intent);
-            }
+//            if (object instanceof CourseInfoVo) {
+//                Intent intent = new Intent(activity, VideoDetailsActivity.class);
+//                intent.putExtra(Constants.COURSE_ID, ((CourseInfoVo) object).courseid);
+//                activity.startActivity(intent);
+//            }
 
         }
     }

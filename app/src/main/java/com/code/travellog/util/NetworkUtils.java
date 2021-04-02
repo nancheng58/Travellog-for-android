@@ -13,8 +13,10 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**
- * @author：tqzhang  on 18/7/23 11:33
+ * @description
+ * @time 2021/1/30 0:39
  */
+
 public class NetworkUtils {
 
     /**

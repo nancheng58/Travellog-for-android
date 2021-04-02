@@ -33,7 +33,6 @@
                 tl:tl_textsize="14sp" />
 
             <ImageView
-                android:id="@+id/tab_menu_right_more_imv"
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -46,7 +45,7 @@
             android:layout_height="@dimen/line_hight"
             android:background="@color/line_color" />
 
-        <com.code.travellog.widget.NestedViewPager
+        <com.code.travellog.core.view.base.widget.NestedViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

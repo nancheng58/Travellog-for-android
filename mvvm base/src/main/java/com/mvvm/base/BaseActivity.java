@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /**
  * @description Activity 基类
- * @time 2021/2/23 15:31
+ * @time 2021/1/23 15:31
  */
 
 public abstract class BaseActivity extends AppCompatActivity {

@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * @description: 起始页界面
- * @date: 2021/2/24
+ * @date: 2021/2/15
  */
 public class LaunchActivity extends AnimatedSplash {
     private Handler mHandler = new Handler();

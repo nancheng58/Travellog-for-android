@@ -12,19 +12,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- * 事件总线
- * <p>
- * <p>
- * LiveBus.getDefault().postEvent("LiveData","hi LiveData");
- * <p>
- * <p>
- * LiveBus.getDefault().subscribe("LiveData").observe(this, new Observer<Object>() {
- *
- * @Override public void onChanged(@Nullable Object o) {
- * Log.e("onChanged",((String)o));
- * }
- * });
+ * @description
+     * 事件总线
+     * LiveBus.getDefault().postEvent("LiveData","hi LiveData");
+     * LiveBus.getDefault().subscribe("LiveData").observe(this, new Observer<Object>() {
+     * @Override public void onChanged(@Nullable Object o) {
+     * Log.e("onChanged",((String)o));
+     * }
+     * });
+ * @time 2021/1/28 0:26
  */
+
 public class LiveBus {
 
     private static volatile LiveBus instance;

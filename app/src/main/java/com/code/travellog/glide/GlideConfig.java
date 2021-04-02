@@ -16,9 +16,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.code.travellog.config.Constants;
 
 /**
- *
- * @author tqzhang
+ * @description
+ * @time 2021/2/3 8:39
  */
+
 public class GlideConfig implements GlideModule {
     public final static String TAG = "GlideConfig";
 

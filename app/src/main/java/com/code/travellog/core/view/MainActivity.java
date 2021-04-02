@@ -17,7 +17,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
-import com.code.travellog.core.view.correct.WorkFragment;
+import com.code.travellog.core.view.plog.WorkFragment;
 import com.code.travellog.core.view.video.VideoFragment;
 import com.code.travellog.core.view.home.HomeFragment;
 import com.code.travellog.core.view.mine.MineFragment;

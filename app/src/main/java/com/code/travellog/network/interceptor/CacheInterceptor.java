@@ -10,8 +10,10 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 
 /**
- * @author：tqzhang on 18/11/28 11:31
+ * @description 缓存
+ * @time 2021/1/20 12:41
  */
+
 public class CacheInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {

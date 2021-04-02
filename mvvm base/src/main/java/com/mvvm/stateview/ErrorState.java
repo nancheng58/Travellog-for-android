@@ -10,8 +10,10 @@ import com.tqzhang.stateview.stateview.BaseStateControl;
 import trecyclerview.com.mvvm.R;
 
 /**
- * @author：tqzhang on 18/7/16 15:07
+ * @description
+ * @time 2021/1/28 9:37
  */
+
 public class ErrorState extends BaseStateControl {
     @Override
     protected int onCreateView() {
