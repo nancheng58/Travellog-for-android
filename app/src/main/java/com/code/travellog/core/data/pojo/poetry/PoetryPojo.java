@@ -10,6 +10,9 @@ import java.util.List;
  */
 public class PoetryPojo extends BasePojo {
 
-    public List<String> data;
-
+    public DataBean data;
+    public static class DataBean{
+        public String poem;
+        public String keywords;
+    }
 }

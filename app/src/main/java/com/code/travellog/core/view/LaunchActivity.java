@@ -62,7 +62,7 @@ public class LaunchActivity extends AnimatedSplash {
         configSplash.setTitleTextSize(30f); //float value
         configSplash.setAnimTitleDuration(1000);
         configSplash.setAnimTitleTechnique(Techniques.RotateInDownLeft);
-        configSplash.setTitleFont("fonts/streatwear.otf"); //provide string to your font located in assets/fonts/
+        configSplash.setTitleFont("fonts/balloon.ttf"); //provide string to your font located in assets/fonts/
 
     }
 

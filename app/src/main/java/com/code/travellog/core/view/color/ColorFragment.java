@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -131,6 +132,12 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
         });
 
         result.setVisibility(View.INVISIBLE);
+//        Bitmap bitmap = Bitmap.createBitmap(31,35, Bitmap.Config.ARGB_8888);
+//        bitmap.eraseColor(Color.rgb(153, 144, 129));
+////                        DrawableCompat.setTintList(drawable, colors);
+////                        maincolor.setImageDrawable(drawable);
+//        maincolor.setImageBitmap(bitmap);
+//        maincolor.setColorFilter(Color.rgb(153, 144, 129));
     }
 
     @SuppressLint("DefaultLocale")
@@ -150,17 +157,23 @@ public class ColorFragment extends AbsLifecycleFragment<ApiViewModel> {
                     b = colorPojo.data.result.get(i).get(2);
                     textToShow.append(String.format("\n rgb值为(%.0f ,%.0f ,%.0f)", r, g, b));
                     if (i == 0) {
-                        ColorStateList colors = ColorStateList.valueOf(Color.argb(255, r, g, b));
-                        Drawable drawable = DrawableCompat.wrap(maincolor.getDrawable());
-                        DrawableCompat.setTintList(drawable, colors);
-                        maincolor.setImageDrawable(drawable);
+//                        ColorStateList colors = ColorStateList.valueOf(Color.argb(255, r, g, b));
+//                        Drawable drawable = DrawableCompat.wrap(maincolor.getDrawable());
+                        Bitmap bitmap = Bitmap.createBitmap(31,35, Bitmap.Config.ARGB_8888);
+                        bitmap.eraseColor(Color.rgb((int)r, (int)g, (int)b));
+//                        DrawableCompat.setTintList(drawable, colors);
+//                        maincolor.setImageDrawable(drawable);
                         maintextView.setText(textToShow);
+                        maincolor.setImageBitmap(bitmap);
                     } else {
-                        ColorStateList colors = ColorStateList.valueOf(Color.argb(255, r, g, b));
-                        Drawable drawable = DrawableCompat.wrap(secondarycolor.getDrawable());
-                        DrawableCompat.setTintList(drawable, colors);
-                        secondarycolor.setImageDrawable(drawable);
+//                        ColorStateList colors = ColorStateList.valueOf(Color.argb(255, r, g, b));
+//                        Drawable drawable = DrawableCompat.wrap(secondarycolor.getDrawable());
+//                        DrawableCompat.setTintList(drawable, colors);
+//                        secondarycolor.setImageDrawable(drawable);
+                        Bitmap bitmap = Bitmap.createBitmap(31,35, Bitmap.Config.ARGB_8888);
+                        bitmap.eraseColor(Color.rgb(r, g, b));
                         secondarytextView.setText(textToShow);
+                        secondarycolor.setImageBitmap(bitmap);
                     }
                     textToShow = new StringBuilder();
                 }

@@ -195,18 +195,15 @@ public class StyletransferFragment extends AbsLifecycleFragment<ApiViewModel> {
                 .into(image);
         bitmap = BitmapUtil.ChangeSize(bitmap,60,80);
         Log.w("qwq0",selectedImageFile.getFile().getAbsolutePath());
+
         FrameInputSlot inputSlot = (FrameInputSlot) mCVClient.createInputSlot();
         inputSlot.setTargetBitmap(bitmap);
         FrameOutputSlot outputSlot = (FrameOutputSlot) mCVClient.createOutputSlot();
         mCVClient.process(inputSlot, outputSlot);
         FrameData frameData = outputSlot.getOutFrameData();
         byte[] outImageBuffer = frameData.getData();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Log.w("qwq", String.valueOf(frameData.height) + " " +frameData.width);
+        Log.w("Photo height and width", String.valueOf(frameData.height) + " " +frameData.width);
         outbitmap = BitmapUtil.byteArrayRGBABitmap(outImageBuffer,frameData.width,frameData.height);
-//        bitmap = BitmapFactory.decodeByteArray(outImageBuffer,0,outImageBuffer.length);
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//        byte[] bitmapBytes = baos.toByteArray();
         Glide.with(mContext).load(outbitmap)
                 .into(image);
 

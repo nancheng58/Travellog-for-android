@@ -9,6 +9,7 @@ import com.mvvm.http.rx.RxSchedulers;
 import com.mvvm.stateview.StateConstants;
 
 import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 
 /**
  * @description: 各种不便分类接口的数据仓库
@@ -69,8 +70,8 @@ public class ApiRepository extends BaseRepository {
             }
         }));
     }
-    public void loadPoetry(String keyword ,int length ,int experience ,int history){
-        addDisposable(apiService.getPoetry(keyword,length,experience,history)
+    public void loadPoetry(MultipartBody multipartBody){
+        addDisposable(apiService.getPoetry(multipartBody)
         .compose(RxSchedulers.io_main())
         .subscribeWith(new RxSubscriber<PoetryPojo>() {
             @Override

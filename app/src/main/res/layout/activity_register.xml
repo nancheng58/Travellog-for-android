@@ -143,7 +143,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/selector_bg_edit_2"
-                            android:hint="手机号码"
+                            android:hint="手机号码(选填)"
                             android:inputType="textPhonetic"
                             android:paddingBottom="2dp"
                             android:textColor="#f0f7f4"

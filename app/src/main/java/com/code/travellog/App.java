@@ -117,7 +117,6 @@ public class App extends Application implements ComponentCallbacks2 {
                     Log.i("TAG", "initService: onServiceConnect");
                     int startCode = mCVClient.start();
                 }
-
                 @Override
                 public void onServiceDisconnect() {
                     Log.e("TAG", "initService: onServiceDisconnect: ");

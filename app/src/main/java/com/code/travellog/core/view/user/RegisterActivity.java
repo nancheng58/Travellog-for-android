@@ -67,7 +67,6 @@ public class RegisterActivity extends AbsLifecycleActivity<UserViewModel> implem
     @BindView(R.id.et_email)
     EditText email;
     @Order(5)
-    @NotEmpty(message = "手机号码不能为空")
     @Length(min = 11,max = 11,message = "手机号码必须为11位")
     @BindView(R.id.et_phone)
     EditText phone;

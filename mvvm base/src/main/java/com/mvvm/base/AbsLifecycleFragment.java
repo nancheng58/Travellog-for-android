@@ -71,7 +71,7 @@ public abstract class AbsLifecycleFragment<T extends AbsViewModel> extends BaseF
             event = eventKey + tag;
         }
         eventKeys.add(event);
-        return LiveBus.getDefault().subscribe(eventKey, tag, tClass);
+         return LiveBus.getDefault().subscribe(eventKey, tag, tClass);
     }
 
 

@@ -88,9 +88,8 @@ public interface ApiService {
     @POST(URL.API_URL+"weather")
     Flowable<WeatherPojo> getWeather(@Body MultipartBody multipartBody);
 
-    @POST(URL.API_URL+"poem")
-    @FormUrlEncoded
-    Flowable<PoetryPojo> getPoetry(@Field("keyword") String keyword ,@Field("length") int length ,@Field("experience") int experience ,@Field("history") int history);
+    @POST(URL.API_URL+"img2poem")
+    Flowable<PoetryPojo> getPoetry(@Body MultipartBody multipartBody);
 
     @POST(URL.API_URL+"location")
     @FormUrlEncoded

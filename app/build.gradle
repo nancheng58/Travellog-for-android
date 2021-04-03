@@ -91,8 +91,6 @@ dependencies {
     implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     api project(':mvvm base')
-//    api project(':album')
-
     api 'com.jakewharton:butterknife:10.2.1'
     apply plugin: 'com.jakewharton.butterknife'
     kapt  'com.jakewharton:butterknife-compiler:10.2.1'
@@ -103,10 +101,6 @@ dependencies {
     implementation 'com.amap.api:search:latest.integration'
     implementation 'tech.spiro:addrparser:1.1'
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0-beta05' //沉浸式标题
-//    implementation ('com.ycjiang:VideoPlayModule:2.1.85'){
-//        exclude group:'VideoUi',module:'jetified-VideoUi-2.1.85-runtime'
-//    }
-
     implementation 'com.shuyu:GSYVideoPlayer-exo2:8.1.2'
     implementation 'com.shuyu:gsyVideoPlayer-ex_so:8.1.2'
     //adapter dependence
@@ -114,6 +108,4 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'com.github.pharidali:AnimatedSplash:1.0.0'//启动页
     implementation 'moe.feng:MaterialStepperView:0.2.5'
-//    implementation 'org.parceler:parceler-api:1.1.12'
-//    annotationProcessor 'org.parceler:parceler:1.1.12'
 }

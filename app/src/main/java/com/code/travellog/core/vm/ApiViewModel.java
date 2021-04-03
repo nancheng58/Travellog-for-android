@@ -20,8 +20,8 @@ public class ApiViewModel extends AbsViewModel<ApiRepository> {
     public void getWeatherResult(MultipartBody multipartBody){
         mRepository.loadWeatherResult(multipartBody);
     }
-    public void getPoery(String keyword ,int length ,int experience ,int history){
-        mRepository.loadPoetry(keyword,length,experience,history);
+    public void getPoery(MultipartBody multipartBody){
+        mRepository.loadPoetry(multipartBody);
     }
     public void getColorResult(MultipartBody multipartBody){
         mRepository.loadColorResult(multipartBody);

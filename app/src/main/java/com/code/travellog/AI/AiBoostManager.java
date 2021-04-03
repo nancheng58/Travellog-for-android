@@ -193,7 +193,7 @@ public class AiBoostManager {
             semaphore.release();
             Turn ++;
             if(aiboost!= null) aiboost.close();
-            if (Turn == Total - 1) LiveBus.getDefault().postEvent(EVENT_KEY_OBJECT,getResult());
+            if (Turn == Total - 1 || Total == 1 ) LiveBus.getDefault().postEvent(EVENT_KEY_OBJECT,getResult());
         }
     }
     private void convertBitmapToByteBuffer(Bitmap bitmap) {
