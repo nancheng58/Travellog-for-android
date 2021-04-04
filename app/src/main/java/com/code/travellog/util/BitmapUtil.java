@@ -2,15 +2,22 @@ package com.code.travellog.util;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
-import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
 
 public class BitmapUtil {
     public static Bitmap ChangeSize(Bitmap bitmap, int newHeight, int newWidth) {
@@ -42,6 +49,7 @@ public class BitmapUtil {
     public static Bitmap byteArrayRGBABitmap(byte[] data, int width, int height) {
 
         int[] ints = yuvI420toARGB(data, width, height);
+        Log.w("RGB int", Arrays.toString(ints));
         Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         bmp.setPixels(ints, 0, width, 0, 0, width, height);
         return bmp;
@@ -80,18 +88,38 @@ public class BitmapUtil {
             } else if (r < 0) {
                 r = 0;
             }
-            rgb[i] = (0xff000000) | (0x00ff0000 & r << 16) | (0x0000ff00 & g << 8) | (0x000000ff & b);
+//            rgb[i] = (0xff000000) | (0x00ff0000 & r << 16) | (0x0000ff00 & g << 8) | (0x000000ff & b);
+            Log.w("rgb",r+" "+g+" "+b);
+            rgb[i] = 0xff000000 | (r << 16) | (g << 8) | b;
+//            rgb[i] = - rgb[i];
         }
         return rgb;
 
     }
-
+    public static Bitmap returnBitMap(String url) {
+        URL myFileUrl;
+        Bitmap bitmap = null;
+        try {
+            myFileUrl = new URL(url);
+            HttpURLConnection conn;
+            conn = (HttpURLConnection) myFileUrl.openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
     //保存文件到指定路径
     public static boolean  saveMyBitmap(Bitmap bitmap) {
 
         File sd = Environment.getExternalStorageDirectory();
 
-        File destDir = new File(sd.getPath() + "/DCIM/" + "Camera/");
+        File destDir = new File(sd.getPath() + "/DCIM/" + "TravelLog/");
         if (!destDir.exists()) {
             destDir.mkdirs();
         }

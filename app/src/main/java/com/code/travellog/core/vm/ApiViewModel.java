@@ -26,4 +26,7 @@ public class ApiViewModel extends AbsViewModel<ApiRepository> {
     public void getColorResult(MultipartBody multipartBody){
         mRepository.loadColorResult(multipartBody);
     }
+    public void getResolutionResult(MultipartBody multipartBody){
+        mRepository.loadResolutionResult(multipartBody);
+    }
 }

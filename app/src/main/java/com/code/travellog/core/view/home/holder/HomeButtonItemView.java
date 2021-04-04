@@ -16,6 +16,7 @@ import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.home.ButtonPojo;
 import com.code.travellog.core.view.album.MakeAlbumActivity;
 import com.code.travellog.core.view.map.MapActivity;
+import com.code.travellog.core.view.plog.MakePlogActivity;
 import com.google.android.material.card.MaterialCardView;
 
 import butterknife.BindView;
@@ -44,15 +45,26 @@ public class HomeButtonItemView extends AbsItemHolder<ButtonPojo, HomeButtonItem
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull ButtonPojo buttonPojo) {
-        StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
-        layoutParams.setFullSpan(true);
+        if (buttonPojo.id == 3){
+            StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+            layoutParams.setFullSpan(true);
+        }
+
         if (buttonPojo.id == 1) {
             holder.card.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, MakeAlbumActivity.class);
                 mContext.startActivity(intent);
             });
         } else if (buttonPojo.id == 2){
-            Glide.with(mContext).load(R.drawable.home_buttom2).placeholder(R.color.black_e8e8e8).into(holder.image);
+            Glide.with(mContext).load(R.drawable.home_button2).placeholder(R.color.black_e8e8e8).into(holder.image);
+            holder.title.setText("创建Plog");
+            holder.secondtext.setText("分享时下流行的Plog");
+            holder.card.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, MakePlogActivity.class);
+                mContext.startActivity(intent);
+            });
+        } else if (buttonPojo.id == 3){
+            Glide.with(mContext).load(R.drawable.home_buttom3).placeholder(R.color.black_e8e8e8).into(holder.image);
             holder.title.setText("足迹地图");
             holder.secondtext.setText("查看个性化旅游回忆");
             holder.card.setOnClickListener(v -> {

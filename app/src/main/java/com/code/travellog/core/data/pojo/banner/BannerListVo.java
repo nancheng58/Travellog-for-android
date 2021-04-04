@@ -5,9 +5,9 @@ import java.util.List;
 
 public class BannerListVo
 {
-    public List<BannerVo> data;
+    public List<String> images;
 
-    public BannerListVo(List<BannerVo> data) {
-        this.data = data;
+    public BannerListVo(List<String> image) {
+        this.images = images;
     }
 }

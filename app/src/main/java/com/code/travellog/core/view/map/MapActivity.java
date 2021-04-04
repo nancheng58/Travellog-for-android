@@ -400,7 +400,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             if (bitmapDrawable == null) {
                 bitmapDrawable =
                         getApplication().getResources().getDrawable(
-                                R.drawable.defaultcluster);
+                                R.drawable.flag_position);
 //                bitmapDrawable = new BitmapDrawable(null, drawCircle(radius,
 //                        Color.argb(235, 215, 66, 2)));
                 mBackDrawAbles.put(4, bitmapDrawable);

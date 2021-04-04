@@ -91,7 +91,7 @@ public class AboutActivity extends MaterialAboutActivity {
 
             appCardBuilder.addItem(new MaterialAboutTitleItem.Builder()
                     .text("Travel Log")
-                    .desc("© 2021 T20210435")
+                    .desc("© 2021 弄影到三山")
                     .icon(R.mipmap.ic_launcher)
                     .build());
 
@@ -123,7 +123,7 @@ public class AboutActivity extends MaterialAboutActivity {
             authorCardBuilder.titleColor(ContextCompat.getColor(c, R.color.colorAccent));
 
             authorCardBuilder.addItem(new MaterialAboutActionItem.Builder()
-                    .text("T 20210435")
+                    .text("弄影到三山团队")
                     .icon(new IconicsDrawable(c)
                             .icon(CommunityMaterial.Icon.cmd_account)
                             .sizeDp(18))

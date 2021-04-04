@@ -48,13 +48,13 @@
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/ll_user_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:text="批改老师"
-                android:textColor="#999999"
-                android:textSize="10sp" />
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:orientation="horizontal" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -71,11 +71,6 @@
                     android:textColor="#333333"
                     android:textSize="10sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/icon_pan_hdpi" />
 
                 <ImageView
                     android:layout_width="wrap_content"

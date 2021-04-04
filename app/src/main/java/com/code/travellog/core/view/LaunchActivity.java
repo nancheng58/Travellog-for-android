@@ -83,12 +83,15 @@ public class LaunchActivity extends AnimatedSplash {
 //                    String userName = kv.decodeString("userName");
                     intent.setClass(LaunchActivity.this, MainActivity.class);
                 }
-                startActivity(intent);
                 finish();
+                startActivity(intent);
+
+
 
             }
         }, 1000);
         updateUserInfo();
+
     }
     @SuppressLint("CheckResult")
     public void updateUserInfo()
@@ -117,5 +120,6 @@ public class LaunchActivity extends AnimatedSplash {
                         ToastUtils.showToast(msg);
                     }
                 });
+
     }
 }

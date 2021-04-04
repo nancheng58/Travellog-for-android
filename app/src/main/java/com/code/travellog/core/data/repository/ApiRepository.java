@@ -2,6 +2,7 @@ package com.code.travellog.core.data.repository;
 
 import com.code.travellog.core.data.pojo.extraction.ColorPojo;
 import com.code.travellog.core.data.pojo.poetry.PoetryPojo;
+import com.code.travellog.core.data.pojo.supervision.SuperVisionPojo;
 import com.code.travellog.core.data.pojo.weather.WeatherPojo;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;
@@ -20,12 +21,13 @@ public class ApiRepository extends BaseRepository {
     public static String ENTER_KEY_COLOR = null;
     public static String ENTER_KEY_POETRY = null;
     public static String ENTER_KEY_STYLE = null;
-
+    public static String ENTER_KEY_RESOLUTION = null;
     public ApiRepository(){
         if(ENTER_KEY_WRATHER == null) ENTER_KEY_WRATHER = StringUtil.getEventKey();
         if(ENTER_KEY_COLOR == null) ENTER_KEY_COLOR = StringUtil.getEventKey();
         if(ENTER_KEY_POETRY == null) ENTER_KEY_POETRY = StringUtil.getEventKey();
         if(ENTER_KEY_STYLE == null) ENTER_KEY_STYLE = StringUtil.getEventKey();
+        if(ENTER_KEY_RESOLUTION == null) ENTER_KEY_RESOLUTION = StringUtil.getEventKey();
 
 
     }
@@ -86,5 +88,22 @@ public class ApiRepository extends BaseRepository {
                 postState(StateConstants.ERROR_STATE);
             }
         }));
+    }
+    public void loadResolutionResult(MultipartBody multipartBody){
+        addDisposable(apiService.getResolution(multipartBody)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<SuperVisionPojo>() {
+                    @Override
+                    public void onSuccess(SuperVisionPojo superVisionPojo) {
+                        postData(ENTER_KEY_RESOLUTION,superVisionPojo);
+                        postState(StateConstants.SUCCESS_STATE);
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg, int code) {
+                        postState(StateConstants.ERROR_STATE);
+                    }
+                }));
     }
 }

@@ -41,18 +41,6 @@ public class UserRepository extends BaseRepository {
                 .subscribeWith(new RxSubscriber<UserPojo>(){
                     @Override
                     public void onSuccess(UserPojo userPojo) {
-                        if(userPojo.code == 200) {
-                            ToastUtils.showToast("登陆成功，欢迎进入！");
-                            MMKV kv = MMKV.defaultMMKV();
-                            kv.encode("uid", userPojo.data.uid);
-                            kv.encode("userName", userPojo.data.uname);
-                            kv.encode("phone", userPojo.data.phone);
-                            kv.encode("email", userPojo.data.email);
-                            kv.encode("gender", userPojo.data.gender);
-                            kv.encode("avatar", URL.IMAGE_URL + userPojo.data.avatar);
-                            kv.encode("intro", userPojo.data.intro);
-                            kv.encode("isLogin", true);
-                        }
                         postData(ENTER_KEY_LOGIN, userPojo);
                         postState(StateConstants.SUCCESS_STATE);
                     }
@@ -83,10 +71,10 @@ public class UserRepository extends BaseRepository {
     {
         addDisposable(apiService.RegisterApi(parms)
         .compose(RxSchedulers.io_main())
-        .subscribeWith(new RxSubscriber<BasePojo>() {
+        .subscribeWith(new RxSubscriber<UserPojo>() {
             @Override
-            public void onSuccess(BasePojo basePojo) {
-                postData(ENTER_KEY_RES,basePojo);
+            public void onSuccess(UserPojo userPojo) {
+                postData(ENTER_KEY_RES,userPojo);
                 postState(StateConstants.SUCCESS_STATE);
             }
 

@@ -15,11 +15,12 @@ import android.widget.TextView;
 
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
-import com.code.travellog.core.view.EmptryFragment;
+import com.code.travellog.core.view.EmptyFragment;
 import com.code.travellog.core.view.color.ColorFragment;
 
 import com.code.travellog.core.view.poetry.PoetryFragment;
 import com.code.travellog.core.view.styletransfer.StyletransferFragment;
+import com.code.travellog.core.view.superresolution.SuperResolutionFragment;
 import com.code.travellog.core.view.weather.WeatherFragment;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.base.BaseFragment;
@@ -87,15 +88,15 @@ public class CommonActivity extends BaseActivity implements View.OnClickListener
                 commitFragment(StyletransferFragment.newInstance());
                 break;
             case Constants.SUPERVISION:
-                commitFragment(EmptryFragment.newInstance());
+                commitFragment(EmptyFragment.newInstance());
                 break;
             case Constants.SUPER:
-                commitFragment(EmptryFragment.newInstance());
+                commitFragment(SuperResolutionFragment.newInstance());
                 break;
             case Constants.OBJECT:
-                commitFragment(EmptryFragment.newInstance());
+                commitFragment(EmptyFragment.newInstance());
             case Constants.ACTIVITY:
-                commitFragment(EmptryFragment.newInstance());
+                commitFragment(EmptyFragment.newInstance());
                 break;
 
             default:

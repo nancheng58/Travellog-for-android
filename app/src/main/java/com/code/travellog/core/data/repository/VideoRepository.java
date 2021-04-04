@@ -45,12 +45,8 @@ public class VideoRepository extends BaseRepository {
     {
         mVideoListObservable =apiService.getVideoList();
     }
-    public void loadBannerData(String posType,
-                               String fCatalogId,
-                               String sCatalogId,
-                               String tCatalogId,
-                               String province) {
-        mBannerObservable = apiService.getBannerData(posType, fCatalogId, sCatalogId, tCatalogId, province);
+    public void loadBannerData() {
+        mBannerObservable = apiService.getBannerData();
     }
 
 

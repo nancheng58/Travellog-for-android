@@ -36,7 +36,7 @@ import pl.aprilapps.easyphotopicker.MediaSource;
  * @description:
  * @date: 2021/3/23
  */
-public class EmptryFragment extends AbsLifecycleFragment<ApiViewModel> {
+public class EmptyFragment extends AbsLifecycleFragment<ApiViewModel> {
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.tv_title)
@@ -58,8 +58,8 @@ public class EmptryFragment extends AbsLifecycleFragment<ApiViewModel> {
     private EasyImage easyImage;
     private Context mContext;
 
-    public static EmptryFragment newInstance() {
-        return new EmptryFragment();
+    public static EmptyFragment newInstance() {
+        return new EmptyFragment();
     }
 
     @Override

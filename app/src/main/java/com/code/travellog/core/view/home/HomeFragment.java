@@ -87,6 +87,7 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
 //        }
         mItems.add(new ButtonPojo(1));
         mItems.add(new ButtonPojo(2));
+        mItems.add(new ButtonPojo(3));
         mItems.add(new TypeVo(getResources().getString(R.string.home_album_list)));
         if (homeMergePojo.albumListPojo.data ==null) return;
         if (homeMergePojo.albumListPojo.data.movie_num > 0) {

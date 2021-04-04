@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.code.travellog.App;
 import com.code.travellog.R;
+import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.image.ImagePojo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
 import com.code.travellog.core.data.repository.UserRepository;
@@ -31,6 +33,7 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.mvvm.base.AbsLifecycleActivity;
+import com.tencent.mmkv.MMKV;
 
 import java.util.List;
 
@@ -99,11 +102,20 @@ public class LoginActivity extends AbsLifecycleActivity<UserViewModel> implement
     @Override
     protected void dataObserver() {
         registerSubscriber(UserRepository.ENTER_KEY_LOGIN,UserPojo.class).observe(this,userPojo -> {
-            if(userPojo.code!=200) {ToastUtils.showToast(userPojo.msg);}
+            Log.w("Tagafa",userPojo.toString());
+            if(userPojo.code!=200) {ToastUtils.showToast(userPojo.msg);getCaptchaAvater();}
             else{
                 ToastUtils.showToast("登陆成功，欢迎进入！");
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);// 当前->目标
-                startActivity(intent);
+                MMKV kv = MMKV.defaultMMKV();
+                kv.encode("uid", userPojo.data.uid);
+                kv.encode("userName", userPojo.data.uname);
+                kv.encode("phone", userPojo.data.phone);
+                kv.encode("email", userPojo.data.email);
+                kv.encode("gender", userPojo.data.gender);
+                kv.encode("avatar", URL.IMAGE_URL + userPojo.data.avatar);
+                kv.encode("intro", userPojo.data.intro);
+                kv.encode("isLogin", true);
+                loginto();
             }
         });
         String login = "login";
@@ -157,6 +169,12 @@ public class LoginActivity extends AbsLifecycleActivity<UserViewModel> implement
         String pwd = StringUtil.md5(password.getText().toString());// md5 加密
         String captcha = captchacode.getText().toString();
         mViewModel.postLogin(username,pwd,captcha);
+    }
+    public void loginto()
+    {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);// 当前->目标
+        startActivity(intent);
+//        onDestroy();
     }
     @Override
     protected void onDestroy() {

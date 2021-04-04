@@ -9,6 +9,7 @@ import java.util.List;
 public class AlbumPojo {
     public int work_id;
     public int uid;
+    public String avatar;
     public String movie_title;
     public String movie_description;
     public String movie_cover;

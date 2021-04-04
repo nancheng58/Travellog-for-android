@@ -24,17 +24,13 @@ public class VideoViewModel extends AbsViewModel<VideoRepository> {
     }
 
 
-    private void getBannerData(String posType,
-                               String fCatalogId,
-                               String sCatalogId,
-                               String tCatalogId,
-                               String province) {
-        mRepository.loadBannerData(posType, fCatalogId, sCatalogId, tCatalogId, province);
+    private void getBannerData() {
+        mRepository.loadBannerData();
 
     }
 
     public void getVideoListData() {
-        getBannerData("1", "4", "109", "", null);
+        getBannerData();
         getVideoList();
         mRepository.loadData();
     }

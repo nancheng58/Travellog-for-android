@@ -4,10 +4,10 @@ import com.adapter.adapter.DelegateAdapter;
 import com.code.travellog.core.data.pojo.album.AlbumPojo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 import com.code.travellog.core.data.pojo.common.TypeVo;
-import com.code.travellog.core.data.pojo.correct.WorksListVo;
 import com.code.travellog.core.data.pojo.geo.CityPojo;
 import com.code.travellog.core.data.pojo.home.ButtonPojo;
 import com.code.travellog.core.data.pojo.home.CategoryVo;
+import com.code.travellog.core.data.pojo.plog.PlogPojo;
 import com.code.travellog.core.data.pojo.video.VideoPojo;
 import com.code.travellog.core.view.common.TypeItemView;
 import com.code.travellog.core.view.plog.holder.PlogItemHolder;
@@ -64,7 +64,7 @@ public class AdapterPool {
     public DelegateAdapter.Builder getWorkAdapter(Context context) {
         return new DelegateAdapter.Builder<>()
                 .bind(BannerListVo.class, new BannerItemView(context))
-                .bind(WorksListVo.Works.class, new PlogItemHolder(context));
+                .bind(PlogPojo.class, new PlogItemHolder(context));
     }
 
 }

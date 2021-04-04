@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/left_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@color/app_color_transparent"
+            android:padding="15dp"
+            android:src="@drawable/picture_icon_back_arrow"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:maxEms="11"
+            android:text="创建影集"
+            android:textColor="@color/black_000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/btn_submit"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:text="生成"
+            android:textColor="@color/black_000000"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_title"
+
+        android:layout_marginTop="17dp">
+
+        <RelativeLayout
+            android:id="@+id/content_plog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/tv_updateimg"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                app:sCenterBottomTextColor="@color/colorAccent"
+                app:sCenterTopTextString=""
+                app:sCenterViewGravity="left_center"
+                app:sLeftBottomTextColor="@color/colorAccent"
+                app:sLeftBottomTextString="拖动可排序>>"
+                app:sLeftIconHeight="40dp"
+                app:sLeftIconRes="@drawable/vic_my_publish"
+                app:sLeftIconWidth="40dp"
+
+                app:sLeftTopTextString="请选择要上传的照片"
+                app:sLeftViewGravity="center" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_updateimg"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="8dp"
+                android:overScrollMode="never" />
+
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/tv_plogtitle"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/recycler"
+                android:layout_marginTop="16dp"
+                app:sCenterBottomTextColor="@color/colorAccent"
+                app:sCenterTopTextString=""
+                app:sCenterViewGravity="left_center"
+                app:sLeftBottomTextColor="@color/colorAccent"
+                app:sLeftBottomTextString="最多十个字哦>>"
+                app:sLeftIconHeight="40dp"
+
+                app:sLeftIconRes="@drawable/article_icon"
+                app:sLeftIconWidth="40dp"
+                app:sLeftTopTextString="请输入标题"
+                app:sLeftViewGravity="left_center"
+                app:sRightViewType="edittext" />
+
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/tv_plogpoetry"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/description"
+                android:layout_marginTop="84dp"
+                app:sCenterBottomTextColor="@color/colorAccent"
+                app:sCenterTopTextString=""
+                app:sCenterViewGravity="left_center"
+                app:sLeftBottomTextColor="@color/colorAccent"
+
+                app:sLeftBottomTextString="将使用人工智能算法为您的照片生成古诗>>"
+                app:sLeftIconHeight="40dp"
+                app:sLeftIconRes="@drawable/icon_chubanshe"
+                app:sLeftIconWidth="40dp"
+                app:sLeftTopTextString="请选择是否生成古诗"
+                app:sLeftViewGravity="left_center"
+                app:sRightViewType="switchBtn" />
+
+            <com.allen.library.SuperTextView
+                android:id="@+id/tv_share"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/description"
+                android:layout_marginTop="154dp"
+                app:sCenterBottomTextColor="@color/colorAccent"
+                app:sCenterTopTextString=""
+                app:sCenterViewGravity="left_center"
+                app:sLeftBottomTextColor="@color/colorAccent"
+
+                app:sLeftBottomTextString="将您的精美影集分享给别人吧>>"
+                app:sLeftIconHeight="40dp"
+                app:sLeftIconRes="@drawable/activities_icon"
+                app:sLeftIconWidth="40dp"
+                app:sLeftTopTextString="请选择自动分享到社区"
+                app:sLeftViewGravity="left_center"
+                app:sRightViewType="switchBtn" />
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/tv_plogtitle"
+                android:layout_marginTop="9dp"
+                android:background="@drawable/selector_bg_edit"
+                android:hint="请输入影集标题"
+                android:inputType="textPersonName"
+                android:paddingBottom="2dp"
+                android:textColor="#03A9F4"
+                android:textCursorDrawable="@drawable/bg_input_cursor"
+                android:textSize="18sp" />
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/tv_albumtitle"
+                android:layout_marginTop="58dp"
+                android:background="@drawable/selector_bg_edit"
+                android:hint="请输入要生成的Plog长图描述"
+                android:inputType="textPersonName"
+                android:paddingBottom="2dp"
+                android:textColor="#03A9F4"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_delete_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/app_color_red"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="@string/app_drag_delete"
+        android:textColor="@color/app_color_white"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/picture_icon_delete" />
+</RelativeLayout>

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -21,8 +22,10 @@ import androidx.core.content.ContextCompat;
 import com.allen.library.SuperTextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.BasePojo;
+import com.code.travellog.core.view.user.LoginActivity;
 import com.code.travellog.glide.GlideCircleTransform;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
@@ -93,6 +96,8 @@ public class MineFragment extends BaseFragment {
     LSettingItem tvAbout;
     @BindView(R.id.content_layout)
     LinearLayout contentLayout;
+    @BindView(R.id.tv_logout)
+    LSettingItem tvlogout;
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     private LayoutInflater inflater;
@@ -175,6 +180,30 @@ public class MineFragment extends BaseFragment {
             public void click(boolean isChecked) {
                 Intent intent = new Intent(activity, AboutActivity.class);
                 startActivity(intent);
+            }
+        });
+        tvlogout.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
+            @Override
+            public void click(boolean isChecked) {
+                new AlertDialog.Builder(activity).setTitle("确认退出吗？")
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 点击“确认”后的操作
+                                App.instance().removeAllActivity();
+                                kv.encode("isLogin",false);
+
+                                Intent intent = new Intent(activity, LoginActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 点击“返回”后的操作,这里不设置没有任何操作
+                            }
+                        }).show();
             }
         });
 //        tvGaode.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {

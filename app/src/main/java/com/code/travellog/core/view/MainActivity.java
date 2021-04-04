@@ -17,7 +17,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
-import com.code.travellog.core.view.plog.WorkFragment;
+import com.code.travellog.core.view.plog.PlogFragment;
 import com.code.travellog.core.view.video.VideoFragment;
 import com.code.travellog.core.view.home.HomeFragment;
 import com.code.travellog.core.view.mine.MineFragment;
@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity {
 
     private HomeFragment mHomeFragment;
 
-    private WorkFragment mWorkFragment;
+    private PlogFragment mPlogFragment;
 
     private VideoFragment mVideoFragment;
 
@@ -102,11 +102,11 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case 1:
-                if (mWorkFragment == null) {
-                    mWorkFragment = WorkFragment.newInstance();
-                    fragmentTransaction.add(R.id.home_content, mWorkFragment, Constants.WORK_TAG);
+                if (mPlogFragment == null) {
+                    mPlogFragment = PlogFragment.newInstance();
+                    fragmentTransaction.add(R.id.home_content, mPlogFragment, Constants.WORK_TAG);
                 } else {
-                    fragmentTransaction.show(mWorkFragment);
+                    fragmentTransaction.show(mPlogFragment);
                 }
                 break;
             case 2:
@@ -137,8 +137,8 @@ public class MainActivity extends BaseActivity {
             fragmentTransaction.hide(mHomeFragment);
         }
 
-        if (mWorkFragment != null) {
-            fragmentTransaction.hide(mWorkFragment);
+        if (mPlogFragment != null) {
+            fragmentTransaction.hide(mPlogFragment);
         }
         if (mVideoFragment != null) {
             fragmentTransaction.hide(mVideoFragment);

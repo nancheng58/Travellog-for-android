@@ -4,8 +4,12 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,19 +18,21 @@ import com.adapter.holder.AbsHolder;
 import com.adapter.holder.AbsItemHolder;
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
-import com.code.travellog.core.data.pojo.correct.WorkDetailVo;
-import com.code.travellog.core.data.pojo.correct.WorkPicVo;
+import com.code.travellog.config.URL;
+import com.code.travellog.core.data.pojo.plog.PlogPojo;
 import com.code.travellog.glide.GlideCircleTransform;
+import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.DisplayUtil;
-import com.code.travellog.util.ViewUtils;
 import com.code.travellog.core.view.base.widget.CustomHeightImageView;
+import com.code.travellog.util.ToastUtils;
+import com.code.travellog.util.ViewUtils;
 
 /**
  * @description
  * @time 2021/4/3 0:19
  */
 
-public class PlogPicHolder extends AbsItemHolder<WorkDetailVo, PlogPicHolder.ViewHolder> {
+public class PlogPicHolder extends AbsItemHolder<PlogPojo, PlogPicHolder.ViewHolder> {
 
     public PlogPicHolder(Context context) {
         super(context);
@@ -34,7 +40,7 @@ public class PlogPicHolder extends AbsItemHolder<WorkDetailVo, PlogPicHolder.Vie
 
     @Override
     public int getLayoutResId() {
-        return R.layout.correct_pic_item;
+        return R.layout.item_plog_pic;
     }
 
     @Override
@@ -44,41 +50,52 @@ public class PlogPicHolder extends AbsItemHolder<WorkDetailVo, PlogPicHolder.Vie
 
 
     @Override
-    protected void onBindViewHolder(@NonNull PlogPicHolder.ViewHolder holder, @NonNull WorkDetailVo object) {
+    protected void onBindViewHolder(@NonNull PlogPicHolder.ViewHolder holder, @NonNull PlogPojo plogPojo) {
         RecyclerView.LayoutParams clp = (RecyclerView.LayoutParams) holder.ll_root.getLayoutParams();
         if (clp instanceof StaggeredGridLayoutManager.LayoutParams) {
             ((StaggeredGridLayoutManager.LayoutParams) clp).setFullSpan(true);
         }
-        if (!TextUtils.isEmpty(object.data.tweet_info.avatar)) {
-            Glide.with(mContext).load(object.data.tweet_info.avatar).transform(new GlideCircleTransform(mContext)).into(holder.workPic);
-            Glide.with(mContext).load(object.data.teacher_info.avatar).transform(new GlideCircleTransform(mContext)).into(holder.teacherIcon);
-        }
-        holder.teacherName.setText(object.data.teacher_info.sname);
-        holder.userName.setText(object.data.tweet_info.sname);
-        WorkPicVo correct_img = null;
-        if (object.data.status.equals("1")) {
-            if (object.data.correct_pic == null) {
-                correct_img = object.data.source_pic;
-            } else {
-                correct_img = object.data.correct_pic;
-            }
+//        if (!TextUtils.isEmpty(object.data.tweet_info.avatar)) {
+//            Glide.with(mContext).load(object.data.teacher_info.avatar).transform(new GlideCircleTransform(mContext)).into(holder.teacherIcon);
+//        }
+        Glide.with(mContext).load(URL.IMAGE_URL+plogPojo.avatar).transform(new GlideCircleTransform(mContext)).into(holder.workPic);
 
-        } else {
-            correct_img = object.data.source_pic;
-        }
-        int hightc = DisplayUtil.getScreenWidth(mContext) * correct_img.img.n.h / correct_img.img.n.w;
+//        holder.teacherName.setText(object.data.teacher_info.sname);
+        holder.userName.setText(plogPojo.uname);
+//        PlogPicVo correct_img = null;
+//        if (object.data.status.equals("1")) {
+//            if (object.data.correct_pic == null) {
+//                correct_img = object.data.source_pic;
+//            } else {
+//                correct_img = object.data.correct_pic;
+//            }
+//
+//        } else {
+//            correct_img = object.data.source_pic;
+//        }
+        int hightc = DisplayUtil.getScreenWidth(mContext) * plogPojo.photo_height / plogPojo.cover_width;
         LinearLayout.LayoutParams cparams = new LinearLayout.LayoutParams(
                 DisplayUtil.getScreenWidth(mContext), hightc);
         holder.imagePic.setLayoutParams(cparams);
-        Glide.with(mContext).load(correct_img.img.s.url).placeholder(R.color.black_e8e8e8).override(DisplayUtil.getScreenWidth(mContext), hightc).into(holder.imagePic);
+        Glide.with(mContext).load(URL.IMAGE_URL+plogPojo.result_msg).placeholder(R.color.black_e8e8e8).override(DisplayUtil.getScreenWidth(mContext), hightc).into(holder.imagePic);
         holder.userTag.removeAllViews();
-        if (!TextUtils.isEmpty(object.data.tweet_info.province) && !TextUtils.equals("false", object.data.tweet_info.province)) {
-            holder.userTag.addView(ViewUtils.CreateTagView(mContext, object.data.tweet_info.province));
+        if (!TextUtils.isEmpty(plogPojo.photo_title) ) {
+            holder.userTag.addView(ViewUtils.CreateTagView(mContext, plogPojo.photo_title));
         }
-        if (!TextUtils.isEmpty(object.data.tweet_info.profession)
-                && !TextUtils.equals("false", object.data.tweet_info.profession)) {
-            holder.userTag.addView(ViewUtils.CreateTagView(mContext, object.data.tweet_info.profession));
+
+        if (!TextUtils.isEmpty(plogPojo.photo_description)) {
+            holder.userTag.addView(ViewUtils.CreateTagView(mContext, plogPojo.photo_description));
         }
+        holder.saveBtn.setOnClickListener(v -> {
+
+            new Thread(()->{
+                Bitmap bitmap = BitmapUtil.returnBitMap(URL.IMAGE_URL+plogPojo.result_msg);
+                BitmapUtil.saveMyBitmap(bitmap);
+//                if(BitmapUtil.saveMyBitmap(bitmap))
+//                else ToastUtils.showToast("保存失败");
+            }).start();
+            ToastUtils.showToast("保存成功");
+        });
     }
 
     static class ViewHolder extends AbsHolder {
@@ -86,16 +103,15 @@ public class PlogPicHolder extends AbsItemHolder<WorkDetailVo, PlogPicHolder.Vie
         private ImageView workPic, teacherIcon;
         private TextView teacherName, userName;
         private LinearLayout ll_root, userTag;
-
+        private Button saveBtn;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             ll_root = getViewById(R.id.ll_root);
             userTag = getViewById(R.id.ll_user_tag);
             imagePic = getViewById(R.id.iv_pic);
             workPic = getViewById(R.id.iv_header_pic);
-            teacherIcon = getViewById(R.id.iv_teacher_icon);
-            teacherName = getViewById(R.id.tv_teacher_name);
             userName = getViewById(R.id.tv_name);
+            saveBtn = getViewById(R.id.btn_save);
         }
 
     }

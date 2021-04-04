@@ -65,7 +65,7 @@
         <activity android:name=".core.view.user.ResetPwdActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity.Light"/>
         <activity android:name="com.code.travellog.core.view.common.CommonActivity" />
-        <activity android:name="com.code.travellog.core.view.plog.WorkDetailsActivity" />
+        <activity android:name="com.code.travellog.core.view.plog.PlogDetailsActivity" />
         <activity android:name=".core.view.album.MakeAlbumActivity"/>
         <activity android:name=".core.view.album.MyAlbumActivity"/>
         <activity android:name=".core.view.map.MapActivity"/>

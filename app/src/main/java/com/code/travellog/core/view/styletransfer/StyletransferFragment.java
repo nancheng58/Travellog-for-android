@@ -36,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -202,6 +203,7 @@ public class StyletransferFragment extends AbsLifecycleFragment<ApiViewModel> {
         mCVClient.process(inputSlot, outputSlot);
         FrameData frameData = outputSlot.getOutFrameData();
         byte[] outImageBuffer = frameData.getData();
+        Log.w("Photo", Arrays.toString(outImageBuffer));
         Log.w("Photo height and width", String.valueOf(frameData.height) + " " +frameData.width);
         outbitmap = BitmapUtil.byteArrayRGBABitmap(outImageBuffer,frameData.width,frameData.height);
         Glide.with(mContext).load(outbitmap)

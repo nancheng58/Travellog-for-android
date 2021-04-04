@@ -38,14 +38,10 @@ public class HomeRepository extends BaseRepository {
 
     public void loadAlbumData()
     {
-        mAlbumListObservable =apiService.getAlbumList();
+        mAlbumListObservable =apiService.getUserAlbumList();
     }
-    public void loadBannerData(String posType,
-                               String fCatalogId,
-                               String sCatalogId,
-                               String tCatalogId,
-                               String province) {
-        mBannerObservable = apiService.getBannerData(posType, fCatalogId, sCatalogId, tCatalogId, province);
+    public void loadBannerData() {
+        mBannerObservable = apiService.getBannerData();
     }
 
 

@@ -36,7 +36,7 @@ public class BannerView extends RelativeLayout {
     //默认轮播时间，10s
     private int delayTime = 10;
     private List<ImageView> imageViewList;
-    private List<BannerVo> bannerList;
+    private List<String> bannerList;
     //选中显示Indicator
     private int selectRes = R.drawable.shape_dots_select;
     //非选中显示Indicator
@@ -91,7 +91,7 @@ public class BannerView extends RelativeLayout {
     /**
      * 图片轮播需要传入参数
      */
-    public void build(List<BannerVo> list) {
+    public void build(List<String> list) {
         destroy();
         if (list.size() == 0) {
             this.setVisibility(GONE);

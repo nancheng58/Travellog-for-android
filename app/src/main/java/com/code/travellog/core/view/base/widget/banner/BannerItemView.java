@@ -13,6 +13,7 @@ import com.adapter.holder.AbsHolder;
 import com.adapter.holder.AbsItemHolder;
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
+import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 
 import java.util.ArrayList;
@@ -44,14 +45,14 @@ public class BannerItemView extends AbsItemHolder<BannerListVo, BannerItemView.V
     protected void onBindViewHolder(@NonNull BannerItemView.ViewHolder holder, @NonNull final BannerListVo bannerAdListVo) {
         holder.mBannerView.delayTime(5).setBannerView(() -> {
             List<ImageView> imageViewList = new ArrayList<>();
-            for (int i = 0; i < bannerAdListVo.data.size(); i++) {
+            for (int i = 0; i < bannerAdListVo.images.size(); i++) {
                 ImageView mImageView = new ImageView(mContext);
                 mImageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                Glide.with(mContext).load(bannerAdListVo.data.get(i).topimage1 == null ? bannerAdListVo.data.get(i).topimage : bannerAdListVo.data.get(i).topimage1).centerCrop().into(mImageView);
+                Glide.with(mContext).load(URL.IMAGE_URL+bannerAdListVo.images.get(i)).centerCrop().into(mImageView);
                 imageViewList.add(mImageView);
             }
             return imageViewList;
-        }).build(bannerAdListVo.data);
+        }).build(bannerAdListVo.images);
 
     }
 

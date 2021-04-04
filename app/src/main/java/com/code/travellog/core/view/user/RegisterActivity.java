@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.image.ImagePojo;
+import com.code.travellog.core.data.pojo.user.UserPojo;
 import com.code.travellog.core.data.repository.UserRepository;
 import com.code.travellog.core.vm.UserViewModel;
 import com.code.travellog.util.Base64Utils;
@@ -67,7 +68,6 @@ public class RegisterActivity extends AbsLifecycleActivity<UserViewModel> implem
     @BindView(R.id.et_email)
     EditText email;
     @Order(5)
-    @Length(min = 11,max = 11,message = "手机号码必须为11位")
     @BindView(R.id.et_phone)
     EditText phone;
     @NotEmpty(message = "验证码不能为空")
@@ -104,13 +104,14 @@ public class RegisterActivity extends AbsLifecycleActivity<UserViewModel> implem
 
     @Override
     protected void dataObserver() {
-        registerSubscriber(UserRepository.ENTER_KEY_RES, BasePojo.class).observe(this,basePojo -> {
-            if (basePojo.code == 200){
+        registerSubscriber(UserRepository.ENTER_KEY_RES, UserPojo.class).observe(this, userPojo -> {
+            if (userPojo.code == 200){
                 ToastUtils.showToast("注册成功，请登录！");
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);// 当前->目标
                 startActivity(intent);
+                finish();
             }
-            else ToastUtils.showToast(basePojo.msg);
+            else ToastUtils.showToast(userPojo.msg);
         });
         String regist = "register";
         registerSubscriber(UserRepository.ENTER_KEY_CAP,regist,ImagePojo.class).observe(this, imagePojo -> {

@@ -5,14 +5,15 @@ import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
-import com.code.travellog.core.data.pojo.correct.WorkDetailVo;
-import com.code.travellog.core.data.pojo.correct.WorkRecommentVo;
-import com.code.travellog.core.data.pojo.correct.WorksListVo;
 import com.code.travellog.core.data.pojo.extraction.ColorPojo;
 import com.code.travellog.core.data.pojo.geo.CityListResultPojo;
 import com.code.travellog.core.data.pojo.geo.CityResultPojo;
 import com.code.travellog.core.data.pojo.image.ImagePojo;
+import com.code.travellog.core.data.pojo.plog.PlogListPojo;
+import com.code.travellog.core.data.pojo.plog.PlogResultPojo;
+import com.code.travellog.core.data.pojo.plog.PlogWorkPojo;
 import com.code.travellog.core.data.pojo.poetry.PoetryPojo;
+import com.code.travellog.core.data.pojo.supervision.SuperVisionPojo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
 import com.code.travellog.core.data.pojo.video.VideoListPojo;
 import com.code.travellog.core.data.pojo.weather.WeatherPojo;
@@ -43,7 +44,7 @@ public interface ApiService {
     //register
     @FormUrlEncoded
     @POST(URL.BASE_URL2+"user/register")
-    Flowable<BasePojo> RegisterApi(@FieldMap Map<String,String> params);
+    Flowable<UserPojo> RegisterApi(@FieldMap Map<String,String> params);
     // get captcha
     @GET(URL.BASE_URL2+"user/captcha")
     Flowable<ImagePojo> getCaptchaAvater();
@@ -69,7 +70,7 @@ public interface ApiService {
     @POST
     Flowable<BasePojo> postPic(@Url String url ,@Body MultipartBody multipartBody);
 
-    @GET(URL.BASE_URL2+"movie/new")
+    @GET(URL.ALBUM_URL+"new")
     Flowable<AlbumWorkPojo> getAlbumWorkid();
 
     @GET
@@ -79,7 +80,7 @@ public interface ApiService {
     Flowable<AlbumResultPojo> getAlbumResult(@Url String url);
 
     @GET(URL.ALBUM_URL+"list")
-    Flowable<AlbumListPojo> getAlbumList();
+    Flowable<AlbumListPojo> getUserAlbumList();
 
 
     @POST(URL.API_URL+"color")
@@ -91,6 +92,8 @@ public interface ApiService {
     @POST(URL.API_URL+"img2poem")
     Flowable<PoetryPojo> getPoetry(@Body MultipartBody multipartBody);
 
+    @POST(URL.API_URL+"fsrcnn")
+    Flowable<SuperVisionPojo> getResolution(@Body MultipartBody multipartBody);
     @POST(URL.API_URL+"location")
     @FormUrlEncoded
     Flowable<CityListResultPojo> getCityList(@Field("longitude") String longitude,@Field("latitude") String latitude);
@@ -102,35 +105,40 @@ public interface ApiService {
     @GET(URL.BASE_URL2+"forum")
     Flowable<VideoListPojo> getVideoList();
 
+    @GET(URL.PLOG_URL+"new")
+    Flowable<PlogWorkPojo> getPlogWorkid();
+
+    @GET
+    Flowable<BasePojo> startPlog(@Url String url);
+
+    @GET
+    Flowable<PlogResultPojo> getPlogResult(@Url String url);
 
 
+    @GET(URL.PLOG_URL+"all")
+    Flowable<PlogListPojo> getPlogList();
+
+    @GET(URL.PLOG_URL+"list")
+    Flowable<PlogListPojo> getUserPlogList();
+//
+//    @POST(URL.WORK_LIST)
+//    @FormUrlEncoded
+//    Flowable<PlogsListVo> getWorkData(@Field("corrected") String corrected, @Field("rn") String rn);
+//
+//    @POST(URL.WORK_MORE_LIST)
+//    @FormUrlEncoded
+//    Flowable<PlogsListVo> getWorkMoreData(@Field("last_id") String last_id, @Field("utime") String utime, @Field("rn") String rn);
+//
+//    @POST(URL.WORK_DETAIL)
+//    @FormUrlEncoded
+//    Flowable<PlogDetailVo> getWorkDetailData(@Field("correctid") String correctid);
+//
+//    @POST(URL.WORK_RECOMMEND)
+//    @FormUrlEncoded
+//    Flowable<PlogRecommentVo> getWorkRecommendData(@Field("correctid") String correctid);
 
 
-
-    @POST(URL.WORK_LIST)
-    @FormUrlEncoded
-    Flowable<WorksListVo> getWorkData(@Field("corrected") String corrected, @Field("rn") String rn);
-
-    @POST(URL.WORK_MORE_LIST)
-    @FormUrlEncoded
-    Flowable<WorksListVo> getWorkMoreData(@Field("last_id") String last_id, @Field("utime") String utime, @Field("rn") String rn);
-
-    @POST(URL.WORK_DETAIL)
-    @FormUrlEncoded
-    Flowable<WorkDetailVo> getWorkDetailData(@Field("correctid") String correctid);
-
-    @POST(URL.WORK_RECOMMEND)
-    @FormUrlEncoded
-    Flowable<WorkRecommentVo> getWorkRecommendData(@Field("correctid") String correctid);
-
-
-    @POST(URL.BANNER)
-    @FormUrlEncoded
-    Flowable<BannerListVo> getBannerData(@Field("pos_type") String posType,
-                                           @Field("f_catalog_id") String f_catalog_id,
-                                           @Field("s_catalog_id") String s_catalog_id,
-                                           @Field("t_catalog_id") String t_catalog_id,
-                                           @Field("province") String province
-    );
+    @GET(URL.BANNER)
+    Flowable<BannerListVo> getBannerData();
 
 }

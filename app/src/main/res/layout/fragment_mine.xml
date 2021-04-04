@@ -113,7 +113,14 @@
             app:leftText="检查更新"
             app:rightText="V3.0.0"
             app:rightTextColor="@color/colorPrimary" />
-
+        <com.leon.lib.settingview.LSettingItem
+            android:id="@+id/tv_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:leftIcon="@android:drawable/presence_busy"
+            app:isShowRightText="false"
+            app:leftText="退出登录"
+            app:rightTextColor="@color/colorPrimary" />
         <com.leon.lib.settingview.LSettingItem
             android:id="@+id/tv_about"
             android:layout_width="match_parent"
