@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.code.travellog.App;
 import com.code.travellog.R;
+import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.view.user.LoginActivity;
 import com.code.travellog.glide.GlideCircleTransform;
@@ -144,6 +145,7 @@ public class MineFragment extends BaseFragment {
                 .allowMultiple(false)
                 .build();
         String url = kv.decodeString("avatar");
+        if(!url.startsWith("http")) url =URL.IMAGE_URL + url ;
         String username = kv.decodeString("userName");
         String intro = kv.decodeString("intro");
 

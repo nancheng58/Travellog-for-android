@@ -23,7 +23,7 @@ import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.album.AlbumWorkPojo;
 import com.code.travellog.core.data.repository.AlbumRepository;
 import com.code.travellog.core.view.video.VideoDetailsActivity;
-import com.code.travellog.core.vm.AlbumViewModel;
+import com.code.travellog.core.viewmodel.AlbumViewModel;
 import com.code.travellog.util.FileUitl;
 import com.code.travellog.util.JsonUtils;
 import com.code.travellog.util.ToastUtils;
@@ -105,7 +105,6 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 		getData();
 		super.initView(state);
 		loadManager.showSuccess();
-
 		getImageObjectDetector(localMediaList);
 	}
 	public void getData()
@@ -147,7 +146,7 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 	protected void dataObserver() {
 
 		//物体识别完成
-		registerSubscriber(AiBoostManager.EVENT_KEY_OBJECT,null,List.class).observe(this,list -> {
+		registerSubscriber(AiBoostManager.EVENT_KEY_OBJECTLIST,null,List.class).observe(this,list -> {
 			mDetectorResult = list;
 			mViewModel.getAlbumId();
 			changeCurrentStep(2);
@@ -298,6 +297,9 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 	public void changeCurrentStep(int index){
 		if(mVerticalStepperView.getCurrentStep()<index&&mVerticalStepperView.canNext()){
 			mVerticalStepperView.setCurrentStep(index);
+		}
+		if (index == 12){
+			ToastUtils.showToast(getContext(),"影集生成为耗时操作，请耐心等待",5000);
 		}
 		if(!mVerticalStepperView.canNext()){
 			Snackbar.make(mVerticalStepperView, "影集生成完成!", Snackbar.LENGTH_LONG)

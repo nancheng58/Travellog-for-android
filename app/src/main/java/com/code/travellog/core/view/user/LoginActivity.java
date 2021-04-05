@@ -19,7 +19,7 @@ import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.image.ImagePojo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
 import com.code.travellog.core.data.repository.UserRepository;
-import com.code.travellog.core.vm.UserViewModel;
+import com.code.travellog.core.viewmodel.UserViewModel;
 import com.code.travellog.core.view.MainActivity;
 import com.code.travellog.util.Base64Utils;
 import com.code.travellog.util.BitmapUtil;
@@ -112,7 +112,7 @@ public class LoginActivity extends AbsLifecycleActivity<UserViewModel> implement
                 kv.encode("phone", userPojo.data.phone);
                 kv.encode("email", userPojo.data.email);
                 kv.encode("gender", userPojo.data.gender);
-                kv.encode("avatar", URL.IMAGE_URL + userPojo.data.avatar);
+                kv.encode("avatar", userPojo.data.avatar);
                 kv.encode("intro", userPojo.data.intro);
                 kv.encode("isLogin", true);
                 loginto();

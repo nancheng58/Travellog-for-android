@@ -24,18 +24,14 @@ import com.aiunit.vision.common.FrameOutputSlot;
 import com.bumptech.glide.Glide;
 import com.code.travellog.App;
 import com.code.travellog.R;
-import com.code.travellog.core.vm.ApiViewModel;
-import com.code.travellog.glide.GlideCircleTransform;
+import com.code.travellog.core.viewmodel.ApiViewModel;
 import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.ToastUtils;
 import com.coloros.ocs.ai.cv.CVUnitClient;
-import com.luck.picture.lib.tools.BitmapUtils;
 import com.mvvm.base.AbsLifecycleFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.Arrays;
 
 import butterknife.BindView;

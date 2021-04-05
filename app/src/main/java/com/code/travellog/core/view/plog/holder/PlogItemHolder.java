@@ -20,6 +20,7 @@ import com.code.travellog.glide.GlideRoundTransform;
 import com.code.travellog.util.DisplayUtil;
 import com.code.travellog.core.view.base.widget.CustomHeightImageView;
 import com.code.travellog.util.ViewUtils;
+import com.tencent.mmkv.MMKV;
 
 /**
  * @description
@@ -73,8 +74,15 @@ public class PlogItemHolder extends AbsItemHolder<PlogPojo, PlogItemHolder.ViewH
 //                        .transform(new GlideRoundTransform(mContext, 4)).into(holder.mCHImageView);
 //            }
 //        }
-
-        Glide.with(mContext).load(URL.IMAGE_URL+plogPojo.avatar).transform(new GlideCircleTransform(mContext)).into(holder.mUserIcon);
+        if (plogPojo.avatar == null){
+            MMKV mmkv = MMKV.defaultMMKV();
+            plogPojo.avatar = mmkv.decodeString("avatar");
+            plogPojo.uname = mmkv.decodeString("userName");
+        }
+        if(plogPojo.avatar.startsWith("http")){
+            Glide.with(mContext).load(plogPojo.avatar).transform(new GlideCircleTransform(mContext)).into(holder.mUserIcon);
+        }
+        else Glide.with(mContext).load(URL.IMAGE_URL+plogPojo.avatar).transform(new GlideCircleTransform(mContext)).into(holder.mUserIcon);
         holder.mTvDesc.setText(plogPojo.photo_description);
         holder.mUserName.setText(plogPojo.uname);
         holder.userTag.removeAllViews();

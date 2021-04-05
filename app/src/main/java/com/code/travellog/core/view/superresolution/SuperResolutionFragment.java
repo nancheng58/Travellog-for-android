@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +22,7 @@ import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.supervision.SuperVisionPojo;
 import com.code.travellog.core.data.repository.ApiRepository;
-import com.code.travellog.core.vm.ApiViewModel;
+import com.code.travellog.core.viewmodel.ApiViewModel;
 import com.code.travellog.util.Base64Utils;
 import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.ToastUtils;
@@ -142,7 +141,7 @@ public class SuperResolutionFragment extends AbsLifecycleFragment<ApiViewModel> 
             else {
                 byte[] bitmapbyte = Base64Utils.decode(superVisionPojo.data);
                 Bitmap bitmap =BitmapFactory.decodeByteArray(bitmapbyte,0,bitmapbyte.length);
-
+                btnGet.setVisibility(View.VISIBLE);
 //                bitmap = BitmapUtil.ChangeSize(bitmap,120,200);
                 Glide.with(this).load(bitmap).into(image);
                 image.setImageBitmap(bitmap);

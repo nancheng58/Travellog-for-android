@@ -4,6 +4,7 @@ package com.code.travellog.core.data.repository;
 import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 import com.code.travellog.core.data.pojo.home.HomeMergePojo;
+import com.code.travellog.core.data.pojo.plog.PlogListPojo;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;
 import com.mvvm.http.rx.RxSchedulers;
@@ -25,7 +26,7 @@ public class HomeRepository extends BaseRepository {
     private Flowable<BannerListVo> mBannerObservable;
 
     private Flowable<AlbumListPojo> mAlbumListObservable;
-
+    private Flowable<PlogListPojo> mPlogListObservable;
     private final HomeMergePojo homeMergePojo = new HomeMergePojo();
 
 
@@ -36,17 +37,21 @@ public class HomeRepository extends BaseRepository {
     }
 
 
+    public void loadBannerData() {
+        mBannerObservable = apiService.getBannerData();
+    }
     public void loadAlbumData()
     {
         mAlbumListObservable =apiService.getUserAlbumList();
     }
-    public void loadBannerData() {
-        mBannerObservable = apiService.getBannerData();
+    public void loadPlogData()
+    {
+        mPlogListObservable =apiService.getUserPlogList();
     }
 
 
     public void loadHomeData() {
-        addDisposable(Flowable.concat(mBannerObservable, mAlbumListObservable)
+        addDisposable(Flowable.concat(mBannerObservable, mAlbumListObservable,mPlogListObservable)
                 .compose(RxSchedulers.io_main())
                 .subscribeWith(new RxSubscriber<Object>() {
                     @Override
@@ -58,8 +63,11 @@ public class HomeRepository extends BaseRepository {
                     public void onSuccess(Object object) {
                         if (object instanceof BannerListVo) {
                             homeMergePojo.bannerListVo = (BannerListVo) object;
-                        } else if (object instanceof AlbumListPojo) {
-                            homeMergePojo.albumListPojo = (AlbumListPojo) object;
+                        } else if(object instanceof AlbumListPojo){
+                            homeMergePojo.albumListPojo = (AlbumListPojo)object;
+                        }
+                        else if (object instanceof PlogListPojo) {
+                            homeMergePojo.plogListPojo = (PlogListPojo) object;
                             if (homeMergePojo != null) {
                                 postData(EVENT_KEY_HOME, homeMergePojo);
                                 postState(StateConstants.SUCCESS_STATE);

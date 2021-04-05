@@ -1,4 +1,4 @@
-package com.code.travellog.core.vm;
+package com.code.travellog.core.viewmodel;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -18,20 +18,24 @@ public class HomeViewModel extends AbsViewModel<HomeRepository> {
         super(application);
     }
 
-    private void getAlbumList() {
-        mRepository.loadAlbumData();
-    }
-
-
     private void getBannerData() {
         mRepository.loadBannerData();
 
     }
 
+    private void getAlbumList() {
+        mRepository.loadAlbumData();
+    }
+
+    private void getPlogData()
+    {
+        mRepository.loadPlogData();
+    }
     public void getHomeListData() {
         getBannerData();
 //        getHomeListData("0");
         getAlbumList();
+        getPlogData();
         mRepository.loadHomeData();
     }
 

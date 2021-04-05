@@ -1,4 +1,4 @@
-package com.code.travellog.core.vm;
+package com.code.travellog.core.viewmodel;
 
 import android.app.Application;
 import android.content.ContentResolver;

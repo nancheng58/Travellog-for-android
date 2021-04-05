@@ -1,14 +1,13 @@
 package com.code.travellog.core.data.repository;
 
 
-import com.code.travellog.config.Constants;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 import com.code.travellog.core.data.pojo.plog.PlogListPojo;
 import com.code.travellog.core.data.pojo.plog.PlogMergePojo;
-import com.code.travellog.core.data.pojo.plog.PlogPojo;
 import com.code.travellog.core.data.pojo.plog.PlogResultPojo;
+import com.code.travellog.core.data.pojo.plog.PlogStatusPojo;
 import com.code.travellog.core.data.pojo.plog.PlogWorkPojo;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.StringUtil;
@@ -127,17 +126,17 @@ public class PlogRepository extends BaseRepository {
     public void loadPlogResult(int workid)
     {
         String url = URL.PLOG_URL+workid+"/status";
-        addDisposable(apiService.getPlogResult(url)
+        addDisposable(apiService.getPlogStatus(url)
                 .compose(RxSchedulers.io_main())
-                .subscribeWith(new RxSubscriber<PlogResultPojo>() {
+                .subscribeWith(new RxSubscriber<PlogStatusPojo>() {
                     @Override
                     protected void onNoNetWork() {
                         super.onNoNetWork();
                     }
 
                     @Override
-                    public void onSuccess(PlogResultPojo plogResultPojo) {
-                        postData(EVENT_KEY_PLOGRESULT,plogResultPojo);
+                    public void onSuccess(PlogStatusPojo plogStatusPojo) {
+                        postData(EVENT_KEY_PLOGRESULT, plogStatusPojo);
                         postState(StateConstants.SUCCESS_STATE);
                     }
 
@@ -188,8 +187,8 @@ public class PlogRepository extends BaseRepository {
                         postState(StateConstants.NET_WORK_STATE);
                     }
                     @Override
-                    public void onSuccess(PlogResultPojo plogPojo) {
-                        postData(EVENT_KEY_PLOG , plogPojo );
+                    public void onSuccess(PlogResultPojo plogResultPojo) {
+                        postData(EVENT_KEY_PLOG , plogResultPojo );
                         postState(StateConstants.SUCCESS_STATE);
                     }
 

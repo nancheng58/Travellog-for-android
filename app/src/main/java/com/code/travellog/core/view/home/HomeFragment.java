@@ -12,13 +12,15 @@ import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.album.AlbumPojo;
 import com.code.travellog.core.data.pojo.common.TypeVo;
 import com.code.travellog.core.data.pojo.home.ButtonPojo;
+import com.code.travellog.core.data.pojo.plog.PlogPojo;
 import com.code.travellog.core.view.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.home.CategoryVo;
 import com.code.travellog.core.data.pojo.home.HomeMergePojo;
 import com.code.travellog.core.data.repository.HomeRepository;
+import com.code.travellog.core.view.plog.PlogDetailsActivity;
 import com.code.travellog.core.view.video.VideoDetailsActivity;
-import com.code.travellog.core.vm.HomeViewModel;
+import com.code.travellog.core.viewmodel.HomeViewModel;
 import com.code.travellog.core.view.AdapterPool;
 
 
@@ -81,26 +83,19 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
         }
         mItems.add(homeMergePojo.bannerListVo);
         mItems.add(new CategoryVo("title"));
-//        mItems.add(new TypeVo(getResources().getString(R.string.recommend_live_type)));
-//        if (homeMergeVo.homeListVo.data.live_recommend.size() > 0) {
-//            mItems.addAll(homeMergeVo.homeListVo.data.live_recommend);
-//        }
         mItems.add(new ButtonPojo(1));
         mItems.add(new ButtonPojo(2));
         mItems.add(new ButtonPojo(3));
-        mItems.add(new TypeVo(getResources().getString(R.string.home_album_list)));
+
         if (homeMergePojo.albumListPojo.data ==null) return;
         if (homeMergePojo.albumListPojo.data.movie_num > 0) {
+            mItems.add(new TypeVo(getResources().getString(R.string.home_album_list)));
             mItems.addAll(homeMergePojo.albumListPojo.data.movies);
         }
-//        mItems.add(new TypeVo(getResources().getString(R.string.recommend_book_type)));
-//        if (homeMergeVo.homeListVo.data.publishingbook.size() > 0) {
-//            mItems.add(new BookList(homeMergeVo.homeListVo.data.publishingbook));
-//        }
-//        mItems.add(new TypeVo(getResources().getString(R.string.special_tab_name)));
-//        if (homeMergeVo.homeListVo.data.matreialsubject.size() > 0) {
-//            mItems.addAll(homeMergeVo.homeListVo.data.matreialsubject);
-//        }
+        if (homeMergePojo.plogListPojo.data.photo_num > 0) {
+            mItems.add(new TypeVo(getResources().getString(R.string.home_plog_list)));
+            mItems.addAll(homeMergePojo.plogListPojo.data.photos);
+        }
         setData();
     }
 
@@ -110,6 +105,11 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
             if (object instanceof AlbumPojo) {
                 Intent intent = new Intent(activity, VideoDetailsActivity.class);
                 intent.putExtra(Constants.AlBUM_ID, String.valueOf(((AlbumPojo) object).work_id));
+                activity.startActivity(intent);
+            }
+            if (object instanceof PlogPojo){
+                Intent intent = new Intent(activity, PlogDetailsActivity.class);
+                intent.putExtra(Constants.PLOG_ID, String.valueOf(((PlogPojo) object).work_id));
                 activity.startActivity(intent);
             }
         }

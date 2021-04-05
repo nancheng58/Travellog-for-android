@@ -25,7 +25,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
 
-                android:src="@drawable/vic_my_publish" />
+                android:src="@drawable/ic_add_image" />
 
             <Button
                 android:id="@+id/btn_result"
@@ -34,7 +34,7 @@
                 android:layout_marginTop="@dimen/dp10"
                 android:layout_gravity="center"
 
-                android:text="风格迁移" />
+                android:text="超分辨率" />
             <Button
                 android:id="@+id/btn_get"
                 android:layout_width="150dp"

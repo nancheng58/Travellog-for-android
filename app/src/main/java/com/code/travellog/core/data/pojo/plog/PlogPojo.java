@@ -1,5 +1,7 @@
 package com.code.travellog.core.data.pojo.plog;
 
+import com.code.travellog.core.data.pojo.BasePojo;
+
 import java.io.Serializable;
 import java.util.List;
 

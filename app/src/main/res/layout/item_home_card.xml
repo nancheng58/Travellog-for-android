@@ -23,7 +23,7 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="194dp"
-                app:srcCompat="@drawable/home_buttom1"
+                app:srcCompat="@drawable/home_button2"
                 android:scaleType="centerCrop"
                 android:contentDescription="@string/define_AndroidIconics"
                 />
@@ -39,7 +39,7 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="创建影集"
+                    android:text="制作影集"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     />
                 <TextView
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="创建令人惊艳的影集"
+                    android:text="制作令人惊艳的影集"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="?android:attr/textColorSecondary"
                     />

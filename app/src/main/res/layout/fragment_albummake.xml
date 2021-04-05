@@ -30,11 +30,11 @@
             android:layout_centerVertical="true"
             android:ellipsize="end"
             android:maxEms="11"
-            android:text="创建影集"
+            android:text="制作影集"
             android:textColor="@color/black_000000"
             android:textSize="18sp" />
 
-        <TextView
+        <Button
             android:id="@+id/btn_submit"
             android:layout_width="48dp"
             android:layout_height="match_parent"
@@ -43,6 +43,7 @@
             android:layout_marginRight="5dp"
             android:gravity="center"
             android:text="生成"
+            android:background="@color/app_color_white"
             android:textColor="@color/black_000000"
             android:textSize="15sp" />
     </RelativeLayout>
@@ -155,7 +156,7 @@
                 app:sCenterViewGravity="left_center"
                 app:sLeftBottomTextColor="@color/colorAccent"
 
-                app:sLeftBottomTextString="将您的精美影集分享给别人吧>>"
+                app:sLeftBottomTextString="选择是否将您的精美影集自动分享到论坛>>"
                 app:sLeftIconHeight="40dp"
                 app:sLeftIconRes="@drawable/activities_icon"
                 app:sLeftIconWidth="40dp"

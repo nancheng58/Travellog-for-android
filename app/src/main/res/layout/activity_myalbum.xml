@@ -47,7 +47,7 @@
             app:sLeftIconHeight="40dp"
             app:sLeftIconWidth="40dp"
             app:sLeftIconRes="@drawable/article_icon"
-            app:sLeftTopTextString="我的影集(在下面有个列表，还没写)"
+            app:sLeftTopTextString="我的影集(列表移动至主页)"
             app:sLeftViewGravity="left_center"
             app:sRightIconRes="@drawable/tag_more_icon" />
 

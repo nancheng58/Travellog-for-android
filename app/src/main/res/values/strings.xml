@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">集游</string>
     <string name="home_title_name">首页</string>
-    <string name="work_title_name">游记</string>
-    <string name="video_title_name">视频</string>
+    <string name="work_title_name">Plog游记</string>
+    <string name="video_title_name">影集视频</string>
     <string name="mine_title_name">我的</string>
     <string name="move_title_name">更多</string>
 
@@ -16,7 +16,7 @@
     <string name="activity_title_name">活动</string>
     <string name="recommend_tab_name">个性推荐</string>
     <string name="home_album_list">个人影集列表</string>
-
+    <string name="home_plog_list">个人PLOG长图列表</string>
     <string name="register">注册</string>
     <string name="Username">用户名</string>
     <string name="app_drag_delete">拖动到此处删除</string>

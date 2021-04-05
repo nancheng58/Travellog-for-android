@@ -27,7 +27,7 @@ import com.code.travellog.AI.AiBoostManager;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.poetry.PoetryPojo;
 import com.code.travellog.core.data.repository.ApiRepository;
-import com.code.travellog.core.vm.ApiViewModel;
+import com.code.travellog.core.viewmodel.ApiViewModel;
 import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.AbsLifecycleFragment;
 
@@ -139,7 +139,7 @@ public class PoetryFragment extends AbsLifecycleFragment<ApiViewModel> {
         aiBoostManager.initialize(activity, "mobilenet_quant.tflite",
                 1001, "mobilenet_quant_labels.txt");
         //物体识别完成
-        registerSubscriber(AiBoostManager.EVENT_KEY_OBJECT, null, List.class).observe(this, list -> {
+        registerSubscriber(AiBoostManager.EVENT_KEY_OBJECTLIST, null, List.class).observe(this, list -> {
             List<AiBoostManager.Data> mDetectorResult = list;
             Log.w("log","物体识别完成");
             int index = 0;

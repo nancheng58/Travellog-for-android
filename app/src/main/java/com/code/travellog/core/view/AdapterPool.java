@@ -46,7 +46,9 @@ public class AdapterPool {
                 .bind(CategoryVo.class, new CategoryItemView(context))
                 .bind(ButtonPojo.class,new HomeButtonItemView(context))
                 .bind(TypeVo.class, new TypeItemView(context))
-                .bind(AlbumPojo.class, new AlbumItemHolder(context));
+                .bind(AlbumPojo.class, new AlbumItemHolder(context))
+                .bind(PlogPojo.class, new PlogItemHolder(context));
+
     }
 
 

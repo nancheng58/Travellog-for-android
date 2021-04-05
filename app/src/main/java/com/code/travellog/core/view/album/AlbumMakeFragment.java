@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.allen.library.SuperTextView;
 import com.code.travellog.App;
 import com.code.travellog.R;
-import com.code.travellog.core.vm.AlbumViewModel;
+import com.code.travellog.core.viewmodel.AlbumViewModel;
 import com.code.travellog.glide.GlideCacheEngine;
 import com.code.travellog.glide.GlideEngine;
 import com.code.travellog.core.view.picture.FullyGridLayoutManager;

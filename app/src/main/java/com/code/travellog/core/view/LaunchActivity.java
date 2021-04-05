@@ -33,7 +33,7 @@ public class LaunchActivity extends AnimatedSplash {
     public void initSplash(ConfigSplash configSplash) {
         //Customize Circular Reveal
         configSplash.setBackgroundColor(R.color.app_color_blue); //any color you want form colors.xml
-        configSplash.setAnimCircularRevealDuration(1000); //int ms
+        configSplash.setAnimCircularRevealDuration(800); //int ms
         configSplash.setRevealFlagX(Flags.REVEAL_LEFT);  //or Flags.REVEAL_LEFT
         configSplash.setRevealFlagY(Flags.REVEAL_TOP); //or Flags.REVEAL_TOP
 
@@ -41,7 +41,7 @@ public class LaunchActivity extends AnimatedSplash {
 
         //Customize Logo
         configSplash.setLogoSplash(R.mipmap.ic_launcher_project); //or any other drawable
-        configSplash.setAnimLogoSplashDuration(1000); //int ms
+        configSplash.setAnimLogoSplashDuration(500); //int ms
         configSplash.setAnimLogoSplashTechnique(Techniques.FadeIn); //choose one form Techniques (ref: https://github.com/daimajia/AndroidViewAnimations)
 
 
@@ -60,7 +60,7 @@ public class LaunchActivity extends AnimatedSplash {
         configSplash.setTitleSplash("Travel Log");
         configSplash.setTitleTextColor(R.color.black_e8e8e8);
         configSplash.setTitleTextSize(30f); //float value
-        configSplash.setAnimTitleDuration(1000);
+        configSplash.setAnimTitleDuration(500);
         configSplash.setAnimTitleTechnique(Techniques.RotateInDownLeft);
         configSplash.setTitleFont("fonts/balloon.ttf"); //provide string to your font located in assets/fonts/
 

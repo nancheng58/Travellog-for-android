@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.adapter.adapter.DelegateAdapter;
 import com.adapter.listener.OnItemClickListener;
-import com.code.travellog.core.vm.VideoViewModel;
+import com.code.travellog.core.viewmodel.VideoViewModel;
 import com.code.travellog.core.view.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 

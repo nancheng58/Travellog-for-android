@@ -15,11 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.image.ImagePojo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
 import com.code.travellog.core.data.repository.UserRepository;
-import com.code.travellog.core.vm.UserViewModel;
+import com.code.travellog.core.viewmodel.UserViewModel;
 import com.code.travellog.util.Base64Utils;
 import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.StringUtil;

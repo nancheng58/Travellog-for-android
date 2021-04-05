@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.weather.WeatherPojo;
 import com.code.travellog.core.data.repository.ApiRepository;
-import com.code.travellog.core.vm.ApiViewModel;
+import com.code.travellog.core.viewmodel.ApiViewModel;
 import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.AbsLifecycleFragment;
 

@@ -30,11 +30,11 @@
             android:layout_centerVertical="true"
             android:ellipsize="end"
             android:maxEms="11"
-            android:text="创建影集"
+            android:text="制作PLOG长图片"
             android:textColor="@color/black_000000"
             android:textSize="18sp" />
 
-        <TextView
+        <Button
             android:id="@+id/btn_submit"
             android:layout_width="48dp"
             android:layout_height="match_parent"
@@ -43,6 +43,7 @@
             android:layout_marginRight="5dp"
             android:gravity="center"
             android:text="生成"
+            android:background="@color/app_color_white"
             android:textColor="@color/black_000000"
             android:textSize="15sp" />
     </RelativeLayout>
@@ -137,7 +138,7 @@
                 app:sCenterViewGravity="left_center"
                 app:sLeftBottomTextColor="@color/colorAccent"
 
-                app:sLeftBottomTextString="将您的精美影集分享给别人吧>>"
+                app:sLeftBottomTextString="选择是否将您的精美PLOG自动分享到论坛>>"
                 app:sLeftIconHeight="40dp"
                 app:sLeftIconRes="@drawable/activities_icon"
                 app:sLeftIconWidth="40dp"
@@ -151,7 +152,7 @@
                 android:layout_below="@+id/tv_plogtitle"
                 android:layout_marginTop="9dp"
                 android:background="@drawable/selector_bg_edit"
-                android:hint="请输入影集标题"
+                android:hint="请输入要生成Plog的标题"
                 android:inputType="textPersonName"
                 android:paddingBottom="2dp"
                 android:textColor="#03A9F4"
@@ -161,10 +162,10 @@
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_below="@+id/tv_albumtitle"
+                android:layout_below="@+id/tv_plogtitle"
                 android:layout_marginTop="58dp"
                 android:background="@drawable/selector_bg_edit"
-                android:hint="请输入要生成的Plog长图描述"
+                android:hint="请输入要生成Plog的描述"
                 android:inputType="textPersonName"
                 android:paddingBottom="2dp"
                 android:textColor="#03A9F4"

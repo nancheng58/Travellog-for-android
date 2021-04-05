@@ -14,9 +14,8 @@ import com.code.travellog.core.data.pojo.plog.PlogPojo;
 import com.code.travellog.core.view.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.repository.PlogRepository;
-import com.code.travellog.core.vm.PlogViewModel;
+import com.code.travellog.core.viewmodel.PlogViewModel;
 import com.code.travellog.core.view.AdapterPool;
-import com.mvvm.event.LiveBus;
 
 
 /**
@@ -36,7 +35,7 @@ public class PlogFragment extends BaseListFragment<PlogViewModel> implements OnI
     public void initView(Bundle state) {
         super.initView(state);
         setTitle(getResources().getString(R.string.work_title_name));
-//        refreshHelper.setEnableLoadMore(false);
+        refreshHelper.setEnableLoadMore(false);
 //        refreshHelper.setEnableAutoLoadMore(t);
     }
 

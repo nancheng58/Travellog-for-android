@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,12 +41,14 @@ import com.code.travellog.core.data.pojo.geo.CityListPojo;
 import com.code.travellog.core.data.pojo.geo.CityPojo;
 import com.code.travellog.core.data.pojo.geo.GeoPojo;
 import com.code.travellog.core.data.repository.PictureRepository;
-import com.code.travellog.core.view.picture.PictureShowActivity;
-import com.code.travellog.core.vm.PictureViewModel;
 import com.code.travellog.core.view.AdapterPool;
+import com.code.travellog.core.view.picture.PictureShowActivity;
+import com.code.travellog.core.viewmodel.PictureViewModel;
 import com.code.travellog.util.ScreenUtil;
+import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.AbsLifecycleActivity;
 import com.yinglan.scrolllayout.ScrollLayout;
+import com.yinglan.scrolllayout.content.ContentRecyclerView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,12 +65,28 @@ import butterknife.ButterKnife;
  * @date: 2021/3/17
  */
 public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implements ClusterRender,
-        AMap.OnMapLoadedListener, ClusterClickListener, GeocodeSearch.OnGeocodeSearchListener,OnItemClickListener {
+        AMap.OnMapLoadedListener, ClusterClickListener, GeocodeSearch.OnGeocodeSearchListener, OnItemClickListener {
     @BindView(R.id.map)
     MapView map;
     AMap aMap;
+    @BindView(R.id.iv_back)
+    ImageView ivBack;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.iv_search)
+    ImageView ivSearch;
+    @BindView(R.id.rl_title_bar)
+    RelativeLayout rlTitleBar;
+    @BindView(R.id.list_view)
+    ContentRecyclerView listView;
+    @BindView(R.id.text_foot)
+    TextView textFoot;
+    @BindView(R.id.scroll_down_layout)
+    ScrollLayout scrollDownLayout;
+    @BindView(R.id.root_layout)
+    RelativeLayout rootLayout;
 
-    private GeoPojo geoPojo ;
+    private GeoPojo geoPojo;
     private int clusterRadius = 100;
 
     private Map<Integer, Drawable> mBackDrawAbles = new HashMap<Integer, Drawable>();
@@ -76,6 +95,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
     private List<CityPojo> cityListPojo = null;
     private GeocodeSearch geocoderSearch;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_map;
@@ -86,48 +106,70 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     protected ItemData mItems;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
+        // 设置了一个可视范围的初始化位置
+        // CameraPosition 第一个参数： 目标位置的屏幕中心点经纬度坐标。
+        // CameraPosition 第二个参数： 目标可视区域的缩放级别
+        // CameraPosition 第三个参数： 目标可视区域的倾斜度，以角度为单位。
+        // CameraPosition 第四个参数： 可视区域指向的方向，以角度为单位，从正北向顺时针方向计算，从0度到360度
+//        mapOptions.camera(new CameraPosition(centerBJPoint, 10f, 0, 0));
+        // 定义一个 MapView 对象，构造方法中传入 mapOptions 参数类
+//        map= new MapView(this, mapOptions);
+        // 调用 onCreate方法 对 MapView LayoutParams 设置
+        map.onCreate(savedInstanceState);
+
+    }
+    @Override
     public void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
         showLoading();
         mScrollLayout = (ScrollLayout) findViewById(R.id.scroll_down_layout);
         text_foot = (TextView) findViewById(R.id.text_foot);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_view);
-        adapter = createAdapter() ;
+
+        adapter = createAdapter();
         mItems = new ItemData();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         getData();
         dataObserver();
         setBottomBar();
+        ToastUtils.showToast("点击🎈可以进入下一级，点击🚩可以查看目的地");
     }
+
     protected void setUiData(Collection<?> data) {
         mItems.clear();
         mItems.addAll(data);
         setData();
     }
+
     protected void setData() {
         adapter.setDatas(mItems);
         adapter.notifyDataSetChanged();
 
     }
+
     protected DelegateAdapter createAdapter() {
         return AdapterPool.newInstance().getMapAdapter(this)
                 .setOnItemClickListener(this)
                 .build();
     }
+
     @Override
     protected void dataObserver() {
-        registerSubscriber(PictureRepository.EVENT_KEY_PICEXIF, ArrayList.class).observe(this,arrayList -> {
+        registerSubscriber(PictureRepository.EVENT_KEY_PICEXIF, ArrayList.class).observe(this, arrayList -> {
             mViewModel.getGeoExif(arrayList);
 
         });
-        registerSubscriber(PictureRepository.ENTER_KEY_GEO,GeoPojo.class).observe(this,list -> {
-            geoPojo = list ;
+        registerSubscriber(PictureRepository.ENTER_KEY_GEO, GeoPojo.class).observe(this, list -> {
+            geoPojo = list;
             init();
             mViewModel.getCityList(geoPojo);
         });
         registerSubscriber(PictureRepository.ENTER_KEY_CITYLIST, CityListPojo.class).observe(this, cityListPojo -> {
-            this.cityListPojo =cityListPojo.cityPojos ;
+            this.cityListPojo = cityListPojo.cityPojos;
             setUiData(cityListPojo.cityPojos);
 
         });
@@ -141,15 +183,16 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-        else{
+        } else {
             try {
                 mViewModel.getGalleryExif(getContentResolver());
-            }catch (IOException e) {e.printStackTrace();}
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-    private void setBottomBar()
-    {
+
+    private void setBottomBar() {
         /**设置 setting*/
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.root_layout);
         mScrollLayout.setMinOffset((int) (ScreenUtil.getScreenHeight(this) * 0.1));
@@ -202,23 +245,8 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-        // 设置了一个可视范围的初始化位置
-        // CameraPosition 第一个参数： 目标位置的屏幕中心点经纬度坐标。
-        // CameraPosition 第二个参数： 目标可视区域的缩放级别
-        // CameraPosition 第三个参数： 目标可视区域的倾斜度，以角度为单位。
-        // CameraPosition 第四个参数： 可视区域指向的方向，以角度为单位，从正北向顺时针方向计算，从0度到360度
-//        mapOptions.camera(new CameraPosition(centerBJPoint, 10f, 0, 0));
-        // 定义一个 MapView 对象，构造方法中传入 mapOptions 参数类
-//        map= new MapView(this, mapOptions);
-        // 调用 onCreate方法 对 MapView LayoutParams 设置
-        map.onCreate(savedInstanceState);
 
 
-    }
     private void init() {
         if (aMap == null) {
             // 初始化地图
@@ -281,7 +309,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
                 double lat = dataBean.lan;
                 double lon = dataBean.lng;
                 LatLng latLng = new LatLng(lat, lon, false);
-                Log.e("onMapLoaded",String.valueOf(lat));
+                Log.e("onMapLoaded", String.valueOf(lat));
                 RegionItem regionItem = new RegionItem(latLng,
                         id.toString());
                 items.add(regionItem);
@@ -297,6 +325,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
         }).start();
     }
+
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */
@@ -309,21 +338,24 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     protected void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
-        if(map != null) map.onDestroy();
-        if(mClusterOverlay !=null) mClusterOverlay.onDestroy();
+        if (map != null) map.onDestroy();
+        if (mClusterOverlay != null) mClusterOverlay.onDestroy();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         map.onResume();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
         map.onPause();
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -334,7 +366,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     @Override
     public void onClick(Marker marker, List<ClusterItem> clusterItems) {
 
-        if(clusterItems.size() > 1 ){
+        if (clusterItems.size() > 1) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (ClusterItem clusterItem : clusterItems) {
                 builder.include(clusterItem.getPosition());
@@ -342,19 +374,18 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
             LatLngBounds latLngBounds = builder.build();
             aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 0));
-        }
-        else {
-            LatLng latLng =clusterItems.get(0).getPosition();
+        } else {
+            LatLng latLng = clusterItems.get(0).getPosition();
 
-            CityPojo cityPojo1 = null ;
-            for(CityPojo cityPojo : cityListPojo) {
-                if(cityPojo.lan == latLng.latitude && cityPojo.lng == latLng.longitude){
-                    cityPojo1 = cityPojo ;
+            CityPojo cityPojo1 = null;
+            for (CityPojo cityPojo : cityListPojo) {
+                if (cityPojo.lan == latLng.latitude && cityPojo.lng == latLng.longitude) {
+                    cityPojo1 = cityPojo;
                     break;
                 }
             }
-            assert cityPojo1 != null ;
-            PictureShowActivity.start(MapActivity.this,cityPojo1);
+            assert cityPojo1 != null;
+            PictureShowActivity.start(MapActivity.this, cityPojo1);
         }
     }
 
@@ -367,40 +398,18 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             if (bitmapDrawable == null) {
                 bitmapDrawable =
                         getApplication().getResources().getDrawable(
-                                R.drawable.defaultcluster);
+                                R.drawable.flag_position);
                 mBackDrawAbles.put(1, bitmapDrawable);
             }
 
             return bitmapDrawable;
         }
-//        } else if (clusterNum < 5) {
-//
-//            Drawable bitmapDrawable = mBackDrawAbles.get(2);
-//            if (bitmapDrawable == null) {
-//                bitmapDrawable =
-//                        getApplication().getResources().getDrawable(
-//                                R.drawable.bbbb);
-////                bitmapDrawable = new BitmapDrawable(null, drawCircle(radius,
-////                        Color.argb(159, 210, 154, 6)));
-//                mBackDrawAbles.put(2, bitmapDrawable);
-//            }
-//
-//            return bitmapDrawable;
-//        } else if (clusterNum < 10) {
-//            Drawable bitmapDrawable = mBackDrawAbles.get(3);
-//            if (bitmapDrawable == null) {
-//                bitmapDrawable = new BitmapDrawable(null, drawCircle(radius,
-//                        Color.argb(199, 217, 114, 0)));
-//                mBackDrawAbles.put(3, bitmapDrawable);
-//            }
-//
-//            return bitmapDrawable;}
         else {
             Drawable bitmapDrawable = mBackDrawAbles.get(4);
             if (bitmapDrawable == null) {
                 bitmapDrawable =
                         getApplication().getResources().getDrawable(
-                                R.drawable.flag_position);
+                                R.drawable.defaultcluster);
 //                bitmapDrawable = new BitmapDrawable(null, drawCircle(radius,
 //                        Color.argb(235, 215, 66, 2)));
                 mBackDrawAbles.put(4, bitmapDrawable);
@@ -422,9 +431,9 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
     @Override
     public void onItemClick(View view, int position, Object o) {
-        if(o instanceof CityPojo){
+        if (o instanceof CityPojo) {
 //            ToastUtils.showToast("点击了"+((CityPojo) o).city);
-            PictureShowActivity.start(MapActivity.this,((CityPojo) o));
+            PictureShowActivity.start(MapActivity.this, ((CityPojo) o));
 
         }
     }

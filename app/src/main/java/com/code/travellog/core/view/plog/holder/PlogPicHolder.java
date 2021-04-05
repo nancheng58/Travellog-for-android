@@ -58,7 +58,10 @@ public class PlogPicHolder extends AbsItemHolder<PlogPojo, PlogPicHolder.ViewHol
 //        if (!TextUtils.isEmpty(object.data.tweet_info.avatar)) {
 //            Glide.with(mContext).load(object.data.teacher_info.avatar).transform(new GlideCircleTransform(mContext)).into(holder.teacherIcon);
 //        }
-        Glide.with(mContext).load(URL.IMAGE_URL+plogPojo.avatar).transform(new GlideCircleTransform(mContext)).into(holder.workPic);
+        if(plogPojo.avatar.startsWith("http")){
+            Glide.with(mContext).load(plogPojo.avatar).transform(new GlideCircleTransform(mContext)).into(holder.workPic);
+        }
+        else Glide.with(mContext).load(URL.IMAGE_URL+plogPojo.avatar).transform(new GlideCircleTransform(mContext)).into(holder.workPic);
 
 //        holder.teacherName.setText(object.data.teacher_info.sname);
         holder.userName.setText(plogPojo.uname);

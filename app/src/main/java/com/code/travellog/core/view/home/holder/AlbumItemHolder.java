@@ -57,7 +57,14 @@ public class AlbumItemHolder extends AbsItemHolder<AlbumPojo, AlbumItemHolder.Vi
         holder.ivVideoImage.setScaleType(ImageView.ScaleType.FIT_XY);
         // TODO
         Glide.with(mContext).load(URL.IMAGE_URL+albumPojo.movie_cover).placeholder(R.color.black_e8e8e8).into(holder.ivVideoImage);
-        Glide.with(mContext).load(R.drawable.ic_album).transform(new GlideCircleTransform(mContext)).into(holder.ivIcon);
+        MMKV mmkv = MMKV.defaultMMKV();
+        String url = mmkv.decodeString("avatar");
+        if(url.startsWith("http")){
+            Glide.with(mContext).load(url).transform(new GlideCircleTransform(mContext)).into(holder.ivIcon);
+        }else {
+            Glide.with(mContext).load(URL.IMAGE_URL+url).transform(new GlideCircleTransform(mContext)).into(holder.ivIcon);
+
+        }
         holder.tvCreateTime.setText(albumPojo.create_time);
         holder.tvVideoTitle.setText(albumPojo.movie_title);
         Random random = new Random();

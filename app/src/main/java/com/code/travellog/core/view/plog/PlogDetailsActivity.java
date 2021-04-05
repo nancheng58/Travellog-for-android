@@ -1,7 +1,6 @@
 package com.code.travellog.core.view.plog;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,17 +15,25 @@ import android.widget.TextView;
 
 import com.adapter.adapter.DelegateAdapter;
 import com.adapter.adapter.ItemData;
-import com.adapter.listener.OnItemClickListener;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
+import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.plog.PlogPojo;
+import com.code.travellog.core.data.pojo.plog.PlogResultPojo;
 import com.code.travellog.core.view.plog.holder.PlogPicHolder;
-import com.code.travellog.core.vm.PlogViewModel;
+import com.code.travellog.core.viewmodel.PlogViewModel;
+import com.code.travellog.network.ApiService;
+import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.AbsLifecycleActivity;
 import com.mvvm.event.LiveBus;
+import com.mvvm.http.HttpHelper;
+import com.tencent.mmkv.MMKV;
 
 import java.lang.ref.WeakReference;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -40,7 +47,7 @@ public class PlogDetailsActivity extends AbsLifecycleActivity<PlogViewModel> {
     private DelegateAdapter adapter;
     protected ItemData items = new ItemData();
     private String plogId;
-    private PlogPojo plogPojo;
+    private PlogPojo plogPojo = null;
     private WeakReference<PlogDetailsActivity> weakReference;
     private TextView title;
     private ImageView ivback;
@@ -64,7 +71,10 @@ public class PlogDetailsActivity extends AbsLifecycleActivity<PlogViewModel> {
         weakReference = new WeakReference<>(this);
         if (getIntent() != null) {
             plogId = getIntent().getStringExtra(Constants.PLOG_ID);
-            plogPojo = (PlogPojo) getIntent().getSerializableExtra(Constants.PLOG_POJO);
+            assert plogId != null;
+            if((PlogPojo) getIntent().getSerializableExtra(Constants.PLOG_POJO) !=null){
+                plogPojo = (PlogPojo) getIntent().getSerializableExtra(Constants.PLOG_POJO);
+            }
         }
 
         initAdapter();
@@ -123,38 +133,54 @@ public class PlogDetailsActivity extends AbsLifecycleActivity<PlogViewModel> {
             return;
         }
         if (plogPojo != null) {
-            Log.w("111","plog Detail get");
+            Log.w("plogDetail","plog Detail get");
+
             items.add(plogPojo);
             adapter.setDatas(items);
             mRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             loadManager.showSuccess();
         }
+        else{
+            getRemoteData();
+        }
+
+    }
+    @SuppressLint("CheckResult")
+    void getRemoteData()
+    {
+        String url = URL.PLOG_URL + plogId + "/status";
+        HttpHelper.getInstance().create(ApiService.class).getPlogResult(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new RxSubscriber<PlogResultPojo>() {
+
+                    @Override
+                    public void onSuccess(PlogResultPojo plogResultPojo) {
+                        if (plogResultPojo == null)
+                            ToastUtils.showToast(plogResultPojo.msg);
+                        else if (plogResultPojo.data.status != 200)
+                            ToastUtils.showToast("该Plog长图" + plogPojo.status_msg);
+                        else {
+                            Log.w("plogDetail","plog Detail get");
+                            MMKV mmkv = MMKV.defaultMMKV();
+                            plogResultPojo.data.avatar = mmkv.decodeString("avatar");
+                            plogResultPojo.data.uname = mmkv.decodeString("userName");
+                            items.add(plogResultPojo.data);
+                            adapter.setDatas(items);
+                            mRecyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            loadManager.showSuccess();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg, int code) {
+
+                    }
 
 
-//       mViewModel.getPlogDetailData(plogId);
-//        HttpHelper.getInstance().create(ApiService.class).getPlogResult(url)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeWith(new RxSubscriber<PlogResultPojo>() {
-//
-//                    @Override
-//                    public void onSuccess(PlogResultPojo plogResultPojo) {
-//                        if (plogResultPojo.data == null)
-//                            ToastUtils.showToast(plogResultPojo.msg);
-//                        else if (plogResultPojo.data.status != 200)
-//                            ToastUtils.showToast("该Plog长图" + plogResultPojo.data.status_msg);
-//                        else setUI(plogResultPojo);
-////                        getAboutData();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(String msg, int code) {
-//
-//                    }
-//
-//
-//                });
+                });
 
     }
 //        @Override

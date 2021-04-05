@@ -34,7 +34,7 @@
                 android:background="@color/blue"
                 android:clickable="true"
                 android:gravity="center"
-                android:text="点击或上滑打开" />
+                android:text="点击或上滑打开足迹列表" />
 
 
         </RelativeLayout>

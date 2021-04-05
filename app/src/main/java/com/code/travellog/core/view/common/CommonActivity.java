@@ -18,6 +18,7 @@ import com.code.travellog.config.Constants;
 import com.code.travellog.core.view.EmptyFragment;
 import com.code.travellog.core.view.color.ColorFragment;
 
+import com.code.travellog.core.view.object.ObjectFragment;
 import com.code.travellog.core.view.poetry.PoetryFragment;
 import com.code.travellog.core.view.styletransfer.StyletransferFragment;
 import com.code.travellog.core.view.superresolution.SuperResolutionFragment;
@@ -94,7 +95,8 @@ public class CommonActivity extends BaseActivity implements View.OnClickListener
                 commitFragment(SuperResolutionFragment.newInstance());
                 break;
             case Constants.OBJECT:
-                commitFragment(EmptyFragment.newInstance());
+                commitFragment(ObjectFragment.newInstance());
+                break;
             case Constants.ACTIVITY:
                 commitFragment(EmptyFragment.newInstance());
                 break;

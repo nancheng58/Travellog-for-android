@@ -48,7 +48,8 @@ public class AiBoostManager {
     private static final float FILTER_FACTOR = 0.4f;
     private String LABEL_PATH;
     private static final int RESULTS_TO_SHOW = 3;
-    public static String EVENT_KEY_OBJECT = null;
+    public static String EVENT_KEY_OBJECTLIST = null;
+    public static String EVENT_KEY_OBJECTTEST = null;
     private Semaphore semaphore;
     private Bitmap bmp = null;
     private Activity activity ;
@@ -77,7 +78,9 @@ public class AiBoostManager {
         public Float value;
     }
     public AiBoostManager() {
-        if(EVENT_KEY_OBJECT == null ) EVENT_KEY_OBJECT = StringUtil.getEventKey();
+        if(EVENT_KEY_OBJECTLIST == null ) EVENT_KEY_OBJECTLIST = StringUtil.getEventKey();
+        if(EVENT_KEY_OBJECTTEST == null ) EVENT_KEY_OBJECTTEST = StringUtil.getEventKey();
+
     }
 
     public static AiBoostManager newInstance() {
@@ -193,7 +196,7 @@ public class AiBoostManager {
             semaphore.release();
             Turn ++;
             if(aiboost!= null) aiboost.close();
-            if (Turn == Total - 1 || Total == 1 ) LiveBus.getDefault().postEvent(EVENT_KEY_OBJECT,getResult());
+            if (Turn == Total - 1 || Total == 1 ) LiveBus.getDefault().postEvent(EVENT_KEY_OBJECTLIST,getResult());
         }
     }
     private void convertBitmapToByteBuffer(Bitmap bitmap) {
@@ -234,7 +237,7 @@ public class AiBoostManager {
         final int size = sortedLabels.size();
         for (int i = 0; i < size; ++i) {
             Map.Entry<String, Float> label = sortedLabels.poll();
-            textToShow = String.format("\n%s: %4.2f", label.getKey(), label.getValue()) + textToShow;
+            textToShow = String.format("\n%s : %4.2f", label.getKey(), label.getValue()) + textToShow;
             result.add(new Data(label.getKey(),label.getValue()));
         }
         return textToShow;
@@ -261,8 +264,8 @@ public class AiBoostManager {
         System.arraycopy(result, 0, labelProbArray[0], 0, result.length);
         // Print the results.
         String textToShow = printTopKLabels();
-        textToShow = "AIboostresult" + Long.toString(endTime - startTime) + "ms" + textToShow;
-
+        textToShow = "耗时 ：" + Long.toString(endTime - startTime) + "ms" + textToShow;
+        LiveBus.getDefault().postEvent(EVENT_KEY_OBJECTTEST,textToShow);
         return textToShow;
     }
 }

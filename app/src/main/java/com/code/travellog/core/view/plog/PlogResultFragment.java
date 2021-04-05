@@ -20,11 +20,10 @@ import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.plog.PlogPostPojo;
-import com.code.travellog.core.data.pojo.plog.PlogResultPojo;
+import com.code.travellog.core.data.pojo.plog.PlogStatusPojo;
 import com.code.travellog.core.data.pojo.plog.PlogWorkPojo;
 import com.code.travellog.core.data.repository.PlogRepository;
-import com.code.travellog.core.view.video.VideoDetailsActivity;
-import com.code.travellog.core.vm.PlogViewModel;
+import com.code.travellog.core.viewmodel.PlogViewModel;
 import com.code.travellog.util.FileUitl;
 import com.code.travellog.util.JsonUtils;
 import com.code.travellog.util.ToastUtils;
@@ -54,7 +53,7 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 	private VerticalStepperView mVerticalStepperView;
 	private Timer mTimer;
 	private int workid;
-	private PlogResultPojo plogResultPojo;
+	private PlogStatusPojo plogStatusPojo;
 	private List<LocalMedia> localMediaList;
 	private final static String TAG = PlogResultFragment.class.getSimpleName();
 	private List<AiBoostManager.Data> mDetectorResult;
@@ -143,7 +142,7 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 	protected void dataObserver() {
 
 		//物体识别完成
-		registerSubscriber(AiBoostManager.EVENT_KEY_OBJECT,null,List.class).observe(this,list -> {
+		registerSubscriber(AiBoostManager.EVENT_KEY_OBJECTLIST,null,List.class).observe(this,list -> {
 			mDetectorResult = list;
 			mViewModel.getPlogId();
 			changeCurrentStep(2);
@@ -182,16 +181,16 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 			}
 		});
 		// 监听状态
-		registerSubscriber(PlogRepository.EVENT_KEY_PLOGRESULT, PlogResultPojo.class).observe(this, plogResultPojo -> {
-			if (plogResultPojo == null) ;
-			else if (plogResultPojo.code != 200) {
-				ToastUtils.showToast(plogResultPojo.msg);
-			} else if (plogResultPojo.data.status == -1) {
-				ToastUtils.showToast(plogResultPojo.data.result_msg);
+		registerSubscriber(PlogRepository.EVENT_KEY_PLOGRESULT, PlogStatusPojo.class).observe(this, plogStatusPojo -> {
+			if (plogStatusPojo == null) ;
+			else if (plogStatusPojo.code != 200) {
+				ToastUtils.showToast(plogStatusPojo.msg);
+			} else if (plogStatusPojo.data.status == -1) {
+				ToastUtils.showToast(plogStatusPojo.data.result_msg);
 			} else {
-				this.plogResultPojo = plogResultPojo ;
-				Log.w("PlogResultInfo", plogResultPojo.data.status_msg);
-				switch (plogResultPojo.data.status){
+				this.plogStatusPojo = plogStatusPojo;
+				Log.w("PlogResultInfo", plogStatusPojo.toString());
+				switch (plogStatusPojo.data.status){
 					case 100: changeCurrentStep(7);break;
 					case 101: changeCurrentStep(8);break;
 					case 102: changeCurrentStep(9);break;
@@ -214,7 +213,7 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 			@Override
 			public void run() {
 				Log.w("timer",1+"");
-				mViewModel.getPlogResult(workid);
+				mViewModel.getPlogStatus(workid);
 			}
 		}, 1000, 2000);
 	}
@@ -298,8 +297,8 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 			Snackbar.make(mVerticalStepperView, "Plog长图生成完成!", Snackbar.LENGTH_LONG)
 					.setAction("查看",v -> {
 						Intent intent = new Intent(activity, PlogDetailsActivity.class);
-						intent.putExtra(Constants.PLOG_ID, String.valueOf(plogResultPojo.data.work_id));
-						intent.putExtra(Constants.PLOG_POJO,plogResultPojo);
+						intent.putExtra(Constants.PLOG_ID, String.valueOf(plogStatusPojo.data.work_id));
+//						intent.putExtra(Constants.PLOG_POJO,plogResultPojo);
 						activity.startActivity(intent);
 						}).show();
 

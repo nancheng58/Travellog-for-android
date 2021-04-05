@@ -30,7 +30,7 @@ import com.code.travellog.R;
 import com.code.travellog.core.view.base.adapter.GridImageAdapter;
 import com.code.travellog.core.view.base.listener.DragListener;
 import com.code.travellog.core.view.picture.FullyGridLayoutManager;
-import com.code.travellog.core.vm.PlogViewModel;
+import com.code.travellog.core.viewmodel.PlogViewModel;
 import com.code.travellog.glide.GlideCacheEngine;
 import com.code.travellog.glide.GlideEngine;
 import com.code.travellog.util.ToastUtils;

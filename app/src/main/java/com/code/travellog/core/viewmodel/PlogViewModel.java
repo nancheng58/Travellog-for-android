@@ -1,8 +1,7 @@
-package com.code.travellog.core.vm;
+package com.code.travellog.core.viewmodel;
 
 import android.app.Application;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+
 import androidx.annotation.NonNull;
 
 import com.code.travellog.core.data.repository.PlogRepository;
@@ -31,7 +30,7 @@ public class PlogViewModel extends AbsViewModel<PlogRepository> {
         super(application);
     }
 
-    public void getPlogResult(int workid){
+    public void getPlogStatus(int workid){
         mRepository.loadPlogResult(workid);
     }
     public void getPlogId() {

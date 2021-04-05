@@ -37,10 +37,10 @@ public class BannerView extends RelativeLayout {
     private int delayTime = 10;
     private List<ImageView> imageViewList;
     private List<String> bannerList;
-    //选中显示Indicator
-    private int selectRes = R.drawable.shape_dots_select;
     //非选中显示Indicator
-    private int unSelcetRes = R.drawable.shape_dots_default;
+    private int  unSelcetRes= R.drawable.shape_dots_select;
+    //选中显示Indicator
+    private int  selectRes= R.drawable.shape_dots_default;
     //当前页的下标
     private int currentPos;
     private BannerAdapter bannerAdapter;

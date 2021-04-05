@@ -2,6 +2,7 @@ package com.code.travellog.core.data.pojo.home;
 
 import com.code.travellog.core.data.pojo.album.AlbumListPojo;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
+import com.code.travellog.core.data.pojo.plog.PlogListPojo;
 
 /**
  * @description
@@ -11,5 +12,6 @@ import com.code.travellog.core.data.pojo.banner.BannerListVo;
 public class HomeMergePojo {
     public BannerListVo bannerListVo;
     public AlbumListPojo albumListPojo ;
+    public PlogListPojo plogListPojo ;
 //    public HomeListVo homeListVo;
 }

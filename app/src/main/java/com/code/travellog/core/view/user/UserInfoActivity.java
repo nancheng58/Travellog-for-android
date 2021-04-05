@@ -23,7 +23,7 @@ import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.user.UserPojo;
 import com.code.travellog.core.data.repository.UserRepository;
-import com.code.travellog.core.vm.UserViewModel;
+import com.code.travellog.core.viewmodel.UserViewModel;
 import com.code.travellog.util.StringUtil;
 import com.code.travellog.util.ToastUtils;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -144,7 +144,7 @@ public class UserInfoActivity extends AbsLifecycleActivity<UserViewModel> implem
             kv.encode("phone",user.data.phone);
             kv.encode("email",user.data.email);
             kv.encode("gender",user.data.gender);
-            kv.encode("avatar", URL.IMAGE_URL+user.data.avatar);
+            kv.encode("avatar",user.data.avatar);
             kv.encode("intro",user.data.intro);
         });
         registerSubscriber(UserRepository.ENTER_KEY_RERWD,BasePojo.class).observe(this,basePojo -> {

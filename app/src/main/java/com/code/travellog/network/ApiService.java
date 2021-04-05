@@ -11,6 +11,7 @@ import com.code.travellog.core.data.pojo.geo.CityResultPojo;
 import com.code.travellog.core.data.pojo.image.ImagePojo;
 import com.code.travellog.core.data.pojo.plog.PlogListPojo;
 import com.code.travellog.core.data.pojo.plog.PlogResultPojo;
+import com.code.travellog.core.data.pojo.plog.PlogStatusPojo;
 import com.code.travellog.core.data.pojo.plog.PlogWorkPojo;
 import com.code.travellog.core.data.pojo.poetry.PoetryPojo;
 import com.code.travellog.core.data.pojo.supervision.SuperVisionPojo;
@@ -32,7 +33,7 @@ import retrofit2.http.Url;
 
 /**
  * @description RestFul 接口
- * @time 2021/4/3 0:41
+ * @time 2021/2/3 0:41
  */
 
 public interface ApiService {
@@ -112,6 +113,8 @@ public interface ApiService {
     Flowable<BasePojo> startPlog(@Url String url);
 
     @GET
+    Flowable<PlogStatusPojo> getPlogStatus(@Url String url);
+    @GET
     Flowable<PlogResultPojo> getPlogResult(@Url String url);
 
 
@@ -120,23 +123,6 @@ public interface ApiService {
 
     @GET(URL.PLOG_URL+"list")
     Flowable<PlogListPojo> getUserPlogList();
-//
-//    @POST(URL.WORK_LIST)
-//    @FormUrlEncoded
-//    Flowable<PlogsListVo> getWorkData(@Field("corrected") String corrected, @Field("rn") String rn);
-//
-//    @POST(URL.WORK_MORE_LIST)
-//    @FormUrlEncoded
-//    Flowable<PlogsListVo> getWorkMoreData(@Field("last_id") String last_id, @Field("utime") String utime, @Field("rn") String rn);
-//
-//    @POST(URL.WORK_DETAIL)
-//    @FormUrlEncoded
-//    Flowable<PlogDetailVo> getWorkDetailData(@Field("correctid") String correctid);
-//
-//    @POST(URL.WORK_RECOMMEND)
-//    @FormUrlEncoded
-//    Flowable<PlogRecommentVo> getWorkRecommendData(@Field("correctid") String correctid);
-
 
     @GET(URL.BANNER)
     Flowable<BannerListVo> getBannerData();

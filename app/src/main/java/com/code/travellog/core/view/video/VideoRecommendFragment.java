@@ -10,7 +10,7 @@ import com.adapter.adapter.DelegateAdapter;
 import com.adapter.listener.OnItemClickListener;
 import com.code.travellog.core.data.pojo.video.VideoMergePojo;
 import com.code.travellog.core.data.pojo.video.VideoPojo;
-import com.code.travellog.core.vm.VideoViewModel;
+import com.code.travellog.core.viewmodel.VideoViewModel;
 import com.code.travellog.core.view.base.BaseListFragment;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
