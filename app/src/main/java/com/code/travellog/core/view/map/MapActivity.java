@@ -379,6 +379,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
             CityPojo cityPojo1 = null;
             for (CityPojo cityPojo : cityListPojo) {
+//                Log.w("")
                 if (cityPojo.lan == latLng.latitude && cityPojo.lng == latLng.longitude) {
                     cityPojo1 = cityPojo;
                     break;

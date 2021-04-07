@@ -103,7 +103,7 @@
 
                 app:sLeftIconRes="@drawable/article_icon"
                 app:sLeftIconWidth="40dp"
-                app:sLeftTopTextString="请输入标题"
+                app:sLeftTopTextString="请输入标题和描述"
                 app:sLeftViewGravity="left_center"
                 app:sRightViewType="edittext" />
 
@@ -111,7 +111,7 @@
                 android:id="@+id/tv_albumbgm"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_below="@+id/description"
+                android:layout_below="@+id/fps"
                 android:layout_marginTop="11dp"
                 app:sCenterBottomTextColor="@color/colorAccent"
                 app:sCenterTopTextString=""
@@ -130,8 +130,8 @@
                 android:id="@+id/tv_albumpoetry"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_below="@+id/description"
-                android:layout_marginTop="84dp"
+                android:layout_below="@+id/tv_albumbgm"
+                android:layout_marginTop="@dimen/dp10"
                 app:sCenterBottomTextColor="@color/colorAccent"
                 app:sCenterTopTextString=""
                 app:sCenterViewGravity="left_center"
@@ -149,8 +149,8 @@
                 android:id="@+id/tv_share"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_below="@+id/description"
-                android:layout_marginTop="154dp"
+                android:layout_below="@+id/tv_albumpoetry"
+                android:layout_marginTop="14dp"
                 app:sCenterBottomTextColor="@color/colorAccent"
                 app:sCenterTopTextString=""
                 app:sCenterViewGravity="left_center"
@@ -187,6 +187,19 @@
                 android:inputType="textPersonName"
                 android:paddingBottom="2dp"
                 android:textColor="#03A9F4"
+                android:textSize="18sp" />
+            <EditText
+                android:id="@+id/fps"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/description"
+                android:layout_marginTop="9dp"
+                android:background="@drawable/selector_bg_edit"
+                android:hint="请输入影集帧率(范围1-60，推荐15帧)"
+                android:inputType="number"
+                android:paddingBottom="2dp"
+                android:textColor="#03A9F4"
+                android:textCursorDrawable="@drawable/bg_input_cursor"
                 android:textSize="18sp" />
         </RelativeLayout>
     </ScrollView>

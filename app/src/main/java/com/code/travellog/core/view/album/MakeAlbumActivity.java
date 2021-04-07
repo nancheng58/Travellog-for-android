@@ -52,6 +52,7 @@ public class MakeAlbumActivity extends BaseActivity {
     private String description ;
     private String title ;
     private boolean isShare;
+    private int fps;
     @Override
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
@@ -72,6 +73,10 @@ public class MakeAlbumActivity extends BaseActivity {
     }
     public void setLocalMediaList(List<LocalMedia> localMediaList){
         this.localMediaList = localMediaList ;
+    }
+    public void setFps(int fps){this.fps = fps ;}
+    public int getFps(){
+        return fps ;
     }
     public AiBoostManager getAiBoostManager() {
         return aiBoostManager;

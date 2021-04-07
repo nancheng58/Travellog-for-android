@@ -131,7 +131,6 @@ public class PictureRepository extends BaseRepository {
                             null, orderBy);
             //从数据库中取出图存入list集合中
             if (imagecursor != null && imagecursor.getCount() > 0) {
-                int tot  =  imagecursor.getCount();
 
                 while (imagecursor.moveToNext()) {
                     int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
@@ -148,11 +147,11 @@ public class PictureRepository extends BaseRepository {
 //                    exifInterface = new ExifInterface(path);
                     float a[] = new float[2];
                     exifInterface.getLatLong(a);
-                    String lat = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
-                    String lon = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
-                    String latRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
-                    String lngRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
-                    String E =exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
+//                    String lat = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
+//                    String lon = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
+//                    String latRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE_REF);
+//                    String lngRef = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF);
+//                    String E =exifInterface.getAttribute(ExifInterface.TAG_ISO_SPEED_RATINGS);
 //                            assert lat != null ;
                     Log.e("TAGGGGG", path+"\n"+Arrays.toString(a));
                     if(a[0] != 0.0 && a[1] != 0.0){

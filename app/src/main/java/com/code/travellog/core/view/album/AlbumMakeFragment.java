@@ -88,6 +88,8 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
     EditText title;
     @BindView(R.id.description)
     EditText description;
+    @BindView(R.id.fps)
+    EditText fps;
     @BindView(R.id.tv_share)
     SuperTextView tv_share;
 
@@ -167,6 +169,11 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
             }
             else if(TextUtils.isEmpty(description.getText())){
                 ToastUtils.showToast("描述不能为空");
+            }
+            else if(!TextUtils.isDigitsOnly(fps.getText())
+                    && Integer.parseInt(fps.getText().toString()) >=1
+                    && Integer.parseInt(fps.getText().toString()) <=60){
+                ToastUtils.showToast("请保证fps为正整数且范围在1~60之间");
             }
             else {
                 saveData();
@@ -397,6 +404,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
         ((MakeAlbumActivity)getActivity()).setAlbumTitle(title.getText().toString());
         ((MakeAlbumActivity)getActivity()).setLocalMediaList(localMediaList);
         ((MakeAlbumActivity)getActivity()).initFragment(1);
+        ((MakeAlbumActivity)getActivity()).setFps(Integer.parseInt(fps.getText().toString()));
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
