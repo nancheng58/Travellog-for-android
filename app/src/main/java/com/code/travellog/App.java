@@ -56,7 +56,7 @@ public class App extends Application implements ComponentCallbacks2 {
 //    public static LocationParserEngine regionDataengine;
 
     public static PictureParameterStyle mPictureParameterStyle;
-    public static CVUnitClient mCVClient;
+    public static CVUnitClient mCVClient = null;
     private Set<Activity> mActivities;
     static { // 防止内存泄漏
         //设置全局的Header构建器
@@ -68,6 +68,7 @@ public class App extends Application implements ComponentCallbacks2 {
                 return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
             }
         });
+
         //设置全局的Footer构建器
 //        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
 //            @Override

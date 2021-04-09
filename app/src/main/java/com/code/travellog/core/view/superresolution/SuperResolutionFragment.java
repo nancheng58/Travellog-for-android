@@ -68,7 +68,6 @@ public class SuperResolutionFragment extends AbsLifecycleFragment<ApiViewModel> 
     private MediaFile selectedImageFile;
     private EasyImage easyImage;
     private Context mContext;
-    private CVUnitClient mCVClient;
     private Bitmap outbitmap;
     public static SuperResolutionFragment newInstance() {
         return new SuperResolutionFragment();
@@ -96,7 +95,6 @@ public class SuperResolutionFragment extends AbsLifecycleFragment<ApiViewModel> 
                 .setFolderName("picCache")
                 .allowMultiple(false)
                 .build();
-        mCVClient = App.instance().getCVUnit();
         loadManager.showSuccess();
         ToastUtils.showToast("请点击图片以进行选择");
         image.setOnClickListener(v -> {
@@ -244,12 +242,6 @@ public class SuperResolutionFragment extends AbsLifecycleFragment<ApiViewModel> 
     public void onDestroyView() {
         super.onDestroyView();
         butterKnife.unbind();
-        if (mCVClient != null) {
-            mCVClient.stop();
-        }
-        assert mCVClient != null;
-        mCVClient.releaseService();
-        mCVClient = null;
 
     }
 

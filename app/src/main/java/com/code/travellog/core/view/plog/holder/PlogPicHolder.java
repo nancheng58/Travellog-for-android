@@ -76,7 +76,7 @@ public class PlogPicHolder extends AbsItemHolder<PlogPojo, PlogPicHolder.ViewHol
 //        } else {
 //            correct_img = object.data.source_pic;
 //        }
-        int hightc = DisplayUtil.getScreenWidth(mContext) * plogPojo.photo_height / plogPojo.cover_width;
+        int hightc = DisplayUtil.getScreenWidth(mContext) * plogPojo.photo_height / plogPojo.photo_width;
         LinearLayout.LayoutParams cparams = new LinearLayout.LayoutParams(
                 DisplayUtil.getScreenWidth(mContext), hightc);
         holder.imagePic.setLayoutParams(cparams);

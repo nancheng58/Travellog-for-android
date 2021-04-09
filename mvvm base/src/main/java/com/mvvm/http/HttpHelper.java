@@ -90,7 +90,7 @@ public class HttpHelper {
                                 .connectTimeout(30, TimeUnit.SECONDS)
                                 .writeTimeout(30, TimeUnit.SECONDS)
                                 .readTimeout(30, TimeUnit.SECONDS)
-                                .cookieJar(cookieJar)
+                                .cookieJar(cookieJar);
                         ;
                     }
                 }
