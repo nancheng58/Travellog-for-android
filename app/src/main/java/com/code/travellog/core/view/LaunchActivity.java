@@ -118,6 +118,8 @@ public class LaunchActivity extends AnimatedSplash {
                     @Override
                     public void onFailure(String msg, int code) {
                         ToastUtils.showToast(msg);
+                        Intent intent = new Intent(LaunchActivity.this,LoginActivity.class);
+                        startActivity(intent);
                     }
                 });
 

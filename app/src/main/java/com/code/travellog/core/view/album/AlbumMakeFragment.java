@@ -404,6 +404,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
         ((MakeAlbumActivity)getActivity()).setAlbumTitle(title.getText().toString());
         ((MakeAlbumActivity)getActivity()).setLocalMediaList(localMediaList);
         ((MakeAlbumActivity)getActivity()).initFragment(1);
+        if (!TextUtils.isEmpty(fps.getText().toString()))
         ((MakeAlbumActivity)getActivity()).setFps(Integer.parseInt(fps.getText().toString()));
     }
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {

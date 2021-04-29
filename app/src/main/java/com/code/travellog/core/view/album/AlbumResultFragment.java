@@ -249,7 +249,8 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 				albumPostPojo.title = ((MakeAlbumActivity)getActivity()).getAlbumTitle();
 				albumPostPojo.muisc = null ;
 				albumPostPojo.share = ((MakeAlbumActivity)getActivity()).getShare() ;
-				albumPostPojo.fps = ((MakeAlbumActivity)getActivity()).getFps();
+				if(((MakeAlbumActivity)getActivity()).getFps()!=0)
+				  albumPostPojo.fps = ((MakeAlbumActivity)getActivity()).getFps();
 				for(LocalMedia localMedia : localMediaList){
 					albumPostPojo.images.add(index, index+ FileUitl.getImgType(localMedia.getAndroidQToPath()));
 

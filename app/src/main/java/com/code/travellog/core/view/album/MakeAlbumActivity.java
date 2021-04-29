@@ -52,7 +52,7 @@ public class MakeAlbumActivity extends BaseActivity {
     private String description ;
     private String title ;
     private boolean isShare;
-    private int fps;
+    private int fps = 0;
     @Override
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
