@@ -108,4 +108,11 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'com.github.pharidali:AnimatedSplash:1.0.0'//启动页
     implementation 'moe.feng:MaterialStepperView:0.2.5'
+    implementation 'com.cleveroad:fan-layout-manager:1.0.5'
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+    implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
+    implementation 'com.airbnb.android:lottie:3.7.0'
+    implementation 'com.czp.arcProgressBar:ArcProgressBar:1.0.1'
+    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
+    implementation 'com.github.zhpanvip:BannerViewPager:3.5.0'
 }

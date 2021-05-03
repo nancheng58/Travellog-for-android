@@ -1,5 +1,7 @@
 package com.code.travellog.core.view.base;
 
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
@@ -135,6 +137,9 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
 
     protected void setTitle(String titleName) {
         mTitleBar.setVisibility(View.VISIBLE);
+//        AssetManager mgr = activity.getAssets();
+//        Typeface tf = Typeface.createFromAsset(mgr, "fonts/zhushi.ttf");
+//        mTitle.setTypeface(tf);
         mTitle.setText(titleName);
     }
 

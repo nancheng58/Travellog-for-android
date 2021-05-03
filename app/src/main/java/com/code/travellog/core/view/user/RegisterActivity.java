@@ -23,6 +23,7 @@ import com.code.travellog.util.Base64Utils;
 import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.StringUtil;
 import com.code.travellog.util.ToastUtils;
+import com.gyf.immersionbar.ImmersionBar;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -87,6 +88,7 @@ public class RegisterActivity extends AbsLifecycleActivity<UserViewModel> implem
     @Override
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         ButterKnife.bind(this);
         super.initViews(savedInstanceState);
         validator = new Validator(this);

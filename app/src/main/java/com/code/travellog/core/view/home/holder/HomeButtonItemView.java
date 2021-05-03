@@ -49,13 +49,12 @@ public class HomeButtonItemView extends AbsItemHolder<ButtonPojo, HomeButtonItem
             StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
             layoutParams.setFullSpan(true);
         }
-
         if (buttonPojo.id == 2) {
             holder.card.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, MakeAlbumActivity.class);
                 mContext.startActivity(intent);
             });
-        } else if (buttonPojo.id == 1){
+        }else if (buttonPojo.id == 1){
             Glide.with(mContext).load(R.drawable.home_button1).placeholder(R.color.black_e8e8e8).into(holder.image);
             holder.title.setText("制作Plog");
             holder.secondtext.setText("分享时下流行的Plog");

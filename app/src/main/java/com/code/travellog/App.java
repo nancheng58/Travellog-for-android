@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 
 import androidx.core.content.ContextCompat;
@@ -34,6 +35,7 @@ import com.tencent.mmkv.MMKV;
 import com.tqzhang.stateview.core.LoadState;
 import com.zxy.tiny.Tiny;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -221,9 +223,19 @@ public class App extends Application implements ComponentCallbacks2 {
         String mmkv_root_dir = MMKV.initialize(this);
         Log.w("mmkv root dir :",mmkv_root_dir);
         Tiny.getInstance().init(this);
+        initFontType();
     }
 
-
+    public void initFontType(){
+        Typeface typeface = Typeface.createFromAsset(getAssets(),"fonts/wenquan.TTF");
+        try {
+            Field field = Typeface.class.getDeclaredField("MONOSPACE");
+            field.setAccessible(true);
+            field.set(null,typeface);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);

@@ -36,7 +36,7 @@ public class VideoItemHolder extends AbsItemHolder<VideoPojo, VideoItemHolder.Vi
     public VideoItemHolder(Context context) {
         super(context);
         commonWidth = (int) ((float) DisplayUtil.getScreenWidth(mContext)
-                / 2);
+                );
     }
 
     @Override

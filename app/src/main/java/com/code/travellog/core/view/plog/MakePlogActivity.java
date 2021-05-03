@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.code.travellog.AI.AiBoostManager;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
+import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.mvvm.base.BaseActivity;
 
@@ -53,6 +54,7 @@ public class MakePlogActivity extends BaseActivity {
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
         initToolBar();
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         initFragment(0);
         aiBoostManager = AiBoostManager.newInstance();
         aiBoostManager.initialize(this, "mobilenet_quant.tflite",

@@ -14,6 +14,7 @@ import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.view.album.AlbumMakeFragment;
 import com.code.travellog.core.view.album.AlbumResultFragment;
+import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.mvvm.base.BaseActivity;
 
@@ -56,6 +57,7 @@ public class MakeAlbumActivity extends BaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         initToolBar();
         initFragment(0);
         aiBoostManager = AiBoostManager.newInstance();

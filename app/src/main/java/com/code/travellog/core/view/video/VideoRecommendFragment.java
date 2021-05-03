@@ -50,13 +50,13 @@ public class VideoRecommendFragment extends BaseListFragment<VideoViewModel> imp
 
     @Override
     protected RecyclerView.LayoutManager createLayoutManager() {
-        GridLayoutManager layoutManager = new GridLayoutManager(activity, 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(activity, 1);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 return mItems.get(position) instanceof TypeVo
                         || mItems.get(position) instanceof BannerListVo?
-                        2 : 1;
+                        1 : 1;
             }
         });
         return layoutManager;

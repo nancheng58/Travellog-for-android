@@ -22,6 +22,7 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 import com.danielstone.materialaboutlibrary.util.ViewTypeManager;
+import com.gyf.immersionbar.ImmersionBar;
 import com.leon.lib.settingview.LSettingItem;
 import com.mikepenz.community_material_typeface_library.CommunityMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -43,14 +44,14 @@ public class AboutActivity extends MaterialAboutActivity {
     @NonNull
     @Override
     protected MaterialAboutList getMaterialAboutList(@NonNull final Context c) {
-        return this.createMaterialAboutList(c, getIntent().getIntExtra(THEME_EXTRA, THEME_LIGHT));
+        return createMaterialAboutList(c, getIntent().getIntExtra(THEME_EXTRA, THEME_LIGHT));
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         setTheme(R.style.AppTheme_MaterialAboutActivity_Light);
-
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
 //        switch (getIntent().getIntExtra(THEME_EXTRA, THEME_LIGHT)) {
 //            case THEME_LIGHT:
 //                setTheme(R.style.AppTheme_MaterialAboutActivity_Light);

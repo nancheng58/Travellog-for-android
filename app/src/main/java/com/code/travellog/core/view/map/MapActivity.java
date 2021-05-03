@@ -31,6 +31,8 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.cleveroad.fanlayoutmanager.FanLayoutManager;
+import com.cleveroad.fanlayoutmanager.FanLayoutManagerSettings;
 import com.code.travellog.R;
 import com.code.travellog.cluster.ClusterClickListener;
 import com.code.travellog.cluster.ClusterItem;
@@ -46,6 +48,7 @@ import com.code.travellog.core.view.picture.PictureShowActivity;
 import com.code.travellog.core.viewmodel.PictureViewModel;
 import com.code.travellog.util.ScreenUtil;
 import com.code.travellog.util.ToastUtils;
+import com.gyf.immersionbar.ImmersionBar;
 import com.mvvm.base.AbsLifecycleActivity;
 import com.yinglan.scrolllayout.ScrollLayout;
 import com.yinglan.scrolllayout.content.ContentRecyclerView;
@@ -88,7 +91,8 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 
     private GeoPojo geoPojo;
     private int clusterRadius = 100;
-
+    private RecyclerView recyclerView ;
+    private FanLayoutManager fanLayoutManager ;
     private Map<Integer, Drawable> mBackDrawAbles = new HashMap<Integer, Drawable>();
 
     private ClusterOverlay mClusterOverlay;
@@ -109,6 +113,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         // 设置了一个可视范围的初始化位置
         // CameraPosition 第一个参数： 目标位置的屏幕中心点经纬度坐标。
         // CameraPosition 第二个参数： 目标可视区域的缩放级别
@@ -127,12 +132,21 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         showLoading();
         mScrollLayout = (ScrollLayout) findViewById(R.id.scroll_down_layout);
         text_foot = (TextView) findViewById(R.id.text_foot);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_view);
+        recyclerView = (RecyclerView) findViewById(R.id.list_view);
 
         adapter = createAdapter();
         mItems = new ItemData();
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        FanLayoutManagerSettings fanLayoutManagerSettings = FanLayoutManagerSettings
+                .newBuilder(this)
+                .withFanRadius(true)
+                .withAngleItemBounce(3)
+                .withViewWidthDp(140)
+                .withViewHeightDp(200)
+                .build();
+        fanLayoutManager  = new FanLayoutManager(this,fanLayoutManagerSettings);
+        recyclerView.setLayoutManager(fanLayoutManager );
+//        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         getData();
         dataObserver();
         setBottomBar();
@@ -195,7 +209,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     private void setBottomBar() {
         /**设置 setting*/
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.root_layout);
-        mScrollLayout.setMinOffset((int) (ScreenUtil.getScreenHeight(this) * 0.1));
+        mScrollLayout.setMinOffset((int) (ScreenUtil.getScreenHeight(this) * 0.45));
         mScrollLayout.setMaxOffset((int) (ScreenUtil.getScreenHeight(this) * 0.5));
         mScrollLayout.setExitOffset(ScreenUtil.dip2px(this, 15));
         mScrollLayout.setIsSupportExit(true);
@@ -434,7 +448,8 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     public void onItemClick(View view, int position, Object o) {
         if (o instanceof CityPojo) {
 //            ToastUtils.showToast("点击了"+((CityPojo) o).city);
-            PictureShowActivity.start(MapActivity.this, ((CityPojo) o));
+            fanLayoutManager.switchItem(recyclerView,position);
+            //PictureShowActivity.start(MapActivity.this, ((CityPojo) o));
 
         }
     }

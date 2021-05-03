@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/black_e8e8e8</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:typeface">monospace</item>
     </style>
     <style name="MyCheckBox" parent="AppTheme">
         <item name="colorControlNormal">#CCCCCC</item>

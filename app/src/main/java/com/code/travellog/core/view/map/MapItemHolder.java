@@ -1,8 +1,12 @@
 package com.code.travellog.core.view.map;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,11 +39,17 @@ public class MapItemHolder extends AbsItemHolder<CityPojo, MapItemHolder.ViewHol
         return new ViewHolder(view);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull CityPojo cityPojo) {
+        holder.relativeLayout.setBackgroundColor(R.color.black);
         if (!cityPojo.city.equals("")) holder.tvCity.setText(cityPojo.city);
         else holder.tvCity.setText(cityPojo.province);
         holder.tvCountry.setText(cityPojo.county);
+        AssetManager mgr = mContext.getAssets();
+        Typeface tf = Typeface.createFromAsset(mgr, "fonts/balloon.ttf");
+        holder.tvCity.setTypeface(tf);
+        holder.tvCountry.setTypeface(tf);
 //        holder.textView.setHeight(10 + 30);
     }
 
@@ -55,8 +65,10 @@ public class MapItemHolder extends AbsItemHolder<CityPojo, MapItemHolder.ViewHol
         TextView tvCountry;
         @BindView(R.id.card)
         MaterialCardView card;
-        @BindView(R.id.item_country)
-        TextView itemCountry;
+        @BindView(R.id.tv_time)
+        TextView tvTime;
+        @BindView(R.id.relativeLayout)
+        RelativeLayout relativeLayout;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

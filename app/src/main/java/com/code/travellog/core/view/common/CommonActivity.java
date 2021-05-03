@@ -23,6 +23,7 @@ import com.code.travellog.core.view.poetry.PoetryFragment;
 import com.code.travellog.core.view.styletransfer.StyletransferFragment;
 import com.code.travellog.core.view.superresolution.SuperResolutionFragment;
 import com.code.travellog.core.view.weather.WeatherFragment;
+import com.gyf.immersionbar.ImmersionBar;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.base.BaseFragment;
 
@@ -51,6 +52,7 @@ public class CommonActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void initViews(Bundle savedInstanceState) {
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         loadManager.showSuccess();
         ImageView barBack = findViewById(R.id.iv_back);
         barBack.setVisibility(View.VISIBLE);

@@ -76,6 +76,7 @@ public class PictureShowActivity extends AppCompatActivity {
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         albumFragment = (AlbumFragment) getSupportFragmentManager().findFragmentByTag("album");
         if (albumFragment == null) {
             albumFragment = new MyAlbumFragment();

@@ -22,6 +22,7 @@ import com.code.travellog.util.Base64Utils;
 import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.ToastUtils;
 import com.google.android.material.textfield.TextInputLayout;
+import com.gyf.immersionbar.ImmersionBar;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.http.HttpHelper;
 
@@ -60,6 +61,7 @@ public class ForgetPwdActivity extends BaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         ButterKnife.bind(this);
         getCaptchaAvater();
     }

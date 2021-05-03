@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.allen.library.SuperTextView;
 import com.code.travellog.R;
+import com.gyf.immersionbar.ImmersionBar;
 import com.mvvm.base.BaseActivity;
 
 import butterknife.BindView;
@@ -41,6 +42,7 @@ public class MyAlbumActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void initViews(Bundle savedInstanceState) {
         loadManager.showSuccess();
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         ButterKnife.bind(this);
         rlTitleBar.setVisibility(View.VISIBLE);
         tvTitle.setText("我的影集");

@@ -39,6 +39,8 @@
         android:requestLegacyExternalStorage="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/MyCheckBox"
+        android:resizeableActivity="true"
+        android:maxAspectRatio="2.4"
         tools:targetApi="n">
         <meta-data android:name="com.amap.api.v2.apikey"
             android:value="9778dd871a7f95d19120894df86230fb">
@@ -75,18 +77,17 @@
         <activity android:name=".core.view.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".core.view.DemoActivity"/>
         <activity
             android:name="com.code.travellog.core.view.video.VideoDetailsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.code.travellog.core.view.live.LiveDetailsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
 
         <meta-data
             android:name="com.code.travellog.glide.GlideConfig"

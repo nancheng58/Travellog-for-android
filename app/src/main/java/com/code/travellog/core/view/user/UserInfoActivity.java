@@ -26,6 +26,7 @@ import com.code.travellog.core.data.repository.UserRepository;
 import com.code.travellog.core.viewmodel.UserViewModel;
 import com.code.travellog.util.StringUtil;
 import com.code.travellog.util.ToastUtils;
+import com.gyf.immersionbar.ImmersionBar;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -111,6 +112,7 @@ public class UserInfoActivity extends AbsLifecycleActivity<UserViewModel> implem
         ivBack.setOnClickListener(this);
         validator = new Validator(this);
         validator.setValidationListener(this);
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         dataObserver();
         btnChangePwd.setOnClickListener(v -> {validator.validate();});
         superTextView.setLeftImageViewClickListener(imageView -> {

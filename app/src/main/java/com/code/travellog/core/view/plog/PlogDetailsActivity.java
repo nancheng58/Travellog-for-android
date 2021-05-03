@@ -25,6 +25,7 @@ import com.code.travellog.core.viewmodel.PlogViewModel;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.ToastUtils;
+import com.gyf.immersionbar.ImmersionBar;
 import com.mvvm.base.AbsLifecycleActivity;
 import com.mvvm.event.LiveBus;
 import com.mvvm.http.HttpHelper;
@@ -67,7 +68,7 @@ public class PlogDetailsActivity extends AbsLifecycleActivity<PlogViewModel> {
     public void initViews(Bundle savedInstanceState) {
         super.initViews(savedInstanceState);
 
-
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         weakReference = new WeakReference<>(this);
         if (getIntent() != null) {
             plogId = getIntent().getStringExtra(Constants.PLOG_ID);

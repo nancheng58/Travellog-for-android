@@ -26,6 +26,7 @@ import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.StringUtil;
 import com.code.travellog.util.ToastUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.gyf.immersionbar.ImmersionBar;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
@@ -81,6 +82,7 @@ public class LoginActivity extends AbsLifecycleActivity<UserViewModel> implement
     public void initViews(Bundle savedInstanceState) {
         App.instance().addActivity(this);
         loadManager.showSuccess();
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
         super.initViews(savedInstanceState);
         ButterKnife.bind(this);
         validator = new Validator(this);
