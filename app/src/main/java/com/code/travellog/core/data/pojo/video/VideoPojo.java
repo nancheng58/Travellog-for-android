@@ -29,6 +29,9 @@ public class VideoPojo {
         public int status ;
         public String status_msg;
         public String result_msg;
+        public int tag;
+        public int like_num;
+        public int comment_num;
     }
 /**
  {

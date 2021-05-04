@@ -36,7 +36,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * @description: 本地图片仓库
+ * @description: 本地图片仓库 ，用于获取图片和获取图片地理信息
  * @date: 2021/3/20
  */
 public class PictureRepository extends BaseRepository {
@@ -71,13 +71,14 @@ public class PictureRepository extends BaseRepository {
 
             //从数据库中取出图存入list集合中
             if (imagecursor != null && imagecursor.getCount() > 0) {
+                Log.w("图片总数"," "+imagecursor.getCount());
                 while (imagecursor.moveToNext()) {
                     int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
-                    int lanColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.LATITUDE);
+//                    int lanColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.LATITUDE);
 //                    Log.d("tgw7", "getGalleryPhotos: " + dataColumnIndex);
                     String path = imagecursor.getString(dataColumnIndex);
 //                    Float lan = imagecursor.getFloat(lanColumnIndex);
-
+                    Log.w("当前处理到："," "+dataColumnIndex);
                     exifInterface = new ExifInterface(path);
                     String lat = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
                     String lon = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);

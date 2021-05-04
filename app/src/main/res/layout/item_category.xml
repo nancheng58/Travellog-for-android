@@ -3,13 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/line_color" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/corner_view"
         android:focusable="false" />
     <View
-    android:layout_width="match_parent"
-    android:layout_height="10dp"
-    android:background="@color/line_color" />
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/line_color" />
 </LinearLayout>

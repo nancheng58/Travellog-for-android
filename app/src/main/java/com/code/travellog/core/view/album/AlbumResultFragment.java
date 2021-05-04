@@ -320,7 +320,7 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 
 	@Override
 	public View onCreateCustomView(final int index, Context context, VerticalStepperItemView parent) {
-		View inflateView = LayoutInflater.from(context).inflate(R.layout.item_vertical_stepper_sample, parent, false);
+		View inflateView = LayoutInflater.from(context).inflate(R.layout.item_vertical_stepper, parent, false);
 		TextView contentView = inflateView.findViewById(R.id.item_content);
 		contentView.setText(info[index]);
 		return inflateView;

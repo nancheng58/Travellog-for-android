@@ -77,7 +77,7 @@ public class BannerItemView extends AbsItemHolder<BannerListVo, BannerItemView.V
             }
         }).setIndicator(new CircleIndicator(mContext))
                 .setPageTransformer(new ScaleInTransformer()).setBannerRound((float) 0.3)
-        .setBannerGalleryEffect(5,10, (float) 0.3);
+        .setBannerGalleryEffect(5,3, (float) 1);
 //        holder.mBannerView.delayTime(5).setBannerView(() -> {
 //            List<ImageView> imageViewList = new ArrayList<>();
 //            for (int i = 0; i < bannerAdListVo.images.size(); i++) {

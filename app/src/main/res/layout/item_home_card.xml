@@ -10,7 +10,9 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/corner_view"
+
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -22,9 +24,8 @@
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                app:srcCompat="@drawable/home_button2"
-                android:scaleType="centerCrop"
+                android:layout_height="100dp"
+                android:scaleType="centerInside"
                 android:contentDescription="@string/define_AndroidIconics"
                 />
 
@@ -41,13 +42,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="制作影集"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
                     />
                 <TextView
                     android:id="@+id/secondtext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
+                    android:textSize="12dp"
+                    android:layout_gravity="center_horizontal"
+
                     android:text="制作令人惊艳的影集"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="?android:attr/textColorSecondary"
@@ -56,4 +62,8 @@
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/line_color" />
 </LinearLayout>

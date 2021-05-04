@@ -31,7 +31,7 @@ public class PlogRemItemHolder extends AbsItemHolder<PlogPojo, PlogRemItemHolder
 
     @Override
     public int getLayoutResId() {
-        return R.layout.item_plog;
+        return R.layout.item_home_plog;
     }
 
     @Override

@@ -349,9 +349,11 @@ public class ClusterOverlay implements AMap.OnCameraChangeListener,
             if (mClusterRender != null && mClusterRender.getDrawAble(num) != null) {
                 textView.setBackgroundDrawable(mClusterRender.getDrawAble(num));
             } else {
-                textView.setBackgroundResource(R.drawable.defaultcluster);
+//                textView.setBackgroundResource(R.drawable.defaultcluster);
             }
             bitmapDescriptor = BitmapDescriptorFactory.fromView(textView);
+            Log.w("MapCluster","num: "+num+", bitmapDescriptor ID:" +textView.toString());
+            if(bitmapDescriptor!=null)
             mLruCache.put(num, bitmapDescriptor);
 
         }

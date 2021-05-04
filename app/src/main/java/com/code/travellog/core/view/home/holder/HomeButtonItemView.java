@@ -50,7 +50,7 @@ public class HomeButtonItemView extends AbsItemHolder<ButtonPojo, HomeButtonItem
             layoutParams.setFullSpan(true);
         }
         if (buttonPojo.id == 2) {
-            Glide.with(mContext).load(R.drawable.home_button2).placeholder(R.color.black_e8e8e8).into(holder.image);
+            Glide.with(mContext).load(R.drawable.vlogcard).placeholder(R.color.black_e8e8e8).into(holder.image);
             holder.title.setText("VLog制作");
             holder.secondtext.setText("制作惊艳的VLog影集");
             holder.card.setOnClickListener(v -> {
@@ -58,7 +58,7 @@ public class HomeButtonItemView extends AbsItemHolder<ButtonPojo, HomeButtonItem
                 mContext.startActivity(intent);
             });
         }else if (buttonPojo.id == 1){
-            Glide.with(mContext).load(R.drawable.home_button1).placeholder(R.color.black_e8e8e8).into(holder.image);
+            Glide.with(mContext).load(R.drawable.plogcard).placeholder(R.color.black_e8e8e8).into(holder.image);
             holder.title.setText("PLog制作");
             holder.secondtext.setText("分享时下流行的Plog");
             holder.card.setOnClickListener(v -> {
@@ -66,7 +66,7 @@ public class HomeButtonItemView extends AbsItemHolder<ButtonPojo, HomeButtonItem
                 mContext.startActivity(intent);
             });
         } else if (buttonPojo.id == 3){
-            Glide.with(mContext).load(R.drawable.home_button3).placeholder(R.color.black_e8e8e8).into(holder.image);
+            Glide.with(mContext).load(R.drawable.footprintcard).placeholder(R.color.black_e8e8e8).into(holder.image);
             holder.title.setText("足迹地图");
             holder.secondtext.setText("查看个性化旅游回忆");
             holder.card.setOnClickListener(v -> {

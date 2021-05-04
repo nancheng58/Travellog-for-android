@@ -103,7 +103,7 @@ public interface ApiService {
     @FormUrlEncoded
     Flowable<CityResultPojo> getCity(@Field("longitude") String longitude,@Field("latitude") String latitude);
 
-    @GET(URL.BASE_URL2+"forum/movie/")
+    @GET(URL.BASE_URL2+"movie/all")
     Flowable<VideoListPojo> getVideoList();
 
     @GET(URL.PLOG_URL+"new")

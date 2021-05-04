@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -72,14 +73,14 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     @BindView(R.id.map)
     MapView map;
     AMap aMap;
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
-    @BindView(R.id.iv_search)
-    ImageView ivSearch;
-    @BindView(R.id.rl_title_bar)
-    RelativeLayout rlTitleBar;
+//    @BindView(R.id.iv_back)
+//    ImageView ivBack;
+//    @BindView(R.id.tv_title)
+//    TextView tvTitle;
+//    @BindView(R.id.iv_search)
+//    ImageView ivSearch;
+//    @BindView(R.id.rl_title_bar)
+//    RelativeLayout rlTitleBar;
     @BindView(R.id.list_view)
     ContentRecyclerView listView;
     @BindView(R.id.text_foot)
@@ -209,9 +210,9 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     private void setBottomBar() {
         /**设置 setting*/
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.root_layout);
-        mScrollLayout.setMinOffset((int) (ScreenUtil.getScreenHeight(this) * 0.45));
+        mScrollLayout.setMinOffset((int) (ScreenUtil.getScreenHeight(this) * 0.6));
         mScrollLayout.setMaxOffset((int) (ScreenUtil.getScreenHeight(this) * 0.5));
-        mScrollLayout.setExitOffset(ScreenUtil.dip2px(this, 15));
+        mScrollLayout.setExitOffset(ScreenUtil.dip2px(this, 5));
         mScrollLayout.setIsSupportExit(true);
         mScrollLayout.setAllowHorizontalScroll(false);
         mScrollLayout.setOnScrollChangedListener(mOnScrollChangedListener);
@@ -241,7 +242,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
                 } else if (precent < 0) {
                     precent = 0;
                 }
-                mScrollLayout.getBackground().setAlpha(255 - (int) precent);
+                mScrollLayout.getBackground().setAlpha((255 - (int) precent)/2);
             }
             if (text_foot.getVisibility() == View.VISIBLE)
                 text_foot.setVisibility(View.GONE);
@@ -411,9 +412,9 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         if (clusterNum == 1) {
             Drawable bitmapDrawable = mBackDrawAbles.get(1);
             if (bitmapDrawable == null) {
-                bitmapDrawable =
-                        getApplication().getResources().getDrawable(
-                                R.drawable.flag_position);
+                bitmapDrawable = ResourcesCompat.getDrawable(getResources(),R.drawable.local_small,null);
+//                        getApplication().getResources().getDrawable(
+//                                R.drawable.local_small);
                 mBackDrawAbles.put(1, bitmapDrawable);
             }
 
@@ -422,9 +423,10 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         else {
             Drawable bitmapDrawable = mBackDrawAbles.get(4);
             if (bitmapDrawable == null) {
-                bitmapDrawable =
-                        getApplication().getResources().getDrawable(
-                                R.drawable.defaultcluster);
+                bitmapDrawable = ResourcesCompat.getDrawable(getResources(),R.drawable.local_big,null);
+//                bitmapDrawable =
+//                        getApplication().getResources().getDrawable(
+//                                R.drawable.local_big);
 //                bitmapDrawable = new BitmapDrawable(null, drawCircle(radius,
 //                        Color.argb(235, 215, 66, 2)));
                 mBackDrawAbles.put(4, bitmapDrawable);

@@ -64,7 +64,14 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
 //                .setAdapter(new BannerItemView(DataBean.getTestData()))
 //                .setIndicator(new CircleIndicator(this));
     }
-
+    @Override
+    public int getLayoutResId() {
+        return R.layout.fragment_home;
+    }
+    @Override
+    public int getContentResId() {
+        return R.id.refresh_layout;
+    }
     /**
      * @description 注册数据观察者，将Repository获取的数据homeMergeVo返回到View
      * @param

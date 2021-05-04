@@ -3,23 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root_layout">
-    <include layout="@layout/item_title_layout"/>
     <com.amap.api.maps.MapView
-
         android:id="@+id/map"
-
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-        android:layout_height="match_parent"/>
     <com.yinglan.scrolllayout.ScrollLayout
         android:id="@+id/scroll_down_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
             >
 
             <com.yinglan.scrolllayout.content.ContentRecyclerView
@@ -32,12 +31,12 @@
                 android:id="@+id/text_foot"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/blue"
-
+                android:background="@drawable/corner_view_blue"
                 android:clickable="true"
                 android:gravity="center"
+
                 android:text="点击或上滑打开足迹列表"
-                android:textColor=""/>
+                />
 
 
         </RelativeLayout>
