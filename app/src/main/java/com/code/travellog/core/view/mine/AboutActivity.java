@@ -51,7 +51,7 @@ public class AboutActivity extends MaterialAboutActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         setTheme(R.style.AppTheme_MaterialAboutActivity_Light);
-        ImmersionBar.with(this).statusBarDarkFont(true).init();
+//        ImmersionBar.with(this).statusBarDarkFont(true).init();
 //        switch (getIntent().getIntExtra(THEME_EXTRA, THEME_LIGHT)) {
 //            case THEME_LIGHT:
 //                setTheme(R.style.AppTheme_MaterialAboutActivity_Light);

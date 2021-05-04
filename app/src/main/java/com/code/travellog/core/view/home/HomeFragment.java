@@ -4,12 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
+import android.util.Log;
 import android.view.View;
 
 import com.adapter.adapter.DelegateAdapter;
 import com.adapter.listener.OnItemClickListener;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.code.travellog.R;
+import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.album.AlbumPojo;
+import com.code.travellog.core.data.pojo.banner.BannerListVo;
+import com.code.travellog.core.data.pojo.banner.BannerVo;
 import com.code.travellog.core.data.pojo.common.TypeVo;
 import com.code.travellog.core.data.pojo.home.ButtonPojo;
 import com.code.travellog.core.data.pojo.plog.PlogPojo;
@@ -18,10 +26,20 @@ import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.home.CategoryVo;
 import com.code.travellog.core.data.pojo.home.HomeMergePojo;
 import com.code.travellog.core.data.repository.HomeRepository;
+import com.code.travellog.core.view.base.widget.banner.BannerItemView;
 import com.code.travellog.core.view.plog.PlogDetailsActivity;
 import com.code.travellog.core.view.video.VideoDetailsActivity;
 import com.code.travellog.core.viewmodel.HomeViewModel;
 import com.code.travellog.core.view.AdapterPool;
+import com.youth.banner.Banner;
+import com.youth.banner.adapter.BannerImageAdapter;
+import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.indicator.CircleIndicator;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -34,13 +52,17 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
-
+    public Banner banner;
     @Override
     public void initView(final Bundle state) {
         super.initView(state);
         setTitle(getResources().getString(R.string.home_title_name));
         refreshHelper.setEnableLoadMore(false);
         loadManager.showSuccess();
+        banner = new Banner(activity);
+//        banner.addBannerLifecycleObserver(this)//添加生命周期观察者
+//                .setAdapter(new BannerItemView(DataBean.getTestData()))
+//                .setIndicator(new CircleIndicator(this));
     }
 
     /**
@@ -62,7 +84,9 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
 
     @Override
     protected RecyclerView.LayoutManager createLayoutManager() {
-            return new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        return layoutManager;
     }
 
     @Override
@@ -81,6 +105,7 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
         if (isRefresh) {
             mItems.clear();
         }
+
         mItems.add(homeMergePojo.bannerListVo);
         mItems.add(new CategoryVo("title"));
         mItems.add(new ButtonPojo(1));
@@ -89,11 +114,11 @@ public class HomeFragment extends BaseListFragment<HomeViewModel> implements OnI
 
         if (homeMergePojo.albumListPojo.data ==null) return;
         if (homeMergePojo.albumListPojo.data.movie_num > 0) {
-            mItems.add(new TypeVo(getResources().getString(R.string.home_album_list)));
+            mItems.add(new TypeVo("  "+getResources().getString(R.string.home_album_list)));
             mItems.addAll(homeMergePojo.albumListPojo.data.movies);
         }
         if (homeMergePojo.plogListPojo.data.photo_num > 0) {
-            mItems.add(new TypeVo(getResources().getString(R.string.home_plog_list)));
+            mItems.add(new TypeVo("  "+getResources().getString(R.string.home_plog_list)));
             mItems.addAll(homeMergePojo.plogListPojo.data.photos);
         }
         setData();

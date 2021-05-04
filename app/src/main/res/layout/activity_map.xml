@@ -14,12 +14,13 @@
     <com.yinglan.scrolllayout.ScrollLayout
         android:id="@+id/scroll_down_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000000">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+
+            >
 
             <com.yinglan.scrolllayout.content.ContentRecyclerView
                 android:id="@+id/list_view"
@@ -32,9 +33,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/blue"
+
                 android:clickable="true"
                 android:gravity="center"
-                android:text="点击或上滑打开足迹列表" />
+                android:text="点击或上滑打开足迹列表"
+                android:textColor=""/>
 
 
         </RelativeLayout>

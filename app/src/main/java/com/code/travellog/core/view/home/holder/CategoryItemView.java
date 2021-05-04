@@ -35,11 +35,10 @@ public class CategoryItemView extends AbsItemHolder<CategoryVo, CategoryItemView
                 mContext.getResources().getString(R.string.color_extraction),
                 mContext.getResources().getString(R.string.poetry_generation),
                 mContext.getResources().getString(R.string.style_transfer_name),
-                mContext.getResources().getString(R.string.image_supervision),
                 mContext.getResources().getString(R.string.object_detection),
-                mContext.getResources().getString(R.string.super_resolution),
-                mContext.getResources().getString(R.string.activity_title_name)};
-        tvIcons = new int[]{R.drawable.dynamic_icon, R.drawable.work_icon, R.drawable.article_icon, R.drawable.follow_draw_icon, R.drawable.live_icon, R.drawable.book_icon, R.drawable.qa_icon, R.drawable.activities_icon};
+                mContext.getResources().getString(R.string.super_resolution)
+        };
+        tvIcons = new int[]{R.drawable.weather_icon, R.drawable.color_icon, R.drawable.poem_icon, R.drawable.style_icon, R.drawable.object_icon, R.drawable.super_icon};
         initData();
         adapter = new HomeCategoryAdapter(mContext, list, 0);
     }
@@ -57,7 +56,7 @@ public class CategoryItemView extends AbsItemHolder<CategoryVo, CategoryItemView
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull CategoryVo categoryTop) {
-        GridLayoutManager layoutManager = new GridLayoutManager(mContext, 4);
+        GridLayoutManager layoutManager = new GridLayoutManager(mContext, 3);
         holder.recyclerView.setLayoutManager(layoutManager);
         holder.recyclerView.setAdapter(adapter);
         holder.recyclerView.setNestedScrollingEnabled(false);

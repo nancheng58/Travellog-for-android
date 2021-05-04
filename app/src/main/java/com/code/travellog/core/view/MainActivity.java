@@ -81,13 +81,14 @@ public class MainActivity extends BaseActivity {
     private void initNavBar() {
         BottomNavigationBar mBottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
-        mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
+        mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT);
         mBottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.tab_home_icon, R.string.home_title_name).setInactiveIconResource(R.mipmap.tab_home_icon_def))
-                .addItem(new BottomNavigationItem(R.mipmap.tab_works_icon, R.string.work_title_name).setInactiveIconResource(R.mipmap.tab_works_icon_def))
-                .addItem(new BottomNavigationItem(R.mipmap.tab_course_icon, R.string.video_title_name).setInactiveIconResource(R.mipmap.tab_course_icon_def))
-                .addItem(new BottomNavigationItem(R.mipmap.tab_mine_icon, R.string.mine_title_name).setInactiveIconResource(R.mipmap.tab_mine_icon_def))
+                .addItem(new BottomNavigationItem(R.drawable.ball, R.string.home_title_name).setInactiveIconResource(R.drawable.ball_def))
+                .addItem(new BottomNavigationItem(R.drawable.plog, R.string.work_title_name).setInactiveIconResource(R.drawable.plog_def))
+                .addItem(new BottomNavigationItem(R.drawable.jia, R.string.video_title_name).setInactiveIconResource(R.drawable.jia_def))
+                .addItem(new BottomNavigationItem(R.drawable.mine, R.string.mine_title_name).setInactiveIconResource(R.drawable.mine_def))
                 .setFirstSelectedPosition(0)
+                .setActiveColor(R.color.blue)
                 .initialise();
         mBottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override

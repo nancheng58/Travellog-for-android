@@ -10,6 +10,7 @@
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_marginTop="25dp"
         android:background="@color/white">
 
         <ImageView

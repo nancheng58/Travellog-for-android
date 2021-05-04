@@ -50,13 +50,16 @@ public class HomeButtonItemView extends AbsItemHolder<ButtonPojo, HomeButtonItem
             layoutParams.setFullSpan(true);
         }
         if (buttonPojo.id == 2) {
+            Glide.with(mContext).load(R.drawable.home_button2).placeholder(R.color.black_e8e8e8).into(holder.image);
+            holder.title.setText("VLog制作");
+            holder.secondtext.setText("制作惊艳的VLog影集");
             holder.card.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, MakeAlbumActivity.class);
                 mContext.startActivity(intent);
             });
         }else if (buttonPojo.id == 1){
             Glide.with(mContext).load(R.drawable.home_button1).placeholder(R.color.black_e8e8e8).into(holder.image);
-            holder.title.setText("制作Plog");
+            holder.title.setText("PLog制作");
             holder.secondtext.setText("分享时下流行的Plog");
             holder.card.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, MakePlogActivity.class);

@@ -114,5 +114,5 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.7.0'
     implementation 'com.czp.arcProgressBar:ArcProgressBar:1.0.1'
     implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
-    implementation 'com.github.zhpanvip:BannerViewPager:3.5.0'
+    implementation 'com.youth.banner:banner:2.1.0'
 }

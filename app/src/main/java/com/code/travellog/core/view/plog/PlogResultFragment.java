@@ -28,6 +28,7 @@ import com.code.travellog.util.FileUitl;
 import com.code.travellog.util.JsonUtils;
 import com.code.travellog.util.ToastUtils;
 import com.google.android.material.snackbar.Snackbar;
+import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.mvvm.base.AbsLifecycleFragment;
 
@@ -75,8 +76,9 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 		super.onViewCreated(view,savedInstanceState);
 		mVerticalStepperView = view.findViewById(R.id.vertical_stepper_view);
 		Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+		ImmersionBar.with(this).statusBarDarkFont(true).init();
+		toolbar.setTitle("");
 
-		toolbar.setTitle("Plog生成结果");
 //		getActivity().setSupportActionBar(toolbar);
 		mVerticalStepperView.setStepperAdapter(this);
 		info[0] = "图片收集";

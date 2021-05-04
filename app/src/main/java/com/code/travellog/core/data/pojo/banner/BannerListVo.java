@@ -8,6 +8,6 @@ public class BannerListVo
     public List<String> images;
 
     public BannerListVo(List<String> image) {
-        this.images = images;
+        this.images = image;
     }
 }

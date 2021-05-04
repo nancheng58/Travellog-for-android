@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.code.travellog.core.view.base.widget.banner.BannerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/banner"
-    android:layout_width="match_parent"
-    android:focusable="false"
-    android:layout_height ="150dp" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <com.youth.banner.Banner
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+</RelativeLayout>

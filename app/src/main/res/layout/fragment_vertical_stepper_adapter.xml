@@ -2,29 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
+
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-			  >
+              android:layout_height="match_parent">
 	<FrameLayout
+
         android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1" />
 	<com.google.android.material.appbar.AppBarLayout
+
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="?attr/colorPrimary"
+		android:background="@color/blue"
 		android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
 		app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
 		<androidx.appcompat.widget.Toolbar
 			android:id="@+id/toolbar"
+			android:layout_marginTop="@dimen/dp20"
 			android:gravity="center_horizontal"
+			android:layout_gravity="center_horizontal"
 			android:layout_width="match_parent"
 			android:background="@color/blue"
-			android:layout_height="?attr/actionBarSize"/>
+			android:layout_height="?attr/actionBarSize">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:layout_gravity="center"
+			android:text="Plog生成结果"
+			android:textColor="@android:color/white"
+			android:textSize="20sp" />
+		</androidx.appcompat.widget.Toolbar>
 
 	</com.google.android.material.appbar.AppBarLayout>
 	<moe.feng.common.stepperview.VerticalStepperView
+
 			android:id="@+id/vertical_stepper_view"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"

@@ -3,15 +3,10 @@ package com.code.travellog.core.view;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.code.travellog.R;
-import com.czp.library.ArcProgress;
 import com.mvvm.base.BaseActivity;
 
 import butterknife.BindView;
@@ -29,7 +24,7 @@ public class DemoActivity extends BaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_demo;
+        return R.layout.activity_launch;
     }
 
     @Override

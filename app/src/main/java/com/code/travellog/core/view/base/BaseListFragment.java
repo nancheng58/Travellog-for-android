@@ -4,6 +4,8 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -160,6 +162,11 @@ public abstract class BaseListFragment<T extends AbsViewModel> extends AbsLifecy
         @Override
         public void onScrollStateChanged(@NotNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
+//            adapter.notifyDataSetChanged();
+//            if(recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager){
+//                re
+//            }
+            // 回收
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                 if (activity != null) {
                     Glide.with(activity).resumeRequests();
