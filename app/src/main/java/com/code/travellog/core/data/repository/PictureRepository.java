@@ -44,11 +44,13 @@ public class PictureRepository extends BaseRepository {
     public static final int currentLevel =13;
     public static String EVENT_KEY_PICEXIF = null ;
     public static String EVENT_KEY_PICPATH = null ;
+    public static String EVENT_KEY_PICPROGRESS = null ;
     public static String ENTER_KEY_GEO = null;
     public static String ENTER_KEY_CITYLIST = null;
     public PictureRepository() {
         if(EVENT_KEY_PICEXIF == null) EVENT_KEY_PICEXIF = StringUtil.getEventKey();
         if(EVENT_KEY_PICPATH == null) EVENT_KEY_PICPATH = StringUtil.getEventKey();
+        if(EVENT_KEY_PICPROGRESS == null) EVENT_KEY_PICPROGRESS = StringUtil.getEventKey();
         if(ENTER_KEY_GEO == null) ENTER_KEY_GEO = StringUtil.getEventKey();
         if(ENTER_KEY_CITYLIST == null) ENTER_KEY_CITYLIST = StringUtil.getEventKey();
     }
@@ -100,7 +102,7 @@ public class PictureRepository extends BaseRepository {
         postState(StateConstants.SUCCESS_STATE);
     }
 
-    public void getGalleryExif(ContentResolver resolver) throws IOException {
+    public void getGalleryExif(ContentResolver resolver,int type) throws IOException {
 
         ArrayList<PictureExifPojo> galleryList0,galleryList;
         MMKV mmkv = MMKV.defaultMMKV();
@@ -108,9 +110,7 @@ public class PictureRepository extends BaseRepository {
         String decodeStrings= mmkv.decodeString ("GalleryExif");
         Gson gson = new Gson();
         galleryList0 = gson.fromJson(decodeStrings,new TypeToken<ArrayList<PictureExifPojo>>() {}.getType());
-//        galleryList0 = JsonUtils.jsonToArrayList(decodeStrings);
-
-        if (decodeStrings != null && galleryList0 != null && galleryList0.size() != 0){
+        if (type!=0 &&decodeStrings != null && galleryList0 != null && galleryList0.size() != 0){
             Log.w("mmkv0",decodeStrings);
             Log.w("MMKV",galleryList0.toString());
             LiveBus.getDefault().postEvent(EVENT_KEY_PICEXIF,galleryList0);
@@ -119,23 +119,29 @@ public class PictureRepository extends BaseRepository {
         galleryList  = new ArrayList<PictureExifPojo>();
 
         String DCIMPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()+"/Camera/";
-        new Thread(()->{
-            ExifInterface exifInterface  = null;
+        new Thread(()->{ // 新建工作线程
+            ExifInterface exifInterface;
             try {
             //获取所在相册和相册id
             final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
             //按照id排序
             final String orderBy = MediaStore.Images.Media._ID;
             //相当于sql语句默认升序排序orderBy，如果降序则最后一位参数是是orderBy+" desc "
-            Cursor imagecursor =
+            @SuppressLint("Recycle") Cursor imagecursor =
                     resolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
                             null, orderBy);
             //从数据库中取出图存入list集合中
             if (imagecursor != null && imagecursor.getCount() > 0) {
-
+                Log.w("图片总数"," "+imagecursor.getCount());
+                float[] a = new float[2];int index = 0 ;
                 while (imagecursor.moveToNext()) {
                     int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
 //                            int lanColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.LATITUDE);
+                    index++;
+//                    Log.w("当前处理到："," "+ ++index);
+                    if(type == 0){  // 动画界面调用，返回当前进度
+                        LiveBus.getDefault().postEvent(EVENT_KEY_PICPROGRESS,index);
+                    }
                     String path = imagecursor.getString(dataColumnIndex);
                     if(Build.VERSION.SDK_INT==Build.VERSION_CODES.R){
                         Uri uri = Uri.fromFile(new File(path));
@@ -145,8 +151,6 @@ public class PictureRepository extends BaseRepository {
                     }else {
                         exifInterface = new ExifInterface(path);
                     }
-//                    exifInterface = new ExifInterface(path);
-                    float a[] = new float[2];
                     exifInterface.getLatLong(a);
 //                    String lat = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);
 //                    String lon = exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE);
@@ -158,9 +162,6 @@ public class PictureRepository extends BaseRepository {
                     if(a[0] != 0.0 && a[1] != 0.0){
                         PictureExifPojo pictureExifPojo = new PictureExifPojo() ;
                         pictureExifPojo.path = path ;
-
-//                                pictureExifPojo.lan = GeoUtil.convertRationalLatLonToFloat(lat,latRef);
-//                                pictureExifPojo.lon = GeoUtil.convertRationalLatLonToFloat(lon,lngRef);
                         pictureExifPojo.lan = (double) a[0];
                         pictureExifPojo.lon = (double) a[1];
                         galleryList.add(pictureExifPojo);
@@ -176,8 +177,8 @@ public class PictureRepository extends BaseRepository {
             Log.w("toJosn",json);
             mmkv.encode("GalleryExif",json);
         }).start();
-
     }
+    // Google S2 实现
     public void getGeoExif(ArrayList<PictureExifPojo> galleryList) {
 
         GeoPojo geoPojo = new GeoPojo();
@@ -210,8 +211,8 @@ public class PictureRepository extends BaseRepository {
 
 
     }
-
-    public void getCityList(GeoPojo geoPojo ) {
+    // 逆地址编码
+    public void getCityList(GeoPojo geoPojo) {
 
 //        GeoPojo geoPojo  = getGeoExif(resolver);
         HashMap<Long, GeoPojo.DataBean> geo = geoPojo.geo;
@@ -255,22 +256,25 @@ public class PictureRepository extends BaseRepository {
         cityListPojo.cityPojos = new ArrayList<>() ;
         HashMap<String,CityPojo> map = new HashMap<>();
         CityPojo cityPojo;
-        int total = geo.size() , i = 0;
+        int total = geo.size() , i = 0,id = 0;
         for (Long cellid :geo.keySet()){
             GeoPojo.DataBean dataBean = geo.get(cellid);
             assert dataBean != null;
             dataBean.province = cityListResultPojo.data.get(i).province;
             dataBean.city = cityListResultPojo.data.get(i).city;
             dataBean.county = cityListResultPojo.data.get(i).county;
+            dataBean.imageUrl = cityListResultPojo.data.get(i).image;
             cityPojo = map.get(dataBean.county);
             if(cityPojo==null){
                 cityPojo  = new CityPojo() ;
+                cityPojo.id = id++;
                 cityPojo.city = dataBean.city ;
                 cityPojo.county = dataBean.county ;
                 cityPojo.province = dataBean.province ;
                 cityPojo.lan = dataBean.lan;
                 cityPojo.lng  = dataBean.lng;
                 cityPojo.path = dataBean.path ;
+                cityPojo.imageUrl = dataBean.imageUrl;
                 cityListPojo.cityPojos.add(cityPojo);
                 map.put(cityPojo.county,cityPojo);
             }
@@ -283,5 +287,28 @@ public class PictureRepository extends BaseRepository {
         LiveBus.getDefault().postEvent(ENTER_KEY_CITYLIST,cityListPojo);
         postState(StateConstants.SUCCESS_STATE);
     }
+    public boolean isCache(){
+        ArrayList<PictureExifPojo> galleryList0;
+        MMKV mmkv = MMKV.defaultMMKV();
 
+        String decodeStrings= mmkv.decodeString ("GalleryExif");
+        Gson gson = new Gson();
+        galleryList0 = gson.fromJson(decodeStrings,new TypeToken<ArrayList<PictureExifPojo>>() {}.getType());
+        if (decodeStrings != null && galleryList0 != null && galleryList0.size() != 0){
+            Log.w("MMKV",galleryList0.toString());
+            return true;
+        }
+        else return false ;
+    }
+    public int getPictureCount(ContentResolver resolver){
+        //获取所在相册和相册id
+        final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
+        //按照id排序
+        final String orderBy = MediaStore.Images.Media._ID;
+        //相当于sql语句默认升序排序orderBy，如果降序则最后一位参数是是orderBy+" desc "
+        @SuppressLint("Recycle") Cursor imagecursor =
+                resolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
+                        null, orderBy);
+        return imagecursor.getCount();
+    }
 }

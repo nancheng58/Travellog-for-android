@@ -21,8 +21,8 @@ public class PictureViewModel extends AbsViewModel<PictureRepository> {
     public PictureViewModel(@NonNull Application application) {
         super(application);
     }
-    public void getGalleryExif(ContentResolver contentResolver) throws IOException {
-        mRepository.getGalleryExif(contentResolver);
+    public void getGalleryExif(ContentResolver contentResolver,int type) throws IOException {
+        mRepository.getGalleryExif(contentResolver,type);
     }
     public void getGeoExif(ArrayList<PictureExifPojo> arrayList){
         mRepository.getGeoExif(arrayList);
@@ -32,5 +32,11 @@ public class PictureViewModel extends AbsViewModel<PictureRepository> {
     }
     public void getCityList(GeoPojo geoPojo)  {
         mRepository.getCityList(geoPojo);
+    }
+    public boolean getIscache(){
+        return mRepository.isCache();
+    }
+    public int getPictureCount(ContentResolver contentResolver){
+        return mRepository.getPictureCount(contentResolver);
     }
 }

@@ -52,8 +52,7 @@ public class StyletransferFragment extends AbsLifecycleFragment<ApiViewModel> {
     ImageView ivBack;
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_search)
-    ImageView ivSearch;
+
     //    @BindView(R.id.rl_title_bar)
 //    RelativeLayout rlTitleBar;
     @BindView(R.id.image)

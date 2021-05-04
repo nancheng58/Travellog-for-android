@@ -55,8 +55,7 @@ public class UserInfoActivity extends AbsLifecycleActivity<UserViewModel> implem
     ImageView ivBack;
     @BindView(R.id.tv_title)
     TextView mTitle;
-    @BindView(R.id.iv_search)
-    ImageView ivSearch;
+
     @BindView(R.id.rl_title_bar)
     RelativeLayout mTitleBar;
     @BindView(R.id.btn_logout)

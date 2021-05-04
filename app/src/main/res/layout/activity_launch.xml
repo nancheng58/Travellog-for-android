@@ -9,7 +9,7 @@
             android:id="@+id/lottie_imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:lottie_fileName="data.json"
-            app:lottie_imageAssetsFolder="footprint/images/"
+            app:lottie_fileName="lottie_launch_data.json"
+            app:lottie_imageAssetsFolder="lottie/launch/"
             />
 </LinearLayout>

@@ -16,6 +16,7 @@ import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.home.ButtonPojo;
 import com.code.travellog.core.view.album.MakeAlbumActivity;
 import com.code.travellog.core.view.map.MapActivity;
+import com.code.travellog.core.view.map.MapAnimationActivity;
 import com.code.travellog.core.view.plog.MakePlogActivity;
 import com.google.android.material.card.MaterialCardView;
 
@@ -70,7 +71,7 @@ public class HomeButtonItemView extends AbsItemHolder<ButtonPojo, HomeButtonItem
             holder.title.setText("足迹地图");
             holder.secondtext.setText("查看个性化旅游回忆");
             holder.card.setOnClickListener(v -> {
-                Intent intent = new Intent(mContext, MapActivity.class);
+                Intent intent = new Intent(mContext, MapAnimationActivity.class);
                 mContext.startActivity(intent);
             });
         }

@@ -15,17 +15,13 @@
         android:layout_alignParentBottom="true"
         android:background="@color/black">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/blue"
-            >
 
             <com.yinglan.scrolllayout.content.ContentRecyclerView
                 android:id="@+id/list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/white"></com.yinglan.scrolllayout.content.ContentRecyclerView>
+
+                android:background="@android:color/white"/>
 
             <TextView
                 android:id="@+id/text_foot"
@@ -35,11 +31,9 @@
                 android:clickable="true"
                 android:gravity="center"
 
-                android:text="点击或上滑打开足迹列表"
+                android:text="点击或上滑打开足迹城市列表"
                 />
 
-
-        </RelativeLayout>
 
     </com.yinglan.scrolllayout.ScrollLayout>
 </RelativeLayout>

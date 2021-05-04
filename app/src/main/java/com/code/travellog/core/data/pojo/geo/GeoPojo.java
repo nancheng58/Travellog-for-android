@@ -20,6 +20,7 @@ public class GeoPojo {
         public String province ;
         public String city ;
         public String county ;
+        public String imageUrl;
         public ArrayList<String> path ;
     }
 }

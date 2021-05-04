@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,7 +15,9 @@ import androidx.annotation.NonNull;
 
 import com.adapter.holder.AbsHolder;
 import com.adapter.holder.AbsItemHolder;
+import com.bumptech.glide.Glide;
 import com.code.travellog.R;
+import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.geo.CityPojo;
 import com.google.android.material.card.MaterialCardView;
 
@@ -29,9 +33,10 @@ public class MapItemHolder extends AbsItemHolder<CityPojo, MapItemHolder.ViewHol
         this.mContext = mContext;
     }
 
+    private static int [] color = {R.color.gold,R.color.chocolate,R.color.blue,R.color.purple,R.color.forestgreen};
     @Override
     public int getLayoutResId() {
-        return R.layout.item_listview;
+        return R.layout.item_map_list;
     }
 
     @Override
@@ -42,10 +47,12 @@ public class MapItemHolder extends AbsItemHolder<CityPojo, MapItemHolder.ViewHol
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull CityPojo cityPojo) {
-        holder.relativeLayout.setBackgroundColor(R.color.black);
+        Log.w("ididid",""+cityPojo.id);
+        holder.relativeLayout.setBackgroundResource(color[cityPojo.id%5]);
         if (!cityPojo.city.equals("")) holder.tvCity.setText(cityPojo.city);
         else holder.tvCity.setText(cityPojo.province);
         holder.tvCountry.setText(cityPojo.county);
+        Glide.with(mContext).load(URL.IMAGE_URL+cityPojo.imageUrl).into(holder.image);
         AssetManager mgr = mContext.getAssets();
         Typeface tf = Typeface.createFromAsset(mgr, "fonts/balloon.ttf");
         holder.tvCity.setTypeface(tf);
@@ -68,7 +75,7 @@ public class MapItemHolder extends AbsItemHolder<CityPojo, MapItemHolder.ViewHol
         @BindView(R.id.tv_time)
         TextView tvTime;
         @BindView(R.id.relativeLayout)
-        RelativeLayout relativeLayout;
+        LinearLayout relativeLayout;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

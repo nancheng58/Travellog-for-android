@@ -22,9 +22,11 @@ import com.adapter.adapter.DelegateAdapter;
 import com.adapter.adapter.ItemData;
 import com.adapter.listener.OnItemClickListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapOptions;
 import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
@@ -73,18 +75,8 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     @BindView(R.id.map)
     MapView map;
     AMap aMap;
-//    @BindView(R.id.iv_back)
-//    ImageView ivBack;
-//    @BindView(R.id.tv_title)
-//    TextView tvTitle;
-//    @BindView(R.id.iv_search)
-//    ImageView ivSearch;
-//    @BindView(R.id.rl_title_bar)
-//    RelativeLayout rlTitleBar;
     @BindView(R.id.list_view)
     ContentRecyclerView listView;
-    @BindView(R.id.text_foot)
-    TextView textFoot;
     @BindView(R.id.scroll_down_layout)
     ScrollLayout scrollDownLayout;
     @BindView(R.id.root_layout)
@@ -114,6 +106,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        loadManager.showSuccess();
         ImmersionBar.with(this).statusBarDarkFont(true).init();
         // 设置了一个可视范围的初始化位置
         // CameraPosition 第一个参数： 目标位置的屏幕中心点经纬度坐标。
@@ -146,7 +139,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
                 .withViewHeightDp(200)
                 .build();
         fanLayoutManager  = new FanLayoutManager(this,fanLayoutManagerSettings);
-        recyclerView.setLayoutManager(fanLayoutManager );
+        recyclerView.setLayoutManager(fanLayoutManager);
 //        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         getData();
         dataObserver();
@@ -183,6 +176,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             init();
             mViewModel.getCityList(geoPojo);
         });
+        // 城市列表
         registerSubscriber(PictureRepository.ENTER_KEY_CITYLIST, CityListPojo.class).observe(this, cityListPojo -> {
             this.cityListPojo = cityListPojo.cityPojos;
             setUiData(cityListPojo.cityPojos);
@@ -200,68 +194,12 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         } else {
             try {
-                mViewModel.getGalleryExif(getContentResolver());
+                mViewModel.getGalleryExif(getContentResolver(),1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-
-    private void setBottomBar() {
-        /**设置 setting*/
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.root_layout);
-        mScrollLayout.setMinOffset((int) (ScreenUtil.getScreenHeight(this) * 0.6));
-        mScrollLayout.setMaxOffset((int) (ScreenUtil.getScreenHeight(this) * 0.5));
-        mScrollLayout.setExitOffset(ScreenUtil.dip2px(this, 5));
-        mScrollLayout.setIsSupportExit(true);
-        mScrollLayout.setAllowHorizontalScroll(false);
-        mScrollLayout.setOnScrollChangedListener(mOnScrollChangedListener);
-        mScrollLayout.setToExit();
-        mScrollLayout.getBackground().setAlpha(0);
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mScrollLayout.scrollToExit();
-            }
-        });
-        text_foot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mScrollLayout.setToOpen();
-            }
-        });
-    }
-
-    private final ScrollLayout.OnScrollChangedListener mOnScrollChangedListener = new ScrollLayout.OnScrollChangedListener() {
-        @Override
-        public void onScrollProgressChanged(float currentProgress) {
-            if (currentProgress >= 0) {
-                float precent = 255 * currentProgress;
-                if (precent > 255) {
-                    precent = 255;
-                } else if (precent < 0) {
-                    precent = 0;
-                }
-                mScrollLayout.getBackground().setAlpha((255 - (int) precent)/2);
-            }
-            if (text_foot.getVisibility() == View.VISIBLE)
-                text_foot.setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onScrollFinished(ScrollLayout.Status currentStatus) {
-            if (currentStatus.equals(ScrollLayout.Status.EXIT)) {
-                text_foot.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onChildScroll(int top) {
-        }
-    };
-
-
-
     private void init() {
         if (aMap == null) {
             // 初始化地图
@@ -274,6 +212,9 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             //带动画的移动，aMap添加动画监听时，会有动画效果。不添加不会开启动画
             geocoderSearch = new GeocodeSearch(MapActivity.this);
             geocoderSearch.setOnGeocodeSearchListener(this);
+            UiSettings mUiSettings = aMap.getUiSettings();
+            mUiSettings.setZoomPosition(AMapOptions.LOGO_MARGIN_RIGHT);
+//            mUiSettings.setLogoBottomMargin(100);
             aMap.animateCamera(mCameraUpdate, 5000, new AMap.CancelableCallback() {
                 @Override
                 public void onFinish() {
@@ -309,7 +250,71 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
 //            });
         }
     }
+    private void setBottomBar() {
+        /**设置 setting*/
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.root_layout);
+        mScrollLayout.setMinOffset((int) (ScreenUtil.getScreenHeight(this) * 0.6));//与top 距离
+        mScrollLayout.setMaxOffset((int) (ScreenUtil.getScreenHeight(this) * 0.45));
+        mScrollLayout.setExitOffset(0);
+        mScrollLayout.setIsSupportExit(true);
+        mScrollLayout.setAllowHorizontalScroll(false);
+        mScrollLayout.setOnScrollChangedListener(mOnScrollChangedListener);
+        mScrollLayout.setToExit();
+        mScrollLayout.getBackground().setAlpha(0);
+        mScrollLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mScrollLayout.getCurrentStatus()== ScrollLayout.Status.CLOSED){
+                    mScrollLayout.scrollToExit();
+                }else {
+                    mScrollLayout.setToClosed();
+                }
+//                mScrollLayout.scrollToExit();
+            }
+        });
+        text_foot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mScrollLayout.getCurrentStatus()== ScrollLayout.Status.EXIT) {
+                    mScrollLayout.scrollToClose();
+                }
+                else {
+                    mScrollLayout.scrollToExit();
+                }
+            }
+        });
+    }
 
+    private final ScrollLayout.OnScrollChangedListener mOnScrollChangedListener = new ScrollLayout.OnScrollChangedListener() {
+        @Override
+        public void onScrollProgressChanged(float currentProgress) {
+            if (currentProgress >= 0) {
+                float precent = 255 * currentProgress;
+                if (precent > 255) {
+                    precent = 255;
+                } else if (precent < 0) {
+                    precent = 0;
+                }
+                mScrollLayout.getBackground().setAlpha((255 - (int) precent)/2);
+            }
+            if (text_foot.getVisibility() == View.VISIBLE)
+                text_foot.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onScrollFinished(ScrollLayout.Status currentStatus) {
+            text_foot.setVisibility(View.VISIBLE);
+            if (currentStatus.equals(ScrollLayout.Status.EXIT)) {
+                text_foot.setText("点击或上滑打开足迹城市列表");
+            }else {
+                text_foot.setText("足迹城市列表");
+            }
+        }
+
+        @Override
+        public void onChildScroll(int top) {
+        }
+    };
 
     @Override
     public void onMapLoaded() {
@@ -445,14 +450,23 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
 
     }
-
+    public void updateCamera(double lat, double lng){
+        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(
+                new CameraPosition(new LatLng(lat-0.5, lng), 9, 0, 0));
+        aMap.moveCamera(mCameraUpdate);
+    }
     @Override
     public void onItemClick(View view, int position, Object o) {
         if (o instanceof CityPojo) {
 //            ToastUtils.showToast("点击了"+((CityPojo) o).city);
-            fanLayoutManager.switchItem(recyclerView,position);
-            //PictureShowActivity.start(MapActivity.this, ((CityPojo) o));
-
+            if (fanLayoutManager.getSelectedItemPosition()==position)
+            {
+                PictureShowActivity.start(MapActivity.this, ((CityPojo) o));
+            }
+            else{
+                fanLayoutManager.switchItem(recyclerView,position);
+                updateCamera(((CityPojo) o).lan,((CityPojo) o).lng);
+            }
         }
     }
 

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="500dp"
+            app:lottie_fileName="lottie_map_data.json"
+            app:lottie_imageAssetsFolder="lottie/map/"
+            />
+            <com.allen.library.SuperTextView
+                android:id="@+id/tv_updateimg"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                app:sCenterBottomTextColor="@color/colorAccent"
+                app:sCenterViewGravity="left_center"
+                app:sLeftBottomTextColor="@color/colorAccent"
+                app:sLeftIconHeight="50dp"
+                app:sLeftIconRes="@drawable/ball"
+                app:sLeftIconWidth="50dp"
+                app:sCenterTopTextString="处理图片中"
+                app:sLeftViewGravity="center" />
+         <com.daimajia.numberprogressbar.NumberProgressBar
+             android:id="@+id/number_progress_bar"
+             android:layout_width="match_parent"
+             android:layout_height="30dp"
+             android:layout_marginTop="20dp"
+             custom:progress_unreached_color="#CCCCCC"
+             custom:progress_reached_color="#3498DB"
+
+             custom:progress_unreached_bar_height="0.75dp"
+             custom:progress_reached_bar_height="1.5dp"
+
+             custom:progress_text_size="15sp"
+             custom:progress_text_color="#3498DB"
+             custom:progress_text_offset="1dp"
+             custom:progress_text_visibility="visible"
+
+             custom:progress_max="100"
+             custom:progress_current="80"
+         />
+        </LinearLayout>
+</LinearLayout>
