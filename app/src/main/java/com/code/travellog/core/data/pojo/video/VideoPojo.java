@@ -2,37 +2,54 @@ package com.code.travellog.core.data.pojo.video;
 
 import com.code.travellog.core.data.pojo.album.AlbumPojo;
 
+import java.util.List;
+
 /**
  * @description:
  * @date: 2021/4/1
  */
 public class VideoPojo {
 
-    public int post_id ;
-    public int uid ;
-    public String uname;
-    public int gender;
+    public int work_id;
+    public int uid;
     public String avatar;
-    public String title;
-    public String text;
-    public int type;
-    public String cover;
-    public DataBean reference;
-    public static class DataBean{
-        public int work_id;
-        public int uid;
-        public String movie_title;
-        public String movie_description;
-        public String movie_cover;
-        public String create_time ;
-        public String update_time;
-        public int status ;
-        public String status_msg;
-        public String result_msg;
-        public int tag;
-        public int like_num;
-        public int comment_num;
-    }
+    public String movie_title;
+    public String movie_description;
+    public String movie_cover;
+    public String create_time ;
+    public String update_time;
+    public int status ;
+    public String status_msg;
+    public String result_msg;
+    public int image_num;
+    public int tag;
+    public int like_num;
+    public int comment_num;
+//    public int post_id ;
+//    public int uid ;
+//    public String uname;
+//    public int gender;
+//    public String avatar;
+//    public String title;
+//    public String text;
+//    public int type;
+//    public String cover;
+//    public DataBean reference;
+//    public static class DataBean{
+//        public int work_id;
+//        public int uid;
+//        public String movie_title;
+//        public String movie_description;
+//        public String movie_cover;
+//        public String create_time ;
+//        public String update_time;
+//        public int status ;
+//        public String status_msg;
+//        public String result_msg;
+//        public int tag;
+//        public int like_num;
+//        public int comment_num;
+//    }
 /**
  {
          "post_id": 12,

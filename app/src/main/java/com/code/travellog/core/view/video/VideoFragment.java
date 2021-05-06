@@ -3,6 +3,7 @@ package com.code.travellog.core.view.video;
 import android.os.Bundle;
 
 import com.code.travellog.R;
+import com.code.travellog.config.Constants;
 import com.code.travellog.core.viewmodel.VideoViewModel;
 import com.code.travellog.core.view.base.BaseViewPagerFragment;
 
@@ -63,7 +64,7 @@ public class VideoFragment extends BaseViewPagerFragment<VideoViewModel> {
     private void getTabData() {
 //        mViewModel.getCourseTypeData();
 //        tags= new String[]{"大好河山", "美丽海景", "秀丽山川", "精致园林","交友区", "驴友日常"};
-        tags= new String[]{"山水田园", "假日海滨", "历史建筑", "精致园林", "交友区", "驴友日常"};
+        tags= new String[]{"山水田园", "假日海滨", "历史建筑", "精致园林"};
 
     }
 
@@ -76,7 +77,7 @@ public class VideoFragment extends BaseViewPagerFragment<VideoViewModel> {
 //        CourseTypeVo.DataBean dataBean = new CourseTypeVo.DataBean();
 //        dataBean.name = getResources().getString(R.string.recommend_tab_name);
 //        titleName.add(dataBean);
-        for (int j = 0; j < 6; j++) {
+        for (int j = 0; j < 4; j++) {
 //            titleName.add(courseTypeVo.data.get(j));
             mArrTitles[j + 1] = tags[j];
         }
@@ -92,10 +93,10 @@ public class VideoFragment extends BaseViewPagerFragment<VideoViewModel> {
             }
             else {
                 ForumListFragment forumListFragment = ForumListFragment.newInstance();
-//                Bundle bundle = new Bundle();
-//                bundle.putString(Constants.F_CATALOG_ID, titleName.get(i).id);
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.AlBUM_TAGID,String.valueOf(i));
 //                bundle.putSerializable(Constants.S_CATALOG, titleName.get(i).s_catalog);
-//                forumListFragment.setArguments(bundle);
+                forumListFragment.setArguments(bundle);
                 mFragments.add(forumListFragment);
             }
 

@@ -213,7 +213,7 @@ public class App extends Application implements ComponentCallbacks2 {
         mContext = getApplicationContext();
         new HttpHelper.Builder(this)
                 .initOkHttp(mContext)
-                .createRetrofit(URL.BASE_URL)
+                .createRetrofit(URL.BASE_URL2)
                 .build();
         new LoadState.Builder()
                 .register(new ErrorState())

@@ -80,8 +80,6 @@ public class PlogMakeFragment extends AbsLifecycleFragment<PlogViewModel> {
     SuperTextView updateimgText;
     @BindView(R.id.tv_plogtitle)
     SuperTextView tvPlogtitle;
-    @BindView(R.id.tv_plogpoetry)
-    SuperTextView tvPlogpoetry;
     @BindView(R.id.title)
     EditText title;
     @BindView(R.id.description)
@@ -136,7 +134,6 @@ public class PlogMakeFragment extends AbsLifecycleFragment<PlogViewModel> {
         super.initView(state);
         loadManager.showSuccess();
         updateimgText.setLeftTopTextIsBold(true);
-        tvPlogpoetry.setLeftTopTextIsBold(true);
         tvPlogtitle.setLeftTopTextIsBold(true);
 
         FullyGridLayoutManager manager = new FullyGridLayoutManager(activity,

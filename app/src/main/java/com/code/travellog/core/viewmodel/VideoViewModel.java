@@ -29,6 +29,9 @@ public class VideoViewModel extends AbsViewModel<VideoRepository> {
 
     }
 
+    public void getVideoByTag(String tagId){
+        mRepository.loadVideoDataById(tagId);
+    }
     public void getVideoListData() {
         getBannerData();
         getVideoList();

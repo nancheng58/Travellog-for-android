@@ -208,7 +208,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             //这个类就是设置地图移动的参数，CameraPosition，参数1---要移动到的经纬度，
             //参数2---地图的放缩级别zoom，参数3---地图倾斜度，参数4---地图的旋转角度
             CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(
-                    new CameraPosition(new LatLng(38.67, 116.50), 6, 0, 0));
+                    new CameraPosition(new LatLng(38.67, 116.50), 5, 0, 0));
             //带动画的移动，aMap添加动画监听时，会有动画效果。不添加不会开启动画
             geocoderSearch = new GeocodeSearch(MapActivity.this);
             geocoderSearch.setOnGeocodeSearchListener(this);

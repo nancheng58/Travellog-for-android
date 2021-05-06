@@ -9,6 +9,7 @@ public class Constants {
     public static final String SPName = "parms";
     public static final String ALBUMMAKE_TAG = "albummake";
     public static final String ALBUMRESULT_TAG = "albumresult";
+    public static final String APPLICATIONID = "com.code.travellog";
     public static final String APPID = "com.code.travellog.App";
     public static final String HOME_TAG = "home";
     public static final String WORK_TAG = "work";
@@ -30,7 +31,7 @@ public class Constants {
     public final static String COURSE_ID = "course_id";
     public final static String PLOG_ID = "plog_id";
     public final static String PLOG_POJO = "plog_pojo";
-    public final static String F_CATALOG_ID = "f_catalog_id";
+    public final static String AlBUM_TAGID = "album_tag_id";
     public final static String S_CATALOG = "s_catalog";
     public final static String SUB_ID = "sub_id";
 

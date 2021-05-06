@@ -12,8 +12,8 @@ public class VideoListPojo extends BasePojo {
 
     public DataBean data ;
     public static class DataBean{
-        public int post_num;
-        public List<VideoPojo> new_posts;
+        public int movie_num;
+        public List<VideoPojo> movies;
     }
     /**
         "data": {

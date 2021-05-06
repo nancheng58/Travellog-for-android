@@ -39,7 +39,7 @@ public class VideoRecommendFragment extends BaseListFragment<VideoViewModel> imp
 
     @Override
     protected void dataObserver() {
-        registerSubscriber(VideoRepository.EVENT_KEY_VIDEO, VideoMergePojo.class)
+        registerSubscriber(VideoRepository.EVENT_KEY_VIDEOLIST, VideoMergePojo.class)
                 .observe(this, videoMergePojo -> {
                     if (videoMergePojo != null) {
                         VideoRecommendFragment.this.addItems(videoMergePojo);
@@ -81,20 +81,23 @@ public class VideoRecommendFragment extends BaseListFragment<VideoViewModel> imp
         if(isRefresh) mItems.clear();
         mItems.add(videoMergePojo.bannerListVo);
 //        mItems.add(new TypeVo("影集列表"));
-        if (videoMergePojo.videoListPojo.data ==null) return;
+        if (videoMergePojo.videoListPojo ==null ||
+                videoMergePojo.videoListPojo.data ==null
+                ||videoMergePojo.videoListPojo.data.movies ==null) return;
 //        if (videoMergePojo.videoListPojo.data.post_num > 0) {
 //            mItems.addAll(videoMergePojo.videoListPojo.data.new_posts);
 //        }
-        int num = videoMergePojo.videoListPojo.data.post_num;
-        for (int i = 0; i < 5; i++) {
-            mItems.add(new TypeVo(tags[i]));
-            for(int j = 0 ; j<num/5 ; j++ ){
-                Random random = new Random();
-                mItems.add(videoMergePojo.videoListPojo.data.new_posts.get(random.nextInt(num-1)));
-            }
-
-        }
-        setData();
+        int num = videoMergePojo.videoListPojo.data.movie_num;
+//        for (int i = 0; i < 5; i++) {
+//            mItems.add(new TypeVo(tags[i]));
+//            for(int j = 0 ; j<num/5 ; j++ ){
+//                Random random = new Random();
+//                mItems.add(videoMergePojo.videoListPojo.data.new_posts.get(random.nextInt(num-1)));
+//            }
+//
+//        }
+        setUiData(videoMergePojo.videoListPojo.data.movies);
+        //setData();
     }
 
 
@@ -103,7 +106,7 @@ public class VideoRecommendFragment extends BaseListFragment<VideoViewModel> imp
         if (object != null) {
             if (object instanceof VideoPojo) {
                 Intent intent = new Intent(activity, VideoDetailsActivity.class);
-                intent.putExtra(Constants.AlBUM_ID, String.valueOf(((VideoPojo) object).reference.work_id));
+                intent.putExtra(Constants.AlBUM_ID, String.valueOf(((VideoPojo) object).work_id));
                 activity.startActivity(intent);
             }
 

@@ -41,6 +41,7 @@ public class MapAnimationActivity extends AbsLifecycleActivity<PictureViewModel>
     LottieAnimationView lottieImageview;
     @BindView(R.id.number_progress_bar)
     NumberProgressBar numberProgressBar;
+    ValueAnimator animator;
     @Override
     public int getLayoutId() {
         return R.layout.lottie_map;
@@ -52,29 +53,42 @@ public class MapAnimationActivity extends AbsLifecycleActivity<PictureViewModel>
         ButterKnife.bind(this);
         ImmersionBar.with(this).statusBarDarkFont(true).init();
         loadManager.showSuccess();
-        getData();
+        requestPermission();
         setListener();
         dataObserver();
         lottieImageview.playAnimation();
     }
+    private void checkPermission(String[] permissions){
+        Log.w("msg ","鉴权"+"");
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                finish();return ;
+            }
 
-    private void getData() {
+        }
+        getData();
+    }
+    private void getData(){
+        try {
+            if(mViewModel.getIscache()) flag=true;
+            ContentResolver resolver = getContentResolver();
+            if(!flag) mViewModel.getGalleryExif(resolver,0);
+            int total = mViewModel.getPictureCount(getContentResolver());
+            numberProgressBar.setMax(total);
+            Log.w("total: ",numberProgressBar.getMax()+"");
+            numberProgressBar.setProgress(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void requestPermission() {
         //申请读写SD卡的权限
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            checkPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
         } else {
-            try {
-                    if(mViewModel.getIscache()) flag=true;
-                    ContentResolver resolver = getContentResolver();
-                    if(!flag) mViewModel.getGalleryExif(resolver,0);
-                    int total = mViewModel.getPictureCount(getContentResolver());
-                    numberProgressBar.setMax(total);
-                    Log.w("total: ",numberProgressBar.getMax()+"");
-                    numberProgressBar.setProgress(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            getData();
         }
     }
     @Override
@@ -91,6 +105,7 @@ public class MapAnimationActivity extends AbsLifecycleActivity<PictureViewModel>
     private void loop ()
     {
         if (numberProgressBar.getProgress()!=numberProgressBar.getMax()){
+            Log.w("numberProgressBar now : ",numberProgressBar.getProgress()+"");
             lottieImageview.playAnimation();
             setListener();
         }
@@ -106,11 +121,10 @@ public class MapAnimationActivity extends AbsLifecycleActivity<PictureViewModel>
                 setListener();
             }
         }
-
-
     }
+
     private void setListener() {
-        ValueAnimator animator = new ValueAnimator().ofFloat(0f, 1f).setDuration(2000);
+        animator = new ValueAnimator().ofFloat(0f, 1f).setDuration(2000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -138,7 +152,7 @@ public class MapAnimationActivity extends AbsLifecycleActivity<PictureViewModel>
                             finish();
                             startActivity(intent);
                         }
-                    }, 500);
+                    }, 100);
 
                 }
                 else loop();

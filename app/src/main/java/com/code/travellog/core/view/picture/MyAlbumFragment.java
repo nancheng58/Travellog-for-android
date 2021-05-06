@@ -51,7 +51,7 @@ public class MyAlbumFragment extends AlbumFragment {
 
     @Override
     public String fileProviderName() {
-        return Constants.APPID +".album.provider";
+        return Constants.APPLICATIONID +".fileprovider";
     }
 
     @Override

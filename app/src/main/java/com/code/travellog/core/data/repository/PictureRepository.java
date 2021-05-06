@@ -29,6 +29,7 @@ import com.mvvm.stateview.StateConstants;
 import com.tencent.mmkv.MMKV;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class PictureRepository extends BaseRepository {
 
         String DCIMPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath()+"/Camera/";
         new Thread(()->{ // 新建工作线程
-            ExifInterface exifInterface;
+            ExifInterface exifInterface = null;
             try {
             //获取所在相册和相册id
             final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
@@ -143,13 +144,18 @@ public class PictureRepository extends BaseRepository {
                         LiveBus.getDefault().postEvent(EVENT_KEY_PICPROGRESS,index);
                     }
                     String path = imagecursor.getString(dataColumnIndex);
-                    if(Build.VERSION.SDK_INT==Build.VERSION_CODES.R){
-                        Uri uri = Uri.fromFile(new File(path));
-                        Uri newuri = MediaStore.setRequireOriginal(uri);
-                        InputStream stream = resolver.openInputStream(newuri);
-                        exifInterface = new ExifInterface(stream);
-                    }else {
-                        exifInterface = new ExifInterface(path);
+                    try {
+                        if(Build.VERSION.SDK_INT==Build.VERSION_CODES.R){
+                            Uri uri = Uri.fromFile(new File(path));
+                            Uri newuri = MediaStore.setRequireOriginal(uri);
+                            InputStream stream = resolver.openInputStream(newuri);
+                            exifInterface = new ExifInterface(stream);
+                        }else{
+                            exifInterface = new ExifInterface(path);
+                        }
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
                     }
                     exifInterface.getLatLong(a);
 //                    String lat = exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE);

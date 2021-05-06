@@ -57,10 +57,10 @@ public class VideoItemHolder extends AbsItemHolder<VideoPojo, VideoItemHolder.Vi
         holder.ivVideoImage.setLayoutParams(params);
         holder.ivVideoImage.setScaleType(ImageView.ScaleType.FIT_XY);
         // TODO
-        Glide.with(mContext).load(URL.IMAGE_URL+videoPojo.reference.movie_cover).placeholder(R.color.black_e8e8e8).into(holder.ivVideoImage);
+        Glide.with(mContext).load(URL.IMAGE_URL+videoPojo.movie_cover).placeholder(R.color.black_e8e8e8).into(holder.ivVideoImage);
         Glide.with(mContext).load(URL.IMAGE_URL+videoPojo.avatar).transform(new GlideCircleTransform(mContext)).into(holder.ivIcon);
-        holder.tvCreateTime.setText(videoPojo.reference.create_time);
-        holder.tvVideoTitle.setText(videoPojo.reference.movie_title);
+        holder.tvCreateTime.setText(videoPojo.create_time);
+        holder.tvVideoTitle.setText(videoPojo.movie_title);
         Random random = new Random();
         holder.tvLookNum.setText(new StringBuilder(String.valueOf(random.nextInt(101))).append("人看过"));
     }

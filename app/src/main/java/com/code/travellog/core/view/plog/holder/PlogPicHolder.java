@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -24,6 +25,7 @@ import com.code.travellog.glide.GlideCircleTransform;
 import com.code.travellog.util.BitmapUtil;
 import com.code.travellog.util.DisplayUtil;
 import com.code.travellog.core.view.base.widget.CustomHeightImageView;
+import com.code.travellog.util.ImageSaveUtil;
 import com.code.travellog.util.ToastUtils;
 import com.code.travellog.util.ViewUtils;
 
@@ -93,11 +95,22 @@ public class PlogPicHolder extends AbsItemHolder<PlogPojo, PlogPicHolder.ViewHol
 
             new Thread(()->{
                 Bitmap bitmap = BitmapUtil.returnBitMap(URL.IMAGE_URL+plogPojo.result_msg);
-                BitmapUtil.saveMyBitmap(bitmap);
-//                if(BitmapUtil.saveMyBitmap(bitmap))
-//                else ToastUtils.showToast("保存失败");
+                ImageSaveUtil.saveAlbum(mContext,bitmap, Bitmap.CompressFormat.JPEG,100,true);
             }).start();
             ToastUtils.showToast("保存成功");
+        });
+        holder.shareBtn.setOnClickListener(v -> {
+            new Thread(()->{
+                Bitmap bitmap = BitmapUtil.returnBitMap(URL.IMAGE_URL+plogPojo.result_msg);
+                Uri uri= ImageSaveUtil.saveAlbum(mContext,bitmap, Bitmap.CompressFormat.JPEG,100,true);
+                Intent share_intent = new Intent();
+                share_intent.setAction(Intent.ACTION_SEND); //设置分享行为
+                share_intent.setType("image/*") ;  //设置分享内容的类型
+                share_intent.putExtra(Intent.EXTRA_STREAM, uri);
+                share_intent.putExtra(Intent.EXTRA_SUBJECT, "分享");//添加分享内容标题
+                share_intent = Intent.createChooser(share_intent, "分享");
+                mContext.startActivity(share_intent);
+            }).start();
         });
     }
 
@@ -107,6 +120,7 @@ public class PlogPicHolder extends AbsItemHolder<PlogPojo, PlogPicHolder.ViewHol
         private TextView teacherName, userName;
         private LinearLayout ll_root, userTag;
         private Button saveBtn;
+        private Button shareBtn;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             ll_root = getViewById(R.id.ll_root);
@@ -115,6 +129,7 @@ public class PlogPicHolder extends AbsItemHolder<PlogPojo, PlogPicHolder.ViewHol
             workPic = getViewById(R.id.iv_header_pic);
             userName = getViewById(R.id.tv_name);
             saveBtn = getViewById(R.id.btn_save);
+            shareBtn = getViewById(R.id.btn_share);
         }
 
     }

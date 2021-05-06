@@ -155,25 +155,30 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
+            android:layout_gravity="center"
             android:orientation="horizontal"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_333333"
-                android:textSize="14sp" />
-
             <Button
                 android:id="@+id/btn_save"
-                android:gravity="center"
-                android:layout_gravity="center"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp20"
+                android:background="@drawable/corner_view_blue"
                 android:text="保存图片"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
+            <Button
+                android:id="@+id/btn_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp20"
+
+                android:background="@drawable/corner_view_yellow"
+                android:text="分享图片"
                 android:textColor="@color/color_333333"
                 android:textSize="14sp" />
         </LinearLayout>

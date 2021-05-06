@@ -67,21 +67,20 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 app:sCenterBottomTextColor="@color/colorAccent"
-                app:sCenterTopTextString=""
+                app:sCenterBottomTextString="拖动可排序>>"
+                app:sCenterTextString="请添加要上传的照片"
                 app:sCenterViewGravity="left_center"
                 app:sLeftBottomTextColor="@color/colorAccent"
-                app:sLeftBottomTextString="拖动可排序>>"
                 app:sLeftIconHeight="40dp"
                 app:sLeftIconRes="@drawable/vic_my_publish"
                 app:sLeftIconWidth="40dp"
-
-                app:sLeftTopTextString="请选择要上传的照片"
                 app:sLeftViewGravity="center" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/selector_white"
                 android:layout_below="@+id/tv_updateimg"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="14dp"
@@ -94,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@+id/recycler"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="75dp"
                 app:sCenterBottomTextColor="@color/colorAccent"
                 app:sCenterTopTextString=""
                 app:sCenterViewGravity="left_center"
@@ -108,38 +107,18 @@
                 app:sLeftViewGravity="left_center"
                 app:sRightViewType="edittext" />
 
-
-            <com.allen.library.SuperTextView
-                android:id="@+id/tv_plogpoetry"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_below="@+id/description"
-                android:layout_marginTop="84dp"
-                app:sCenterBottomTextColor="@color/colorAccent"
-                app:sCenterTopTextString=""
-                app:sCenterViewGravity="left_center"
-                app:sLeftBottomTextColor="@color/colorAccent"
-
-                app:sLeftBottomTextString="将使用人工智能算法为您的照片生成古诗>>"
-                app:sLeftIconHeight="40dp"
-                app:sLeftIconRes="@drawable/icon_chubanshe"
-                app:sLeftIconWidth="40dp"
-                app:sLeftTopTextString="请选择是否生成古诗"
-                app:sLeftViewGravity="left_center"
-                app:sRightViewType="switchBtn" />
-
             <com.allen.library.SuperTextView
                 android:id="@+id/tv_share"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@+id/description"
-                android:layout_marginTop="154dp"
+                android:layout_marginTop="@dimen/dp10"
                 app:sCenterBottomTextColor="@color/colorAccent"
                 app:sCenterTopTextString=""
                 app:sCenterViewGravity="left_center"
                 app:sLeftBottomTextColor="@color/colorAccent"
 
-                app:sLeftBottomTextString="选择是否将您的精美PLOG自动分享到论坛>>"
+                app:sLeftBottomTextString="将您的精美PLOG自动分享到论坛>>"
                 app:sLeftIconHeight="40dp"
                 app:sLeftIconRes="@drawable/activities_icon"
                 app:sLeftIconWidth="40dp"
@@ -152,7 +131,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/tv_plogtitle"
                 android:layout_marginTop="9dp"
-                android:background="@drawable/selector_bg_edit"
+                android:background="@drawable/edit_bg"
                 android:hint="请输入要生成Plog的标题"
                 android:inputType="textPersonName"
                 android:paddingBottom="2dp"
@@ -165,7 +144,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/tv_plogtitle"
                 android:layout_marginTop="58dp"
-                android:background="@drawable/selector_bg_edit"
+                android:background="@drawable/edit_bg"
                 android:hint="请输入要生成Plog的描述"
                 android:inputType="textPersonName"
                 android:paddingBottom="2dp"

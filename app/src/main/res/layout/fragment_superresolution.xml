@@ -5,6 +5,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#72bdf8"
     android:orientation="vertical">
 
     <include layout="@layout/item_title_layout" />
@@ -25,7 +26,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
 
-                android:src="@drawable/ic_add_image" />
+                android:src="@drawable/super_click" />
 
             <Button
                 android:id="@+id/btn_result"
@@ -33,7 +34,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp10"
                 android:layout_gravity="center"
-
+                android:background="@drawable/corner_view"
                 android:text="超分辨率" />
             <Button
                 android:id="@+id/btn_get"
@@ -41,6 +42,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/dp10"
                 android:layout_gravity="center"
+                android:background="@drawable/corner_view"
 
                 android:text="保存图片" />
         </LinearLayout>

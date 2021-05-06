@@ -30,7 +30,7 @@ public class PictureShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = findViewById(R.id.toolBar);
         toolbar.setTitle(cityPojo.county);
-        ImmersionBar.with(this).statusBarColor(R.color.colorPrimary)
+        ImmersionBar.with(this).statusBarColor(R.color.navigation_bar)
                 .fitsSystemWindows(true)
                 .statusBarDarkFont(true, 0.2f)
                 .keyboardEnable(true) //解决软键盘与底部输入框冲突问题，默认为 false，还有一个重载方法，可以指定软键盘 mode
@@ -41,16 +41,6 @@ public class PictureShowActivity extends AppCompatActivity {
         initView();
 
     }
-
-//    @Override
-//    public int getLayoutId() {
-//        return R.layout.activity_album;
-//    }
-//
-//    @Override
-//    public void initViews(Bundle savedInstanceState) {
-//
-//    }
 
     private MenuItem chooseMenu;
 

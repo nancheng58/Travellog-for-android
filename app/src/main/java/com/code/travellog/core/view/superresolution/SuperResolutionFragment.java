@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,11 +22,13 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.code.travellog.App;
 import com.code.travellog.R;
+import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.supervision.SuperVisionPojo;
 import com.code.travellog.core.data.repository.ApiRepository;
 import com.code.travellog.core.viewmodel.ApiViewModel;
 import com.code.travellog.util.Base64Utils;
 import com.code.travellog.util.BitmapUtil;
+import com.code.travellog.util.ImageSaveUtil;
 import com.code.travellog.util.ToastUtils;
 import com.coloros.ocs.ai.cv.CVUnitClient;
 import com.mvvm.base.AbsLifecycleFragment;
@@ -112,17 +116,17 @@ public class SuperResolutionFragment extends AbsLifecycleFragment<ApiViewModel> 
                 RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), selectedImageFile.getFile());
                 MultipartBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("image", selectedImageFile.getFile().toString(), requestBody).build();
-
+                btnGet.setVisibility(View.INVISIBLE);
                 mViewModel.getResolutionResult(multipartBody);
             }
         });
         btnGet.setVisibility(View.INVISIBLE);
         btnGet.setOnClickListener(v -> {
-            if(BitmapUtil.saveMyBitmap(outbitmap)) {
-                ToastUtils.showToast("保存成功");
-            }else {
-                ToastUtils.showToast("保存失败");
-            }
+            new Thread(()->{
+//                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), outbitmap, null, null));
+                ImageSaveUtil.saveAlbum(mContext,outbitmap, Bitmap.CompressFormat.JPEG,100,true);
+            }).start();
+            ToastUtils.showToast("保存成功");
 
         });
     }
@@ -142,7 +146,8 @@ public class SuperResolutionFragment extends AbsLifecycleFragment<ApiViewModel> 
 //                bitmap = BitmapUtil.ChangeSize(bitmap,120,200);
                 Glide.with(this).load(bitmap).into(image);
                 image.setImageBitmap(bitmap);
-                if(BitmapUtil.saveMyBitmap(outbitmap))
+                outbitmap = bitmap ;
+//                if(BitmapUtil.saveMyBitmap(outbitmap))
                 ToastUtils.showToast("获取成功");
 
 

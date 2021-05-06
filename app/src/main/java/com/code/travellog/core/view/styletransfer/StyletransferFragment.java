@@ -26,6 +26,7 @@ import com.code.travellog.App;
 import com.code.travellog.R;
 import com.code.travellog.core.viewmodel.ApiViewModel;
 import com.code.travellog.util.BitmapUtil;
+import com.code.travellog.util.ImageSaveUtil;
 import com.code.travellog.util.ToastUtils;
 import com.coloros.ocs.ai.cv.CVUnitClient;
 import com.mvvm.base.AbsLifecycleFragment;
@@ -118,12 +119,11 @@ public class StyletransferFragment extends AbsLifecycleFragment<ApiViewModel> {
         });
         btnGet.setVisibility(View.INVISIBLE);
         btnGet.setOnClickListener(v -> {
-            if(BitmapUtil.saveMyBitmap(outbitmap)) {
-                ToastUtils.showToast("保存成功");
-            }else {
-                ToastUtils.showToast("保存失败");
-            }
-
+            new Thread(() -> {
+//                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), outbitmap, null, null));
+                ImageSaveUtil.saveAlbum(mContext, outbitmap, Bitmap.CompressFormat.JPEG, 100, true);
+            }).start();
+            ToastUtils.showToast("保存成功");
         });
     }
 

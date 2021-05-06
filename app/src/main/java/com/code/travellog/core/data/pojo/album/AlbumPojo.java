@@ -20,4 +20,7 @@ public class AlbumPojo {
     public String result_msg;
     public int image_num;
     public List<String> image_urls;
+    public int tag;
+    public int like_num;
+    public int comment_num;
 }

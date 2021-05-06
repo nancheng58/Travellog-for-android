@@ -40,32 +40,32 @@ public interface ApiService {
 
     // login
     @FormUrlEncoded
-    @POST(URL.BASE_URL2+"user/login")
+    @POST(URL.USER_URL+"login")
     Flowable<UserPojo> LoginApi(@FieldMap Map<String,String> params);
     //register
     @FormUrlEncoded
-    @POST(URL.BASE_URL2+"user/register")
+    @POST(URL.USER_URL+"register")
     Flowable<UserPojo> RegisterApi(@FieldMap Map<String,String> params);
     // get captcha
-    @GET(URL.BASE_URL2+"user/captcha")
+    @GET(URL.USER_URL+"captcha")
     Flowable<ImagePojo> getCaptchaAvater();
 
-    @POST(URL.BASE_URL2+"user/avatar")
+    @POST(URL.USER_URL+"avatar")
     Flowable<BasePojo> postAvater(@Body MultipartBody multipartBody);
 
     @FormUrlEncoded
-    @POST(URL.BASE_URL2+"user/info")
+    @POST(URL.USER_URL+"info")
     Flowable<UserPojo> postUserInfo(@FieldMap Map<String,String> params);
 
-    @GET(URL.BASE_URL2+"user/info")
+    @GET(URL.USER_URL+"info")
     Flowable<UserPojo> getUserInfo();
 
     @FormUrlEncoded
-    @POST(URL.BASE_URL2+"user/password")
+    @POST(URL.USER_URL+"password")
     Flowable<BasePojo> changePwd(@FieldMap Map<String,String> params);
 
     @FormUrlEncoded
-    @POST(URL.BASE_URL2+"user/reset")
+    @POST(URL.USER_URL+"reset")
     Flowable<BasePojo> resetPwd(@FieldMap Map<String,String> params);
 
     @POST
@@ -103,8 +103,11 @@ public interface ApiService {
     @FormUrlEncoded
     Flowable<CityResultPojo> getCity(@Field("longitude") String longitude,@Field("latitude") String latitude);
 
-    @GET(URL.BASE_URL2+"movie/all")
+    @GET(URL.ALBUM_URL+"all")
     Flowable<VideoListPojo> getVideoList();
+
+    @GET
+    Flowable<VideoListPojo> getVideoListById(@Url String url);
 
     @GET(URL.PLOG_URL+"new")
     Flowable<PlogWorkPojo> getPlogWorkid();

@@ -9,8 +9,8 @@
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="预览"
-        android:background="@color/colorPrimary"
+        app:title="照片回忆"
+        android:background="@color/white"
         tools:ignore="MissingConstraints"></androidx.appcompat.widget.Toolbar>
     <FrameLayout
         android:id="@+id/flContainer"

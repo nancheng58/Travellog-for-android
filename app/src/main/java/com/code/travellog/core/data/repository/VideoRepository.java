@@ -1,5 +1,6 @@
 package com.code.travellog.core.data.repository;
 
+import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.banner.BannerListVo;
 
 import com.code.travellog.core.data.pojo.video.VideoListPojo;
@@ -19,7 +20,7 @@ import io.reactivex.Flowable;
 
 public class VideoRepository extends BaseRepository {
 
-    public static String EVENT_KEY_VIDEO = null;
+    public static String EVENT_KEY_VIDEOLIST = null;
     public static String EVENT_KEY_VIDEOTAG = null;
 
     private Flowable<VideoListPojo> mVideoListObservable;
@@ -31,15 +32,31 @@ public class VideoRepository extends BaseRepository {
 
 
     public VideoRepository() {
-        if (EVENT_KEY_VIDEO == null) {
-            EVENT_KEY_VIDEO = StringUtil.getEventKey();
-        }
+        if (EVENT_KEY_VIDEOLIST == null) EVENT_KEY_VIDEOLIST = StringUtil.getEventKey();
         if (EVENT_KEY_VIDEOTAG == null) EVENT_KEY_VIDEOTAG = StringUtil.getEventKey();
     }
 
-//    public void loadVideoData(String id) {
-//        mVideoListObservable = apiService.getVideoData(id);
-//    }
+    public void loadVideoDataById(String id) {
+        String url = URL.ALBUM_URL+"tag/"+id;
+        addDisposable(apiService.getVideoListById(url)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<VideoListPojo>(){
+                    @Override
+                    protected void onNoNetWork() {
+                        postState(StateConstants.NET_WORK_STATE);
+                    }
+                    @Override
+                    public void onSuccess(VideoListPojo videoListPojo) {
+                        postData(EVENT_KEY_VIDEOTAG,id,videoListPojo);
+                        postState(StateConstants.SUCCESS_STATE);
+                    }
+
+                    @Override
+                    public void onFailure(String msg, int code) {
+                        postState(StateConstants.ERROR_STATE);
+                    }
+                }));
+    }
 
     public void loadVideoData()
     {
@@ -65,7 +82,7 @@ public class VideoRepository extends BaseRepository {
                         } else if (object instanceof VideoListPojo) {
                             videoMergePojo.videoListPojo = (VideoListPojo) object;
                             if (videoMergePojo != null) {
-                                postData(EVENT_KEY_VIDEO, videoMergePojo);
+                                postData(EVENT_KEY_VIDEOLIST, videoMergePojo);
                                 postState(StateConstants.SUCCESS_STATE);
                             } else {
                                 postState(StateConstants.NOT_DATA_STATE);
