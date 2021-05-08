@@ -6,15 +6,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.widget.ImageView;
+
+import com.adapter.adapter.DelegateAdapter;
+import com.adapter.adapter.ItemData;
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
+import com.code.travellog.ai.YoloV5Classifier;
 import com.code.travellog.config.Constants;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
+import com.code.travellog.core.data.pojo.common.TypeVo;
+import com.code.travellog.core.data.pojo.video.VideoListPojo;
+import com.code.travellog.core.data.pojo.video.VideoMergePojo;
+import com.code.travellog.core.data.pojo.video.VideoPojo;
+import com.code.travellog.core.data.repository.VideoRepository;
+import com.code.travellog.core.view.base.BaseListFragment;
+import com.code.travellog.core.view.common.TypeItemView;
+import com.code.travellog.core.view.video.holder.VideoItemHolder;
+import com.code.travellog.core.viewmodel.VideoViewModel;
 import com.code.travellog.network.ApiService;
 import com.code.travellog.network.rx.RxSubscriber;
 import com.code.travellog.util.DisplayUtil;
 import com.code.travellog.util.ToastUtils;
+import com.mvvm.base.AbsLifecycleActivity;
 import com.mvvm.base.BaseActivity;
 import com.mvvm.http.HttpHelper;
 import com.shuyu.gsyvideoplayer.listener.GSYSampleCallBack;
@@ -32,7 +46,7 @@ import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
  * @time 2021/3/24 20:46
  */
 
-public class VideoDetailsActivity extends BaseActivity {
+public class VideoDetailsActivity extends AbsLifecycleActivity<VideoViewModel> {
     private StandardGSYVideoPlayer mVideoPlayer;
     private OrientationUtils mOrientationUtils;
 
@@ -55,6 +69,7 @@ public class VideoDetailsActivity extends BaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
+        super.initViews(savedInstanceState);
         albumId = getIntent().getStringExtra(Constants.AlBUM_ID);
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -96,10 +111,19 @@ public class VideoDetailsActivity extends BaseActivity {
             }
         });
         getNetWorkData();
-
+        dataObserver();
     }
 
+    @Override
+    protected void dataObserver(){
+        registerSubscriber(VideoRepository.EVENT_KEY_VIDEOLIST, VideoMergePojo.class)
+                .observe(this, videoMergePojo -> {
+                    if (videoMergePojo != null) {
+                        VideoDetailsActivity.this.addItems(videoMergePojo);
+                    }
 
+                });
+    }
 
     @SuppressLint("CheckResult")
     private void getNetWorkData() {
@@ -131,7 +155,7 @@ public class VideoDetailsActivity extends BaseActivity {
 
                 });
 
-
+            mViewModel.getVideoListData();
     }
     private void setUI(AlbumResultPojo albumResultPojo)
     {
@@ -162,7 +186,40 @@ public class VideoDetailsActivity extends BaseActivity {
 //        adapter.notifyDataSetChanged();
 //    }
 
+    private void addItems(VideoMergePojo videoMergePojo) {
 
+        ItemData mItems = new ItemData();
+        mItems.clear();
+        DelegateAdapter adapter = new DelegateAdapter.Builder<>()
+                .bind(TypeVo.class,new TypeItemView(VideoDetailsActivity.this))
+                .bind(VideoPojo.class, new VideoItemHolder(VideoDetailsActivity.this)).build();
+        mRecyclerView.setAdapter(adapter);
+        mItems.add(new TypeVo("相关推荐"));
+        mItems.addAll(videoMergePojo.videoListPojo.data.movies);
+//        mRecyclerView.refreshComplete(items, false);
+        adapter.setDatas(mItems);
+        adapter.notifyDataSetChanged();
+
+//        mItems.add(videoMergePojo.bannerListVo);
+
+        if (videoMergePojo.videoListPojo ==null ||
+                videoMergePojo.videoListPojo.data ==null
+                ||videoMergePojo.videoListPojo.data.movies ==null) return;
+//        if (videoMergePojo.videoListPojo.data.post_num > 0) {
+//            mItems.addAll(videoMergePojo.videoListPojo.data.new_posts);
+//        }
+        int num = videoMergePojo.videoListPojo.data.movie_num;
+//        for (int i = 0; i < 5; i++) {
+//            mItems.add(new TypeVo(tags[i]));
+//            for(int j = 0 ; j<num/5 ; j++ ){
+//                Random random = new Random();
+//                mItems.add(videoMergePojo.videoListPojo.data.new_posts.get(random.nextInt(num-1)));
+//            }
+//
+//        }
+//        setUiData(videoMergePojo.videoListPojo.data.movies);
+        //setData();
+    }
     @Override
     protected void onPause() {
         super.onPause();

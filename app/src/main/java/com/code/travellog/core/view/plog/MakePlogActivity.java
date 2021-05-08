@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.code.travellog.AI.AiBoostManager;
+import com.code.travellog.ai.AiBoostYoloV5Classifier;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.gyf.immersionbar.ImmersionBar;
@@ -46,7 +46,7 @@ public class MakePlogActivity extends BaseActivity {
     private PlogMakeFragment plogMakeFragment;
     private PlogResultFragment plogResultFragment;
     private List<LocalMedia> localMediaList;
-    private AiBoostManager aiBoostManager = null;
+    private AiBoostYoloV5Classifier aiBoostYoloV5Classifier = null;
     private String description ;
     private String title ;
     private boolean isShare;
@@ -56,9 +56,9 @@ public class MakePlogActivity extends BaseActivity {
         initToolBar();
         ImmersionBar.with(this).statusBarDarkFont(true).init();
         initFragment(0);
-        aiBoostManager = AiBoostManager.newInstance();
-        aiBoostManager.initialize(this, "mobilenet_quant.tflite",
-                1001, "mobilenet_quant_labels.txt");
+        aiBoostYoloV5Classifier = AiBoostYoloV5Classifier.newInstance();
+        aiBoostYoloV5Classifier.initialize(this, "yolov5s-fp16.tflite",
+                86, "coco.txt");
 
     }
     public void setShare(boolean isShare)
@@ -72,8 +72,8 @@ public class MakePlogActivity extends BaseActivity {
     public void setLocalMediaList(List<LocalMedia> localMediaList){
         this.localMediaList = localMediaList ;
     }
-    public AiBoostManager getAiBoostManager() {
-        return aiBoostManager;
+    public AiBoostYoloV5Classifier getAiBoostYoloV5Classifier() {
+        return aiBoostYoloV5Classifier;
     }
     public void setPlogDescription(String description){
         this.description = description ;

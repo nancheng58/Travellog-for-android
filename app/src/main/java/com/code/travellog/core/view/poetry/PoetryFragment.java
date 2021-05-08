@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat;
 
 import com.allen.library.SuperTextView;
 import com.bumptech.glide.Glide;
-import com.code.travellog.AI.AiBoostManager;
+import com.code.travellog.ai.AiBoostYoloV5Classifier;
 import com.code.travellog.R;
 import com.code.travellog.core.data.pojo.poetry.PoetryPojo;
 import com.code.travellog.core.data.repository.ApiRepository;
@@ -76,7 +76,7 @@ public class PoetryFragment extends AbsLifecycleFragment<ApiViewModel> {
     LinearLayout content_color;
     private EasyImage easyImage;
     private Context mContext;
-    private AiBoostManager aiBoostManager = null;
+    private AiBoostYoloV5Classifier aiBoostYoloV5Classifier = null;
 
     public static PoetryFragment newInstance() {
         return new PoetryFragment();
@@ -134,18 +134,18 @@ public class PoetryFragment extends AbsLifecycleFragment<ApiViewModel> {
     @SuppressLint("DefaultLocale")
     @Override
     protected void dataObserver() {
-        aiBoostManager = AiBoostManager.newInstance();
-        aiBoostManager.initialize(activity, "mobilenet_quant.tflite",
-                1001, "mobilenet_quant_labels.txt");
+        aiBoostYoloV5Classifier = AiBoostYoloV5Classifier.newInstance();
+        aiBoostYoloV5Classifier.initialize(activity, "yolov5s-fp16.tflite",
+                86, "coco.txt");
         //物体识别完成
-        registerSubscriber(AiBoostManager.EVENT_KEY_OBJECTLIST, null, List.class).observe(this, list -> {
-            List<AiBoostManager.Data> mDetectorResult = list;
+        registerSubscriber(AiBoostYoloV5Classifier.EVENT_KEY_OBJECTLIST, null, List.class).observe(this, list -> {
+            List<AiBoostYoloV5Classifier.Data> mDetectorResult = list;
             Log.w("log","物体识别完成");
             int index = 0;
             int length = !tvpoemtype.getSwitchIsChecked()? 5 : 7;
             StringBuilder factors = new StringBuilder();
             StringBuilder values = new StringBuilder();
-            for (AiBoostManager.Data entry : mDetectorResult) {
+            for (AiBoostYoloV5Classifier.Data entry : mDetectorResult) {
                 factors.append(entry.type);
                 values.append(entry.value);
                 index++;
@@ -184,13 +184,13 @@ public class PoetryFragment extends AbsLifecycleFragment<ApiViewModel> {
     public void getImageObjectDetector(String filename) {
         Log.w("file name",filename);
         new Thread(() -> {
-            aiBoostManager.setTotal(1);
+            aiBoostYoloV5Classifier.setTotal(1);
 
-            aiBoostManager.setResultEmpty();
+            aiBoostYoloV5Classifier.setResultEmpty();
             Bitmap bitmap = BitmapFactory.decodeFile(filename);
 
             try {
-                aiBoostManager.run(bitmap);
+                aiBoostYoloV5Classifier.run(bitmap);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

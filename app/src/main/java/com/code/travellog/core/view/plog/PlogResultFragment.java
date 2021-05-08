@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
-import com.code.travellog.AI.AiBoostManager;
+import com.code.travellog.ai.AiBoostYoloV5Classifier;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.BasePojo;
@@ -57,8 +57,8 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 	private PlogStatusPojo plogStatusPojo;
 	private List<LocalMedia> localMediaList;
 	private final static String TAG = PlogResultFragment.class.getSimpleName();
-	private List<AiBoostManager.Data> mDetectorResult;
-	private AiBoostManager aiBoostManager ;
+	private List<AiBoostYoloV5Classifier.Data> mDetectorResult;
+	private AiBoostYoloV5Classifier aiBoostYoloV5Classifier;
 	private int Turn = 0;
 
 	@Override
@@ -109,7 +109,7 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 	public void getData()
 	{
 		localMediaList = ((MakePlogActivity)activity).getLocalMediaList();
-		aiBoostManager = ((MakePlogActivity) Objects.requireNonNull(getActivity())).getAiBoostManager();
+		aiBoostYoloV5Classifier = ((MakePlogActivity) Objects.requireNonNull(getActivity())).getAiBoostYoloV5Classifier();
 	}
 	@Override
 	@NonNull
@@ -144,7 +144,7 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 	protected void dataObserver() {
 
 		//物体识别完成
-		registerSubscriber(AiBoostManager.EVENT_KEY_OBJECTLIST,null,List.class).observe(this,list -> {
+		registerSubscriber(AiBoostYoloV5Classifier.EVENT_KEY_OBJECTLIST,null,List.class).observe(this, list -> {
 			mDetectorResult = list;
 			mViewModel.getPlogId();
 			changeCurrentStep(2);
@@ -222,15 +222,15 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 	public void getImageObjectDetector(List<LocalMedia> result)
 	{
 		new Thread(()->{
-			aiBoostManager.setTotal(result.size());
+			aiBoostYoloV5Classifier.setTotal(result.size());
 			Log.w(TAG,result.size()+"");
-			aiBoostManager.setResultEmpty();
+			aiBoostYoloV5Classifier.setResultEmpty();
 			for (LocalMedia media : result){
 				try {
 					if (null != media.getPath()) {
 						Bitmap bitmap = BitmapFactory.decodeFile(media.getRealPath());
 						Log.w(TAG, bitmap.toString());
-						aiBoostManager.run(bitmap);
+						aiBoostYoloV5Classifier.run(bitmap);
 					}
 				}catch (Exception e){e.printStackTrace();}
 			}
@@ -256,7 +256,7 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 					index ++ ;
 				}
 				index = 0;int  loop = 0 ;
-				for (AiBoostManager.Data entry : mDetectorResult){
+				for (AiBoostYoloV5Classifier.Data entry : mDetectorResult){
 					plogPostPojo.factors.get(index).types.add(entry.type);
 					plogPostPojo.factors.get(index).values.add(entry.value);
 					loop ++;

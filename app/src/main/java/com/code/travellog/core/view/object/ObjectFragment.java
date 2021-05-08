@@ -20,15 +20,13 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.code.travellog.AI.AiBoostManager;
+import com.code.travellog.ai.AiBoostYoloV5Classifier;
 import com.code.travellog.R;
 import com.code.travellog.core.viewmodel.ApiViewModel;
 import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.AbsLifecycleFragment;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +66,7 @@ public class ObjectFragment extends AbsLifecycleFragment<ApiViewModel> {
 
     private EasyImage easyImage;
     private Context mContext;
-    private AiBoostManager aiBoostManager = null;
+    private AiBoostYoloV5Classifier aiBoostYoloV5Classifier = null;
 
     public static ObjectFragment newInstance() {
         return new ObjectFragment();
@@ -127,12 +125,12 @@ public class ObjectFragment extends AbsLifecycleFragment<ApiViewModel> {
     @SuppressLint("DefaultLocale")
     @Override
     protected void dataObserver() {
-        aiBoostManager = AiBoostManager.newInstance();
-        aiBoostManager.initialize(activity, "mobilenet_quant.tflite",
-                1001, "mobilenet_quant_labels.txt");
+        aiBoostYoloV5Classifier = AiBoostYoloV5Classifier.newInstance();
+        aiBoostYoloV5Classifier.initialize(activity, "yolov5s-fp16.tflite",
+                86, "coco.txt");
 
         //物体识别完成
-        registerSubscriber(AiBoostManager.EVENT_KEY_OBJECTTEST, null, String.class).observe(this, text -> {
+        registerSubscriber(AiBoostYoloV5Classifier.EVENT_KEY_OBJECTTEST, null, String.class).observe(this, text -> {
             ToastUtils.showToast("物体识别完成");
             Log.w("log", "物体识别完成");
             textView.setText(text);
@@ -143,13 +141,13 @@ public class ObjectFragment extends AbsLifecycleFragment<ApiViewModel> {
     public void getImageObjectDetector(String filename) {
         Log.w("file name", filename);
         new Thread(() -> {
-            aiBoostManager.setTotal(1);
+            aiBoostYoloV5Classifier.setTotal(1);
 
-            aiBoostManager.setResultEmpty();
+            aiBoostYoloV5Classifier.setResultEmpty();
             Bitmap bitmap = BitmapFactory.decodeFile(filename);
 
             try {
-                aiBoostManager.run(bitmap);
+                aiBoostYoloV5Classifier.run(bitmap);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

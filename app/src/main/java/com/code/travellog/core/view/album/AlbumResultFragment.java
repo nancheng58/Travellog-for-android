@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
-import com.code.travellog.AI.AiBoostManager;
+import com.code.travellog.ai.AiBoostYoloV5Classifier;
 import com.code.travellog.config.Constants;
 import com.code.travellog.core.data.pojo.BasePojo;
 import com.code.travellog.core.data.pojo.album.AlbumPostPojo;
@@ -60,8 +60,8 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 	private AlbumResultPojo albumResultPojo;
 	private List<LocalMedia> localMediaList;
 	private final static String TAG = AlbumResultFragment.class.getSimpleName();
-	private List<AiBoostManager.Data> mDetectorResult;
-	private AiBoostManager aiBoostManager ;
+	private List<AiBoostYoloV5Classifier.Data> mDetectorResult;
+	private AiBoostYoloV5Classifier aiBoostYoloV5Classifier;
 	private int Turn = 0;
 
 	@Override
@@ -111,7 +111,7 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 	{
 //		workid=((MakeAlbumActivity)activity).getWorkid();
 		localMediaList = ((MakeAlbumActivity)activity).getLocalMediaList();
-		aiBoostManager = ((MakeAlbumActivity) Objects.requireNonNull(getActivity())).getAiBoostManager();
+		aiBoostYoloV5Classifier = ((MakeAlbumActivity) Objects.requireNonNull(getActivity())).getAiBoostYoloV5Classifier();
 	}
 	@Override
 	@NonNull
@@ -146,7 +146,7 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 	protected void dataObserver() {
 
 		//物体识别完成
-		registerSubscriber(AiBoostManager.EVENT_KEY_OBJECTLIST,null,List.class).observe(this,list -> {
+		registerSubscriber(AiBoostYoloV5Classifier.EVENT_KEY_OBJECTLIST,null,List.class).observe(this, list -> {
 			mDetectorResult = list;
 			mViewModel.getAlbumId();
 			changeCurrentStep(2);
@@ -224,15 +224,15 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 	public void getImageObjectDetector(List<LocalMedia> result)
 	{
 		new Thread(()->{
-			aiBoostManager.setTotal(result.size());
+			aiBoostYoloV5Classifier.setTotal(result.size());
 			Log.w(TAG,result.size()+"");
-			aiBoostManager.setResultEmpty();
+			aiBoostYoloV5Classifier.setResultEmpty();
 			for (LocalMedia media : result){
 				try {
 					if (null != media.getPath()) {
 						Bitmap bitmap = BitmapFactory.decodeFile(media.getRealPath());
 						Log.w(TAG, bitmap.toString());
-						aiBoostManager.run(bitmap);
+						aiBoostYoloV5Classifier.run(bitmap);
 					}
 				}catch (Exception e){e.printStackTrace();}
 			}
@@ -261,7 +261,7 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 					index ++ ;
 				}
 				index = 0;int  loop = 0 ;
-				for (AiBoostManager.Data entry : mDetectorResult){
+				for (AiBoostYoloV5Classifier.Data entry : mDetectorResult){
 					albumPostPojo.factors.get(index).types.add(entry.type);
 					albumPostPojo.factors.get(index).values.add(entry.value);
 					loop ++;

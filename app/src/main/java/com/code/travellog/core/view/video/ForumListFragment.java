@@ -58,7 +58,7 @@ public class ForumListFragment extends BaseListFragment<VideoViewModel> implemen
 
     @Override
     protected RecyclerView.LayoutManager createLayoutManager() {
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
         return layoutManager;
     }
 

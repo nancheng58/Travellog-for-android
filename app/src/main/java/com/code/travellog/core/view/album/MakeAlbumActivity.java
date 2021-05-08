@@ -9,11 +9,9 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.code.travellog.AI.AiBoostManager;
+import com.code.travellog.ai.AiBoostYoloV5Classifier;
 import com.code.travellog.R;
 import com.code.travellog.config.Constants;
-import com.code.travellog.core.view.album.AlbumMakeFragment;
-import com.code.travellog.core.view.album.AlbumResultFragment;
 import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.mvvm.base.BaseActivity;
@@ -49,7 +47,7 @@ public class MakeAlbumActivity extends BaseActivity {
     private AlbumResultFragment albumResultFragment;
     private int workid;
     private List<LocalMedia> localMediaList;
-    private AiBoostManager aiBoostManager = null;
+    private AiBoostYoloV5Classifier aiBoostYoloV5Classifier = null;
     private String description ;
     private String title ;
     private boolean isShare;
@@ -60,9 +58,9 @@ public class MakeAlbumActivity extends BaseActivity {
         ImmersionBar.with(this).statusBarDarkFont(true).init();
         initToolBar();
         initFragment(0);
-        aiBoostManager = AiBoostManager.newInstance();
-        aiBoostManager.initialize(this, "mobilenet_quant.tflite",
-                1001, "mobilenet_quant_labels.txt");
+        aiBoostYoloV5Classifier = AiBoostYoloV5Classifier.newInstance();
+        aiBoostYoloV5Classifier.initialize(this, "yolov5s-fp16.tflite",
+                86, "coco.txt");
 
     }
     public void setShare(boolean isShare)
@@ -80,8 +78,8 @@ public class MakeAlbumActivity extends BaseActivity {
     public int getFps(){
         return fps ;
     }
-    public AiBoostManager getAiBoostManager() {
-        return aiBoostManager;
+    public AiBoostYoloV5Classifier getAiBoostYoloV5Classifier() {
+        return aiBoostYoloV5Classifier;
     }
     public void setAlbumDescription(String description){
         this.description = description ;
