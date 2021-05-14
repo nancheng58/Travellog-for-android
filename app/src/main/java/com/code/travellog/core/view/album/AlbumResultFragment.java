@@ -90,11 +90,11 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 		info[4] = "等待服务器分配工作序列ID";
 		info[5] = "上传图片";
 		info[6] = "请求制作";
-		info[7] = "排队等待中";
+		info[7] = "等待中";
 		info[8] = "正在分析命令参数";
 		info[9] = "正在分析图片";
 		info[10] = "正在生成诗词";
-		info[11] = "正在匹配模板";
+		info[11] = "正在匹配元素";
 		info[12] = "正在生成影集";
 		info[13] = "处理完成";
 
@@ -125,11 +125,11 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 	public CharSequence getSummary(int index) {
 
 		/**
-			100 排队等待中
+			100 等待中
 			101 正在分析命令参数
 			102 正在分析图片
 			103 正在生成诗词
-			104 正在匹配模板
+			104 正在匹配元素
 			105 正在生成影集
 			200 处理完成
 		 **/

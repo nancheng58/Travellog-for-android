@@ -88,11 +88,11 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 		info[4] = "等待服务器分配工作序列ID";
 		info[5] = "上传图片";
 		info[6] = "请求制作";
-		info[7] = "排队等待中";
+		info[7] = "等待中";
 		info[8] = "正在分析命令参数";
 		info[9] = "正在分析图片";
 		info[10] = "正在生成诗词";
-		info[11] = "正在匹配模板";
+		info[11] = "正在匹配元素";
 		info[12] = "正在生成Plog";
 		info[13] = "处理完成";
 
@@ -123,11 +123,11 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 	public CharSequence getSummary(int index) {
 
 		/**
-			100 排队等待中
+			100 等待中
 			101 正在分析命令参数
 			102 正在分析图片
 			103 正在生成诗词
-			104 正在匹配模板
+			104 正在匹配元素
 			105 正在生成影集
 			200 处理完成
 		 **/
@@ -155,7 +155,7 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 			if(plogWorkPojo.code!=200) ToastUtils.showToast(plogWorkPojo.msg);
 			else {
 				workid = plogWorkPojo.data.work_id;
-				Log.w("workid",workid + "") ;
+				Log.w("workid",workid + "");
 				changeCurrentStep(5);
 				upLoadData();
 			}
@@ -163,12 +163,12 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 		//资料上传完成 & 开始制作
 		for(int index = 0 ;index<localMediaList.size(); index++ )
 		registerSubscriber(PlogRepository.EVENT_KEY_PLOGPIC,index+"", BasePojo.class).observe(this,basePojo -> {
-			if(basePojo.code != 200 ) ToastUtils.showToast(basePojo.msg);
+			if(basePojo.code != 200 ) ToastUtils.showToast("服务器开小差了。错误码："+basePojo.msg);
 			else{
 				Log.w(TAG,Turn+"");
 				if(++Turn == localMediaList.size() ){
 					mViewModel.PlogStart(workid);
-					changeCurrentStep(7);
+					changeCurrentStep(9);
 					Turn = 0;
 
 				}
@@ -296,7 +296,7 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 			mVerticalStepperView.setCurrentStep(index);
 		}
 		if(!mVerticalStepperView.canNext()){
-			Snackbar.make(mVerticalStepperView, "Plog长图生成完成!", Snackbar.LENGTH_LONG)
+			Snackbar.make(mVerticalStepperView, "Plog长图生成完成!", Snackbar.LENGTH_INDEFINITE)
 					.setAction("查看",v -> {
 						Intent intent = new Intent(activity, PlogDetailsActivity.class);
 						intent.putExtra(Constants.PLOG_ID, String.valueOf(plogStatusPojo.data.work_id));

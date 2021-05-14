@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.code.travellog.R;
 import com.code.travellog.config.URL;
 import com.code.travellog.core.data.pojo.album.AlbumPojo;
+import com.code.travellog.core.view.base.widget.CustomHeightImageView;
 import com.code.travellog.glide.GlideCircleTransform;
 import com.code.travellog.util.DisplayUtil;
 import com.tencent.mmkv.MMKV;
@@ -75,7 +76,7 @@ public class AlbumItemHolder extends AbsItemHolder<AlbumPojo, AlbumItemHolder.Vi
     static class ViewHolder extends AbsHolder {
 
         @BindView(R.id.iv_video_image)
-        ImageView ivVideoImage;
+        CustomHeightImageView ivVideoImage;
         @BindView(R.id.tv_look_num)
         TextView tvLookNum;
         @BindView(R.id.tv_video_title)

@@ -12,6 +12,7 @@
     android:orientation="vertical">
 
     <com.code.travellog.core.view.base.widget.CustomHeightImageView
+        android:layout_marginTop="5dp"
         android:id="@+id/iv_custom_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

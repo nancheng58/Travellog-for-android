@@ -144,7 +144,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
         getData();
         dataObserver();
         setBottomBar();
-        ToastUtils.showToast("点击🎈可以进入下一级，点击🚩可以查看目的地");
+        ToastUtils.showToast("点击🎈🎈可以进入下一级，点击🎈可以查看目的地");
     }
 
     protected void setUiData(Collection<?> data) {
@@ -396,15 +396,28 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
             aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 0));
         } else {
             LatLng latLng = clusterItems.get(0).getPosition();
+            Log.w("Cluster log", String.valueOf(latLng.latitude)+" "+String.valueOf(latLng.longitude));
 
-            CityPojo cityPojo1 = null;
-            for (CityPojo cityPojo : cityListPojo) {
-//                Log.w("")
-                if (cityPojo.lan == latLng.latitude && cityPojo.lng == latLng.longitude) {
-                    cityPojo1 = cityPojo;
+            CityPojo cityPojo1 = new CityPojo();
+            HashMap<Long, GeoPojo.DataBean> dataBeanHashMap = geoPojo.geo;
+            for (Long id : dataBeanHashMap.keySet()) {
+
+                GeoPojo.DataBean dataBean = dataBeanHashMap.get(id);
+                double lat = dataBean.lan;
+                double lon = dataBean.lng;
+                if (lat == latLng.latitude && lon == latLng.longitude) {
+                    cityPojo1.path = dataBean.path;
+                    cityPojo1.county = "附近图片";
                     break;
                 }
             }
+//            for (CityPojo cityPojo : cityListPojo) {
+//                Log.w("Clusterlog", String.valueOf(cityPojo.lan)+" "+String.valueOf(cityPojo.lng));
+//                if (cityPojo.lan == latLng.latitude && cityPojo.lng == latLng.longitude) {
+//                    cityPojo1 = cityPojo;
+//                    break;
+//                }
+//            }
             assert cityPojo1 != null;
             PictureShowActivity.start(MapActivity.this, cityPojo1);
         }
@@ -452,7 +465,7 @@ public class MapActivity extends AbsLifecycleActivity<PictureViewModel> implemen
     }
     public void updateCamera(double lat, double lng){
         CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(
-                new CameraPosition(new LatLng(lat-0.5, lng), 9, 0, 0));
+                new CameraPosition(new LatLng(lat-0.5, lng), 7, 0, 0));
         aMap.moveCamera(mCameraUpdate);
     }
     @Override

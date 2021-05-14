@@ -1,27 +1,35 @@
 package com.code.travellog.core.view.video;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.adapter.adapter.DelegateAdapter;
 import com.adapter.adapter.ItemData;
+import com.adapter.listener.OnItemClickListener;
 import com.bumptech.glide.Glide;
 import com.code.travellog.R;
 import com.code.travellog.ai.YoloV5Classifier;
 import com.code.travellog.config.Constants;
 import com.code.travellog.config.URL;
+import com.code.travellog.core.data.pojo.album.AlbumPojo;
 import com.code.travellog.core.data.pojo.album.AlbumResultPojo;
 import com.code.travellog.core.data.pojo.common.TypeVo;
+import com.code.travellog.core.data.pojo.plog.PlogPojo;
 import com.code.travellog.core.data.pojo.video.VideoListPojo;
 import com.code.travellog.core.data.pojo.video.VideoMergePojo;
 import com.code.travellog.core.data.pojo.video.VideoPojo;
 import com.code.travellog.core.data.repository.VideoRepository;
 import com.code.travellog.core.view.base.BaseListFragment;
 import com.code.travellog.core.view.common.TypeItemView;
+import com.code.travellog.core.view.plog.PlogDetailsActivity;
 import com.code.travellog.core.view.video.holder.VideoItemHolder;
 import com.code.travellog.core.viewmodel.VideoViewModel;
 import com.code.travellog.network.ApiService;
@@ -46,17 +54,15 @@ import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
  * @time 2021/3/24 20:46
  */
 
-public class VideoDetailsActivity extends AbsLifecycleActivity<VideoViewModel> {
+public class VideoDetailsActivity extends AbsLifecycleActivity<VideoViewModel> implements OnItemClickListener {
     private StandardGSYVideoPlayer mVideoPlayer;
     private OrientationUtils mOrientationUtils;
 
     protected RecyclerView mRecyclerView;
 
     private String albumId;
-    private String teacherId;
-    private String fCatalogId;
-    private String sCatalogId;
-
+    private DelegateAdapter adapter;
+    private ItemData mItems;
     @Override
     protected void onStateRefresh() {
 
@@ -73,6 +79,11 @@ public class VideoDetailsActivity extends AbsLifecycleActivity<VideoViewModel> {
         albumId = getIntent().getStringExtra(Constants.AlBUM_ID);
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new DelegateAdapter.Builder<>()
+                .bind(TypeVo.class,new TypeItemView(VideoDetailsActivity.this))
+                .bind(VideoPojo.class, new VideoItemHolder(VideoDetailsActivity.this)).build();
+        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setFocusable(true);
         mVideoPlayer = findViewById(R.id.video_player);
         PlayerFactory.setPlayManager(Exo2PlayerManager.class);
         int widthVideo = DisplayUtil.getScreenWidth(this);
@@ -88,6 +99,7 @@ public class VideoDetailsActivity extends AbsLifecycleActivity<VideoViewModel> {
         mVideoPlayer.setNeedLockFull(true);
         mVideoPlayer.setEnlargeImageRes(R.drawable.player_controller_full_screen);
         mVideoPlayer.setShrinkImageRes(R.drawable.player_controller_small_screen);
+        mVideoPlayer.setBottomProgressBarDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.local_big));
         mVideoPlayer.getFullscreenButton().setOnClickListener(v -> {
             //直接横屏
             mOrientationUtils.resolveByClick();
@@ -188,12 +200,12 @@ public class VideoDetailsActivity extends AbsLifecycleActivity<VideoViewModel> {
 
     private void addItems(VideoMergePojo videoMergePojo) {
 
-        ItemData mItems = new ItemData();
+        if (videoMergePojo.videoListPojo ==null ||
+                videoMergePojo.videoListPojo.data ==null
+                ||videoMergePojo.videoListPojo.data.movies ==null) return;
+        mItems = new ItemData();
         mItems.clear();
-        DelegateAdapter adapter = new DelegateAdapter.Builder<>()
-                .bind(TypeVo.class,new TypeItemView(VideoDetailsActivity.this))
-                .bind(VideoPojo.class, new VideoItemHolder(VideoDetailsActivity.this)).build();
-        mRecyclerView.setAdapter(adapter);
+
         mItems.add(new TypeVo("相关推荐"));
         mItems.addAll(videoMergePojo.videoListPojo.data.movies);
 //        mRecyclerView.refreshComplete(items, false);
@@ -202,23 +214,18 @@ public class VideoDetailsActivity extends AbsLifecycleActivity<VideoViewModel> {
 
 //        mItems.add(videoMergePojo.bannerListVo);
 
-        if (videoMergePojo.videoListPojo ==null ||
-                videoMergePojo.videoListPojo.data ==null
-                ||videoMergePojo.videoListPojo.data.movies ==null) return;
-//        if (videoMergePojo.videoListPojo.data.post_num > 0) {
-//            mItems.addAll(videoMergePojo.videoListPojo.data.new_posts);
-//        }
-        int num = videoMergePojo.videoListPojo.data.movie_num;
-//        for (int i = 0; i < 5; i++) {
-//            mItems.add(new TypeVo(tags[i]));
-//            for(int j = 0 ; j<num/5 ; j++ ){
-//                Random random = new Random();
-//                mItems.add(videoMergePojo.videoListPojo.data.new_posts.get(random.nextInt(num-1)));
-//            }
-//
-//        }
-//        setUiData(videoMergePojo.videoListPojo.data.movies);
-        //setData();
+
+    }
+
+    @Override
+    public void onItemClick(View view, int i, Object object) {
+        if (object != null) {
+            if (object instanceof VideoPojo) {
+                Intent intent = new Intent(this, VideoDetailsActivity.class);
+                intent.putExtra(Constants.AlBUM_ID, String.valueOf(((VideoPojo) object).work_id));
+                startActivity(intent);
+            }
+        }
     }
     @Override
     protected void onPause() {

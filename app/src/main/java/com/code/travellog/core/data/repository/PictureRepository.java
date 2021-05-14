@@ -190,12 +190,12 @@ public class PictureRepository extends BaseRepository {
         GeoPojo geoPojo = new GeoPojo();
 
         geoPojo.geo = new HashMap<>();
-        for (PictureExifPojo pictureExifPojo :galleryList){
+        for (PictureExifPojo pictureExifPojo :galleryList){  // 遍历每张图片
             GeoUtil.LatLng latLng  = new GeoUtil.LatLng(pictureExifPojo.lan,pictureExifPojo.lon);
             latLng = GeoUtil.gcj02ToWgs84(latLng);// 地理坐标变换：GCJ-02 -> WGS-84
             S2LatLng s2LatLng = S2LatLng.fromDegrees(latLng.latitude,latLng.longitude);
             S2CellId cellId = S2CellId.fromLatLng(s2LatLng).parent(currentLevel);
-            Long pos = cellId.id() ;
+            Long pos = cellId.id() ; // 获得当前图片的cellid (leve = 13)
 
             if(geoPojo.geo.get(pos)!=null) {
                 GeoPojo.DataBean dataBean = geoPojo.geo.get(pos);
@@ -256,6 +256,7 @@ public class PictureRepository extends BaseRepository {
 //        Location location = App.regionDataengine.parse(118.750934,32.038634);
 
     }
+    // 城市聚类
     private void updateCityList(GeoPojo geoPojo , CityListResultPojo cityListResultPojo){
         HashMap<Long, GeoPojo.DataBean> geo = geoPojo.geo;
         CityListPojo cityListPojo = new CityListPojo() ;

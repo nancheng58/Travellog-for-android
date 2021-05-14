@@ -112,7 +112,7 @@
             app:leftIcon="@drawable/vic_my_publish"
             app:isShowRightText="true"
             app:leftText="检查更新"
-            app:rightText="V3.0.0"
+            app:rightText="V5.0.0"
             app:rightTextColor="@color/colorPrimary" />
         <com.leon.lib.settingview.LSettingItem
             android:id="@+id/tv_logout"

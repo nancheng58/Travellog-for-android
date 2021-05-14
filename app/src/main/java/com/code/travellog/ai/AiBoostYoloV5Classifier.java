@@ -31,7 +31,7 @@ import java.util.PriorityQueue;
 import java.util.concurrent.Semaphore;
 
 /**
- * @description: AIBoost 管理器
+ * @description: AIBoost 管理器  
  * @date: 2021/3/11
  */
 public class AiBoostYoloV5Classifier {
@@ -287,13 +287,11 @@ public class AiBoostYoloV5Classifier {
         int output_box = (int) ((Math.pow((IMAGE_SIZE_X / 32), 2) + Math.pow((IMAGE_SIZE_X / 16), 2) + Math.pow((IMAGE_SIZE_X / 8), 2)) * 3);
         float[][][] out = new float[1][output_box][NUM_OF_LABELS + 5];
         Log.w("YoloV5Classifier", "out[0] detect start");
-        System.out.println("byteBuffer length" +byteBuffer.toString());
+        //System.out.println("byteBuffer length" +byteBuffer.toString());
         for (int i = 0; i < output_box; ++i) {
             for (int j = 0; j < NUM_OF_LABELS + 5; ++j) {
                     out[0][i][j] = byteBuffer.getFloat();
-                    //System.out.println(byteBuffer.getFloat());
                 }
-
             // Denormalize xywh
             for (int j = 0; j < 4; ++j) {
                 out[0][i][j] *= IMAGE_SIZE_X;
@@ -327,18 +325,8 @@ public class AiBoostYoloV5Classifier {
                 final float h = out[0][i][3];
                 Log.d("YoloV5Classifier",
                         '('+Float.toString(xPos) + ',' + yPos + ")," + w + ',' + h + ',' + confidenceInClass+','+labelList.get(detectedClass));
-
-//                final RectF rect =
-//                        new RectF(
-//                                Math.max(0, xPos - w / 2),
-//                                Math.max(0, yPos - h / 2),
-//                                Math.min(bitmap.getWidth() - 1, xPos + w / 2),
-//                                Math.min(bitmap.getHeight() - 1, yPos + h / 2));
-//                detections.add(new Recognition("" + offset, labels.get(detectedClass),
-//                        confidenceInClass, rect, detectedClass));
             }
         }
-//        System.arraycopy(result, 0, labelProbArray[0], 0, result.length);
         // Print the results.
         String textToShow = "耗时 ：" + Long.toString(endTime - startTime) + "ms";
         textToShow += printTopKLabels();

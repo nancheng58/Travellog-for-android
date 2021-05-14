@@ -72,7 +72,7 @@ public class MapAnimationActivity extends AbsLifecycleActivity<PictureViewModel>
         try {
             if(mViewModel.getIscache()) flag=true;
             ContentResolver resolver = getContentResolver();
-            if(!flag) mViewModel.getGalleryExif(resolver,0);
+            mViewModel.getGalleryExif(resolver,0);
             int total = mViewModel.getPictureCount(getContentResolver());
             numberProgressBar.setMax(total);
             Log.w("total: ",numberProgressBar.getMax()+"");
