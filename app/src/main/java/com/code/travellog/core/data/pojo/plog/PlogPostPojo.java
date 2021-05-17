@@ -14,6 +14,8 @@ public class PlogPostPojo implements Serializable {
     public String title;
     public String description;
     public Boolean share ;
+    public double latitude ;
+    public double longitude ;
     public static class DataBean{
         public String path;
     }

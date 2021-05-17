@@ -29,4 +29,7 @@ public class ApiViewModel extends AbsViewModel<ApiRepository> {
     public void getResolutionResult(MultipartBody multipartBody){
         mRepository.loadResolutionResult(multipartBody);
     }
+    public void getStyleResult(MultipartBody multipartBody){
+        mRepository.loadStyleResult(multipartBody);
+    }
 }

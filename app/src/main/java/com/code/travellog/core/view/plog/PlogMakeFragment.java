@@ -35,6 +35,7 @@ import com.code.travellog.glide.GlideCacheEngine;
 import com.code.travellog.glide.GlideEngine;
 import com.code.travellog.util.ToastUtils;
 import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.PictureSelectorExternalUtils;
 import com.luck.picture.lib.broadcast.BroadcastAction;
 import com.luck.picture.lib.broadcast.BroadcastManager;
 import com.luck.picture.lib.config.PictureConfig;
@@ -497,7 +498,6 @@ public class PlogMakeFragment extends AbsLifecycleFragment<PlogViewModel> {
                                 Log.i(TAG, "是否开启原图:" + media.isOriginal());
                                 Log.i(TAG, "原图路径:" + media.getOriginalPath());
                                 Log.i(TAG, "Android Q 特有Path:" + media.getAndroidQToPath());
-
                                 Log.i(TAG, "宽高: " + media.getWidth() + "x" + media.getHeight());
                                 Log.i(TAG, "Size: " + media.getSize());
                                 // TODO 可以通过PictureSelectorExternalUtils.getExifInterface();方法获取一些额外的资源信息，如旋转角度、经纬度等信息

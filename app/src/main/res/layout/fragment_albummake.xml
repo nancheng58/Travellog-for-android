@@ -108,30 +108,13 @@
                 app:sLeftViewGravity="left_center"
                 app:sRightViewType="edittext" />
 
-            <com.allen.library.SuperTextView
-                android:id="@+id/tv_albumbgm"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_below="@+id/fps"
-                android:layout_marginTop="11dp"
-                app:sCenterBottomTextColor="@color/colorAccent"
-                app:sCenterTopTextString=""
-                app:sCenterViewGravity="left_center"
-                app:sLeftBottomTextColor="@color/colorAccent"
 
-                app:sLeftBottomTextString="只能选择一首哦，预计时间为3分钟>>"
-                app:sLeftIconHeight="40dp"
-                app:sLeftIconRes="@drawable/tag_audio_icon"
-                app:sLeftIconWidth="40dp"
-                app:sLeftTopTextString="请选择背景音乐"
-                app:sLeftViewGravity="left_center"
-                app:sRightViewType="edittext" />
 
             <com.allen.library.SuperTextView
                 android:id="@+id/tv_albumpoetry"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_below="@+id/tv_albumbgm"
+                android:layout_below="@+id/fps"
                 android:layout_marginTop="@dimen/dp10"
                 app:sCenterBottomTextColor="@color/colorAccent"
                 app:sCenterTopTextString=""

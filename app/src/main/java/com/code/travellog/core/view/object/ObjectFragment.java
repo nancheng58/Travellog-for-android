@@ -20,8 +20,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.code.travellog.ai.AiBoostYoloV5Classifier;
 import com.code.travellog.R;
+import com.code.travellog.ai.AiBoostYoloV5Classifier;
+import com.code.travellog.ai.realtimedetection.DetectorActivity;
 import com.code.travellog.core.viewmodel.ApiViewModel;
 import com.code.travellog.util.ToastUtils;
 import com.mvvm.base.AbsLifecycleFragment;
@@ -46,6 +47,8 @@ public class ObjectFragment extends AbsLifecycleFragment<ApiViewModel> {
     Unbinder butterKnife;
     /* 图片上传 */
     private static final int CHOOSER_PERMISSIONS_REQUEST_CODE = 7445;
+    @BindView(R.id.btn_realtime)
+    Button btnRealtime;
     private MediaFile selectedImageFile;
     @BindView(R.id.iv_back)
     ImageView ivBack;
@@ -118,6 +121,10 @@ public class ObjectFragment extends AbsLifecycleFragment<ApiViewModel> {
                 getImageObjectDetector(selectedImageFile.getFile().getAbsolutePath());
 
             }
+        });
+        btnRealtime.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, DetectorActivity.class);
+            startActivity(intent);
         });
 //        textView.setVisibility(View.INVISIBLE);
     }

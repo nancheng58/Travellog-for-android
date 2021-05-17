@@ -79,8 +79,8 @@ public class AlbumResultFragment extends AbsLifecycleFragment<AlbumViewModel> im
 		super.onViewCreated(view,savedInstanceState);
 		mVerticalStepperView = view.findViewById(R.id.vertical_stepper_view);
 		Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-
-		toolbar.setTitle("影集生成结果");
+		TextView titletext = getActivity().findViewById(R.id.titletext);
+		titletext.setText("影集生成结果");
 //		getActivity().setSupportActionBar(toolbar);
 		mVerticalStepperView.setStepperAdapter(this);
 		info[0] = "图片收集";

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -29,11 +30,13 @@ import com.code.travellog.util.JsonUtils;
 import com.code.travellog.util.ToastUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.gyf.immersionbar.ImmersionBar;
+import com.luck.picture.lib.PictureSelectorExternalUtils;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.mvvm.base.AbsLifecycleFragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -92,7 +95,7 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 		info[8] = "正在分析命令参数";
 		info[9] = "正在分析图片";
 		info[10] = "正在生成诗词";
-		info[11] = "正在匹配元素";
+		info[11] = "正在进行显著性检测";
 		info[12] = "正在生成Plog";
 		info[13] = "处理完成";
 
@@ -246,6 +249,19 @@ public class PlogResultFragment extends AbsLifecycleFragment<PlogViewModel> impl
 				plogPostPojo.description =((MakePlogActivity) Objects.requireNonNull(getActivity())).getPlogDescription();
 				plogPostPojo.title = ((MakePlogActivity)getActivity()).getPlogTitle();
 				plogPostPojo.share = ((MakePlogActivity)getActivity()).getShare() ;
+				LocalMedia localMedia0 = localMediaList.get(0);
+				try {
+					ExifInterface exifInterface = PictureSelectorExternalUtils.getExifInterface(activity,localMedia0.getRealPath());
+
+//					ExifInterface exifInterface = new ExifInterface(localMedia0.getAndroidQToPath());
+					float []a = new float[2];
+					exifInterface.getLatLong(a);
+					Log.w("plog exif latlog",a[0]+" " +a[1]);
+					plogPostPojo.latitude=a[0];
+					plogPostPojo.longitude=a[1];
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				for(LocalMedia localMedia : localMediaList){
 					plogPostPojo.images.add(index, index+ FileUitl.getImgType(localMedia.getAndroidQToPath()));
 

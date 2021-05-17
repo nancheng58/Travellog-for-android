@@ -95,6 +95,8 @@ public interface ApiService {
 
     @POST(URL.API_URL+"fsrcnn")
     Flowable<SuperVisionPojo> getResolution(@Body MultipartBody multipartBody);
+    @POST(URL.API_URL+"style")
+    Flowable<SuperVisionPojo> getStyle(@Body MultipartBody multipartBody);
     @POST(URL.API_URL+"location")
     @FormUrlEncoded
     Flowable<CityListResultPojo> getCityList(@Field("longitude") String longitude,@Field("latitude") String latitude);

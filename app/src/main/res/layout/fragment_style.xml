@@ -35,7 +35,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/corner_view"
 
-                android:text="超分辨率" />
+                android:text="风格迁移" />
             <Button
                 android:id="@+id/btn_get"
                 android:layout_width="150dp"

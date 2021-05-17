@@ -80,8 +80,7 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
     SuperTextView updateimgText;
     @BindView(R.id.tv_albumtitle)
     SuperTextView tvAlbumtitle;
-    @BindView(R.id.tv_albumbgm)
-    SuperTextView tvAlbumbgm;
+
     @BindView(R.id.tv_albumpoetry)
     SuperTextView tvAlbumpoetry;
     @BindView(R.id.title)
@@ -140,7 +139,6 @@ public class AlbumMakeFragment extends AbsLifecycleFragment<AlbumViewModel> {
         super.initView(state);
         loadManager.showSuccess();
         updateimgText.setLeftTopTextIsBold(true);
-        tvAlbumbgm.setLeftTopTextIsBold(true);
         tvAlbumpoetry.setLeftTopTextIsBold(true);
         tvAlbumtitle.setLeftTopTextIsBold(true);
 

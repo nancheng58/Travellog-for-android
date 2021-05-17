@@ -1,6 +1,6 @@
 
 
-package com.code.travellog.ai;
+package com.code.travellog.ai.realtimedetection.aiboost;
 
 import android.graphics.Bitmap;
 import android.graphics.RectF;

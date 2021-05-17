@@ -132,7 +132,7 @@ public class AiBoostYoloV5Classifier {
             GpuDelegate.Options gpu_options = new GpuDelegate.Options();
             gpu_options.setPrecisionLossAllowed(true); // It seems that the default is true
             gpu_options.setInferencePreference(GpuDelegate.Options.INFERENCE_PREFERENCE_SUSTAINED_SPEED);
-            GpuDelegate gpuDelegate = new GpuDelegate(gpu_options);
+//            GpuDelegate gpuDelegate = new GpuDelegate(gpu_options);
 //            options(d.gpuDelegate);
             options.setDeviceType(AiBoostInterpreter.Device.CPU);
             options.setQComPowerLevel(AiBoostInterpreter.QCOMPowerLEVEL.QCOM_TURBO);

@@ -1,6 +1,5 @@
 
-
-package com.code.travellog.ai;
+package com.code.travellog.ai.realtimedetection.aiboost;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -9,10 +8,11 @@ import android.os.Build;
 import android.util.Log;
 
 import com.ai.aiboost.AiBoostInterpreter;
-import com.code.travellog.util.AiUtil;
-import com.mvvm.util.Logger;
+import com.code.travellog.ai.realtimedetection.env.Logger;
+import com.code.travellog.ai.realtimedetection.env.Utils;
 
 import org.tensorflow.lite.Interpreter;
+
 import org.tensorflow.lite.gpu.GpuDelegate;
 import org.tensorflow.lite.nnapi.NnApiDelegate;
 
@@ -31,15 +31,6 @@ import java.util.PriorityQueue;
 import java.util.Vector;
 
 
-/**
- * Wrapper for frozen detection models trained using the Tensorflow Object Detection API:
- * - https://github.com/tensorflow/models/tree/master/research/object_detection
- * where you can find the training code.
- * <p>
- * To use pretrained models in the API or convert to TF Lite models, please see docs for details:
- * - https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
- * - https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/running_on_mobile_tensorflowlite.md#running-our-model-on-android
- */
 public class YoloV5Classifier implements Classifier {
 
     /**
@@ -67,35 +58,16 @@ public class YoloV5Classifier implements Classifier {
         BufferedReader br = new BufferedReader(new InputStreamReader(labelsInput));
         String line;
         while ((line = br.readLine()) != null) {
+            LOGGER.w(line);
             d.labels.add(line);
         }
         br.close();
 
         try {
-            Interpreter.Options options = (new Interpreter.Options());
-            options.setNumThreads(NUM_THREADS);
-            if (isNNAPI) {
-                d.nnapiDelegate = null;
-                // Initialize interpreter with NNAPI delegate for Android Pie or above
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    d.nnapiDelegate = new NnApiDelegate();
-                    options.addDelegate(d.nnapiDelegate);
-                    options.setNumThreads(NUM_THREADS);
-//                    options.setUseNNAPI(false);
-//                    options.setAllowFp16PrecisionForFp32(true);
-//                    options.setAllowBufferHandleOutput(true);
-                    options.setUseNNAPI(true);
-                }
-            }
-            if (isGPU) {
-                GpuDelegate.Options gpu_options = new GpuDelegate.Options();
-                gpu_options.setPrecisionLossAllowed(true); // It seems that the default is true
-                gpu_options.setInferencePreference(GpuDelegate.Options.INFERENCE_PREFERENCE_SUSTAINED_SPEED);
-                d.gpuDelegate = new GpuDelegate(gpu_options);
-                options.addDelegate(d.gpuDelegate);
-            }
-            d.tfliteModel = AiUtil.loadModelFile(assetManager, modelFilename);
-            d.tfLite = new Interpreter(d.tfliteModel, options);
+//            Interpreter.Options options = (new Interpreter.Options());
+
+//            d.tfliteModel = Utils.loadModelFile(assetManager, modelFilename);
+//            d.tfLite = new Interpreter(d.tfliteModel, options);
 
 
             d.options = new AiBoostInterpreter.Options();
@@ -113,11 +85,6 @@ public class YoloV5Classifier implements Classifier {
             modelbuf.put(buffer);
             int[][] input_shapes = new int[][]{{1, inputSize, inputSize, 3}};
             d.aiboost = new AiBoostInterpreter(modelbuf,input_shapes,d.options);
-
-
-
-
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -139,27 +106,12 @@ public class YoloV5Classifier implements Classifier {
         d.intValues = new int[d.INPUT_SIZE * d.INPUT_SIZE];
 
         d.output_box = (int) ((Math.pow((inputSize / 32), 2) + Math.pow((inputSize / 16), 2) + Math.pow((inputSize / 8), 2)) * 3);
-//        d.OUTPUT_WIDTH = output_width;
-//        d.MASKS = masks;
-//        d.ANCHORS = anchors;
-//        if (d.isModelQuantized){ // 量化
-//            Tensor inpten = d.tfLite.getInputTensor(0);
-//            ByteBuffer imgData_Boost =  d.aiboost.getInputTensor(0);
-//            d.inp_scale = inpten.quantizationParams().getScale();
-//            Log.w("inp_scale", String.valueOf(d.inp_scale));
-////            d.inp_scale = new AiBoostInterpreter.QuantizationParams().getScale();
-//            d.inp_zero_point = inpten.quantizationParams().getZeroPoint();
-//            Tensor oupten = d.tfLite.getOutputTensor(0);
-//            d.oup_scale = oupten.quantizationParams().getScale();
-//            d.oup_zero_point = oupten.quantizationParams().getZeroPoint();
-//        }
-
-        int[] shape = d.tfLite.getOutputTensor(0).shape();
-        System.out.println(shape.length);
-        int numClass = shape[shape.length - 1];
-        d.numClass = numClass;
-        d.outData = ByteBuffer.allocateDirect(d.output_box * (numClass + 5) * numBytesPerChannel);
-        d.outData.order(ByteOrder.nativeOrder());
+        //int[] shape = d.tfLite.getOutputTensor(0).shape();
+        //System.out.println(shape.length);
+        //int numClass = shape[shape.length - 1];
+        //d.numClass = numClass;
+        //d.outData = ByteBuffer.allocateDirect(d.output_box * (numClass + 5) * numBytesPerChannel);
+        //d.outData.order(ByteOrder.nativeOrder());
         return d;
     }
 
@@ -206,23 +158,7 @@ public class YoloV5Classifier implements Classifier {
         }
     }
 
-    public void useGpu() {
-        if (gpuDelegate == null) {
-            gpuDelegate = new GpuDelegate();
-            tfliteOptions.addDelegate(gpuDelegate);
-            recreateInterpreter();
-        }
-    }
 
-    public void useCPU() {
-        recreateInterpreter();
-    }
-
-    public void useNNAPI() {
-        nnapiDelegate = new NnApiDelegate();
-        tfliteOptions.addDelegate(nnapiDelegate);
-        recreateInterpreter();
-    }
 
     @Override
     public float getObjThresh() {
@@ -283,7 +219,7 @@ public class YoloV5Classifier implements Classifier {
     private int inp_zero_point;
     private float oup_scale;
     private int oup_zero_point;
-    private int numClass;
+    private int numClass = 86;
     private YoloV5Classifier() {
     }
 
@@ -401,21 +337,21 @@ public class YoloV5Classifier implements Classifier {
         Map<Integer, Object> outputMap = new HashMap<>();
 
 //        float[][][] outbuf = new float[1][output_box][labels.size() + 5];
-        outData.rewind();
+//        outData.rewind();
 
-        outputMap.put(0, outData);
+//        outputMap.put(0, outData);
         Log.d("YoloV5Classifier", "mObjThresh: " + getObjThresh());
-        System.out.println("tflite " + outData.remaining());
-        Object[] inputArray = {imgData};
+//        System.out.println("tflite " + outData.remaining());
+//        Object[] inputArray = {imgData};
         //tfLite.runForMultipleInputsOutputs(inputArray, outputMap);
-        int num  = tfLite.getOutputTensorCount();
-        String datatype = tfLite.getOutputTensor(0).name();
-        int a= tfLite.getOutputTensor(0).numBytes();
-        int b  = tfLite.getOutputTensor(0).numDimensions();
-        int []cc =tfLite.getOutputTensor(0).shape();
-        System.out.println("tflite Tensor " + datatype);
+//        int num  = tfLite.getOutputTensorCount();
+//        String datatype = tfLite.getOutputTensor(0).name();
+//        int a= tfLite.getOutputTensor(0).numBytes();
+//        int b  = tfLite.getOutputTensor(0).numDimensions();
+//        int []cc =tfLite.getOutputTensor(0).shape();
+//        System.out.println("tflite Tensor " + datatype);
 //        tfLite.getOutputTensor(0).
-        Log.d("YoloV5OutputMap", "OutputMap: " + outputMap.toString());
+//        Log.d("YoloV5OutputMap", "OutputMap: " + outputMap.toString());
 
         // aiBoost Test
         ByteBuffer output = aiboost.getOutputTensor(0);
@@ -437,13 +373,12 @@ public class YoloV5Classifier implements Classifier {
         Log.w("YoloV5Classifier", "out[0] detect start");
         System.out.println("byteBuffer length" +byteBuffer.toString());
         for (int i = 0; i < output_box; ++i) {
-            for (int j = 0; j < numClass ; ++j) {
+            for (int j = 0; j < numClass +5 ; ++j) {
                 if (isModelQuantized){
                     out[0][i][j] = oup_scale * (((int) byteBuffer.get() & 0xFF) - oup_zero_point);
                 }
                 else {
-                    float tmp = byteBuffer.getFloat();
-                    out[0][i][j] = tmp;
+                    out[0][i][j] = byteBuffer.getFloat();
                     //System.out.println(byteBuffer.getFloat());
                 }
             }

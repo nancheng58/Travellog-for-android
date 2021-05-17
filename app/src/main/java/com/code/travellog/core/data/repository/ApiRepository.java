@@ -106,4 +106,21 @@ public class ApiRepository extends BaseRepository {
                     }
                 }));
     }
+    public void loadStyleResult(MultipartBody multipartBody){
+        addDisposable(apiService.getStyle(multipartBody)
+                .compose(RxSchedulers.io_main())
+                .subscribeWith(new RxSubscriber<SuperVisionPojo>() {
+                    @Override
+                    public void onSuccess(SuperVisionPojo superVisionPojo) {
+                        postData(ENTER_KEY_STYLE,superVisionPojo);
+                        postState(StateConstants.SUCCESS_STATE);
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg, int code) {
+                        postState(StateConstants.ERROR_STATE);
+                    }
+                }));
+    }
 }
