@@ -1,9 +1,11 @@
-# Readme
+# Travel Log(集邮)
+这是一款基于人工智能与端云结合的旅行VLog&PLog分享APP，具有一键Plog智能生成、Vlog智能生成和足迹地图等功能，旨在为用户生成设计元素丰富、图文并茂的旅行游记。
 
+此repo是之前参加第十四届全国大学生软件创新大赛（决赛三等奖）的安卓代码，仅供参考，包括了必要的环境配置文件和源代码。
 
-### 此repo是之前参加比赛的安卓代码，仅供参考，包括了必要的环境配置文件和源代码。
-##### The demo of UI can be found in [here](https://github.com/nancheng58/Travellog-for-android/blob/master/usage.pdf)
-
+与[@ningzichun](https://github.com/ningzichun),[@spectoter](https://github.com/spectoter)以及[@chenaoxuan](https://github.com/chenaoxuan)通力合作完成。
+##### The demo of UI can be viewed in [link](https://github.com/nancheng58/Travellog-for-android/blob/master/usage.pdf).
+##### The backend code can be found in [link](https://github.com/ningzichun/travel_backend).
 ##### **本项目中有两个模块，app和mvvm base。 其中app是程序的主模块，mvvm base模块是构建mvvm 架构的基本模块。**
 
 为了方便整理了解前端代码结构，在此目录中列出主模块app文件夹的目录结构。
