@@ -1,12 +1,10 @@
 # Readme
 
 
-### This repo is the Android code participating in a competition, which is for reference only, including the necessary environment configuration files and source code.
-##### demo plz ref [hear](https://github.com/nancheng58/Travellog-for-android/blob/master/usage.pdf)
+### 此repo是之前参加比赛的安卓代码，仅供参考，包括了必要的环境配置文件和源代码。
+##### The demo of UI can be found in [here](https://github.com/nancheng58/Travellog-for-android/blob/master/usage.pdf)
 
-##### **本项目中有两个模块，app和mvvm base。**
-
-**app 是程序的主模块，mvvm base 模块是mvvm 架构的基本构建。**
+##### **本项目中有两个模块，app和mvvm base。 其中app是程序的主模块，mvvm base模块是构建mvvm 架构的基本模块。**
 
 为了方便整理了解前端代码结构，在此目录中列出主模块app文件夹的目录结构。
 
